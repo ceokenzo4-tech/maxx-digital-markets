@@ -52,7 +52,7 @@ app.use((req, res, next) => {
   next();
 });
 
-function dbRead() { const db=JSON.parse(fs.readFileSync(DB_FILE, 'utf8')); db.users ||= []; db.sessions ||= []; db.orders ||= []; db.balanceAdjustments ||= []; db.reviews ||= []; return db; }
+function dbRead() { const db=JSON.parse(fs.readFileSync(DB_FILE, 'utf8')); db.users ||= []; db.sessions ||= []; db.orders ||= []; db.balanceAdjustments ||= []; db.reviews ||= []; db.demoPositions ||= []; return db; }
 function dbWrite(db) {
   const tmp = DB_FILE + '.tmp';
   fs.writeFileSync(tmp, JSON.stringify(db, null, 2));
@@ -221,7 +221,7 @@ app.post('/api/auth/register', (req, res) => {
   const db = dbRead();
   if (db.users.some(u => u.email === email)) return res.status(409).json({ error: 'An account with this email already exists' });
   const hp = hashPassword(password);
-  const user = { id: id('usr'), name, email, passwordHash: hp.hash, passwordSalt: hp.salt, verified: false, demoBalance: 0, balanceCurrency: 'USD', createdAt: new Date().toISOString() };
+  const user = { id: id('usr'), name, email, passwordHash: hp.hash, passwordSalt: hp.salt, verified: false, demoBalance: 100000, balanceCurrency: 'USD', createdAt: new Date().toISOString() };
   db.users.push(user);
   const session = { token: token(), userId: user.id, expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7 };
   db.sessions.push(session); dbWrite(db);
@@ -238,6 +238,54 @@ app.post('/api/auth/login', (req, res) => {
   res.json({ token: session.token, user: safeUser(user) });
 });
 app.get('/api/me', auth, (req, res) => res.json({ user: safeUser(req.user) }));
+
+
+
+const DEMO_MARKETS = {
+  'EUR/USD': { price: 1.1814, assetClass: 'Forex' },
+  'GBP/USD': { price: 1.3528, assetClass: 'Forex' },
+  'USD/JPY': { price: 148.62, assetClass: 'Forex' },
+  'BTC/USD': { price: 112840, assetClass: 'Crypto' },
+  'ETH/USD': { price: 4186, assetClass: 'Crypto' },
+  'AAPL': { price: 244.31, assetClass: 'Stocks' },
+  'NVDA': { price: 181.62, assetClass: 'Stocks' }
+};
+function demoPrice(symbol) {
+  const m = DEMO_MARKETS[symbol];
+  if (!m) return null;
+  const minute = Math.floor(Date.now()/60000);
+  const seed = [...symbol].reduce((a,c)=>a+c.charCodeAt(0),0);
+  const wave = Math.sin((minute + seed) / 9) * 0.004 + Math.sin((minute + seed) / 23) * 0.002;
+  return Number((m.price * (1 + wave)).toFixed(m.price < 10 ? 5 : 2));
+}
+app.get('/api/demo/markets', (req,res) => {
+  res.json({ markets: Object.entries(DEMO_MARKETS).map(([symbol,m])=>({symbol,assetClass:m.assetClass,price:demoPrice(symbol),changePct:Number((((demoPrice(symbol)/m.price)-1)*100).toFixed(2))})), simulated:true, at:new Date().toISOString() });
+});
+app.get('/api/demo/account', auth, (req,res) => {
+  const db=dbRead();
+  const positions=db.demoPositions.filter(p=>p.userId===req.user.id && p.status==='OPEN');
+  const balance=Number(req.user.demoBalance ?? 100000);
+  const unrealized=positions.reduce((sum,p)=>{ const cur=demoPrice(p.symbol)||p.entryPrice; const direction=p.side==='BUY'?1:-1; return sum + ((cur-p.entryPrice)/p.entryPrice)*p.notional*direction; },0);
+  const usedMargin=positions.reduce((sum,p)=>sum+p.margin,0);
+  res.json({balance,equity:balance+unrealized,freeMargin:Math.max(0,balance-usedMargin+unrealized),unrealizedPnl:unrealized,usedMargin,positions,simulated:true});
+});
+app.post('/api/demo/positions', auth, (req,res) => {
+  const symbol=String(req.body.symbol||''); const side=String(req.body.side||'').toUpperCase(); const notional=Number(req.body.notional);
+  if(!DEMO_MARKETS[symbol]) return res.status(400).json({error:'Unsupported demo market'});
+  if(!['BUY','SELL'].includes(side)) return res.status(400).json({error:'Choose BUY or SELL'});
+  if(!Number.isFinite(notional)||notional<10||notional>1000000) return res.status(400).json({error:'Demo position size must be between $10 and $1,000,000'});
+  const db=dbRead(); const user=db.users.find(u=>u.id===req.user.id); if(user.demoBalance==null) user.demoBalance=100000;
+  const open=db.demoPositions.filter(p=>p.userId===user.id&&p.status==='OPEN'); const used=open.reduce((a,p)=>a+p.margin,0); const margin=notional/20;
+  if(used+margin>user.demoBalance) return res.status(400).json({error:'Not enough demo free margin'});
+  const position={id:id('pos'),userId:user.id,symbol,side,notional,margin,leverage:20,entryPrice:demoPrice(symbol),status:'OPEN',openedAt:new Date().toISOString()};
+  db.demoPositions.push(position); dbWrite(db); res.status(201).json({position,simulated:true});
+});
+app.post('/api/demo/positions/:id/close', auth, (req,res) => {
+  const db=dbRead(); const p=db.demoPositions.find(x=>x.id===req.params.id&&x.userId===req.user.id&&x.status==='OPEN'); if(!p)return res.status(404).json({error:'Open demo position not found'});
+  const user=db.users.find(u=>u.id===req.user.id); const exit=demoPrice(p.symbol)||p.entryPrice; const direction=p.side==='BUY'?1:-1; const pnl=((exit-p.entryPrice)/p.entryPrice)*p.notional*direction;
+  user.demoBalance=Number(user.demoBalance ?? 100000)+pnl; p.exitPrice=exit;p.realizedPnl=pnl;p.status='CLOSED';p.closedAt=new Date().toISOString();dbWrite(db);res.json({position:p,balance:user.demoBalance,simulated:true});
+});
+app.get('/api/demo/history', auth, (req,res)=>{const db=dbRead();res.json({positions:db.demoPositions.filter(p=>p.userId===req.user.id).sort((a,b)=>String(b.openedAt).localeCompare(String(a.openedAt))),simulated:true});});
 
 app.get('/api/rates', async (req, res) => {
   try { res.json({ ngn: await getBybitNgnRates(), feeRate: FEE_RATE }); }
