@@ -1,0 +1,4 @@
+MAXX Digital Markets rebuilt around a trading terminal.
+Removed old buy/sell checkout flow pages.
+Dashboard now includes multi-asset market watch, chart, order ticket, open positions and history.
+IMPORTANT: Current order execution, balances and P/L are DEMO/SIMULATED. Real-money trading requires a licensed/regulated broker or exchange integration, secure custody/payment infrastructure, KYC/AML controls and appropriate legal compliance.

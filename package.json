@@ -1,0 +1,13 @@
+{
+  "name": "maxx-digital-markets",
+  "version": "2.0.0",
+  "private": true,
+  "description": "MAXX Digital Markets - multi-asset trading platform demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {"node": ">=18"},
+  "dependencies": {"express": "^5.2.1"}
+}

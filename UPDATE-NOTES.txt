@@ -1,0 +1,15 @@
+MAXX DIGITAL MARKETS — RUN-THROUGH UPDATE
+
+Included in this build:
+- MAXX fee changed to 0.0.1% for Buy and Sell.
+- Trade quotes use live Bybit Spot crypto prices.
+- NGN quotes use live Bybit P2P USDT/NGN rates; no manually fixed NGN fallback.
+- Markets page now refreshes BTC, ETH, USDT, SOL and TRX from Bybit every 10 seconds, including 24h change, 24h high and volume.
+- Customers can submit a payment reference / transaction hash and upload a PNG/JPG/WEBP payment screenshot (max 5 MB).
+- Uploaded proof screenshots are stored under data/proofs and are not publicly served.
+- Admin can view proof screenshots only through the admin-authorized endpoint.
+- Phone and WhatsApp support are visible on every page: +234 907 189 0800.
+- Manual approval remains required before an order is completed.
+
+IMPORTANT:
+Do not place wallet seed phrases, private keys, OTPs, or banking passwords in this project.

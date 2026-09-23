@@ -1,0 +1,29 @@
+MAXX DIGITAL MARKETS — START HERE
+
+This package is set to:
+- Port: 3010 (avoids old localhost:3000 copies)
+- MAXX fee: 0.1% on Buy and Sell
+- Live crypto market data: Bybit Spot
+- NGN conversion: live Bybit P2P USDT/NGN
+- No fixed NGN fallback rate
+- Live Markets page with 24h change/volume
+- Customer payment/crypto screenshot upload (PNG/JPG/WEBP, max 5MB)
+- Manual admin verification before completion
+- Phone/WhatsApp: +234 907 189 0800
+- OPay settlement details already configured
+
+EASIEST START:
+Double-click START-MAXX.command
+
+Or from Terminal, inside this folder:
+./START-MAXX.command
+
+Then open:
+http://127.0.0.1:3010
+
+Admin page:
+http://127.0.0.1:3010/admin.html
+The admin key is printed in Terminal every time you start MAXX.
+
+IMPORTANT:
+Never put a seed phrase, wallet private key, bank OTP, or password into the website code.

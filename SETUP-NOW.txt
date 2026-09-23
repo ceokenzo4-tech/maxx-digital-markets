@@ -1,0 +1,18 @@
+MAXX EXCHANGE — QUICK SETUP
+
+1. Install Node.js 18+.
+2. Open Terminal in this folder.
+3. Run: npm install
+4. Copy .env.example to .env and fill ONLY public receiving/payment details.
+5. IMPORTANT: Node does not load .env automatically in this package. On local Mac, export the values in Terminal or configure them in your hosting environment variables.
+6. Run: npm start
+7. Open: http://127.0.0.1:3010
+
+MANUAL REAL-SETTLEMENT FLOW
+SELL: order -> display configured public crypto receiving address -> customer sends -> customer submits TX hash -> admin verifies blockchain -> admin pays customer -> admin marks completed.
+BUY: order -> display configured payment instructions -> customer pays -> customer submits payment reference -> admin verifies cleared funds -> admin sends crypto -> records settlement TXID -> marks completed.
+
+NEVER put seed phrases, private keys, bank passwords, PINs, OTPs or card secrets in these files.
+NEVER mark an order completed until the actual payment/crypto transfer has been independently verified.
+
+Before public launch, configure HTTPS, a production database, backups, KYC/AML controls, transaction limits, and confirm applicable legal/regulatory requirements.

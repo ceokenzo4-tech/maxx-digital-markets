@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About | MAXX Exchange</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #030712;
+      --panel: #0d172b;
+      --panel2: #121f38;
+      --gold: #f5bf57;
+      --gold-light: #ffe2a0;
+      --blue: #1884ff;
+      --green: #21d59a;
+      --white: #f7f9ff;
+      --muted: #8d99b3;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: var(--white);
+
+      background:
+        radial-gradient(
+          circle at 10% 5%,
+          rgba(24,132,255,0.24),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(245,191,87,0.10),
+          transparent 25%
+        ),
+        linear-gradient(
+          180deg,
+          #030712,
+          #071126 55%,
+          #030610
+        );
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1180px, 93%);
+      margin: auto;
+    }
+
+    /* TOP BAR */
+
+    .topbar {
+      padding: 8px 15px;
+
+      text-align: center;
+
+      color: #b9c5dc;
+
+      font-size: 10px;
+
+      border-bottom:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.015);
+    }
+
+    /* NAVIGATION */
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background:
+        rgba(3,7,18,0.94);
+
+      backdrop-filter:
+        blur(18px);
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .navbar {
+      min-height: 78px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fff0b5,
+          #eeb74c 35%,
+          #187cff 75%,
+          #061126
+        );
+
+      box-shadow:
+        0 12px 35px
+        rgba(20,124,255,0.25);
+    }
+
+    .logo::after {
+      content: "M";
+
+      color: white;
+
+      font-size: 20px;
+      font-weight: 1000;
+    }
+
+    .brand-text strong {
+      display: block;
+
+      font-size: 19px;
+    }
+
+    .brand-text span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--gold);
+
+      font-size: 8px;
+
+      letter-spacing: 2.4px;
+
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+
+      gap: 25px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+      font-weight: 750;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: white;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-button {
+      min-height: 42px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 17px;
+
+      border-radius: 11px;
+
+      font-size: 11px;
+
+      font-weight: 900;
+    }
+
+    .nav-button.dark {
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.025);
+    }
+
+    .nav-button.gold {
+      color: #07101c;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold-light),
+          var(--gold)
+        );
+
+      box-shadow:
+        0 10px 30px
+        rgba(245,191,87,0.14);
+    }
+
+    /* HERO */
+
+    .hero {
+      padding:
+        95px 0 80px;
+
+      text-align: center;
+    }
+
+    .badge {
+      width: fit-content;
+
+      margin:
+        0 auto 18px;
+
+      padding:
+        7px 13px;
+
+      border-radius: 100px;
+
+      color: var(--gold-light);
+
+      border:
+        1px solid
+        rgba(245,191,87,0.18);
+
+      background:
+        rgba(245,191,87,0.06);
+
+      font-size: 8px;
+
+      font-weight: 900;
+
+      letter-spacing: 1.2px;
+    }
+
+    .hero h1 {
+      max-width: 850px;
+
+      margin:
+        0 auto 18px;
+
+      font-size:
+        clamp(
+          45px,
+          7vw,
+          76px
+        );
+
+      line-height: .98;
+
+      letter-spacing: -4px;
+    }
+
+    .hero h1 span {
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff,
+          #ffe2a0,
+          #55b5ff
+        );
+
+      -webkit-background-clip: text;
+
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 700px;
+
+      margin:
+        0 auto;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      margin-top: 28px;
+
+      display: flex;
+      justify-content: center;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+    }
+
+    .button {
+      min-height: 48px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding:
+        0 21px;
+
+      border-radius: 12px;
+
+      font-size: 10px;
+
+      font-weight: 900;
+    }
+
+    .button.gold {
+      color: #07101c;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold-light),
+          var(--gold)
+        );
+    }
+
+    .button.dark {
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.025);
+    }
+
+    /* STATS */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 15px;
+
+      margin-bottom: 70px;
+    }
+
+    .stat {
+      padding: 23px;
+
+      border-radius: 17px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(18,31,56,.95),
+          rgba(8,15,29,.95)
+        );
+
+      box-shadow:
+        0 20px 45px
+        rgba(0,0,0,.18);
+    }
+
+    .stat small {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+
+      font-weight: 800;
+    }
+
+    .stat strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      font-size: 25px;
+    }
+
+    .stat span {
+      color: var(--muted);
+
+      font-size: 8px;
+    }
+
+    /* SECTIONS */
+
+    .section {
+      padding:
+        35px 0 70px;
+    }
+
+    .section-heading {
+      max-width: 720px;
+
+      margin-bottom: 28px;
+    }
+
+    .section-heading small {
+      display: block;
+
+      margin-bottom: 9px;
+
+      color: var(--gold);
+
+      font-size: 8px;
+
+      font-weight: 900;
+
+      letter-spacing: 1.4px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 10px;
+
+      font-size:
+        clamp(
+          30px,
+          4vw,
+          45px
+        );
+
+      letter-spacing: -2px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+
+      font-size: 11px;
+
+      line-height: 1.8;
+    }
+
+    /* ABOUT GRID */
+
+    .about-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 20px;
+    }
+
+    .panel {
+      padding: 28px;
+
+      border-radius: 20px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(16,29,53,.97),
+          rgba(8,15,29,.97)
+        );
+
+      box-shadow:
+        0 25px 55px
+        rgba(0,0,0,.22);
+    }
+
+    .panel-icon {
+      width: 47px;
+      height: 47px;
+
+      margin-bottom: 17px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 13px;
+
+      color: var(--gold-light);
+
+      background:
+        rgba(245,191,87,.08);
+
+      font-size: 17px;
+
+      font-weight: 900;
+    }
+
+    .panel h3 {
+      margin-bottom: 9px;
+
+      font-size: 19px;
+    }
+
+    .panel p {
+      color: var(--muted);
+
+      font-size: 10px;
+
+      line-height: 1.8;
+    }
+
+    /* FEATURES */
+
+    .features {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 17px;
+    }
+
+    .feature {
+      min-height: 210px;
+
+      padding: 24px;
+
+      border-radius: 18px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.022);
+    }
+
+    .feature-number {
+      width: 40px;
+      height: 40px;
+
+      margin-bottom: 20px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+
+      color: var(--gold-light);
+
+      background:
+        rgba(245,191,87,.07);
+
+      font-size: 11px;
+
+      font-weight: 900;
+    }
+
+    .feature h3 {
+      margin-bottom: 9px;
+
+      font-size: 15px;
+    }
+
+    .feature p {
+      color: var(--muted);
+
+      font-size: 9px;
+
+      line-height: 1.75;
+    }
+
+    /* SECURITY */
+
+    .security-box {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 25px;
+
+      padding: 32px;
+
+      border-radius: 22px;
+
+      border:
+        1px solid
+        rgba(33,213,154,.12);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(33,213,154,.045),
+          rgba(24,132,255,.04)
+        );
+    }
+
+    .security-box h2 {
+      margin-bottom: 12px;
+
+      font-size: 31px;
+    }
+
+    .security-box p {
+      color: var(--muted);
+
+      font-size: 10px;
+
+      line-height: 1.8;
+    }
+
+    .security-list {
+      display: grid;
+
+      gap: 10px;
+    }
+
+    .security-item {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 14px;
+
+      border-radius: 12px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.02);
+
+      font-size: 9px;
+
+      font-weight: 800;
+    }
+
+    .check {
+      width: 27px;
+      height: 27px;
+
+      display: grid;
+      place-items: center;
+
+      flex-shrink: 0;
+
+      border-radius: 8px;
+
+      color: var(--green);
+
+      background:
+        rgba(33,213,154,.08);
+    }
+
+    /* CTA */
+
+    .cta {
+      margin:
+        40px 0 75px;
+
+      padding:
+        50px 25px;
+
+      text-align: center;
+
+      border-radius: 25px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(24,132,255,.15),
+          transparent 55%
+        ),
+        linear-gradient(
+          180deg,
+          #101d35,
+          #08101e
+        );
+    }
+
+    .cta h2 {
+      margin-bottom: 11px;
+
+      font-size:
+        clamp(
+          30px,
+          4vw,
+          44px
+        );
+    }
+
+    .cta p {
+      max-width: 600px;
+
+      margin:
+        0 auto;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      line-height: 1.8;
+    }
+
+    /* NOTICE */
+
+    .prototype-notice {
+      margin-top: 20px;
+
+      padding: 16px;
+
+      text-align: center;
+
+      border-radius: 13px;
+
+      color: #8490a7;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.015);
+
+      font-size: 8px;
+
+      line-height: 1.8;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding:
+        40px 0;
+
+      border-top:
+        1px solid var(--border);
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      color: #66728b;
+
+      font-size: 9px;
+    }
+
+    .footer-links {
+      display: flex;
+
+      gap: 18px;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .stats {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .about-grid,
+      .security-box {
+        grid-template-columns:
+          1fr;
+      }
+
+      .features {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .nav-actions {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 65px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      .stats,
+      .features {
+        grid-template-columns:
+          1fr;
+      }
+
+      .footer-content {
+        flex-direction: column;
+
+        text-align: center;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <div class="topbar">
+    MAXX Exchange — Digital asset platform prototype.
+  </div>
+
+
+  <nav>
+
+    <div class="container navbar">
+
+
+      <a
+        href="index.html"
+        class="brand"
+      >
+
+        <div class="logo"></div>
+
+        <div class="brand-text">
+
+          <strong>
+            MAXX
+          </strong>
+
+          <span>
+            EXCHANGE
+          </span>
+
+        </div>
+
+      </a>
+
+
+      <div class="nav-links">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="markets.html">
+          Markets
+        </a>
+
+        <a href="buy.html">
+          Buy Crypto
+        </a>
+
+        <a href="sell.html">
+          Sell Crypto
+        </a>
+
+        <a
+          href="about.html"
+          class="active"
+        >
+          About
+        </a>
+
+        <a href="security.html">
+          Security
+        </a>
+
+      </div>
+
+
+      <div class="nav-actions">
+
+        <a
+          href="login.html"
+          class="nav-button dark"
+        >
+          Log In
+        </a>
+
+        <a
+          href="register.html"
+          class="nav-button gold"
+        >
+          Create Account
+        </a>
+
+      </div>
+
+
+    </div>
+
+  </nav>
+
+
+  <main>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="container">
+
+
+        <div class="badge">
+          ABOUT MAXX EXCHANGE
+        </div>
+
+
+        <h1>
+          Built for the
+          <span>
+            digital asset era.
+          </span>
+        </h1>
+
+
+        <p>
+          MAXX Exchange is a developing digital asset
+          platform concept focused on creating a clean,
+          modern and easy-to-use cryptocurrency experience.
+          This current website demonstrates the front-end
+          experience and transaction flow of the platform.
+        </p>
+
+
+        <div class="hero-buttons">
+
+          <a
+            href="markets.html"
+            class="button gold"
+          >
+            Explore Markets →
+          </a>
+
+          <a
+            href="index.html"
+            class="button dark"
+          >
+            Back to Home
+          </a>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <div class="container">
+
+      <section class="stats">
+
+
+        <div class="stat">
+
+          <small>
+            PLATFORM
+          </small>
+
+          <strong>
+            MAXX
+          </strong>
+
+          <span>
+            Digital asset experience
+          </span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <small>
+            EXPERIENCE
+          </small>
+
+          <strong>
+            24/7
+          </strong>
+
+          <span>
+            Prototype interface
+          </span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <small>
+            SUPPORTED DEMO ASSETS
+          </small>
+
+          <strong>
+            6+
+          </strong>
+
+          <span>
+            Market demonstrations
+          </span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <small>
+            CURRENT STATUS
+          </small>
+
+          <strong
+            style="color:var(--green);"
+          >
+            Prototype
+          </strong>
+
+          <span>
+            Development environment
+          </span>
+
+        </div>
+
+
+      </section>
+
+    </div>
+
+
+    <!-- WHO WE ARE -->
+
+    <section class="section">
+
+      <div class="container">
+
+
+        <div class="section-heading">
+
+          <small>
+            OUR PLATFORM
+          </small>
+
+          <h2>
+            What is MAXX Exchange?
+          </h2>
+
+          <p>
+            The MAXX project is being designed around
+            simplicity, accessibility and a professional
+            digital asset interface.
+          </p>
+
+        </div>
+
+
+        <div class="about-grid">
+
+
+          <div class="panel">
+
+            <div class="panel-icon">
+              M
+            </div>
+
+            <h3>
+              The MAXX Vision
+            </h3>
+
+            <p>
+              MAXX Exchange is intended to provide users
+              with a straightforward environment for
+              exploring digital assets, reviewing markets
+              and navigating cryptocurrency transaction
+              workflows.
+              <br><br>
+              The current version focuses on building and
+              testing the user experience before any
+              production financial infrastructure is
+              introduced.
+            </p>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-icon">
+              ↗️
+            </div>
+
+            <h3>
+              Built to Grow
+            </h3>
+
+            <p>
+              The platform structure is designed so that
+              additional services can be introduced as the
+              project develops.
+              <br><br>
+              Future development could include secure
+              account infrastructure, market-data
+              integrations, compliant transaction
+              processing, identity verification and
+              additional digital asset services.
+            </p>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="section">
+
+      <div class="container">
+
+
+        <div class="section-heading">
+
+          <small>
+            MAXX EXPERIENCE
+          </small>
+
+          <h2>
+            Designed around simplicity.
+          </h2>
+
+          <p>
+            Every section of the current MAXX interface
+            has been created to make navigation clear
+            and easy to understand.
+          </p>
+
+        </div>
+
+
+        <div class="features">
+
+
+          <div class="feature">
+
+            <div class="feature-number">
+              01
+            </div>
+
+            <h3>
+              Crypto Markets
+            </h3>
+
+            <p>
+              Browse the digital assets included in the
+              MAXX prototype and view demonstration
+              market information through a clean
+              market interface.
+            </p>
+
+          </div>
+
+
+          <div class="feature">
+
+            <div class="feature-number">
+              02
+            </div>
+
+            <h3>
+              Buy Experience
+            </h3>
+
+            <p>
+              Follow a structured Buy → Review →
+              Payment → Complete transaction journey
+              designed to demonstrate how a future
+              purchasing experience could work.
+            </p>
+
+          </div>
+
+
+          <div class="feature">
+
+            <div class="feature-number">
+              03
+            </div>
+
+            <h3>
+              Sell Experience
+            </h3>
+
+            <p>
+              Explore a separate Sell → Review →
+              Payout → Complete flow with clear
+              transaction information and confirmation
+              screens.
+            </p>
+
+          </div>
+
+
+          <div class="feature">
+
+            <div class="feature-number">
+              04
+            </div>
+
+            <h3>
+              Account Dashboard
+            </h3>
+
+            <p>
+              Registered prototype users can access a
+              dashboard showing account information,
+              demonstration activity and shortcuts to
+              MAXX platform features.
+            </p>
+
+          </div>
+
+
+          <div class="feature">
+
+            <div class="feature-number">
+              05
+            </div>
+
+            <h3>
+              Transaction History
+            </h3>
+
+            <p>
+              Buy and sell demonstrations can appear
+              inside the transaction history interface,
+              making it easier to review activity
+              from one location.
+            </p>
+
+          </div>
+
+
+          <div class="feature">
+
+            <div class="feature-number">
+              06
+            </div>
+
+            <h3>
+              Security Center
+            </h3>
+
+            <p>
+              The security interface demonstrates
+              planned account protection concepts
+              while clearly separating prototype
+              features from real authentication.
+            </p>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- SECURITY -->
+
+    <section class="section">
+
+      <div class="container">
+
+
+        <div class="security-box">
+
+
+          <div>
+
+            <div class="badge"
+              style="margin:0 0 15px 0;"
+            >
+              SECURITY FIRST
+            </div>
+
+            <h2>
+              Building toward a secure platform.
+            </h2>
+
+            <p>
+              Financial and cryptocurrency platforms
+              require significantly stronger security
+              than ordinary websites.
+              <br><br>
+              Before MAXX could process real customer
+              accounts, money or cryptocurrency,
+              production infrastructure would need to
+              be developed and independently tested.
+            </p>
+
+          </div>
+
+
+          <div class="security-list">
+
+
+            <div class="security-item">
+
+              <div class="check">
+                ✓
+              </div>
+
+              Server-side authentication
+
+            </div>
+
+
+            <div class="security-item">
+
+              <div class="check">
+                ✓
+              </div>
+
+              Secure password hashing
+
+            </div>
+
+
+            <div class="security-item">
+
+              <div class="check">
+                ✓
+              </div>
+
+              Two-factor authentication
+
+            </div>
+
+
+            <div class="security-item">
+
+              <div class="check">
+                ✓
+              </div>
+
+              Identity verification systems
+
+            </div>
+
+
+            <div class="security-item">
+
+              <div class="check">
+                ✓
+              </div>
+
+              Transaction monitoring
+
+            </div>
+
+
+            <div class="security-item">
+
+              <div class="check">
+                ✓
+              </div>
+
+              Secure financial infrastructure
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <div class="container">
+
+
+      <section class="cta">
+
+
+        <div class="badge">
+          EXPLORE MAXX
+        </div>
+
+
+        <h2>
+          Experience the prototype.
+        </h2>
+
+
+        <p>
+          Explore the current MAXX Exchange interface,
+          browse demonstration markets and test the
+          account and transaction experience.
+        </p>
+
+
+        <div class="hero-buttons">
+
+          <a
+            href="register.html"
+            class="button gold"
+          >
+            Create Demo Account →
+          </a>
+
+          <a
+            href="markets.html"
+            class="button dark"
+          >
+            View Markets
+          </a>
+
+        </div>
+
+
+      </section>
+
+
+      <div class="prototype-notice">
+
+        <strong>
+          Prototype Notice:
+        </strong>
+
+        MAXX Exchange is currently a front-end
+        demonstration project. The website does not
+        currently operate as a live cryptocurrency
+        exchange and should not accept real customer
+        funds, cryptocurrency deposits or financial
+        transactions.
+
+      </div>
+
+
+    </div>
+
+
+  </main>
+
+
+  <footer>
+
+    <div class="container footer-content">
+
+
+      <div>
+        ©️ 2026 MAXX Exchange — Prototype.
+      </div>
+
+
+      <div class="footer-links">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="markets.html">
+          Markets
+        </a>
+
+        <a href="security.html">
+          Security
+        </a>
+
+        <a href="login.html">
+          Login
+        </a>
+
+      </div>
+
+
+    </div>
+
+  </footer>
+
+
+<script src="support.js?v=20260913-final"></script>
+</body>
+
+</html>

@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Profile | MAXX Exchange</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #030712;
+      --panel: #0d172b;
+      --panel2: #121f38;
+
+      --gold: #f5bf57;
+      --gold-light: #ffe2a0;
+
+      --blue: #1884ff;
+      --green: #21d59a;
+      --red: #ff6578;
+
+      --white: #f7f9ff;
+      --muted: #8d99b3;
+
+      --border: rgba(255,255,255,0.08);
+    }
+
+    body {
+      min-height: 100vh;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: var(--white);
+
+      background:
+        radial-gradient(
+          circle at 5% 5%,
+          rgba(24,132,255,0.20),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 95% 5%,
+          rgba(245,191,87,0.10),
+          transparent 22%
+        ),
+        linear-gradient(
+          180deg,
+          #030712,
+          #050b17 55%,
+          #030610
+        );
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1180px, 93%);
+      margin: auto;
+    }
+
+    /* TOP BAR */
+
+    .topbar {
+      padding: 8px 15px;
+
+      text-align: center;
+
+      color: #b9c5dc;
+
+      font-size: 10px;
+
+      border-bottom:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.015);
+    }
+
+    /* NAVIGATION */
+
+    nav {
+      position: sticky;
+      top: 0;
+
+      z-index: 1000;
+
+      background:
+        rgba(3,7,18,0.91);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .navbar {
+      min-height: 78px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fff0b5,
+          #eeb74c 35%,
+          #187cff 75%,
+          #061126
+        );
+
+      box-shadow:
+        0 12px 35px rgba(20,124,255,0.25);
+    }
+
+    .logo::after {
+      content: "M";
+
+      color: white;
+
+      font-size: 20px;
+      font-weight: 1000;
+    }
+
+    .brand-text strong {
+      display: block;
+
+      font-size: 19px;
+    }
+
+    .brand-text span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--gold);
+
+      font-size: 8px;
+      letter-spacing: 2.4px;
+
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+
+      gap: 25px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+      font-weight: 750;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-button {
+      min-height: 42px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 16px;
+
+      border-radius: 11px;
+
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .nav-button.dark {
+      border: 1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.025);
+    }
+
+    .nav-button.gold {
+      color: #07101c;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold-light),
+          var(--gold)
+        );
+    }
+
+    /* PAGE */
+
+    main {
+      padding:
+        55px 0 90px;
+    }
+
+    .page-head {
+      margin-bottom: 30px;
+    }
+
+    .badge {
+      width: fit-content;
+
+      margin-bottom: 12px;
+
+      padding: 7px 12px;
+
+      border-radius: 100px;
+
+      color: var(--gold-light);
+
+      border:
+        1px solid rgba(245,191,87,0.18);
+
+      background:
+        rgba(245,191,87,0.06);
+
+      font-size: 8px;
+
+      font-weight: 900;
+
+      letter-spacing: 1px;
+    }
+
+    .page-head h1 {
+      margin-bottom: 8px;
+
+      font-size:
+        clamp(
+          36px,
+          5vw,
+          52px
+        );
+
+      letter-spacing: -2px;
+    }
+
+    .page-head p {
+      color: var(--muted);
+
+      font-size: 11px;
+
+      line-height: 1.7;
+    }
+
+    .profile-grid {
+      display: grid;
+
+      grid-template-columns:
+        0.75fr 1.25fr;
+
+      gap: 20px;
+
+      align-items: start;
+    }
+
+    /* SIDEBAR */
+
+    .panel {
+      padding: 24px;
+
+      border-radius: 20px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(16,29,53,0.97),
+          rgba(8,15,29,0.97)
+        );
+
+      box-shadow:
+        0 25px 55px rgba(0,0,0,0.22);
+    }
+
+    .profile-card {
+      text-align: center;
+    }
+
+    .avatar-large {
+      width: 88px;
+      height: 88px;
+
+      display: grid;
+      place-items: center;
+
+      margin:
+        0 auto 15px;
+
+      border-radius: 24px;
+
+      color: #07101c;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold-light),
+          var(--gold)
+        );
+
+      font-size: 28px;
+
+      font-weight: 1000;
+
+      box-shadow:
+        0 15px 35px rgba(245,191,87,0.15);
+    }
+
+    .profile-card h2 {
+      margin-bottom: 5px;
+
+      font-size: 20px;
+    }
+
+    .profile-email {
+      color: var(--muted);
+
+      font-size: 10px;
+
+      word-break: break-word;
+    }
+
+    .demo-badge {
+      width: fit-content;
+
+      margin:
+        16px auto 20px;
+
+      padding:
+        7px 11px;
+
+      border-radius: 100px;
+
+      color: var(--green);
+
+      background:
+        rgba(33,213,154,0.07);
+
+      border:
+        1px solid rgba(33,213,154,0.15);
+
+      font-size: 8px;
+
+      font-weight: 900;
+    }
+
+    .profile-meta {
+      overflow: hidden;
+
+      border-radius: 13px;
+
+      border:
+        1px solid var(--border);
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding:
+        13px 14px;
+
+      border-bottom:
+        1px solid var(--border);
+
+      font-size: 9px;
+    }
+
+    .meta-row:last-child {
+      border-bottom: none;
+    }
+
+    .meta-row span {
+      color: var(--muted);
+    }
+
+    .meta-row strong {
+      text-align: right;
+    }
+
+    .sidebar-links {
+      display: grid;
+
+      gap: 9px;
+
+      margin-top: 16px;
+    }
+
+    .side-link {
+      padding:
+        13px 14px;
+
+      border-radius: 11px;
+
+      color: #c9d3e7;
+
+      background:
+        rgba(255,255,255,0.02);
+
+      border:
+        1px solid var(--border);
+
+      font-size: 10px;
+
+      font-weight: 850;
+    }
+
+    .side-link:hover {
+      border-color:
+        rgba(245,191,87,0.20);
+
+      color: var(--gold-light);
+    }
+
+    /* FORMS */
+
+    .panel-title {
+      margin-bottom: 20px;
+    }
+
+    .panel-title h2 {
+      margin-bottom: 5px;
+
+      font-size: 20px;
+    }
+
+    .panel-title p {
+      color: var(--muted);
+
+      font-size: 10px;
+
+      line-height: 1.6;
+    }
+
+    .section-box {
+      padding: 20px;
+
+      margin-bottom: 16px;
+
+      border-radius: 16px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.018);
+    }
+
+    .section-box h3 {
+      margin-bottom: 5px;
+
+      font-size: 14px;
+    }
+
+    .section-box > p {
+      margin-bottom: 18px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+
+      line-height: 1.6;
+    }
+
+    .grid-2 {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 13px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #bcc7da;
+
+      font-size: 9px;
+
+      font-weight: 800;
+    }
+
+    input,
+    select {
+      width: 100%;
+
+      padding:
+        14px 15px;
+
+      border-radius: 11px;
+
+      border:
+        1px solid var(--border);
+
+      outline: none;
+
+      color: white;
+
+      background:
+        #101c32;
+
+      font-size: 11px;
+
+      font-weight: 700;
+    }
+
+    input:focus,
+    select:focus {
+      border-color:
+        rgba(24,132,255,0.45);
+
+      box-shadow:
+        0 0 0 3px rgba(24,132,255,0.08);
+    }
+
+    .save-button {
+      min-height: 46px;
+
+      padding:
+        0 18px;
+
+      border: none;
+
+      border-radius: 11px;
+
+      color: #07101c;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold-light),
+          var(--gold)
+        );
+
+      font-size: 10px;
+
+      font-weight: 900;
+    }
+
+    /* SECURITY */
+
+    .security-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      padding:
+        14px 0;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .security-item:last-child {
+      border-bottom: none;
+    }
+
+    .security-left {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+    }
+
+    .security-icon {
+      width: 38px;
+      height: 38px;
+
+      display: grid;
+      place-items: center;
+
+      flex-shrink: 0;
+
+      border-radius: 11px;
+
+      color: var(--gold-light);
+
+      background:
+        rgba(245,191,87,0.08);
+    }
+
+    .security-item strong {
+      display: block;
+
+      margin-bottom: 3px;
+
+      font-size: 10px;
+    }
+
+    .security-item small {
+      color: var(--muted);
+
+      font-size: 8px;
+
+      line-height: 1.5;
+    }
+
+    .status {
+      padding:
+        6px 9px;
+
+      border-radius: 50px;
+
+      color: var(--muted);
+
+      background:
+        rgba(255,255,255,0.03);
+
+      font-size: 8px;
+
+      font-weight: 900;
+    }
+
+    .status.green {
+      color: var(--green);
+
+      background:
+        rgba(33,213,154,0.07);
+    }
+
+    .message {
+      display: none;
+
+      margin-bottom: 15px;
+
+      padding:
+        12px 14px;
+
+      border-radius: 10px;
+
+      font-size: 9px;
+
+      line-height: 1.5;
+    }
+
+    .message.success {
+      display: block;
+
+      color: #baffea;
+
+      border:
+        1px solid rgba(33,213,154,0.18);
+
+      background:
+        rgba(33,213,154,0.07);
+    }
+
+    .message.error {
+      display: block;
+
+      color: #ffc1cb;
+
+      border:
+        1px solid rgba(255,101,120,0.18);
+
+      background:
+        rgba(255,101,120,0.07);
+    }
+
+    .danger-button {
+      min-height: 44px;
+
+      padding:
+        0 16px;
+
+      border-radius: 11px;
+
+      color: #ffc4cd;
+
+      border:
+        1px solid rgba(255,101,120,0.20);
+
+      background:
+        rgba(255,101,120,0.06);
+
+      font-size: 9px;
+
+      font-weight: 900;
+    }
+
+    .notice {
+      margin-top: 20px;
+
+      padding: 14px;
+
+      border-radius: 12px;
+
+      color: #7f8ba2;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.015);
+
+      text-align: center;
+
+      font-size: 8px;
+
+      line-height: 1.7;
+    }
+
+    footer {
+      padding: 30px;
+
+      text-align: center;
+
+      color: #66728b;
+
+      font-size: 9px;
+
+      border-top:
+        1px solid var(--border);
+    }
+
+    @media (max-width: 900px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-actions .dark {
+        display: none;
+      }
+
+      .security-item {
+        align-items: flex-start;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <div class="topbar">
+    MAXX Exchange — Account profile and settings.
+  </div>
+
+
+  <nav>
+
+    <div class="container navbar">
+
+      <a
+        href="index.html"
+        class="brand"
+      >
+
+        <div class="logo"></div>
+
+        <div class="brand-text">
+          <strong>MAXX</strong>
+          <span>EXCHANGE</span>
+        </div>
+
+      </a>
+
+
+      <div class="nav-links">
+
+        <a href="dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="index.html#markets">
+          Markets
+        </a>
+
+        <a href="buy.html">
+          Buy Crypto
+        </a>
+
+        <a href="sell.html">
+          Sell Crypto
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+      </div>
+
+
+      <div class="nav-actions">
+
+        <a
+          href="dashboard.html"
+          class="nav-button dark"
+        >
+          ← Dashboard
+        </a>
+
+        <a
+          href="index.html"
+          class="nav-button gold"
+        >
+          Home
+        </a>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <main>
+
+    <div class="container">
+
+
+      <div class="page-head">
+
+        <div class="badge">
+          MAXX ACCOUNT
+        </div>
+
+        <h1>
+          Profile & Settings
+        </h1>
+
+        <p>
+          Manage your demonstration MAXX profile,
+          preferences and account settings.
+        </p>
+
+      </div>
+
+
+      <div class="profile-grid">
+
+
+        <!-- LEFT -->
+
+        <aside>
+
+          <section class="panel profile-card">
+
+            <div
+              id="avatar"
+              class="avatar-large"
+            >
+              MX
+            </div>
+
+            <h2 id="displayName">
+              MAXX User
+            </h2>
+
+            <div
+              id="displayEmail"
+              class="profile-email"
+            >
+              demo@example.com
+            </div>
+
+            <div class="demo-badge">
+              DEMO ACCOUNT
+            </div>
+
+
+            <div class="profile-meta">
+
+              <div class="meta-row">
+
+                <span>
+                  Account Type
+                </span>
+
+                <strong>
+                  Demo
+                </strong>
+
+              </div>
+
+
+              <div class="meta-row">
+
+                <span>
+                  Verification
+                </span>
+
+                <strong style="color:var(--gold-light);">
+                  Not Connected
+                </strong>
+
+              </div>
+
+
+              <div class="meta-row">
+
+                <span>
+                  Security
+                </span>
+
+                <strong>
+                  Prototype
+                </strong>
+
+              </div>
+
+
+              <div class="meta-row">
+
+                <span>
+                  Currency
+                </span>
+
+                <strong id="metaCurrency">
+                  USD
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="sidebar-links">
+
+              <a
+                href="dashboard.html"
+                class="side-link"
+              >
+                Dashboard
+              </a>
+
+              <a
+                href="buy.html"
+                class="side-link"
+              >
+                Buy Crypto
+              </a>
+
+              <a
+                href="sell.html"
+                class="side-link"
+              >
+                Sell Crypto
+              </a>
+
+              <a
+                href="index.html"
+                class="side-link"
+              >
+                Back to Home
+              </a>
+
+            </div>
+
+          </section>
+
+        </aside>
+
+
+        <!-- RIGHT -->
+
+        <section class="panel">
+
+          <div class="panel-title">
+
+            <h2>
+              Account Settings
+            </h2>
+
+            <p>
+              These settings are stored locally
+              for your current MAXX prototype.
+            </p>
+
+          </div>
+
+
+          <div
+            id="message"
+            class="message"
+          ></div>
+
+
+          <!-- PERSONAL DETAILS -->
+
+          <div class="section-box">
+
+            <h3>
+              Personal Information
+            </h3>
+
+            <p>
+              Update the name shown on your MAXX dashboard.
+            </p>
+
+
+            <div class="grid-2">
+
+              <div class="field">
+
+                <label for="fullName">
+                  Display Name
+                </label>
+
+                <input
+                  id="fullName"
+                  type="text"
+                  placeholder="Enter your name"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="email">
+                  Email Address
+                </label>
+
+                <input
+                  id="email"
+                  type="email"
+                  readonly
+                >
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="save-button"
+              onclick="saveProfile()"
+            >
+              Save Profile
+            </button>
+
+          </div>
+
+
+          <!-- PREFERENCES -->
+
+          <div class="section-box">
+
+            <h3>
+              Preferences
+            </h3>
+
+            <p>
+              Choose how this prototype displays
+              your preferred currency.
+            </p>
+
+
+            <div class="grid-2">
+
+              <div class="field">
+
+                <label for="currency">
+                  Preferred Currency
+                </label>
+
+                <select id="currency">
+
+                  <option value="USD">
+                    USD — US Dollar
+                  </option>
+
+                  <option value="NGN">
+                    NGN — Nigerian Naira
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="language">
+                  Language
+                </label>
+
+                <select id="language">
+
+                  <option value="English">
+                    English
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="save-button"
+              onclick="savePreferences()"
+            >
+              Save Preferences
+            </button>
+
+          </div>
+
+
+          <!-- SECURITY -->
+
+          <div class="section-box">
+
+            <h3>
+              Security
+            </h3>
+
+            <p>
+              Real account security will require
+              secure server-side authentication.
+            </p>
+
+
+            <div class="security-item">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  ✓
+                </div>
+
+                <div>
+
+                  <strong>
+                    Login Session
+                  </strong>
+
+                  <small>
+                    Your current prototype session is active.
+                  </small>
+
+                </div>
+
+              </div>
+
+              <span class="status green">
+                ACTIVE
+              </span>
+
+            </div>
+
+
+            <div class="security-item">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  2
+                </div>
+
+                <div>
+
+                  <strong>
+                    Two-Factor Authentication
+                  </strong>
+
+                  <small>
+                    Not yet connected to a real authentication system.
+                  </small>
+
+                </div>
+
+              </div>
+
+              <span class="status">
+                NOT CONNECTED
+              </span>
+
+            </div>
+
+
+            <div class="security-item">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  K
+                </div>
+
+                <div>
+
+                  <strong>
+                    Identity Verification
+                  </strong>
+
+                  <small>
+                    KYC verification is not enabled in this prototype.
+                  </small>
+
+                </div>
+
+              </div>
+
+              <span class="status">
+                DEMO
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- SESSION -->
+
+          <div class="section-box">
+
+            <h3>
+              Session
+            </h3>
+
+            <p>
+              Sign out of this local demonstration account.
+            </p>
+
+            <button
+              class="danger-button"
+              onclick="logoutUser()"
+            >
+              Log Out of MAXX
+            </button>
+
+          </div>
+
+
+          <div class="notice">
+
+            This is a front-end prototype.
+            Real profile data, password changes,
+            account verification, two-factor authentication
+            and security controls must be handled by
+            a secure backend before production use.
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+
+    ©️ 2026 MAXX Exchange — Account settings prototype.
+
+  </footer>
+
+
+  <script>
+
+    const loggedIn =
+      localStorage.getItem(
+        "maxxDemoLoggedIn"
+      );
+
+
+    if (
+      loggedIn !== "true"
+    ) {
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    const email =
+      localStorage.getItem(
+        "maxxDemoEmail"
+      ) ||
+      "demo@example.com";
+
+
+    const savedName =
+      localStorage.getItem(
+        "maxxDemoName"
+      );
+
+
+    const savedCurrency =
+      localStorage.getItem(
+        "maxxPreferredCurrency"
+      ) ||
+      "USD";
+
+
+    function nameFromEmail(
+      emailAddress
+    ) {
+
+      const raw =
+        emailAddress
+        .split("@")[0]
+        .replace(/[._-]/g, " ");
+
+
+      return raw
+        .split(" ")
+        .filter(Boolean)
+        .map(function(word) {
+
+          return (
+            word.charAt(0).toUpperCase() +
+            word.slice(1)
+          );
+
+        })
+        .join(" ");
+
+    }
+
+
+    const displayName =
+      savedName ||
+      nameFromEmail(email) ||
+      "MAXX User";
+
+
+    document.getElementById(
+      "displayName"
+    ).innerText =
+      displayName;
+
+
+    document.getElementById(
+      "displayEmail"
+    ).innerText =
+      email;
+
+
+    document.getElementById(
+      "fullName"
+    ).value =
+      displayName;
+
+
+    document.getElementById(
+      "email"
+    ).value =
+      email;
+
+
+    document.getElementById(
+      "currency"
+    ).value =
+      savedCurrency;
+
+
+    document.getElementById(
+      "metaCurrency"
+    ).innerText =
+      savedCurrency;
+
+
+    const initials =
+      displayName
+      .split(" ")
+      .filter(Boolean)
+      .slice(0,2)
+      .map(function(word) {
+
+        return word.charAt(0).toUpperCase();
+
+      })
+      .join("");
+
+
+    document.getElementById(
+      "avatar"
+    ).innerText =
+      initials ||
+      "MX";
+
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      const message =
+        document.getElementById(
+          "message"
+        );
+
+
+      message.className =
+        "message " +
+        type;
+
+
+      message.innerText =
+        text;
+
+    }
+
+
+    function saveProfile() {
+
+      const name =
+        document.getElementById(
+          "fullName"
+        ).value.trim();
+
+
+      if (
+        name.length < 2
+      ) {
+
+        showMessage(
+          "Please enter a valid display name.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      localStorage.setItem(
+        "maxxDemoName",
+        name
+      );
+
+
+      document.getElementById(
+        "displayName"
+      ).innerText =
+        name;
+
+
+      const newInitials =
+        name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0,2)
+        .map(function(word) {
+
+          return word.charAt(0).toUpperCase();
+
+        })
+        .join("");
+
+
+      document.getElementById(
+        "avatar"
+      ).innerText =
+        newInitials ||
+        "MX";
+
+
+      showMessage(
+        "Profile updated for this demo account.",
+        "success"
+      );
+
+    }
+
+
+    function savePreferences() {
+
+      const currency =
+        document.getElementById(
+          "currency"
+        ).value;
+
+
+      localStorage.setItem(
+        "maxxPreferredCurrency",
+        currency
+      );
+
+
+      document.getElementById(
+        "metaCurrency"
+      ).innerText =
+        currency;
+
+
+      showMessage(
+        "Preferences saved for this prototype.",
+        "success"
+      );
+
+    }
+
+
+    function logoutUser() {
+
+      localStorage.removeItem(
+        "maxxDemoLoggedIn"
+      );
+
+
+      window.location.href =
+        "login.html";
+
+    }
+
+  </script>
+
+<script src="support.js?v=20260913-final"></script>
+</body>
+
+</html>

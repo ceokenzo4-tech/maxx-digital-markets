@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #07111f, #0c1b31);
+        color: white;
+        padding: 40px 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    #ordersContainer {
+        width: 90%;
+        max-width: 750px;
+        margin: auto;
+    }
+
+    #ordersContainer > div {
+        background: #14243a;
+        padding: 22px;
+        margin-bottom: 18px;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    #ordersContainer p {
+        margin: 10px 0;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #29405d;
+    }
+
+    button {
+        display: block;
+        width: 90%;
+        max-width: 750px;
+        margin: 25px auto;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        background: #20c77a;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+
+    <h1>Order History</h1>
+
+    <div id="ordersContainer"></div>
+
+    <button onclick="goHome()">Back to Home</button>
+
+    <script>
+        const ordersContainer =
+            document.getElementById("ordersContainer");
+
+        const orders =
+            JSON.parse(localStorage.getItem("demoOrders")) || [];
+
+        if (orders.length === 0) {
+            ordersContainer.innerHTML =
+                "<p>No orders yet.</p>";
+        } else {
+            orders.reverse().forEach(order => {
+                const orderCard = document.createElement("div");
+
+                orderCard.innerHTML = `
+                    <hr>
+                    <p><strong>Order ID:</strong> ${order.id}</p>
+                    <p><strong>Cryptocurrency:</strong> ${order.coin}</p>
+                    <p><strong>Amount:</strong> $${order.amount}</p>
+                    <p><strong>Status:</strong> ${order.status}</p>
+                    <p><strong>Date & Time:</strong> ${order.date}</p>
+                `;
+
+                ordersContainer.appendChild(orderCard);
+            });
+        }
+
+        function goHome() {
+            window.location.href = "index.html";
+        }
+    </script>
+
+<script src="support.js?v=20260913-final"></script>
+</body>
+</html>

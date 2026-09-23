@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login | MaxxDigitalMarkets</title>
+  <meta name="description" content="Access the MaxxDigitalMarkets client portal.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #050914;
+      --panel: #0c1425;
+      --panel2: #101c32;
+      --border: #223451;
+      --blue: #2f80ff;
+      --cyan: #38d9ff;
+      --green: #29d391;
+      --white: #ffffff;
+      --muted: #91a0b7;
+      --danger: #ff6376;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(47,128,255,.20), transparent 30%),
+        radial-gradient(circle at 10% 90%, rgba(56,217,255,.10), transparent 25%),
+        var(--bg);
+      color: var(--white);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* HEADER */
+
+    header {
+      height: 78px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(5, 9, 20, .88);
+      backdrop-filter: blur(15px);
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav {
+      width: min(1180px, 92%);
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #03101c;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 0 25px rgba(47,128,255,.35);
+    }
+
+    .brand-text span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 2px;
+      letter-spacing: .7px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .home-btn {
+      padding: 10px 17px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: #dbe8ff;
+      transition: .2s;
+    }
+
+    .home-btn:hover {
+      border-color: var(--blue);
+      background: rgba(47,128,255,.08);
+    }
+
+    .register-btn {
+      padding: 11px 18px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: white;
+      font-weight: 700;
+    }
+
+    /* MAIN */
+
+    main {
+      min-height: calc(100vh - 78px);
+      display: grid;
+      place-items: center;
+      padding: 55px 20px;
+    }
+
+    .login-layout {
+      width: min(1040px, 100%);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(12, 20, 37, .88);
+      box-shadow: 0 35px 90px rgba(0,0,0,.38);
+    }
+
+    /* LEFT */
+
+    .intro {
+      padding: 65px 55px;
+      background:
+        linear-gradient(135deg, rgba(47,128,255,.13), rgba(56,217,255,.03));
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cyan);
+      background: rgba(56,217,255,.08);
+      border: 1px solid rgba(56,217,255,.25);
+      padding: 8px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .intro h1 {
+      font-size: clamp(34px, 5vw, 55px);
+      line-height: 1.03;
+      margin-bottom: 20px;
+      letter-spacing: -1.5px;
+    }
+
+    .intro h1 span {
+      color: var(--cyan);
+    }
+
+    .intro p {
+      max-width: 490px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .features {
+      margin-top: 38px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #dce7f8;
+      font-size: 14px;
+    }
+
+    .check {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--green);
+      background: rgba(41,211,145,.09);
+      border: 1px solid rgba(41,211,145,.24);
+      font-weight: 800;
+    }
+
+    .status-card {
+      margin-top: 40px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(4,10,21,.55);
+    }
+
+    .status-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 13px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .online {
+      color: var(--green);
+    }
+
+    .status-bar {
+      height: 5px;
+      background: #15243c;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .status-bar div {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+    }
+
+    /* LOGIN FORM */
+
+    .login-side {
+      padding: 58px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-side h2 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 30px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .demo-notice {
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(56,217,255,.22);
+      background: rgba(56,217,255,.06);
+      color: #bdefff;
+      font-size: 12px;
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #c8d4e8;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      height: 51px;
+      padding: 0 15px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #081120;
+      color: white;
+      outline: none;
+      font-size: 15px;
+      transition: .2s;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(47,128,255,.10);
+    }
+
+    input::placeholder {
+      color: #586982;
+    }
+
+    .password-input {
+      padding-right: 72px;
+    }
+
+    .show-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 4px 0 22px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .remember input {
+      width: 15px;
+      height: 15px;
+    }
+
+    .help-link {
+      color: var(--cyan);
+    }
+
+    .login-button {
+      width: 100%;
+      height: 52px;
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: white;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(47,128,255,.22);
+      transition: transform .2s;
+    }
+
+    .login-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(255,99,118,.08);
+      border: 1px solid rgba(255,99,118,.25);
+      color: #ff9aa7;
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(41,211,145,.08);
+      border: 1px solid rgba(41,211,145,.25);
+      color: #7aefbd;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #65758e;
+      font-size: 11px;
+      margin: 25px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .create {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .create a {
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    .security {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: #687991;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      color: #5d6d85;
+      font-size: 11px;
+      padding: 0 20px 28px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 850px) {
+      .login-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        display: none;
+      }
+
+      .login-side {
+        padding: 45px 28px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      header {
+        height: 70px;
+      }
+
+      .brand-text {
+        font-size: 13px;
+      }
+
+      .brand-text span {
+        display: none;
+      }
+
+      .register-btn {
+        display: none;
+      }
+
+      main {
+        padding: 25px 15px;
+      }
+
+      .login-layout {
+        border-radius: 16px;
+      }
+
+      .login-side {
+        padding: 35px 22px;
+      }
+
+      .login-side h2 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="nav">
+
+    <a class="brand" href="index.html">
+      <div class="logo">M</div>
+
+      <div class="brand-text">
+        MaxxDigitalMarkets
+        <span>GLOBAL MARKETS PLATFORM</span>
+      </div>
+    </a>
+
+    <div class="nav-right">
+      <a class="home-btn" href="index.html">Home</a>
+      <a class="register-btn" href="register.html">Create Account</a>
+    </div>
+
+  </nav>
+</header>
+
+
+<main>
+
+  <section class="login-layout">
+
+    <div class="intro">
+
+      <div class="badge">
+        ● CLIENT PORTAL
+      </div>
+
+      <h1>
+        Welcome back to
+        <span>MaxxDigitalMarkets.</span>
+      </h1>
+
+      <p>
+        Access the MaxxDigitalMarkets client portal and explore the
+        platform interface, market information and account tools.
+      </p>
+
+      <div class="features">
+
+        <div class="feature">
+          <div class="check">✓</div>
+          Responsive client dashboard
+        </div>
+
+        <div class="feature">
+          <div class="check">✓</div>
+          Market monitoring interface
+        </div>
+
+        <div class="feature">
+          <div class="check">✓</div>
+          Account and activity overview
+        </div>
+
+        <div class="feature">
+          <div class="check">✓</div>
+          Security-focused design
+        </div>
+
+      </div>
+
+      <div class="status-card">
+
+        <div class="status-top">
+          <span>Platform status</span>
+          <span class="online">● Interface Online</span>
+        </div>
+
+        <div class="status-bar">
+          <div></div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="login-side">
+
+      <h2>Client Login</h2>
+
+      <p class="subtitle">
+        Continue to the MaxxDigitalMarkets demonstration dashboard.
+      </p>
+
+      <div class="demo-notice">
+        <strong>Demo portal:</strong> this static website does not authenticate
+        or store real passwords. Do not enter a real password.
+      </div>
+
+      <form id="loginForm">
+
+        <div class="field">
+
+          <label for="email">Demo email</label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="demo@example.com"
+            autocomplete="off"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="password">Demo password</label>
+
+          <div class="input-wrap">
+
+            <input
+              class="password-input"
+              type="password"
+              id="password"
+              placeholder="Enter any demo password"
+              autocomplete="off"
+              required
+            >
+
+            <button
+              type="button"
+              class="show-password"
+              id="showPassword"
+            >
+              SHOW
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-options">
+
+          <label class="remember">
+            <input type="checkbox" id="remember">
+            Remember demo email
+          </label>
+
+          <a href="security.html" class="help-link">
+            Security
+          </a>
+
+        </div>
+
+
+        <button class="login-button" type="submit">
+          Enter Demo Dashboard →
+        </button>
+
+        <div id="message" class="message"></div>
+
+      </form>
+
+
+      <div class="divider">
+        NEW TO MAXXDIGITALMARKETS?
+      </div>
+
+
+      <div class="create">
+        Explore account setup
+        <a href="register.html">Create Account</a>
+      </div>
+
+
+      <div class="security">
+        🔒 This demonstration page runs entirely in your browser.
+        No password is transmitted or stored by this page.
+        Real authentication requires a secure server-side system.
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+  ©️ 2026 MaxxDigitalMarkets · Market activity involves risk.
+</footer>
+
+
+<script>
+
+  const form = document.getElementById("loginForm");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const showPassword = document.getElementById("showPassword");
+  const message = document.getElementById("message");
+  const remember = document.getElementById("remember");
+
+
+  /*
+    Restore only the DEMO email.
+    Passwords are never stored.
+  */
+
+  const savedDemoEmail = localStorage.getItem("maxxDemoEmail");
+
+  if (savedDemoEmail) {
+    email.value = savedDemoEmail;
+    remember.checked = true;
+  }
+
+
+  /*
+    Show / hide demo password
+  */
+
+  showPassword.addEventListener("click", function () {
+
+    if (password.type === "password") {
+
+      password.type = "text";
+      showPassword.textContent = "HIDE";
+
+    } else {
+
+      password.type = "password";
+      showPassword.textContent = "SHOW";
+
+    }
+
+  });
+
+
+  /*
+    Demo login
+  */
+
+  form.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const emailValue = email.value.trim();
+    const passwordValue = password.value.trim();
+
+    if (!emailValue || !passwordValue) {
+
+      message.className = "message error";
+      message.textContent =
+        "Enter a demo email and demo password to continue.";
+
+      return;
+    }
+
+
+    if (remember.checked) {
+
+      localStorage.setItem(
+        "maxxDemoEmail",
+        emailValue
+      );
+
+    } else {
+
+      localStorage.removeItem(
+        "maxxDemoEmail"
+      );
+
+    }
+
+
+    /*
+      We deliberately do NOT store the password.
+    */
+
+    sessionStorage.setItem(
+      "maxxDemoSession",
+      "active"
+    );
+
+
+    message.className = "message success";
+    message.textContent =
+      "Demo access successful. Opening dashboard...";
+
+
+    setTimeout(function () {
+
+      window.location.href = "dashboard.html";
+
+    }, 700);
+
+  });
+
+</script>
+
+</body>
+</html>
