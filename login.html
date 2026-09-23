@@ -1,797 +1,1174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Login | MaxxDigitalMarkets</title>
-  <meta name="description" content="Access the MaxxDigitalMarkets client portal.">
+<title>Sign In | Maxx Digital Markets</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#050b16;
+    --panel:#0b1527;
+    --border:#1d2b43;
+    --text:#f8fafc;
+    --muted:#8fa0b8;
+    --blue:#2563eb;
+    --blue-light:#60a5fa;
+    --green:#22c55e;
+    --red:#ef4444;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    color:var(--text);
+
+    background:
+    radial-gradient(circle at 10% 10%,
+    rgba(37,99,235,.20),transparent 30%),
+
+    radial-gradient(circle at 90% 90%,
+    rgba(56,189,248,.10),transparent 30%),
+
+    var(--bg);
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    height:76px;
+    padding:0 6%;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:rgba(5,11,22,.94);
+    border-bottom:1px solid var(--border);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-weight:800;
+    letter-spacing:.4px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:11px;
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #38bdf8
+    );
+
+    box-shadow:
+    0 10px 30px rgba(37,99,235,.30);
+}
+
+.home-link{
+    color:#a8b6ca;
+    font-size:14px;
+}
+
+.home-link:hover{
+    color:white;
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+    min-height:calc(100vh - 76px);
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+}
+
+/* =========================
+   LEFT SECTION
+========================= */
+
+.intro{
+    padding:70px 9%;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    border-right:1px solid var(--border);
+}
+
+.badge{
+    width:max-content;
+
+    margin-bottom:25px;
+    padding:8px 14px;
+
+    border-radius:100px;
+
+    border:1px solid rgba(56,189,248,.25);
+
+    background:rgba(37,99,235,.10);
+
+    color:#7dd3fc;
+
+    font-size:12px;
+    font-weight:bold;
+}
+
+.intro h1{
+    max-width:650px;
+
+    margin-bottom:24px;
+
+    font-size:clamp(40px,5vw,65px);
+    line-height:1.04;
+}
+
+.intro h1 span{
+    color:var(--blue-light);
+}
+
+.intro p{
+    max-width:590px;
+
+    color:var(--muted);
+
+    font-size:16px;
+    line-height:1.8;
+}
+
+.points{
+    display:grid;
+    gap:16px;
+
+    margin-top:35px;
+}
+
+.point{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#dbeafe;
+
+    font-size:14px;
+}
+
+.check{
+    width:28px;
+    height:28px;
+
+    display:grid;
+    place-items:center;
+
+    flex-shrink:0;
+
+    border-radius:8px;
+
+    background:rgba(34,197,94,.10);
+    border:1px solid rgba(34,197,94,.25);
+
+    color:#4ade80;
+}
+
+/* =========================
+   LOGIN SIDE
+========================= */
+
+.login-area{
+    padding:45px 25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.card{
+    width:100%;
+    max-width:500px;
+
+    padding:38px;
+
+    border:1px solid var(--border);
+    border-radius:24px;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(14,27,49,.98),
+        rgba(7,16,31,.98)
+    );
+
+    box-shadow:
+    0 30px 80px rgba(0,0,0,.35);
+}
+
+.card h2{
+    margin-bottom:8px;
+
+    font-size:30px;
+}
+
+.subtitle{
+    margin-bottom:28px;
+
+    color:var(--muted);
+
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message{
+    display:none;
+
+    margin-bottom:20px;
+    padding:14px;
+
+    border-radius:10px;
+
+    font-size:13px;
+    line-height:1.6;
+}
+
+.message.error{
+    display:block;
+
+    color:#fecaca;
+
+    background:rgba(239,68,68,.10);
+    border:1px solid rgba(239,68,68,.30);
+}
+
+.message.success{
+    display:block;
+
+    color:#bbf7d0;
+
+    background:rgba(34,197,94,.10);
+    border:1px solid rgba(34,197,94,.30);
+}
+
+.message.info{
+    display:block;
+
+    color:#bfdbfe;
+
+    background:rgba(37,99,235,.10);
+    border:1px solid rgba(59,130,246,.30);
+}
+
+/* =========================
+   FORM
+========================= */
+
+.field{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#dce7f7;
+
+    font-size:13px;
+    font-weight:600;
+}
+
+input{
+    width:100%;
+    height:52px;
+
+    padding:0 14px;
+
+    border:1px solid #263750;
+    border-radius:11px;
+
+    outline:none;
+
+    background:#071225;
+
+    color:white;
+
+    font-size:14px;
+}
+
+input::placeholder{
+    color:#60718a;
+}
+
+input:focus{
+    border-color:#3b82f6;
+
+    box-shadow:
+    0 0 0 3px rgba(59,130,246,.12);
+}
+
+/* =========================
+   PASSWORD
+========================= */
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    padding-right:70px;
+}
+
+.show-password{
+    position:absolute;
+
+    top:50%;
+    right:13px;
+
+    transform:translateY(-50%);
+
+    cursor:pointer;
+    user-select:none;
+
+    color:#60a5fa;
+
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* =========================
+   OPTIONS
+========================= */
+
+.options{
+    margin-top:2px;
+    margin-bottom:22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+}
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+.remember input{
+    width:16px;
+    height:16px;
+
+    accent-color:#2563eb;
+}
+
+.forgot{
+    border:0;
+    padding:0;
+
+    cursor:pointer;
+
+    background:none;
+
+    color:#60a5fa;
+
+    font-size:13px;
+    font-weight:600;
+}
+
+.forgot:hover{
+    text-decoration:underline;
+}
+
+/* =========================
+   SIGN IN BUTTON
+========================= */
+
+.signin-button{
+    width:100%;
+    height:52px;
+
+    border:0;
+    border-radius:11px;
+
+    cursor:pointer;
+
+    background:
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    color:white;
+
+    font-size:15px;
+    font-weight:bold;
+
+    box-shadow:
+    0 12px 30px rgba(37,99,235,.25);
+}
+
+.signin-button:hover{
+    opacity:.95;
+}
+
+.signin-button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* =========================
+   REGISTER
+========================= */
+
+.register{
+    margin-top:24px;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:14px;
+}
+
+.register a{
+    color:#60a5fa;
+    font-weight:bold;
+}
+
+/* =========================
+   SECURITY
+========================= */
+
+.security{
+    margin-top:22px;
+    padding-top:20px;
+
+    border-top:1px solid var(--border);
+
+    text-align:center;
+
+    color:#60718a;
+
+    font-size:11px;
+    line-height:1.6;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .page{
+        grid-template-columns:1fr;
     }
 
-    :root {
-      --bg: #050914;
-      --panel: #0c1425;
-      --panel2: #101c32;
-      --border: #223451;
-      --blue: #2f80ff;
-      --cyan: #38d9ff;
-      --green: #29d391;
-      --white: #ffffff;
-      --muted: #91a0b7;
-      --danger: #ff6376;
+    .intro{
+        display:none;
+    }
+}
+
+@media(max-width:550px){
+
+    header{
+        padding:0 18px;
     }
 
-    html {
-      scroll-behavior: smooth;
+    .brand{
+        font-size:14px;
     }
 
-    body {
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at 80% 20%, rgba(47,128,255,.20), transparent 30%),
-        radial-gradient(circle at 10% 90%, rgba(56,217,255,.10), transparent 25%),
-        var(--bg);
-      color: var(--white);
+    .login-area{
+        padding:30px 15px;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    .card{
+        padding:28px 20px;
+
+        border-radius:18px;
     }
 
-    /* HEADER */
-
-    header {
-      height: 78px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(5, 9, 20, .88);
-      backdrop-filter: blur(15px);
-      display: flex;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    .options{
+        align-items:flex-start;
     }
-
-    .nav {
-      width: min(1180px, 92%);
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: .3px;
-    }
-
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      color: #03101c;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      box-shadow: 0 0 25px rgba(47,128,255,.35);
-    }
-
-    .brand-text span {
-      display: block;
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 500;
-      margin-top: 2px;
-      letter-spacing: .7px;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .home-btn {
-      padding: 10px 17px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      color: #dbe8ff;
-      transition: .2s;
-    }
-
-    .home-btn:hover {
-      border-color: var(--blue);
-      background: rgba(47,128,255,.08);
-    }
-
-    .register-btn {
-      padding: 11px 18px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
-      color: white;
-      font-weight: 700;
-    }
-
-    /* MAIN */
-
-    main {
-      min-height: calc(100vh - 78px);
-      display: grid;
-      place-items: center;
-      padding: 55px 20px;
-    }
-
-    .login-layout {
-      width: min(1040px, 100%);
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      overflow: hidden;
-      background: rgba(12, 20, 37, .88);
-      box-shadow: 0 35px 90px rgba(0,0,0,.38);
-    }
-
-    /* LEFT */
-
-    .intro {
-      padding: 65px 55px;
-      background:
-        linear-gradient(135deg, rgba(47,128,255,.13), rgba(56,217,255,.03));
-      border-right: 1px solid var(--border);
-      position: relative;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--cyan);
-      background: rgba(56,217,255,.08);
-      border: 1px solid rgba(56,217,255,.25);
-      padding: 8px 12px;
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 24px;
-    }
-
-    .intro h1 {
-      font-size: clamp(34px, 5vw, 55px);
-      line-height: 1.03;
-      margin-bottom: 20px;
-      letter-spacing: -1.5px;
-    }
-
-    .intro h1 span {
-      color: var(--cyan);
-    }
-
-    .intro p {
-      max-width: 490px;
-      color: var(--muted);
-      line-height: 1.8;
-      font-size: 15px;
-    }
-
-    .features {
-      margin-top: 38px;
-      display: grid;
-      gap: 15px;
-    }
-
-    .feature {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #dce7f8;
-      font-size: 14px;
-    }
-
-    .check {
-      width: 28px;
-      height: 28px;
-      flex: 0 0 28px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      color: var(--green);
-      background: rgba(41,211,145,.09);
-      border: 1px solid rgba(41,211,145,.24);
-      font-weight: 800;
-    }
-
-    .status-card {
-      margin-top: 40px;
-      padding: 18px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(4,10,21,.55);
-    }
-
-    .status-top {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 13px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .online {
-      color: var(--green);
-    }
-
-    .status-bar {
-      height: 5px;
-      background: #15243c;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .status-bar div {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--green), var(--cyan));
-    }
-
-    /* LOGIN FORM */
-
-    .login-side {
-      padding: 58px 50px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .login-side h2 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      margin-bottom: 30px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .-notice {
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(56,217,255,.22);
-      background: rgba(56,217,255,.06);
-      color: #bdefff;
-      font-size: 12px;
-      line-height: 1.55;
-      margin-bottom: 22px;
-    }
-
-    .field {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #c8d4e8;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .input-wrap {
-      position: relative;
-    }
-
-    input {
-      width: 100%;
-      height: 51px;
-      padding: 0 15px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #081120;
-      color: white;
-      outline: none;
-      font-size: 15px;
-      transition: .2s;
-    }
-
-    input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(47,128,255,.10);
-    }
-
-    input::placeholder {
-      color: #586982;
-    }
-
-    .password-input {
-      padding-right: 72px;
-    }
-
-    .show-password {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 0;
-      background: transparent;
-      color: var(--cyan);
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .form-options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 4px 0 22px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .remember {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .remember input {
-      width: 15px;
-      height: 15px;
-    }
-
-    .help-link {
-      color: var(--cyan);
-    }
-
-    .login-button {
-      width: 100%;
-      height: 52px;
-      border: 0;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
-      color: white;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(47,128,255,.22);
-      transition: transform .2s;
-    }
-
-    .login-button:hover {
-      transform: translateY(-2px);
-    }
-
-    .message {
-      display: none;
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 9px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .message.error {
-      display: block;
-      background: rgba(255,99,118,.08);
-      border: 1px solid rgba(255,99,118,.25);
-      color: #ff9aa7;
-    }
-
-    .message.success {
-      display: block;
-      background: rgba(41,211,145,.08);
-      border: 1px solid rgba(41,211,145,.25);
-      color: #7aefbd;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      color: #65758e;
-      font-size: 11px;
-      margin: 25px 0;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .create {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .create a {
-      color: var(--cyan);
-      font-weight: 700;
-    }
-
-    .security {
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: #687991;
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    footer {
-      text-align: center;
-      color: #5d6d85;
-      font-size: 11px;
-      padding: 0 20px 28px;
-    }
-
-    /* RESPONSIVE */
-
-    @media (max-width: 850px) {
-      .login-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .intro {
-        display: none;
-      }
-
-      .login-side {
-        padding: 45px 28px;
-      }
-    }
-
-    @media (max-width: 550px) {
-      header {
-        height: 70px;
-      }
-
-      .brand-text {
-        font-size: 13px;
-      }
-
-      .brand-text span {
-        display: none;
-      }
-
-      .register-btn {
-        display: none;
-      }
-
-      main {
-        padding: 25px 15px;
-      }
-
-      .login-layout {
-        border-radius: 16px;
-      }
-
-      .login-side {
-        padding: 35px 22px;
-      }
-
-      .login-side h2 {
-        font-size: 26px;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <nav class="nav">
 
-    <a class="brand" href="index.html">
-      <div class="logo">M</div>
+<a href="index.html" class="brand">
 
-      <div class="brand-text">
-        MaxxDigitalMarkets
-        <span>GLOBAL MARKETS PLATFORM</span>
-      </div>
-    </a>
-
-    <div class="nav-right">
-      <a class="home-btn" href="index.html">Home</a>
-      <a class="register-btn" href="register.html">Create Account</a>
+    <div class="logo">
+        M
     </div>
 
-  </nav>
+    MAXX DIGITAL MARKETS
+
+</a>
+
+<a href="index.html" class="home-link">
+    Back to Home
+</a>
+
 </header>
 
 
-<main>
+<main class="page">
 
-  <section class="login-layout">
+<!-- =========================
+     LEFT SIDE
+========================= -->
 
-    <div class="intro">
+<section class="intro">
 
-      <div class="badge">
-        ● CLIENT PORTAL
-      </div>
+    <div class="badge">
+        SECURE ACCOUNT ACCESS
+    </div>
 
-      <h1>
+    <h1>
         Welcome back to
-        <span>MaxxDigitalMarkets.</span>
-      </h1>
+        <span>Maxx Digital Markets.</span>
+    </h1>
 
-      <p>
-        Access the MaxxDigitalMarkets client portal and explore the
-        platform interface, market information and account tools.
-      </p>
+    <p>
+        Sign in to access your account dashboard, account
+        information and available market tools from one
+        secure location.
+    </p>
 
-      <div class="features">
+    <div class="points">
 
-        <div class="feature">
-          <div class="check">✓</div>
-          Responsive client dashboard
+        <div class="point">
+            <div class="check">✓</div>
+            Secure authentication
         </div>
 
-        <div class="feature">
-          <div class="check">✓</div>
-          Market monitoring interface
+        <div class="point">
+            <div class="check">✓</div>
+            Verified account access
         </div>
 
-        <div class="feature">
-          <div class="check">✓</div>
-          Account and activity overview
+        <div class="point">
+            <div class="check">✓</div>
+            Responsive account dashboard
         </div>
 
-        <div class="feature">
-          <div class="check">✓</div>
-          Security-focused design
+        <div class="point">
+            <div class="check">✓</div>
+            Secure sign-out controls
         </div>
-
-      </div>
-
-      <div class="status-card">
-
-        <div class="status-top">
-          <span>Platform status</span>
-          <span class="online">● Interface Online</span>
-        </div>
-
-        <div class="status-bar">
-          <div></div>
-        </div>
-
-      </div>
 
     </div>
 
+</section>
 
-    <div class="login-side">
 
-      <h2>Client Login</h2>
+<!-- =========================
+     LOGIN
+========================= -->
 
-      <p class="subtitle">
-        Continue to the MaxxDigitalMarkets nstration dashboard.
-      </p>
+<section class="login-area">
 
-      <div class="-notice">
-        <strong> portal:</strong> this static website does not authenticate
-        or store real passwords. Do not enter a real password.
-      </div>
+<div class="card">
 
-      <form id="loginForm">
+    <h2>Sign in</h2>
 
-        <div class="field">
+    <p class="subtitle">
+        Enter your verified email address and password to continue.
+    </p>
 
-          <label for="email"> email</label>
+    <div
+        id="message"
+        class="message">
+    </div>
 
-          <input
-            type="email"
-            id="email"
-            placeholder="@example.com"
-            autocomplete="off"
-            required
-          >
 
-        </div>
-
+    <form id="loginForm">
 
         <div class="field">
 
-          <label for="password"> password</label>
-
-          <div class="input-wrap">
+            <label for="email">
+                Email Address
+            </label>
 
             <input
-              class="password-input"
-              type="password"
-              id="password"
-              placeholder="Enter any  password"
-              autocomplete="off"
-              required
-            >
+                type="email"
+                id="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="password">
+                Password
+            </label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    id="password"
+                    autocomplete="current-password"
+                    placeholder="Enter your password"
+                    required>
+
+                <span
+                    class="show-password"
+                    id="passwordToggle">
+                    SHOW
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="options">
+
+            <label class="remember">
+
+                <input
+                    type="checkbox"
+                    id="remember">
+
+                Remember me
+
+            </label>
+
 
             <button
-              type="button"
-              class="show-password"
-              id="showPassword"
-            >
-              SHOW
+                type="button"
+                class="forgot"
+                id="forgotPassword">
+
+                Forgot password?
+
             </button>
 
-          </div>
-
         </div>
 
 
-        <div class="form-options">
+        <button
+            type="submit"
+            class="signin-button"
+            id="loginButton">
 
-          <label class="remember">
-            <input type="checkbox" id="remember">
-            Remember  email
-          </label>
+            Sign In
 
-          <a href="security.html" class="help-link">
-            Security
-          </a>
-
-        </div>
-
-
-        <button class="login-button" type="submit">
-          Enter  Dashboard →
         </button>
 
-        <div id="message" class="message"></div>
-
-      </form>
+    </form>
 
 
-      <div class="divider">
-        NEW TO MAXXDIGITALMARKETS?
-      </div>
+    <div class="register">
 
+        Don't have an account?
 
-      <div class="create">
-        Explore account setup
-        <a href="register.html">Create Account</a>
-      </div>
-
-
-      <div class="security">
-        🔒 This nstration page runs entirely in your browser.
-        No password is transmitted or stored by this page.
-        Real authentication requires a secure server-side system.
-      </div>
+        <a href="register.html">
+            Create account
+        </a>
 
     </div>
 
-  </section>
+
+    <div class="security">
+        Authentication is securely processed through your
+        Maxx Digital Markets account.
+    </div>
+
+</div>
+
+</section>
 
 </main>
 
 
-<footer>
-  ©️ 2026 MaxxDigitalMarkets · Market activity involves risk.
-</footer>
-
-
 <script>
 
-  const form = document.getElementById("loginForm");
-  const email = document.getElementById("email");
-  const password = document.getElementById("password");
-  const showPassword = document.getElementById("showPassword");
-  const message = document.getElementById("message");
-  const remember = document.getElementById("remember");
+/* ========================================
+   SUPABASE CONFIGURATION
+======================================== */
+
+const SUPABASE_URL =
+    "https://dwojraxspohahemiarps.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
 
 
-  /*
-    Restore only the  email.
-    Passwords are never stored.
-  */
-
-  const savedEmail = localStorage.getItem("maxxEmail");
-
-  if (savedEmail) {
-    email.value = savedEmail;
-    remember.checked = true;
-  }
-
-
-  /*
-    Show / hide  password
-  */
-
-  showPassword.addEventListener("click", function () {
-
-    if (password.type === "password") {
-
-      password.type = "text";
-      showPassword.textContent = "HIDE";
-
-    } else {
-
-      password.type = "password";
-      showPassword.textContent = "SHOW";
-
-    }
-
-  });
-
-
-  /*
-     login
-  */
-
-  form.addEventListener("submit", function (event) {
-
-    event.preventDefault();
-
-    const emailValue = email.value.trim();
-    const passwordValue = password.value.trim();
-
-    if (!emailValue || !passwordValue) {
-
-      message.className = "message error";
-      message.textContent =
-        "Enter a  email and  password to continue.";
-
-      return;
-    }
-
-
-    if (remember.checked) {
-
-      localStorage.setItem(
-        "maxxEmail",
-        emailValue
-      );
-
-    } else {
-
-      localStorage.removeItem(
-        "maxxEmail"
-      );
-
-    }
-
-
-    /*
-      We deliberately do NOT store the password.
-    */
-
-    sessionStorage.setItem(
-      "maxxSession",
-      "active"
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
     );
-    localStorage.setItem("maxx_token", "-" + Date.now());
 
 
-    message.className = "message success";
-    message.textContent =
-      " access successful. Opening dashboard...";
+/* ========================================
+   ELEMENTS
+======================================== */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const message =
+    document.getElementById("message");
+
+const passwordToggle =
+    document.getElementById("passwordToggle");
+
+const forgotPasswordButton =
+    document.getElementById("forgotPassword");
 
 
-    setTimeout(function () {
+/* ========================================
+   MESSAGE
+======================================== */
 
-      window.location.href = "dashboard.html";
+function showMessage(text,type){
 
-    }, 700);
+    message.textContent = text;
 
-  });
+    message.className =
+        "message " + type;
+}
+
+
+function clearMessage(){
+
+    message.textContent = "";
+
+    message.className = "message";
+}
+
+
+/* ========================================
+   PASSWORD SHOW / HIDE
+======================================== */
+
+passwordToggle.addEventListener(
+    "click",
+    function(){
+
+        if(passwordInput.type === "password"){
+
+            passwordInput.type = "text";
+
+            passwordToggle.textContent =
+                "HIDE";
+
+        }else{
+
+            passwordInput.type =
+                "password";
+
+            passwordToggle.textContent =
+                "SHOW";
+        }
+    }
+);
+
+
+/* ========================================
+   CHECK EXISTING SESSION
+======================================== */
+
+async function checkExistingSession(){
+
+    try{
+
+        const {
+            data:{
+                session
+            }
+        } =
+        await supabaseClient.auth.getSession();
+
+
+        /*
+        If the user is already authenticated,
+        send them directly to the dashboard.
+        */
+
+        if(session){
+
+            window.location.replace(
+                "dashboard.html"
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Session check error:",
+            error
+        );
+
+    }
+
+}
+
+
+checkExistingSession();
+
+
+/* ========================================
+   LOGIN
+======================================== */
+
+loginForm.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const email =
+            emailInput
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        const password =
+            passwordInput.value;
+
+
+        if(!email || !password){
+
+            showMessage(
+                "Please enter your email address and password.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+            "Signing In...";
+
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient.auth
+            .signInWithPassword({
+
+                email:email,
+
+                password:password
+
+            });
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            if(
+                !data ||
+                !data.user ||
+                !data.session
+            ){
+
+                throw new Error(
+                    "Unable to create a secure login session."
+                );
+
+            }
+
+
+            /*
+            Extra verification check.
+
+            Supabase already prevents normal
+            password login when confirmation is
+            required, but this adds another check.
+            */
+
+            if(
+                !data.user.email_confirmed_at
+            ){
+
+                await supabaseClient.auth.signOut();
+
+                showMessage(
+                    "Please verify your email address before signing in.",
+                    "error"
+                );
+
+                loginButton.disabled = false;
+
+                loginButton.textContent =
+                    "Sign In";
+
+                return;
+            }
+
+
+            showMessage(
+                "Sign in successful. Opening your dashboard...",
+                "success"
+            );
+
+
+            setTimeout(function(){
+
+                window.location.replace(
+                    "dashboard.html"
+                );
+
+            },600);
+
+
+        }catch(error){
+
+            console.error(
+                "Login error:",
+                error
+            );
+
+
+            let errorMessage =
+                error.message ||
+                "Unable to sign in. Please try again.";
+
+
+            const lowerMessage =
+                errorMessage.toLowerCase();
+
+
+            if(
+                lowerMessage.includes(
+                    "invalid login credentials"
+                )
+            ){
+
+                errorMessage =
+                    "Incorrect email address or password.";
+
+            }
+
+
+            if(
+                lowerMessage.includes(
+                    "email not confirmed"
+                )
+            ){
+
+                errorMessage =
+                    "Please verify your email address before signing in.";
+
+            }
+
+
+            showMessage(
+                errorMessage,
+                "error"
+            );
+
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "Sign In";
+        }
+
+    }
+);
+
+
+/* ========================================
+   PASSWORD RECOVERY
+======================================== */
+
+forgotPasswordButton.addEventListener(
+    "click",
+    async function(){
+
+        clearMessage();
+
+
+        const email =
+            emailInput
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        if(!email){
+
+            showMessage(
+                "Enter your email address first, then select Forgot password.",
+                "info"
+            );
+
+            emailInput.focus();
+
+            return;
+        }
+
+
+        forgotPasswordButton.disabled =
+            true;
+
+        forgotPasswordButton.textContent =
+            "Sending...";
+
+
+        try{
+
+            const {
+                error
+            } =
+            await supabaseClient.auth
+            .resetPasswordForEmail(
+                email,
+                {
+                    redirectTo:
+                    "https://maxxdigitalmarkets.com/reset-password.html"
+                }
+            );
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            /*
+            Generic response avoids exposing
+            whether an email is registered.
+            */
+
+            showMessage(
+                "If an account exists for that email address, password recovery instructions will be sent shortly.",
+                "success"
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Password recovery error:",
+                error
+            );
+
+
+            showMessage(
+                error.message ||
+                "Unable to send password recovery instructions. Please try again.",
+                "error"
+            );
+
+        }finally{
+
+            forgotPasswordButton.disabled =
+                false;
+
+            forgotPasswordButton.textContent =
+                "Forgot password?";
+        }
+
+    }
+);
+
+
+/* ========================================
+   AUTH STATE
+======================================== */
+
+supabaseClient.auth.onAuthStateChange(
+    function(event,session){
+
+        if(
+            event === "SIGNED_IN" &&
+            session &&
+            window.location.pathname
+                .endsWith("login.html")
+        ){
+
+            /*
+            Login form performs the actual
+            redirect. This listener keeps the
+            authentication state synchronized.
+            */
+
+        }
+
+    }
+);
 
 </script>
 
