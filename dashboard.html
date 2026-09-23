@@ -1,1 +1,1239 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trading Dashboard | MAXX</title><link rel="stylesheet" href="trading.css"></head><body><header class="top"><a class="brand" href="index.html">MAXX <b>DIGITAL MARKETS</b></a><nav class="nav"><a class="active" href="dashboard.html">Dashboard</a><a href="markets.html">Markets</a><a href="trade.html">Trade</a><a href="history.html">History</a><a href="profile.html">Account</a></nav><span class="badge">DEMO</span></header><main class="wrap"><div class="notice">Practice account — all balances, positions and P/L are simulated. No real funds are used or returns promised.</div><div id="accountStats" class="stats"><div class="stat"><span class="muted">Demo balance</span><div id="balance" class="big">—</div></div><div class="stat"><span class="muted">Equity</span><div id="equity" class="big">—</div></div><div class="stat"><span class="muted">Free margin</span><div id="freeMargin" class="big">—</div></div><div class="stat"><span class="muted">Unrealized P/L</span><div id="pnl" class="big">—</div></div></div><div class="grid"><section class="card"><div class="row"><div><b>Multi-asset terminal</b><div class="muted">Simulated chart for interface testing</div></div><a class="btn primary" href="markets.html">View markets</a></div><div class="chart" style="margin-top:16px"><canvas></canvas></div></section><aside class="card order"><h3>Order ticket</h3><label>Instrument</label><select id="symbol"><option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option><option>BTC/USD</option><option>ETH/USD</option><option>AAPL</option><option>NVDA</option></select><label>Position notional (USD)</label><input id="size" type="number" value="1000" min="10"><label>Leverage</label><input value="20× demo" disabled><div class="split"><button class="btn buy" onclick="place('BUY')">BUY</button><button class="btn sell" onclick="place('SELL')">SELL</button></div><p class="muted">Demo orders are stored locally in this browser for practice only.</p></aside></div><section class="card" style="margin-top:18px"><div class="row"><h3>Open demo positions</h3><a href="history.html" class="muted">Full history →</a></div><div class="table-scroll"><table><thead><tr><th>Market</th><th>Side</th><th>Notional</th><th>Entry</th><th>Leverage</th><th></th></tr></thead><tbody id="positions"></tbody></table></div></section></main><script src="trading.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Trading Terminal | MAXX Digital Markets</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#070b14;
+    --panel:#0d1320;
+    --panel2:#111a2a;
+    --line:#1d293b;
+    --text:#f4f7fb;
+    --muted:#8492a6;
+    --blue:#3b82f6;
+    --green:#16c784;
+    --red:#ea3943;
+    --yellow:#f5c451;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+button,input,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* HEADER */
+
+.header{
+    height:68px;
+    background:#090e18;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 24px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#f8d477,#477df8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:900;
+    font-size:20px;
+}
+
+.brand-name{
+    font-weight:800;
+    letter-spacing:.3px;
+}
+
+.brand-name small{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    letter-spacing:1.6px;
+    margin-top:2px;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.{
+    background:#2a2110;
+    color:#ffd166;
+    border:1px solid #58451b;
+    padding:7px 11px;
+    border-radius:7px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.deposit{
+    border:none;
+    background:var(--blue);
+    color:white;
+    padding:10px 16px;
+    border-radius:7px;
+    font-weight:700;
+}
+
+.avatar{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:#182235;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #2b3a52;
+}
+
+/* MAIN */
+
+.app{
+    display:grid;
+    grid-template-columns:220px minmax(0,1fr);
+    min-height:calc(100vh - 68px);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    background:#090e18;
+    border-right:1px solid var(--line);
+    padding:18px 12px;
+}
+
+.nav-title{
+    color:#5f6d81;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    padding:10px 12px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#aab5c5;
+    padding:12px 14px;
+    margin:4px 0;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.nav-item:hover{
+    background:#111a29;
+    color:white;
+}
+
+.nav-item.active{
+    background:#14233c;
+    color:#75a7ff;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+/* CONTENT */
+
+.content{
+    padding:18px;
+    min-width:0;
+}
+
+.top-summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:14px;
+}
+
+.stat{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:15px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:8px;
+}
+
+.stat-value{
+    font-size:20px;
+    font-weight:800;
+}
+
+.positive{
+    color:var(--green);
+}
+
+.negative{
+    color:var(--red);
+}
+
+/* TERMINAL */
+
+.terminal{
+    display:grid;
+    grid-template-columns:200px minmax(400px,1fr) 270px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    min-height:610px;
+    background:var(--panel);
+}
+
+/* WATCHLIST */
+
+.watchlist{
+    border-right:1px solid var(--line);
+    background:#0b111c;
+}
+
+.panel-title{
+    height:46px;
+    padding:0 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--line);
+    font-size:12px;
+    font-weight:800;
+}
+
+.search{
+    padding:10px;
+    border-bottom:1px solid var(--line);
+}
+
+.search input{
+    width:100%;
+    background:#101827;
+    border:1px solid #243147;
+    color:white;
+    padding:9px;
+    border-radius:6px;
+    outline:none;
+}
+
+.market-tabs{
+    display:flex;
+    border-bottom:1px solid var(--line);
+}
+
+.market-tabs button{
+    flex:1;
+    padding:9px 2px;
+    border:none;
+    background:none;
+    color:#6f7c90;
+    font-size:10px;
+}
+
+.market-tabs button.active{
+    color:#70a2ff;
+    border-bottom:2px solid var(--blue);
+}
+
+.asset{
+    padding:12px;
+    border-bottom:1px solid #151f2e;
+    cursor:pointer;
+}
+
+.asset:hover,
+.asset.selected{
+    background:#111b2a;
+}
+
+.asset-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    font-weight:700;
+}
+
+.asset-name{
+    color:white;
+}
+
+.asset-change{
+    font-size:11px;
+}
+
+.asset-prices{
+    margin-top:5px;
+    display:flex;
+    justify-content:space-between;
+    color:#7f8da2;
+    font-size:10px;
+}
+
+/* CHART */
+
+.chart-area{
+    min-width:0;
+    background:#080d16;
+}
+
+.instrument-header{
+    height:70px;
+    padding:10px 15px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.instrument{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.symbol-icon{
+    width:38px;
+    height:38px;
+    background:#18243a;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+}
+
+.symbol-name{
+    font-size:15px;
+    font-weight:800;
+}
+
+.symbol-description{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
+}
+
+.current-price{
+    text-align:right;
+}
+
+.current-price strong{
+    font-size:18px;
+}
+
+.current-price span{
+    display:block;
+    color:var(--green);
+    font-size:10px;
+    margin-top:3px;
+}
+
+.chart-toolbar{
+    height:40px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:0 10px;
+    border-bottom:1px solid var(--line);
+}
+
+.chart-toolbar button{
+    border:none;
+    background:transparent;
+    color:#7e8ba0;
+    padding:6px 8px;
+    border-radius:4px;
+    font-size:10px;
+}
+
+.chart-toolbar button.active{
+    background:#18253a;
+    color:#74a7ff;
+}
+
+/* CHART MOCK */
+
+.chart{
+    height:410px;
+    position:relative;
+    overflow:hidden;
+    background:
+    linear-gradient(#131b28 1px,transparent 1px),
+    linear-gradient(90deg,#131b28 1px,transparent 1px);
+    background-size:100% 52px,80px 100%;
+}
+
+.chart svg{
+    width:100%;
+    height:100%;
+}
+
+.price-label{
+    position:absolute;
+    right:6px;
+    top:46%;
+    background:#136f51;
+    color:white;
+    padding:4px 7px;
+    font-size:10px;
+    border-radius:3px;
+}
+
+.chart-bottom{
+    height:42px;
+    border-top:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 12px;
+    color:#647287;
+    font-size:10px;
+}
+
+/* ORDER PANEL */
+
+.order-panel{
+    border-left:1px solid var(--line);
+    background:#0b111c;
+}
+
+.order-tabs{
+    display:flex;
+    border-bottom:1px solid var(--line);
+}
+
+.order-tabs button{
+    width:50%;
+    border:none;
+    padding:13px;
+    background:transparent;
+    color:#7d899c;
+    font-weight:700;
+}
+
+.order-tabs button.active{
+    color:white;
+    border-bottom:2px solid var(--blue);
+}
+
+.order-body{
+    padding:14px;
+}
+
+.quote-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:16px;
+}
+
+.sell-quote,
+.buy-quote{
+    border-radius:7px;
+    padding:10px 5px;
+    text-align:center;
+}
+
+.sell-quote{
+    border:1px solid #7c2730;
+    background:#2a1117;
+}
+
+.buy-quote{
+    border:1px solid #155c47;
+    background:#0d271f;
+}
+
+.quote-label{
+    font-size:9px;
+    color:#94a0b2;
+}
+
+.quote-price{
+    font-size:14px;
+    font-weight:800;
+    margin-top:3px;
+}
+
+.form-group{
+    margin:13px 0;
+}
+
+.form-group label{
+    display:block;
+    color:#8b98aa;
+    font-size:10px;
+    margin-bottom:6px;
+}
+
+.form-control{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #26344a;
+    background:#101827;
+    color:white;
+    outline:none;
+}
+
+.two{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.order-info{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:10px 0;
+    margin:15px 0;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    color:#8290a4;
+    margin:7px 0;
+}
+
+.info-row strong{
+    color:#dce3ec;
+}
+
+.trade-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.sell-btn,
+.buy-btn{
+    border:none;
+    padding:12px;
+    color:white;
+    border-radius:6px;
+    font-weight:800;
+}
+
+.sell-btn{
+    background:var(--red);
+}
+
+.buy-btn{
+    background:var(--green);
+}
+
+.-note{
+    margin-top:12px;
+    color:#69768a;
+    font-size:9px;
+    text-align:center;
+    line-height:1.5;
+}
+
+/* POSITIONS */
+
+.positions{
+    margin-top:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.position-tabs{
+    display:flex;
+    border-bottom:1px solid var(--line);
+}
+
+.position-tabs button{
+    border:none;
+    background:transparent;
+    color:#78869a;
+    padding:13px 18px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.position-tabs button.active{
+    color:white;
+    border-bottom:2px solid var(--blue);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:11px;
+}
+
+th{
+    text-align:left;
+    color:#69768a;
+    padding:11px 14px;
+    border-bottom:1px solid var(--line);
+    font-weight:600;
+}
+
+td{
+    padding:12px 14px;
+    border-bottom:1px solid #151f2d;
+}
+
+.buy-text{
+    color:var(--green);
+}
+
+.sell-text{
+    color:var(--red);
+}
+
+.close{
+    color:#6ea1ff;
+    cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:1100px){
+    .terminal{
+        grid-template-columns:170px 1fr;
+    }
+
+    .order-panel{
+        grid-column:1/-1;
+        border-left:none;
+        border-top:1px solid var(--line);
+    }
+}
+
+@media(max-width:760px){
+
+    .app{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .content{
+        padding:10px;
+    }
+
+    .top-summary{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .terminal{
+        display:block;
+    }
+
+    .watchlist{
+        display:none;
+    }
+
+    .chart{
+        height:330px;
+    }
+
+    .header{
+        padding:0 12px;
+    }
+
+    .brand-name{
+        font-size:13px;
+    }
+
+    .deposit{
+        display:none;
+    }
+
+    table{
+        min-width:700px;
+    }
+
+    .positions{
+        overflow:auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="brand">
+    <div class="logo">M</div>
+
+    <div class="brand-name">
+        MAXX Digital Markets
+        <small>TRADING TERMINAL</small>
+    </div>
+</div>
+
+<div class="header-right">
+    <div class=""> ACCOUNT</div>
+    <button class="deposit">Deposit</button>
+    <div class="avatar">K</div>
+</div>
+
+</header>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="nav-title">TRADING</div>
+
+<a class="nav-item active" href="dashboard.html">
+<span class="nav-icon">▦</span>
+Trading Terminal
+</a>
+
+<a class="nav-item" href="markets.html">
+<span class="nav-icon">⌁</span>
+Markets
+</a>
+
+<a class="nav-item" href="#">
+<span class="nav-icon">◫</span>
+Positions
+</a>
+
+<a class="nav-item" href="orders.html">
+<span class="nav-icon">⇄</span>
+Orders
+</a>
+
+<a class="nav-item" href="history.html">
+<span class="nav-icon">◷</span>
+Trade History
+</a>
+
+<div class="nav-title">FUNDS</div>
+
+<a class="nav-item" href="#">
+<span class="nav-icon">↓</span>
+Deposit
+</a>
+
+<a class="nav-item" href="#">
+<span class="nav-icon">↑</span>
+Withdraw
+</a>
+
+<a class="nav-item" href="#">
+<span class="nav-icon">▤</span>
+Transactions
+</a>
+
+<div class="nav-title">ACCOUNT</div>
+
+<a class="nav-item" href="profile.html">
+<span class="nav-icon">○</span>
+Profile
+</a>
+
+<a class="nav-item" href="index.html">
+<span class="nav-icon">↩</span>
+Logout
+</a>
+
+</aside>
+
+<main class="content">
+
+<section class="top-summary">
+
+<div class="stat">
+<div class="stat-label"> BALANCE</div>
+<div class="stat-value">$25,000.00</div>
+</div>
+
+<div class="stat">
+<div class="stat-label"> EQUITY</div>
+<div class="stat-value">$25,184.72</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">USED MARGIN</div>
+<div class="stat-value">$1,250.00</div>
+</div>
+
+<div class="stat">
+<div class="stat-label"> P/L</div>
+<div class="stat-value positive">+$184.72</div>
+</div>
+
+</section>
+
+<section class="terminal">
+
+<!-- WATCHLIST -->
+
+<div class="watchlist">
+
+<div class="panel-title">
+<span>Watchlist</span>
+<span>＋</span>
+</div>
+
+<div class="search">
+<input placeholder="Search markets">
+</div>
+
+<div class="market-tabs">
+<button class="active">FOREX</button>
+<button>CRYPTO</button>
+<button>STOCKS</button>
+</div>
+
+<div class="asset selected" onclick="selectAsset('EUR/USD','Euro / US Dollar','1.18142')">
+<div class="asset-top">
+<span class="asset-name">EUR/USD</span>
+<span class="asset-change positive">+0.24%</span>
+</div>
+<div class="asset-prices">
+<span>Bid 1.18138</span>
+<span>Ask 1.18146</span>
+</div>
+</div>
+
+<div class="asset" onclick="selectAsset('GBP/USD','British Pound / US Dollar','1.34920')">
+<div class="asset-top">
+<span class="asset-name">GBP/USD</span>
+<span class="asset-change negative">-0.12%</span>
+</div>
+<div class="asset-prices">
+<span>Bid 1.34914</span>
+<span>Ask 1.34926</span>
+</div>
+</div>
+
+<div class="asset" onclick="selectAsset('USD/JPY','US Dollar / Japanese Yen','147.620')">
+<div class="asset-top">
+<span class="asset-name">USD/JPY</span>
+<span class="asset-change positive">+0.18%</span>
+</div>
+<div class="asset-prices">
+<span>Bid 147.614</span>
+<span>Ask 147.626</span>
+</div>
+</div>
+
+<div class="asset" onclick="selectAsset('BTC/USD','Bitcoin / US Dollar','112,485.20')">
+<div class="asset-top">
+<span class="asset-name">BTC/USD</span>
+<span class="asset-change positive">+1.64%</span>
+</div>
+<div class="asset-prices">
+<span>Bid 112,470</span>
+<span>Ask 112,500</span>
+</div>
+</div>
+
+<div class="asset" onclick="selectAsset('ETH/USD','Ethereum / US Dollar','4,186.45')">
+<div class="asset-top">
+<span class="asset-name">ETH/USD</span>
+<span class="asset-change positive">+0.81%</span>
+</div>
+<div class="asset-prices">
+<span>Bid 4,184.90</span>
+<span>Ask 4,188.00</span>
+</div>
+</div>
+
+<div class="asset" onclick="selectAsset('XAU/USD','Gold / US Dollar','3,762.80')">
+<div class="asset-top">
+<span class="asset-name">XAU/USD</span>
+<span class="asset-change negative">-0.08%</span>
+</div>
+<div class="asset-prices">
+<span>Bid 3,762.30</span>
+<span>Ask 3,763.30</span>
+</div>
+</div>
+
+</div>
+
+<!-- CHART -->
+
+<div class="chart-area">
+
+<div class="instrument-header">
+
+<div class="instrument">
+
+<div class="symbol-icon">€</div>
+
+<div>
+<div class="symbol-name" id="symbol">EUR/USD</div>
+<div class="symbol-description" id="description">
+Euro / US Dollar
+</div>
+</div>
+
+</div>
+
+<div class="current-price">
+<strong id="price">1.18142</strong>
+<span>+0.00284 (+0.24%)</span>
+</div>
+
+</div>
+
+<div class="chart-toolbar">
+<button>1m</button>
+<button>5m</button>
+<button>15m</button>
+<button class="active">1H</button>
+<button>4H</button>
+<button>1D</button>
+<button>1W</button>
+</div>
+
+<div class="chart">
+
+<svg viewBox="0 0 800 400" preserveAspectRatio="none">
+
+<defs>
+
+<linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+
+<stop offset="0%" stop-color="#2563eb" stop-opacity=".30"/>
+<stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
+
+</linearGradient>
+
+</defs>
+
+<path
+d="M0 320
+L35 300
+L70 315
+L105 275
+L140 290
+L175 250
+L210 265
+L245 210
+L280 230
+L315 190
+L350 205
+L385 165
+L420 180
+L455 130
+L490 145
+L525 115
+L560 135
+L595 90
+L630 110
+L665 72
+L700 95
+L735 55
+L770 75
+L800 42
+L800 400
+L0 400 Z"
+fill="url(#area)">
+</path>
+
+<polyline
+points="
+0,320
+35,300
+70,315
+105,275
+140,290
+175,250
+210,265
+245,210
+280,230
+315,190
+350,205
+385,165
+420,180
+455,130
+490,145
+525,115
+560,135
+595,90
+630,110
+665,72
+700,95
+735,55
+770,75
+800,42"
+fill="none"
+stroke="#4f8cff"
+stroke-width="2">
+</polyline>
+
+</svg>
+
+<div class="price-label" id="chartPrice">
+1.18142
+</div>
+
+</div>
+
+<div class="chart-bottom">
+<span>Market data shown for interface nstration</span>
+<span>UTC</span>
+</div>
+
+</div>
+
+<!-- ORDER PANEL -->
+
+<div class="order-panel">
+
+<div class="order-tabs">
+<button class="active">Market</button>
+<button>Pending</button>
+</div>
+
+<div class="order-body">
+
+<div class="quote-buttons">
+
+<div class="sell-quote">
+<div class="quote-label">SELL</div>
+<div class="quote-price" id="sellPrice">
+1.18138
+</div>
+</div>
+
+<div class="buy-quote">
+<div class="quote-label">BUY</div>
+<div class="quote-price" id="buyPrice">
+1.18146
+</div>
+</div>
+
+</div>
+
+<div class="form-group">
+<label>Volume</label>
+
+<select class="form-control">
+<option>0.01 Lot</option>
+<option>0.05 Lot</option>
+<option selected>0.10 Lot</option>
+<option>0.50 Lot</option>
+<option>1.00 Lot</option>
+</select>
+</div>
+
+<div class="two">
+
+<div class="form-group">
+<label>Stop Loss</label>
+<input class="form-control" placeholder="Optional">
+</div>
+
+<div class="form-group">
+<label>Take Profit</label>
+<input class="form-control" placeholder="Optional">
+</div>
+
+</div>
+
+<div class="order-info">
+
+<div class="info-row">
+<span>Leverage</span>
+<strong>1:100</strong>
+</div>
+
+<div class="info-row">
+<span>Estimated Margin</span>
+<strong>$118.14</strong>
+</div>
+
+<div class="info-row">
+<span>Account</span>
+<strong></strong>
+</div>
+
+</div>
+
+<div class="trade-buttons">
+
+<button class="sell-btn" onclick="Trade('SELL')">
+SELL
+</button>
+
+<button class="buy-btn" onclick="Trade('BUY')">
+BUY
+</button>
+
+</div>
+
+<div class="-note">
+ trading only. Orders shown here are simulated
+and are not transmitted to a broker or exchange.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- POSITIONS -->
+
+<section class="positions">
+
+<div class="position-tabs">
+<button class="active">Open Positions (3)</button>
+<button>Pending Orders</button>
+<button>Trade History</button>
+</div>
+
+<div style="overflow:auto">
+
+<table>
+
+<thead>
+<tr>
+<th>SYMBOL</th>
+<th>TYPE</th>
+<th>VOLUME</th>
+<th>OPEN PRICE</th>
+<th>CURRENT</th>
+<th>SL</th>
+<th>TP</th>
+<th> P/L</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><strong>EUR/USD</strong></td>
+<td class="buy-text">BUY</td>
+<td>0.50</td>
+<td>1.17780</td>
+<td>1.18142</td>
+<td>1.17200</td>
+<td>1.18600</td>
+<td class="positive">+$181.00</td>
+<td class="close">Close</td>
+</tr>
+
+<tr>
+<td><strong>GBP/USD</strong></td>
+<td class="sell-text">SELL</td>
+<td>0.20</td>
+<td>1.35010</td>
+<td>1.34920</td>
+<td>1.35600</td>
+<td>1.34100</td>
+<td class="positive">+$18.00</td>
+<td class="close">Close</td>
+</tr>
+
+<tr>
+<td><strong>BTC/USD</strong></td>
+<td class="buy-text">BUY</td>
+<td>0.01</td>
+<td>111,056.00</td>
+<td>112,485.20</td>
+<td>108,500</td>
+<td>116,000</td>
+<td class="negative">-$14.28</td>
+<td class="close">Close</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script>
+
+function selectAsset(symbol,description,price){
+
+document.getElementById("symbol").innerText=symbol;
+document.getElementById("description").innerText=description;
+document.getElementById("price").innerText=price;
+document.getElementById("chartPrice").innerText=price;
+
+document.querySelectorAll(".asset").forEach(function(asset){
+asset.classList.remove("selected");
+});
+
+event.currentTarget.classList.add("selected");
+
+}
+
+function Trade(type){
+
+const symbol=document.getElementById("symbol").innerText;
+
+alert(
+" ORDER\n\n"+
+type+" "+symbol+
+"\n\nThis is a simulated order. No real trade was placed."
+);
+
+}
+
+</script>
+
+</body>
+</html>
