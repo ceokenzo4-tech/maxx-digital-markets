@@ -2,1622 +2,1104 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#050b15">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard | Maxx Digital Markets</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 :root{
-  --bg:#050b15;
-  --sidebar:#07111f;
-  --panel:#0b1728;
-  --panel2:#091423;
-  --border:#1b2b43;
-  --text:#f8fafc;
-  --muted:#8496b0;
-  --blue:#2563eb;
-  --blue2:#38bdf8;
-  --green:#22c55e;
-  --red:#ef4444;
+    --bg:#050d18;
+    --panel:#0b1728;
+    --panel2:#0e1d31;
+    --border:#1c304a;
+    --text:#f5f7fb;
+    --muted:#8ea0ba;
+    --blue:#2f7df6;
+    --green:#22c55e;
+    --red:#ef4444;
 }
-
-html{scroll-behavior:smooth}
 
 body{
-  min-height:100vh;
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(circle at 80% 0,rgba(37,99,235,.10),transparent 25%),
-    var(--bg);
-  color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
 }
-
-button,input{font:inherit}
 
 /* LOADING */
 
-#loader{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:#050b15;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:18px;
+#loadingScreen{
+    position:fixed;
+    inset:0;
+    background:#050d18;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    z-index:9999;
 }
 
-.loader-ring{
-  width:50px;
-  height:50px;
-  border:5px solid #15243a;
-  border-top-color:#3b82f6;
-  border-radius:50%;
-  animation:spin .75s linear infinite;
+.spinner{
+    width:64px;
+    height:64px;
+    border:7px solid #162947;
+    border-top-color:#3b82f6;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
 }
 
 @keyframes spin{
-  to{transform:rotate(360deg)}
+    to{transform:rotate(360deg);}
 }
 
-.loader-text{
-  color:#91a3bd;
-  font-size:14px;
+.loadingText{
+    margin-top:25px;
+    color:#91a4c2;
+    font-size:20px;
 }
 
-#app{display:none}
+#errorBox{
+    display:none;
+    max-width:420px;
+    margin:25px;
+    padding:20px;
+    border:1px solid #7f1d1d;
+    background:#2a1015;
+    border-radius:12px;
+    color:#fecaca;
+    text-align:center;
+    line-height:1.6;
+}
+
+#errorBox button{
+    margin-top:15px;
+    border:0;
+    border-radius:8px;
+    padding:12px 20px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+
+/* APP */
+
+#app{
+    display:none;
+    min-height:100vh;
+}
 
 /* SIDEBAR */
 
 .sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:270px;
-  padding:22px 16px;
-  z-index:100;
-  overflow-y:auto;
-  background:linear-gradient(180deg,#07111f,#050c17);
-  border-right:1px solid var(--border);
-}
-
-.brand{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  padding:3px 8px 23px;
-  border-bottom:1px solid var(--border);
+    width:260px;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    background:#07111f;
+    border-right:1px solid var(--border);
+    padding:25px 18px;
 }
 
 .logo{
-  width:46px;
-  height:46px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  border-radius:13px;
-  background:linear-gradient(135deg,#2563eb,#38bdf8);
-  box-shadow:0 10px 30px rgba(37,99,235,.25);
-  font-weight:900;
-  font-size:18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:35px;
 }
 
-.brand strong{
-  display:block;
-  font-size:14px;
-  line-height:1.3;
+.logoBox{
+    width:46px;
+    height:46px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#2563eb,#38bdf8);
+    font-size:22px;
+    font-weight:bold;
 }
 
-.brand small{
-  color:#667a97;
-  font-size:9px;
-  letter-spacing:1px;
+.logoText{
+    font-weight:bold;
+    font-size:17px;
+    line-height:1.2;
 }
 
-.nav-title{
-  margin:25px 12px 10px;
-  color:#4f627e;
-  font-size:9px;
-  font-weight:bold;
-  letter-spacing:1.5px;
+.logoText span{
+    color:#3b82f6;
 }
 
-.nav-button{
-  width:100%;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:5px;
-  padding:13px 14px;
-  border:1px solid transparent;
-  border-radius:10px;
-  background:transparent;
-  color:#879ab5;
-  cursor:pointer;
-  text-align:left;
-  transition:.2s;
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 15px;
+    margin:7px 0;
+    text-decoration:none;
+    color:#93a4bd;
+    border-radius:10px;
+    transition:.2s;
 }
 
-.nav-button:hover{
-  background:#0c1a2c;
-  color:white;
+.menu a:hover,
+.menu a.active{
+    background:#10233d;
+    color:white;
 }
 
-.nav-button.active{
-  background:linear-gradient(90deg,rgba(37,99,235,.22),rgba(37,99,235,.04));
-  border-color:rgba(59,130,246,.20);
-  color:white;
+.logout{
+    position:absolute;
+    left:18px;
+    right:18px;
+    bottom:25px;
 }
 
-.icon{
-  width:22px;
-  text-align:center;
-  color:#60a5fa;
-}
-
-.signout{
-  width:100%;
-  margin-top:25px;
-  padding:12px;
-  border:1px solid #293b55;
-  border-radius:10px;
-  background:#0a1626;
-  color:#cbd5e1;
-  cursor:pointer;
-}
-
-.signout:hover{
-  border-color:#ef4444;
-  color:#fecaca;
+.logout button{
+    width:100%;
+    padding:13px;
+    border:1px solid #29405f;
+    background:#0d1c30;
+    color:white;
+    border-radius:9px;
+    cursor:pointer;
 }
 
 /* MAIN */
 
 .main{
-  margin-left:270px;
-  min-height:100vh;
+    margin-left:260px;
+    min-height:100vh;
 }
 
 .topbar{
-  height:76px;
-  padding:0 30px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:rgba(5,11,21,.92);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(14px);
+    height:78px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 32px;
+    background:#07111f;
 }
 
-.top-left{
-  display:flex;
-  align-items:center;
-  gap:15px;
+.topbar h2{
+    font-size:20px;
 }
 
-.menu-toggle{
-  display:none;
-  border:0;
-  background:transparent;
-  color:white;
-  font-size:25px;
-  cursor:pointer;
-}
-
-.page-name{
-  font-size:17px;
-  font-weight:bold;
-}
-
-.page-subtitle{
-  color:#647894;
-  font-size:10px;
-  margin-top:4px;
-}
-
-.account-top{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.account-copy{
-  text-align:right;
-}
-
-.account-copy strong{
-  display:block;
-  font-size:12px;
-}
-
-.account-copy span{
-  display:block;
-  max-width:210px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  color:#70839f;
-  font-size:10px;
-  margin-top:3px;
+.user{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
 .avatar{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:linear-gradient(135deg,#1d4ed8,#38bdf8);
-  font-weight:bold;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
 }
+
+.userInfo{
+    text-align:right;
+}
+
+.userInfo strong{
+    display:block;
+    font-size:14px;
+}
+
+.userInfo small{
+    color:var(--muted);
+}
+
+/* CONTENT */
 
 .content{
-  max-width:1500px;
-  margin:auto;
-  padding:30px;
+    padding:32px;
+    max-width:1500px;
+    margin:auto;
 }
-
-/* SECTIONS */
-
-.view{display:none}
-.view.active{display:block}
-
-.heading{
-  margin-bottom:22px;
-}
-
-.heading h1{
-  font-size:28px;
-}
-
-.heading p{
-  max-width:700px;
-  margin-top:7px;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-/* WELCOME */
 
 .welcome{
-  position:relative;
-  overflow:hidden;
-  padding:31px;
-  margin-bottom:20px;
-  border:1px solid #1d3556;
-  border-radius:18px;
-  background:
-    radial-gradient(circle at 90% 30%,rgba(37,99,235,.30),transparent 28%),
-    linear-gradient(135deg,#0c1c32,#081423);
-}
-
-.welcome small{
-  color:#60a5fa;
-  font-weight:bold;
-  letter-spacing:1px;
+    margin-bottom:28px;
 }
 
 .welcome h1{
-  margin-top:10px;
-  font-size:31px;
+    font-size:30px;
+    margin-bottom:8px;
 }
 
 .welcome p{
-  max-width:650px;
-  margin-top:10px;
-  color:#94a6bf;
-  font-size:13px;
-  line-height:1.7;
+    color:var(--muted);
+    line-height:1.6;
 }
 
-/* CARDS */
-
 .cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:28px;
 }
 
 .card{
-  padding:20px;
-  border:1px solid var(--border);
-  border-radius:15px;
-  background:linear-gradient(180deg,var(--panel),var(--panel2));
+    background:linear-gradient(145deg,#0b1728,#0a1524);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:22px;
 }
 
-.card-label{
-  color:#7e91ac;
-  font-size:11px;
-  margin-bottom:12px;
+.cardLabel{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:14px;
 }
 
-.card-value{
-  font-size:20px;
-  font-weight:bold;
+.cardValue{
+    font-size:22px;
+    font-weight:bold;
 }
 
-.card-note{
-  color:#617590;
-  font-size:10px;
-  line-height:1.5;
-  margin-top:8px;
+.status{
+    color:#4ade80;
 }
 
-.verified{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:6px 9px;
-  border:1px solid rgba(34,197,94,.22);
-  border-radius:30px;
-  background:rgba(34,197,94,.08);
-  color:#86efac;
-  font-size:11px;
-}
-
-.green-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--green);
-}
-
-/* PANELS */
-
-.dashboard-grid{
-  display:grid;
-  grid-template-columns:1.5fr 1fr;
-  gap:16px;
-  margin-top:16px;
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
 }
 
 .panel{
-  overflow:hidden;
-  border:1px solid var(--border);
-  border-radius:15px;
-  background:linear-gradient(180deg,var(--panel),var(--panel2));
+    background:#0a1626;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:23px;
+    margin-bottom:20px;
 }
 
-.panel-header{
-  padding:17px 19px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid var(--border);
+.panelTitle{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
 }
 
-.panel-header strong{
-  font-size:13px;
+.panelTitle h3{
+    font-size:17px;
 }
 
-.panel-header span{
-  color:#647894;
-  font-size:10px;
+.panelTitle span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.marketTable{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.marketTable th,
+.marketTable td{
+    text-align:left;
+    padding:15px 10px;
+    border-bottom:1px solid #172942;
+}
+
+.marketTable th{
+    color:#8194ae;
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+.marketTable td{
+    font-size:14px;
+}
+
+.marketSymbol{
+    font-weight:bold;
 }
 
 .empty{
-  min-height:220px;
-  padding:30px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+    padding:40px 15px;
+    text-align:center;
+    color:#7f91aa;
 }
 
-.empty-icon{
-  width:52px;
-  height:52px;
-  margin-bottom:13px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  background:#10213a;
-  color:#60a5fa;
-  font-size:22px;
+.quick{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
-.empty strong{
-  font-size:13px;
+.quick a{
+    text-decoration:none;
+    background:#0e2037;
+    border:1px solid #1d3859;
+    color:white;
+    border-radius:11px;
+    padding:18px 12px;
+    text-align:center;
+    font-size:14px;
 }
 
-.empty p{
-  max-width:350px;
-  margin-top:7px;
-  color:#657a96;
-  font-size:10px;
-  line-height:1.6;
+.quick a:hover{
+    border-color:#3b82f6;
 }
 
-/* MARKET */
-
-.market-list{
-  display:grid;
-  gap:12px;
+.securityItem{
+    padding:15px 0;
+    border-bottom:1px solid #172942;
 }
 
-.market-row{
-  padding:17px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border:1px solid var(--border);
-  border-radius:13px;
-  background:#091625;
+.securityItem:last-child{
+    border-bottom:0;
 }
 
-.market-info{
-  display:flex;
-  align-items:center;
-  gap:13px;
+.securityItem strong{
+    display:block;
+    margin-bottom:6px;
 }
 
-.market-symbol{
-  width:44px;
-  height:44px;
-  display:grid;
-  place-items:center;
-  border-radius:11px;
-  background:#10233c;
-  color:#60a5fa;
-  font-size:11px;
-  font-weight:bold;
-}
-
-.market-info strong{
-  font-size:13px;
-}
-
-.market-info p{
-  color:#687c98;
-  font-size:10px;
-  margin-top:4px;
-}
-
-.market-right{
-  color:#8092aa;
-  font-size:10px;
-}
-
-/* TRADING */
-
-.trade-grid{
-  display:grid;
-  grid-template-columns:1.5fr 1fr;
-  gap:16px;
-}
-
-.chart{
-  min-height:420px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  background:
-    linear-gradient(rgba(44,64,91,.14) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(44,64,91,.14) 1px,transparent 1px);
-  background-size:40px 40px;
-}
-
-.chart strong{
-  color:#a5b5ca;
-}
-
-.chart p{
-  color:#657995;
-  font-size:10px;
-  margin-top:8px;
-}
-
-.order{
-  padding:21px;
-}
-
-.order label{
-  display:block;
-  margin:17px 0 7px;
-  color:#8093ad;
-  font-size:10px;
-}
-
-.order input{
-  width:100%;
-  height:45px;
-  padding:0 12px;
-  border:1px solid #263951;
-  border-radius:9px;
-  outline:none;
-  background:#071321;
-  color:white;
-}
-
-.order-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:19px;
-}
-
-.order-buttons button{
-  height:45px;
-  border:0;
-  border-radius:9px;
-  color:white;
-  font-weight:bold;
-  cursor:not-allowed;
-  opacity:.5;
-}
-
-.buy{background:#15803d}
-.sell{background:#b91c1c}
-
-.info-box{
-  margin-top:14px;
-  padding:12px;
-  border:1px solid #253750;
-  border-radius:9px;
-  background:#081421;
-  color:#70839d;
-  font-size:10px;
-  line-height:1.5;
-}
-
-/* PROFILE */
-
-.profile{
-  padding:22px;
-}
-
-.profile-row{
-  padding:16px 0;
-  border-bottom:1px solid var(--border);
-}
-
-.profile-row:last-child{
-  border:0;
-}
-
-.profile-row span{
-  display:block;
-  margin-bottom:6px;
-  color:#647894;
-  font-size:9px;
-  letter-spacing:.6px;
-}
-
-.profile-row strong{
-  font-size:13px;
-  overflow-wrap:anywhere;
-}
-
-/* SECURITY */
-
-.security-action{
-  margin-top:14px;
-  display:inline-block;
-  padding:10px 14px;
-  border:1px solid #2b4364;
-  border-radius:9px;
-  background:#0c1b2f;
-  color:#93c5fd;
-  text-decoration:none;
-  font-size:11px;
-}
-
-/* ERROR */
-
-#errorScreen{
-  display:none;
-  min-height:100vh;
-  padding:30px;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-
-.error-box{
-  max-width:450px;
-  padding:30px;
-  border:1px solid #3d2731;
-  border-radius:15px;
-  background:#11121b;
-}
-
-.error-box h2{
-  margin-bottom:10px;
-}
-
-.error-box p{
-  color:#9aa7ba;
-  font-size:12px;
-  line-height:1.6;
-}
-
-.error-box a{
-  display:inline-block;
-  margin-top:20px;
-  padding:11px 17px;
-  border-radius:9px;
-  background:#2563eb;
-  color:white;
-  text-decoration:none;
-  font-size:12px;
+.securityItem span{
+    color:var(--muted);
+    font-size:13px;
 }
 
 /* MOBILE */
 
-@media(max-width:1100px){
-  .cards{grid-template-columns:repeat(2,1fr)}
-  .dashboard-grid,.trade-grid{grid-template-columns:1fr}
+.mobileMenu{
+    display:none;
 }
 
-@media(max-width:780px){
-  .sidebar{
-    transform:translateX(-100%);
-    transition:.25s;
-    box-shadow:20px 0 50px rgba(0,0,0,.5);
-  }
+@media(max-width:1050px){
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-  .sidebar.open{transform:translateX(0)}
-
-  .main{margin-left:0}
-
-  .menu-toggle{display:block}
-
-  .topbar{padding:0 16px}
-
-  .content{padding:20px 14px}
-
-  .account-copy{display:none}
-
-  .welcome{padding:23px}
-
-  .welcome h1{font-size:25px}
+    .grid{
+        grid-template-columns:1fr;
+    }
 }
 
-@media(max-width:520px){
-  .cards{grid-template-columns:1fr}
+@media(max-width:760px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .topbar{
+        padding:0 18px;
+    }
+
+    .mobileMenu{
+        display:block;
+        font-size:24px;
+    }
+
+    .content{
+        padding:22px 16px;
+    }
+
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .userInfo{
+        display:none;
+    }
+
+    .welcome h1{
+        font-size:25px;
+    }
+}
+
+@media(max-width:480px){
+    .cards{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div id="loader">
-  <div class="loader-ring"></div>
-  <div class="loader-text">Securing your account...</div>
+<!-- AUTH LOADING SCREEN -->
+
+<div id="loadingScreen">
+
+    <div class="spinner" id="spinner"></div>
+
+    <div class="loadingText" id="loadingText">
+        Securing your account...
+    </div>
+
+    <div id="errorBox">
+        <strong>Unable to load your account.</strong>
+        <br>
+        Please return to the sign-in page and try again.
+
+        <br>
+
+        <button onclick="goLogin()">
+            Return to Sign In
+        </button>
+    </div>
+
 </div>
 
-<div id="errorScreen">
-  <div class="error-box">
-    <h2>Unable to load dashboard</h2>
-    <p id="errorText">
-      Your account session could not be verified.
-    </p>
-    <a href="login.html">Return to Sign In</a>
-  </div>
-</div>
+
+<!-- DASHBOARD -->
 
 <div id="app">
 
-<aside class="sidebar" id="sidebar">
+    <aside class="sidebar">
 
-  <div class="brand">
-    <div class="logo">M</div>
+        <div class="logo">
 
-    <div>
-      <strong>MAXX DIGITAL</strong>
-      <strong>MARKETS</strong>
-      <small>SECURE DASHBOARD</small>
-    </div>
-  </div>
+            <div class="logoBox">
+                M
+            </div>
 
-  <div class="nav-title">ACCOUNT</div>
+            <div class="logoText">
+                MAXX DIGITAL
+                <br>
+                <span>MARKETS</span>
+            </div>
 
-  <button class="nav-button active" data-view="overview" data-title="Overview">
-    <span class="icon">⌂</span> Overview
-  </button>
-
-  <button class="nav-button" data-view="markets" data-title="Markets">
-    <span class="icon">⌁</span> Markets
-  </button>
-
-  <button class="nav-button" data-view="trade" data-title="Trading">
-    <span class="icon">↗️</span> Trading
-  </button>
-
-  <button class="nav-button" data-view="portfolio" data-title="Portfolio">
-    <span class="icon">▣</span> Portfolio
-  </button>
-
-  <button class="nav-button" data-view="transactions" data-title="Transactions">
-    <span class="icon">⇄</span> Transactions
-  </button>
-
-  <div class="nav-title">ACCOUNT SETTINGS</div>
-
-  <button class="nav-button" data-view="profile" data-title="Profile">
-    <span class="icon">○</span> Profile
-  </button>
-
-  <button class="nav-button" data-view="security" data-title="Security">
-    <span class="icon">◇</span> Security
-  </button>
-
-  <button class="signout" id="signOutButton">
-    Sign Out
-  </button>
-
-</aside>
-
-
-<main class="main">
-
-<header class="topbar">
-
-  <div class="top-left">
-
-    <button class="menu-toggle" id="menuToggle">☰</button>
-
-    <div>
-      <div class="page-name" id="pageTitle">Overview</div>
-      <div class="page-subtitle">Maxx Digital Markets</div>
-    </div>
-
-  </div>
-
-  <div class="account-top">
-
-    <div class="account-copy">
-      <strong id="topName">Account</strong>
-      <span id="topEmail">—</span>
-    </div>
-
-    <div class="avatar" id="avatar">M</div>
-
-  </div>
-
-</header>
-
-
-<div class="content">
-
-<!-- OVERVIEW -->
-
-<section class="view active" id="overview">
-
-  <div class="welcome">
-    <small>ACCOUNT DASHBOARD</small>
-
-    <h1>
-      Welcome, <span id="welcomeName">Trader</span>
-    </h1>
-
-    <p>
-      Access your account information, market workspace,
-      portfolio area and security settings from your
-      Maxx Digital Markets dashboard.
-    </p>
-  </div>
-
-
-  <div class="cards">
-
-    <div class="card">
-      <div class="card-label">Account Status</div>
-
-      <div class="verified">
-        <span class="green-dot"></span>
-        Verified
-      </div>
-
-      <div class="card-note">
-        Your registered email address is verified.
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-label">Available Balance</div>
-      <div class="card-value">—</div>
-      <div class="card-note">
-        No balance data has been connected.
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-label">Portfolio Value</div>
-      <div class="card-value">—</div>
-      <div class="card-note">
-        No portfolio data has been connected.
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-label">Open Positions</div>
-      <div class="card-value">—</div>
-      <div class="card-note">
-        No trading account is currently connected.
-      </div>
-    </div>
-
-  </div>
-
-
-  <div class="dashboard-grid">
-
-    <div class="panel">
-
-      <div class="panel-header">
-        <strong>Portfolio Overview</strong>
-        <span>Account data</span>
-      </div>
-
-      <div class="empty">
-        <div class="empty-icon">▣</div>
-        <strong>No portfolio information yet</strong>
-        <p>
-          Holdings and portfolio values will appear here
-          when real account data is connected.
-        </p>
-      </div>
-
-    </div>
-
-
-    <div class="panel">
-
-      <div class="panel-header">
-        <strong>Recent Activity</strong>
-        <span>Latest</span>
-      </div>
-
-      <div class="empty">
-        <div class="empty-icon">⇄</div>
-        <strong>No recent activity</strong>
-        <p>
-          Verified account activity will appear here.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- MARKETS -->
-
-<section class="view" id="markets">
-
-  <div class="heading">
-    <h1>Markets</h1>
-    <p>
-      Browse the primary market categories supported by the
-      Maxx Digital Markets interface.
-    </p>
-  </div>
-
-  <div class="market-list">
-
-    <div class="market-row">
-      <div class="market-info">
-        <div class="market-symbol">FX</div>
-        <div>
-          <strong>Forex</strong>
-          <p>Foreign exchange markets</p>
         </div>
-      </div>
-      <div class="market-right">Workspace</div>
-    </div>
 
-    <div class="market-row">
-      <div class="market-info">
-        <div class="market-symbol">BTC</div>
-        <div>
-          <strong>Cryptocurrency</strong>
-          <p>Digital asset markets</p>
+        <nav class="menu">
+
+            <a href="#" class="active">
+                Dashboard
+            </a>
+
+            <a href="markets.html">
+                Markets
+            </a>
+
+            <a href="history.html">
+                Activity
+            </a>
+
+            <a href="profile.html">
+                Profile
+            </a>
+
+        </nav>
+
+        <div class="logout">
+
+            <button id="logoutButton">
+                Sign Out
+            </button>
+
         </div>
-      </div>
-      <div class="market-right">Workspace</div>
-    </div>
 
-    <div class="market-row">
-      <div class="market-info">
-        <div class="market-symbol">STK</div>
-        <div>
-          <strong>Stocks</strong>
-          <p>Equity markets</p>
-        </div>
-      </div>
-      <div class="market-right">Workspace</div>
-    </div>
+    </aside>
 
-  </div>
 
-</section>
+    <main class="main">
 
+        <header class="topbar">
 
-<!-- TRADING -->
+            <div style="display:flex;align-items:center;gap:15px;">
 
-<section class="view" id="trade">
+                <div class="mobileMenu">
+                    ☰
+                </div>
 
-  <div class="heading">
-    <h1>Trading Workspace</h1>
-    <p>
-      This workspace is prepared for a legitimate market-data
-      and order-execution integration.
-    </p>
-  </div>
+                <h2>
+                    Dashboard
+                </h2>
 
-  <div class="trade-grid">
+            </div>
 
-    <div class="panel">
+            <div class="user">
 
-      <div class="panel-header">
-        <strong>Market Chart</strong>
-        <span>Provider required</span>
-      </div>
+                <div class="userInfo">
 
-      <div class="chart">
-        <div>
-          <div style="font-size:35px;color:#60a5fa;margin-bottom:12px">⌁</div>
-          <strong>Live market data not connected</strong>
-          <p>
-            Connect a supported market-data provider to display charts.
-          </p>
-        </div>
-      </div>
+                    <strong id="headerName">
+                        Account
+                    </strong>
 
-    </div>
+                    <small id="headerEmail">
+                    </small>
 
+                </div>
 
-    <div class="panel order">
+                <div class="avatar" id="avatar">
+                    M
+                </div>
 
-      <strong>Order Ticket</strong>
+            </div>
 
-      <label>Instrument</label>
-      <input disabled placeholder="Select instrument">
+        </header>
 
-      <label>Order Size</label>
-      <input disabled placeholder="0.00">
 
-      <div class="order-buttons">
-        <button class="buy" disabled>BUY</button>
-        <button class="sell" disabled>SELL</button>
-      </div>
+        <section class="content">
 
-      <div class="info-box">
-        Order execution is disabled until an authorized
-        trading/execution service is connected.
-      </div>
+            <div class="welcome">
 
-    </div>
+                <h1>
+                    Welcome, <span id="welcomeName">Trader</span>
+                </h1>
 
-  </div>
+                <p>
+                    Manage your account, review your activity and access
+                    your Maxx Digital Markets tools from one secure dashboard.
+                </p>
 
-</section>
+            </div>
 
 
-<!-- PORTFOLIO -->
+            <div class="cards">
 
-<section class="view" id="portfolio">
+                <div class="card">
 
-  <div class="heading">
-    <h1>Portfolio</h1>
-    <p>
-      View positions and holdings associated with your account
-      when portfolio services are connected.
-    </p>
-  </div>
+                    <div class="cardLabel">
+                        ACCOUNT STATUS
+                    </div>
 
-  <div class="panel">
+                    <div class="cardValue status">
+                        ● Active
+                    </div>
 
-    <div class="panel-header">
-      <strong>Holdings</strong>
-      <span>Portfolio</span>
-    </div>
+                </div>
 
-    <div class="empty">
-      <div class="empty-icon">▣</div>
-      <strong>No holdings available</strong>
-      <p>
-        Real holdings will appear here when portfolio data
-        is connected to this account.
-      </p>
-    </div>
 
-  </div>
+                <div class="card">
 
-</section>
+                    <div class="cardLabel">
+                        EMAIL STATUS
+                    </div>
 
+                    <div class="cardValue" id="emailStatus">
+                        Verified
+                    </div>
 
-<!-- TRANSACTIONS -->
+                </div>
 
-<section class="view" id="transactions">
 
-  <div class="heading">
-    <h1>Transactions</h1>
-    <p>
-      Review genuine account transaction records when
-      transaction services are connected.
-    </p>
-  </div>
-
-  <div class="panel">
-
-    <div class="panel-header">
-      <strong>Transaction History</strong>
-      <span>All activity</span>
-    </div>
-
-    <div class="empty">
-      <div class="empty-icon">⇄</div>
-      <strong>No transactions available</strong>
-      <p>
-        Transaction records will appear here when real
-        transaction data is available.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- PROFILE -->
-
-<section class="view" id="profile">
-
-  <div class="heading">
-    <h1>Profile</h1>
-    <p>
-      Registration information associated with your account.
-    </p>
-  </div>
-
-  <div class="panel profile">
-
-    <div class="profile-row">
-      <span>FULL NAME</span>
-      <strong id="profileName">—</strong>
-    </div>
-
-    <div class="profile-row">
-      <span>EMAIL ADDRESS</span>
-      <strong id="profileEmail">—</strong>
-    </div>
-
-    <div class="profile-row">
-      <span>PHONE NUMBER</span>
-      <strong id="profilePhone">—</strong>
-    </div>
-
-    <div class="profile-row">
-      <span>COUNTRY / REGION</span>
-      <strong id="profileCountry">—</strong>
-    </div>
-
-    <div class="profile-row">
-      <span>EMAIL STATUS</span>
-      <strong id="profileVerification" style="color:#86efac">
-        Verified
-      </strong>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- SECURITY -->
-
-<section class="view" id="security">
-
-  <div class="heading">
-    <h1>Security</h1>
-    <p>
-      Review the security status of your account and manage
-      password access.
-    </p>
-  </div>
-
-  <div class="cards">
-
-    <div class="card">
-      <div class="card-label">Email Verification</div>
-      <div class="verified">
-        <span class="green-dot"></span>
-        Verified
-      </div>
-      <div class="card-note">
-        Your email address has been confirmed.
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Password</div>
-      <div class="card-value" style="font-size:15px">
-        Password Protected
-      </div>
-      <div class="card-note">
-        Password authentication is enabled for your account.
-      </div>
-
-      <a class="security-action" href="login.html">
-        Password Help
-      </a>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Current Session</div>
-      <div class="card-value" style="font-size:15px">
-        Active
-      </div>
-      <div class="card-note">
-        Sign out when you have finished using your account.
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-</div>
-</main>
+                <div class="card">
+
+                    <div class="cardLabel">
+                        ACCOUNT EMAIL
+                    </div>
+
+                    <div class="cardValue"
+                         id="accountEmail"
+                         style="font-size:14px;word-break:break-all;">
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="cardLabel">
+                        ACCOUNT SECURITY
+                    </div>
+
+                    <div class="cardValue">
+                        Protected
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid">
+
+                <div>
+
+                    <div class="panel">
+
+                        <div class="panelTitle">
+
+                            <h3>
+                                Market Overview
+                            </h3>
+
+                            <span>
+                                Watchlist
+                            </span>
+
+                        </div>
+
+
+                        <table class="marketTable">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Market</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td class="marketSymbol">
+                                        EUR/USD
+                                    </td>
+
+                                    <td>
+                                        Forex
+                                    </td>
+
+                                    <td class="status">
+                                        Available
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td class="marketSymbol">
+                                        GBP/USD
+                                    </td>
+
+                                    <td>
+                                        Forex
+                                    </td>
+
+                                    <td class="status">
+                                        Available
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td class="marketSymbol">
+                                        BTC/USD
+                                    </td>
+
+                                    <td>
+                                        Cryptocurrency
+                                    </td>
+
+                                    <td class="status">
+                                        Available
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td class="marketSymbol">
+                                        ETH/USD
+                                    </td>
+
+                                    <td>
+                                        Cryptocurrency
+                                    </td>
+
+                                    <td class="status">
+                                        Available
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panelTitle">
+
+                            <h3>
+                                Recent Activity
+                            </h3>
+
+                        </div>
+
+                        <div class="empty">
+                            No account activity is available yet.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="panel">
+
+                        <div class="panelTitle">
+
+                            <h3>
+                                Quick Access
+                            </h3>
+
+                        </div>
+
+
+                        <div class="quick">
+
+                            <a href="markets.html">
+                                Markets
+                            </a>
+
+                            <a href="history.html">
+                                Activity
+                            </a>
+
+                            <a href="profile.html">
+                                Profile
+                            </a>
+
+                            <a href="index.html">
+                                Website
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panelTitle">
+
+                            <h3>
+                                Account Security
+                            </h3>
+
+                        </div>
+
+
+                        <div class="securityItem">
+
+                            <strong>
+                                Email verification
+                            </strong>
+
+                            <span id="verificationText">
+                                Checking verification status...
+                            </span>
+
+                        </div>
+
+
+                        <div class="securityItem">
+
+                            <strong>
+                                Authentication
+                            </strong>
+
+                            <span>
+                                Your account is protected by Supabase authentication.
+                            </span>
+
+                        </div>
+
+
+                        <div class="securityItem">
+
+                            <strong>
+                                Password
+                            </strong>
+
+                            <span>
+                                Keep your password private and never share it with anyone.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </div>
 
 
 <script>
-/* ======================================================
-   SUPABASE CONFIGURATION
-====================================================== */
 
 const SUPABASE_URL =
-  "https://dwojraxspohahemiarps.supabase.co";
+'https://dwojraxspohahemiarps.supabase.co';
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+'sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X';
 
 
-/* ======================================================
-   ELEMENTS
-====================================================== */
+function goLogin(){
 
-const loader =
-  document.getElementById("loader");
-
-const app =
-  document.getElementById("app");
-
-const errorScreen =
-  document.getElementById("errorScreen");
-
-const errorText =
-  document.getElementById("errorText");
-
-
-/* ======================================================
-   SESSION TIMEOUT
-====================================================== */
-
-function timeout(ms){
-
-  return new Promise((_,reject)=>{
-
-    setTimeout(()=>{
-
-      reject(
-        new Error("SESSION_TIMEOUT")
-      );
-
-    },ms);
-
-  });
+    window.location.replace('login.html');
 
 }
 
 
-/* ======================================================
-   DASHBOARD INITIALIZATION
-====================================================== */
+function showError(){
 
-async function initializeDashboard(){
+    document.getElementById('spinner').style.display = 'none';
 
-  try{
+    document.getElementById('loadingText').style.display = 'none';
 
-    /*
-      Prevent the dashboard from sitting on the loading
-      screen indefinitely if Supabase cannot respond.
-    */
-
-    const sessionRequest =
-      supabaseClient.auth.getSession();
-
-    const result =
-      await Promise.race([
-        sessionRequest,
-        timeout(10000)
-      ]);
-
-
-    if(result.error){
-
-      throw result.error;
-
-    }
-
-
-    const session =
-      result.data.session;
-
-
-    /*
-      No valid login session.
-    */
-
-    if(!session){
-
-      window.location.replace(
-        "login.html"
-      );
-
-      return;
-
-    }
-
-
-    const user =
-      session.user;
-
-
-    /*
-      Require verified email.
-    */
-
-    if(!user.email_confirmed_at){
-
-      await supabaseClient.auth.signOut();
-
-      window.location.replace(
-        "login.html"
-      );
-
-      return;
-
-    }
-
-
-    populateAccount(user);
-
-
-    loader.style.display =
-      "none";
-
-    app.style.display =
-      "block";
-
-
-  }catch(error){
-
-    console.error(
-      "Dashboard initialization:",
-      error
-    );
-
-
-    loader.style.display =
-      "none";
-
-
-    /*
-      If the session request times out, show an actual
-      error rather than an endless loading screen.
-    */
-
-    if(
-      error &&
-      error.message === "SESSION_TIMEOUT"
-    ){
-
-      errorText.textContent =
-        "The account session check took too long. Check your internet connection and sign in again.";
-
-      errorScreen.style.display =
-        "flex";
-
-      return;
-
-    }
-
-
-    errorText.textContent =
-      "Your account session could not be verified. Please sign in again.";
-
-    errorScreen.style.display =
-      "flex";
-
-  }
+    document.getElementById('errorBox').style.display = 'block';
 
 }
 
 
-/* ======================================================
-   ACCOUNT INFORMATION
-====================================================== */
+function openDashboard(user){
 
-function populateAccount(user){
+    const metadata = user.user_metadata || {};
 
-  const metadata =
-    user.user_metadata || {};
+    const firstName =
+        metadata.first_name ||
+        metadata.full_name ||
+        'Trader';
 
+    const displayName =
+        metadata.full_name ||
+        firstName;
 
-  const firstName =
-    metadata.first_name || "";
-
-
-  const lastName =
-    metadata.last_name || "";
-
-
-  let fullName =
-    metadata.full_name ||
-    ⁠ ${firstName} ${lastName} ⁠.trim();
+    const email =
+        user.email || '';
 
 
-  if(!fullName){
+    document.getElementById('welcomeName').textContent =
+        firstName;
 
-    fullName =
-      "Account Holder";
+    document.getElementById('headerName').textContent =
+        displayName;
 
-  }
+    document.getElementById('headerEmail').textContent =
+        email;
 
-
-  const displayName =
-    firstName ||
-    fullName.split(" ")[0] ||
-    "Trader";
-
-
-  const email =
-    user.email || "Not available";
+    document.getElementById('accountEmail').textContent =
+        email;
 
 
-  const phone =
-    metadata.phone ||
-    "Not provided";
+    const initial =
+        firstName.charAt(0).toUpperCase() || 'M';
+
+    document.getElementById('avatar').textContent =
+        initial;
 
 
-  const country =
-    metadata.country ||
-    "Not provided";
+    if(user.email_confirmed_at){
+
+        document.getElementById('emailStatus').textContent =
+            'Verified';
+
+        document.getElementById('verificationText').textContent =
+            'Your email address has been verified.';
+
+    }else{
+
+        document.getElementById('emailStatus').textContent =
+            'Pending';
+
+        document.getElementById('verificationText').textContent =
+            'Email verification is still required.';
+
+    }
 
 
-  document.getElementById(
-    "welcomeName"
-  ).textContent =
-    displayName;
+    document.getElementById('loadingScreen').style.display =
+        'none';
 
-
-  document.getElementById(
-    "topName"
-  ).textContent =
-    fullName;
-
-
-  document.getElementById(
-    "topEmail"
-  ).textContent =
-    email;
-
-
-  document.getElementById(
-    "profileName"
-  ).textContent =
-    fullName;
-
-
-  document.getElementById(
-    "profileEmail"
-  ).textContent =
-    email;
-
-
-  document.getElementById(
-    "profilePhone"
-  ).textContent =
-    phone;
-
-
-  document.getElementById(
-    "profileCountry"
-  ).textContent =
-    country;
-
-
-  const firstCharacter =
-    displayName
-      .charAt(0)
-      .toUpperCase();
-
-
-  document.getElementById(
-    "avatar"
-  ).textContent =
-    firstCharacter || "M";
+    document.getElementById('app').style.display =
+        'block';
 
 }
 
 
-/* ======================================================
-   DASHBOARD NAVIGATION
-====================================================== */
+async function startDashboard(){
 
-const navigationButtons =
-  document.querySelectorAll(
-    ".nav-button"
-  );
+    let finished = false;
 
-const views =
-  document.querySelectorAll(
-    ".view"
-  );
+    const safetyTimer = setTimeout(function(){
 
+        if(!finished){
 
-navigationButtons.forEach(button=>{
+            showError();
 
-  button.addEventListener(
-    "click",
-    ()=>{
+        }
 
-      const viewName =
-        button.dataset.view;
-
-
-      navigationButtons.forEach(item=>{
-
-        item.classList.remove(
-          "active"
-        );
-
-      });
-
-
-      button.classList.add(
-        "active"
-      );
-
-
-      views.forEach(view=>{
-
-        view.classList.remove(
-          "active"
-        );
-
-      });
-
-
-      const selectedView =
-        document.getElementById(
-          viewName
-        );
-
-
-      if(selectedView){
-
-        selectedView.classList.add(
-          "active"
-        );
-
-      }
-
-
-      document.getElementById(
-        "pageTitle"
-      ).textContent =
-        button.dataset.title;
-
-
-      document.getElementById(
-        "sidebar"
-      ).classList.remove(
-        "open"
-      );
-
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    }
-  );
-
-});
-
-
-/* ======================================================
-   MOBILE NAVIGATION
-====================================================== */
-
-document.getElementById(
-  "menuToggle"
-).addEventListener(
-  "click",
-  ()=>{
-
-    document.getElementById(
-      "sidebar"
-    ).classList.toggle(
-      "open"
-    );
-
-  }
-);
-
-
-/* ======================================================
-   SIGN OUT
-====================================================== */
-
-document.getElementById(
-  "signOutButton"
-).addEventListener(
-  "click",
-  async function(){
-
-    this.disabled = true;
-
-    this.textContent =
-      "Signing Out...";
+    }, 10000);
 
 
     try{
 
-      await supabaseClient.auth.signOut();
+        if(!window.supabase){
+
+            throw new Error('Supabase library failed to load.');
+
+        }
+
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY,
+                {
+                    auth:{
+                        persistSession:true,
+                        autoRefreshToken:true,
+                        detectSessionInUrl:true
+                    }
+                }
+            );
+
+
+        /*
+        First read the locally stored session.
+        */
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+
+        if(sessionError){
+
+            throw sessionError;
+
+        }
+
+
+        if(!sessionData.session){
+
+            finished = true;
+
+            clearTimeout(safetyTimer);
+
+            window.location.replace('login.html');
+
+            return;
+
+        }
+
+
+        /*
+        Validate the authenticated user.
+        */
+
+        const {
+            data: userData,
+            error: userError
+        } = await supabaseClient.auth.getUser();
+
+
+        if(userError || !userData.user){
+
+            await supabaseClient.auth.signOut();
+
+            finished = true;
+
+            clearTimeout(safetyTimer);
+
+            window.location.replace('login.html');
+
+            return;
+
+        }
+
+
+        finished = true;
+
+        clearTimeout(safetyTimer);
+
+        openDashboard(userData.user);
+
+
+        /*
+        LOGOUT
+        */
+
+        document
+        .getElementById('logoutButton')
+        .addEventListener('click', async function(){
+
+            this.disabled = true;
+
+            this.textContent = 'Signing Out...';
+
+            await supabaseClient.auth.signOut();
+
+            window.location.replace('login.html');
+
+        });
+
+
+        /*
+        Watch authentication changes.
+        */
+
+        supabaseClient.auth.onAuthStateChange(
+            function(event, session){
+
+                if(event === 'SIGNED_OUT'){
+
+                    window.location.replace('login.html');
+
+                }
+
+            }
+        );
+
 
     }catch(error){
 
-      console.error(
-        "Sign out error:",
-        error
-      );
+        console.error(
+            'Dashboard authentication error:',
+            error
+        );
+
+        finished = true;
+
+        clearTimeout(safetyTimer);
+
+        showError();
 
     }
 
+}
 
-    window.location.replace(
-      "login.html"
+
+if(document.readyState === 'loading'){
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        startDashboard
     );
 
-  }
-);
+}else{
 
+    startDashboard();
 
-/* ======================================================
-   START DASHBOARD
-====================================================== */
-
-initializeDashboard();
+}
 
 </script>
 
