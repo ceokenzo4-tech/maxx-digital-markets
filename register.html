@@ -1,2 +1,718 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Create account | MAXX Digital Markets</title><link rel="stylesheet" href="styles.css?v=20260913-final"></head><body><nav class="nav"><div class="wrap navin"><a class="brand" href="index.html"><span class="mark"></span><span>MAXX Digital Markets<small>DIGITAL ASSET MARKETPLACE</small></span></a><div class="actions"><a class="btn ghost" href="index.html">Home</a><a class="btn" href="login.html">Log in</a></div></div></nav><main class="auth-shell"><div class="card auth-card"><h1>Create your account</h1><p>Start with secure access. Identity verification is required before live financial execution.</p><div id="message" class="notice"></div><form id="registerForm"><div class="form-group"><label>Full name</label><input name="name" autocomplete="name" required></div><div class="form-group"><label>Email address</label><input name="email" type="email" autocomplete="email" required></div><div class="form-group"><label>Password</label><input name="password" type="password" minlength="10" autocomplete="new-password" required></div><button class="btn" style="width:100%;margin-top:8px">Create secure account</button></form><div class="live-warning">By creating an account, you acknowledge that digital assets are volatile and that live services may require KYC/AML checks and jurisdictional eligibility.</div></div></main><script src="app.js?v=20260913-final"></script><script src="support.js?v=20260913-final"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Account | Maxx Digital Markets</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(0, 190, 255, .12), transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(45, 100, 255, .10), transparent 35%),
+        #07101d;
+      color: #fff;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* HEADER */
+
+    .header {
+      width: 100%;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(7,16,29,.92);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .logo-box {
+      width: 39px;
+      height: 39px;
+      border-radius: 11px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg,#00d9ff,#2979ff);
+      color: #04101c;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: #2bd9ff;
+    }
+
+    .login-top {
+      color: #aab7c8;
+      font-size: 14px;
+    }
+
+    .login-top a {
+      color: #2bd9ff;
+      font-weight: 700;
+      margin-left: 5px;
+    }
+
+    /* PAGE */
+
+    .page {
+      max-width: 1150px;
+      margin: auto;
+      padding: 65px 20px;
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 80px;
+      align-items: center;
+    }
+
+    /* LEFT */
+
+    .left-label {
+      display: inline-block;
+      color: #2bd9ff;
+      background: rgba(43,217,255,.08);
+      border: 1px solid rgba(43,217,255,.15);
+      border-radius: 30px;
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .left h1 {
+      font-size: 52px;
+      line-height: 1.08;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .blue {
+      background: linear-gradient(90deg,#24d9ff,#5b8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .left > p {
+      max-width: 520px;
+      color: #91a1b6;
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .benefits {
+      display: grid;
+      gap: 16px;
+    }
+
+    .benefit {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      color: #b6c2d1;
+      font-size: 14px;
+    }
+
+    .check {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(35,220,151,.09);
+      border: 1px solid rgba(35,220,151,.16);
+      color: #23dc97;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    /* FORM CARD */
+
+    .register-card {
+      background: rgba(12,25,41,.96);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    }
+
+    .register-card h2 {
+      font-size: 27px;
+      margin-bottom: 7px;
+    }
+
+    .subtitle {
+      color: #8292a7;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      color: #aab7c8;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 9px;
+      border: 1px solid #26364b;
+      background: #081522;
+      color: #fff;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: #596b81;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #22cfee;
+      box-shadow: 0 0 0 3px rgba(34,207,238,.06);
+    }
+
+    select option {
+      background: #081522;
+      color: white;
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap input {
+      padding-right: 60px;
+    }
+
+    .show-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: #2bd9ff;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 4px 0 20px;
+    }
+
+    .terms input {
+      width: auto;
+      margin-top: 3px;
+    }
+
+    .terms p {
+      color: #7f90a5;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .terms a {
+      color: #2bd9ff;
+    }
+
+    .create-btn {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(135deg,#00d9ff,#287cff);
+      color: #04101c;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,153,255,.18);
+    }
+
+    .create-btn:hover {
+      opacity: .92;
+    }
+
+    .signin {
+      text-align: center;
+      margin-top: 20px;
+      color: #7e8fa5;
+      font-size: 12px;
+    }
+
+    .signin a {
+      color: #2bd9ff;
+      font-weight: bold;
+    }
+
+    .back-home {
+      display: block;
+      text-align: center;
+      color: #77899f;
+      font-size: 12px;
+      margin-top: 17px;
+    }
+
+    .back-home:hover {
+      color: white;
+    }
+
+    /* MESSAGE */
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+
+    .error {
+      display: block;
+      background: rgba(255,75,75,.08);
+      border: 1px solid rgba(255,75,75,.2);
+      color: #ff8a8a;
+    }
+
+    /* SECURITY NOTE */
+
+    .security-note {
+      text-align: center;
+      color: #64768d;
+      font-size: 10px;
+      margin-top: 17px;
+      line-height: 1.5;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:900px) {
+
+      .page {
+        grid-template-columns: 1fr;
+        gap: 45px;
+        max-width: 600px;
+      }
+
+      .left {
+        text-align: center;
+      }
+
+      .left h1 {
+        font-size: 43px;
+      }
+
+      .left > p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .benefits {
+        max-width: 370px;
+        margin: auto;
+        text-align: left;
+      }
+    }
+
+    @media(max-width:520px) {
+
+      .nav {
+        padding: 15px;
+      }
+
+      .logo {
+        font-size: 15px;
+      }
+
+      .logo-box {
+        width: 34px;
+        height: 34px;
+      }
+
+      .login-top {
+        display: none;
+      }
+
+      .page {
+        padding: 40px 15px;
+      }
+
+      .left h1 {
+        font-size: 38px;
+      }
+
+      .register-card {
+        padding: 23px 18px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="nav">
+
+    <a href="index.html" class="logo">
+      <div class="logo-box">M</div>
+      MAXX <span>DIGITAL MARKETS</span>
+    </a>
+
+    <div class="login-top">
+      Already have an account?
+      <a href="login.html">Sign In</a>
+    </div>
+
+  </div>
+</header>
+
+
+<main class="page">
+
+  <!-- LEFT SIDE -->
+
+  <section class="left">
+
+    <div class="left-label">
+      CREATE YOUR ACCOUNT
+    </div>
+
+    <h1>
+      Your Journey Into
+      <span class="blue">Global Markets</span>
+      Starts Here.
+    </h1>
+
+    <p>
+      Create your Maxx Digital Markets account and access a powerful,
+      streamlined dashboard designed to keep your trading activity,
+      portfolio and essential tools in one place.
+    </p>
+
+    <div class="benefits">
+
+      <div class="benefit">
+        <div class="check">✓</div>
+        Access Forex, Crypto and Stock markets
+      </div>
+
+      <div class="benefit">
+        <div class="check">✓</div>
+        Modern and responsive trading dashboard
+      </div>
+
+      <div class="benefit">
+        <div class="check">✓</div>
+        Secure account access
+      </div>
+
+      <div class="benefit">
+        <div class="check">✓</div>
+        Manage your account from any compatible device
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- REGISTER FORM -->
+
+  <section class="register-card">
+
+    <h2>Create Account</h2>
+
+    <p class="subtitle">
+      Enter your information to get started.
+    </p>
+
+    <div id="message" class="message"></div>
+
+    <form id="registerForm">
+
+      <div class="row">
+
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+
+          <input
+            id="firstName"
+            type="text"
+            placeholder="First name"
+            autocomplete="given-name"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+
+          <input
+            id="lastName"
+            type="text"
+            placeholder="Last name"
+            autocomplete="family-name"
+            required
+          >
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="email">Email Address</label>
+
+        <input
+          id="email"
+          type="email"
+          placeholder="name@example.com"
+          autocomplete="email"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="country">Country</label>
+
+        <select id="country" required>
+
+          <option value="">Select your country</option>
+          <option value="NG">Nigeria</option>
+          <option value="US">United States</option>
+          <option value="GB">United Kingdom</option>
+          <option value="CA">Canada</option>
+          <option value="AU">Australia</option>
+          <option value="ZA">South Africa</option>
+          <option value="GH">Ghana</option>
+          <option value="KE">Kenya</option>
+          <option value="DE">Germany</option>
+          <option value="FR">France</option>
+          <option value="AE">United Arab Emirates</option>
+          <option value="OTHER">Other</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="password">Password</label>
+
+        <div class="password-wrap">
+
+          <input
+            id="password"
+            type="password"
+            placeholder="Create a strong password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          >
+
+          <button
+            type="button"
+            class="show-btn"
+            onclick="togglePassword('password', this)"
+          >
+            SHOW
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="confirmPassword">Confirm Password</label>
+
+        <div class="password-wrap">
+
+          <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm your password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          >
+
+          <button
+            type="button"
+            class="show-btn"
+            onclick="togglePassword('confirmPassword', this)"
+          >
+            SHOW
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="terms">
+
+        <input id="terms" type="checkbox" required>
+
+        <p>
+          I confirm that I have read and agree to the
+          <a href="#">Terms & Conditions</a>
+          and
+          <a href="#">Privacy Policy</a>.
+        </p>
+
+      </div>
+
+
+      <button type="submit" class="create-btn">
+        Create Account →
+      </button>
+
+    </form>
+
+
+    <div class="signin">
+      Already have an account?
+      <a href="login.html">Sign In</a>
+    </div>
+
+    <a href="index.html" class="back-home">
+      ← Back to Maxx Digital Markets
+    </a>
+
+    <div class="security-note">
+      🔒 Never share your password or account credentials with anyone.
+    </div>
+
+  </section>
+
+</main>
+
+
+<script>
+
+  function togglePassword(id, button) {
+
+    const input = document.getElementById(id);
+
+    if (input.type === "password") {
+      input.type = "text";
+      button.textContent = "HIDE";
+    } else {
+      input.type = "password";
+      button.textContent = "SHOW";
+    }
+
+  }
+
+
+  document
+    .getElementById("registerForm")
+    .addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const password =
+        document.getElementById("password").value;
+
+      const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+      const message =
+        document.getElementById("message");
+
+
+      if (password !== confirmPassword) {
+
+        message.textContent =
+          "Your passwords do not match.";
+
+        message.className =
+          "message error";
+
+        return;
+      }
+
+
+      /*
+        IMPORTANT:
+
+        The visual registration page is complete.
+
+        Real account creation must be connected to a secure
+        authentication/backend service.
+
+        Do NOT store user passwords in localStorage or directly
+        inside JavaScript.
+      */
+
+      message.textContent =
+        "Registration backend has not been connected yet.";
+
+      message.className =
+        "message error";
+
+    });
+
+</script>
+
+</body>
+</html>
