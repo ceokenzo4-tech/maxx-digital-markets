@@ -1,1107 +1,1165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard | Maxx Digital Markets</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#03101d">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Dashboard | Maxx Digital Markets</title>
 
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-:root{
-    --bg:#050d18;
-    --panel:#0b1728;
-    --panel2:#0e1d31;
-    --border:#1c304a;
-    --text:#f5f7fb;
-    --muted:#8ea0ba;
-    --blue:#2f7df6;
-    --green:#22c55e;
-    --red:#ef4444;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
-}
-
-/* LOADING */
-
-#loadingScreen{
-    position:fixed;
-    inset:0;
-    background:#050d18;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    z-index:9999;
-}
-
-.spinner{
-    width:64px;
-    height:64px;
-    border:7px solid #162947;
-    border-top-color:#3b82f6;
-    border-radius:50%;
-    animation:spin .8s linear infinite;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg);}
-}
-
-.loadingText{
-    margin-top:25px;
-    color:#91a4c2;
-    font-size:20px;
-}
-
-#errorBox{
-    display:none;
-    max-width:420px;
-    margin:25px;
-    padding:20px;
-    border:1px solid #7f1d1d;
-    background:#2a1015;
-    border-radius:12px;
-    color:#fecaca;
-    text-align:center;
-    line-height:1.6;
-}
-
-#errorBox button{
-    margin-top:15px;
-    border:0;
-    border-radius:8px;
-    padding:12px 20px;
-    background:#2563eb;
-    color:white;
-    cursor:pointer;
-}
-
-/* APP */
-
-#app{
-    display:none;
-    min-height:100vh;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-    width:260px;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    background:#07111f;
-    border-right:1px solid var(--border);
-    padding:25px 18px;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:35px;
-}
-
-.logoBox{
-    width:46px;
-    height:46px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,#2563eb,#38bdf8);
-    font-size:22px;
-    font-weight:bold;
-}
-
-.logoText{
-    font-weight:bold;
-    font-size:17px;
-    line-height:1.2;
-}
-
-.logoText span{
-    color:#3b82f6;
-}
-
-.menu a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:14px 15px;
-    margin:7px 0;
-    text-decoration:none;
-    color:#93a4bd;
-    border-radius:10px;
-    transition:.2s;
-}
-
-.menu a:hover,
-.menu a.active{
-    background:#10233d;
-    color:white;
-}
-
-.logout{
-    position:absolute;
-    left:18px;
-    right:18px;
-    bottom:25px;
-}
-
-.logout button{
-    width:100%;
-    padding:13px;
-    border:1px solid #29405f;
-    background:#0d1c30;
-    color:white;
-    border-radius:9px;
-    cursor:pointer;
-}
-
-/* MAIN */
-
-.main{
-    margin-left:260px;
-    min-height:100vh;
-}
-
-.topbar{
-    height:78px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 32px;
-    background:#07111f;
-}
-
-.topbar h2{
-    font-size:20px;
-}
-
-.user{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.avatar{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    background:#2563eb;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-}
-
-.userInfo{
-    text-align:right;
-}
-
-.userInfo strong{
-    display:block;
-    font-size:14px;
-}
-
-.userInfo small{
-    color:var(--muted);
-}
-
-/* CONTENT */
-
-.content{
-    padding:32px;
-    max-width:1500px;
-    margin:auto;
-}
-
-.welcome{
-    margin-bottom:28px;
-}
-
-.welcome h1{
-    font-size:30px;
-    margin-bottom:8px;
-}
-
-.welcome p{
-    color:var(--muted);
-    line-height:1.6;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-bottom:28px;
-}
-
-.card{
-    background:linear-gradient(145deg,#0b1728,#0a1524);
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:22px;
-}
-
-.cardLabel{
-    color:var(--muted);
-    font-size:13px;
-    margin-bottom:14px;
-}
-
-.cardValue{
-    font-size:22px;
-    font-weight:bold;
-}
-
-.status{
-    color:#4ade80;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
-}
-
-.panel{
-    background:#0a1626;
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:23px;
-    margin-bottom:20px;
-}
-
-.panelTitle{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:22px;
-}
-
-.panelTitle h3{
-    font-size:17px;
-}
-
-.panelTitle span{
-    color:var(--muted);
-    font-size:13px;
-}
-
-.marketTable{
-    width:100%;
-    border-collapse:collapse;
-}
-
-.marketTable th,
-.marketTable td{
-    text-align:left;
-    padding:15px 10px;
-    border-bottom:1px solid #172942;
-}
-
-.marketTable th{
-    color:#8194ae;
-    font-size:12px;
-    text-transform:uppercase;
-}
-
-.marketTable td{
-    font-size:14px;
-}
-
-.marketSymbol{
-    font-weight:bold;
-}
-
-.empty{
-    padding:40px 15px;
-    text-align:center;
-    color:#7f91aa;
-}
-
-.quick{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.quick a{
-    text-decoration:none;
-    background:#0e2037;
-    border:1px solid #1d3859;
-    color:white;
-    border-radius:11px;
-    padding:18px 12px;
-    text-align:center;
-    font-size:14px;
-}
-
-.quick a:hover{
-    border-color:#3b82f6;
-}
-
-.securityItem{
-    padding:15px 0;
-    border-bottom:1px solid #172942;
-}
-
-.securityItem:last-child{
-    border-bottom:0;
-}
-
-.securityItem strong{
-    display:block;
-    margin-bottom:6px;
-}
-
-.securityItem span{
-    color:var(--muted);
-    font-size:13px;
-}
-
-/* MOBILE */
-
-.mobileMenu{
-    display:none;
-}
-
-@media(max-width:1050px){
-    .cards{
-        grid-template-columns:repeat(2,1fr);
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .grid{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:760px){
-
-    .sidebar{
-        display:none;
-    }
-
-    .main{
-        margin-left:0;
+    :root {
+      --bg: #020d18;
+      --panel: #091a2d;
+      --panel2: #0d2139;
+      --border: #1c3959;
+      --text: #f5f8ff;
+      --muted: #8fa2bf;
+      --blue: #2f7df4;
+      --cyan: #15c8ee;
+      --green: #38dc8b;
+      --red: #ff5c69;
     }
 
-    .topbar{
-        padding:0 18px;
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(24, 110, 200, .13), transparent 28%),
+        linear-gradient(180deg, #04111f 0%, #020b14 100%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    .mobileMenu{
-        display:block;
-        font-size:24px;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .content{
-        padding:22px 16px;
+    button {
+      font-family: inherit;
     }
 
-    .cards{
-        grid-template-columns:1fr 1fr;
+    /* Loading screen */
+
+    #loadingScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #020d18;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .userInfo{
-        display:none;
+    .loading-inner {
+      text-align: center;
+      color: var(--muted);
     }
 
-    .welcome h1{
-        font-size:25px;
+    .spinner {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 22px;
+      border: 6px solid #132a48;
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
     }
-}
 
-@media(max-width:480px){
-    .cards{
-        grid-template-columns:1fr;
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
-}
-</style>
+
+    #app {
+      display: none;
+    }
+
+    /* Header */
+
+    .topbar {
+      height: 92px;
+      padding: 0 28px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(3, 15, 27, .96);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #19d5ef, #2672f5);
+      color: #02101c;
+      font-size: 27px;
+      font-weight: 900;
+    }
+
+    .brand-name {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: .3px;
+    }
+
+    .brand-name span {
+      color: var(--cyan);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .menu-button {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: white;
+      font-size: 34px;
+      cursor: pointer;
+    }
+
+    /* Layout */
+
+    .layout {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      min-height: calc(100vh - 92px);
+    }
+
+    .sidebar {
+      padding: 28px 18px;
+      border-right: 1px solid var(--border);
+      background: rgba(5, 18, 32, .86);
+    }
+
+    .nav-label {
+      color: #607794;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      padding: 8px 14px 14px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 15px 16px;
+      margin-bottom: 8px;
+      border-radius: 11px;
+      color: #a7b7cc;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #102844;
+      color: white;
+    }
+
+    .main {
+      width: 100%;
+      max-width: 1180px;
+      padding: 46px 38px 60px;
+      margin: 0 auto;
+    }
+
+    /* Welcome */
+
+    .welcome {
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      margin-bottom: 12px;
+    }
+
+    .welcome h1 {
+      font-size: 40px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .welcome p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 700px;
+    }
+
+    /* Cards */
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(12, 31, 52, .96), rgba(7, 23, 40, .96));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 27px;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, .12);
+    }
+
+    .card-label {
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-bottom: 16px;
+    }
+
+    .card-value {
+      font-size: 25px;
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    .active-status {
+      color: var(--green);
+    }
+
+    .active-status::before {
+      content: "";
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-right: 10px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    /* Profile */
+
+    .section-card {
+      margin-top: 24px;
+      background: linear-gradient(145deg, rgba(12, 31, 52, .96), rgba(7, 23, 40, .96));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    .section-card h2 {
+      font-size: 23px;
+      margin-bottom: 25px;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .profile-item {
+      border-bottom: 1px solid rgba(57, 84, 116, .42);
+      padding-bottom: 18px;
+    }
+
+    .profile-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 9px;
+    }
+
+    .profile-item strong {
+      font-size: 16px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    /* Quick access */
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .quick-btn {
+      min-height: 100px;
+      padding: 20px;
+      border: 1px solid #24496f;
+      border-radius: 16px;
+      background: #102640;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      transition: .2s;
+    }
+
+    .quick-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--blue);
+      background: #153153;
+    }
+
+    .quick-icon {
+      font-size: 25px;
+    }
+
+    .quick-btn strong {
+      font-size: 16px;
+    }
+
+    .quick-btn small {
+      color: var(--muted);
+    }
+
+    /* Security */
+
+    .security-item {
+      padding: 21px 0;
+      border-bottom: 1px solid rgba(57, 84, 116, .42);
+    }
+
+    .security-item:first-of-type {
+      padding-top: 0;
+    }
+
+    .security-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .security-item h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .security-item p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .verified {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* Logout */
+
+    .logout-area {
+      margin-top: 26px;
+    }
+
+    .logout-btn {
+      width: 100%;
+      min-height: 58px;
+      border: 1px solid rgba(255, 92, 105, .7);
+      border-radius: 14px;
+      background: rgba(255, 92, 105, .08);
+      color: #ff707b;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .logout-btn:hover {
+      background: #e74855;
+      border-color: #e74855;
+      color: white;
+    }
+
+    .logout-btn:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .footer {
+      color: #60748f;
+      font-size: 13px;
+      text-align: center;
+      margin-top: 38px;
+      line-height: 1.7;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 900px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        display: none;
+        position: fixed;
+        top: 92px;
+        left: 0;
+        right: 0;
+        z-index: 90;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+      }
+
+      .sidebar.open {
+        display: block;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .main {
+        padding: 34px 24px 50px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        height: 82px;
+        padding: 0 20px;
+      }
+
+      .layout {
+        min-height: calc(100vh - 82px);
+      }
+
+      .sidebar {
+        top: 82px;
+      }
+
+      .logo {
+        width: 47px;
+        height: 47px;
+      }
+
+      .brand-name {
+        font-size: 16px;
+      }
+
+      .user-circle {
+        display: none;
+      }
+
+      .main {
+        padding: 32px 20px 45px;
+      }
+
+      .welcome h1 {
+        font-size: 34px;
+      }
+
+      .welcome p {
+        font-size: 16px;
+      }
+
+      .card,
+      .section-card {
+        padding: 23px;
+        border-radius: 18px;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .quick-btn {
+        min-height: 94px;
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .brand-name {
+        font-size: 14px;
+      }
+
+      .quick-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- AUTH LOADING SCREEN -->
-
-<div id="loadingScreen">
-
-    <div class="spinner" id="spinner"></div>
-
-    <div class="loadingText" id="loadingText">
-        Securing your account...
+  <!-- SECURE LOADING SCREEN -->
+  <div id="loadingScreen">
+    <div class="loading-inner">
+      <div class="spinner"></div>
+      <p>Securing your account...</p>
     </div>
+  </div>
 
-    <div id="errorBox">
-        <strong>Unable to load your account.</strong>
-        <br>
-        Please return to the sign-in page and try again.
+  <!-- DASHBOARD -->
+  <div id="app">
 
-        <br>
+    <header class="topbar">
 
-        <button onclick="goLogin()">
-            Return to Sign In
+      <a class="brand" href="dashboard.html">
+        <div class="logo">M</div>
+
+        <div class="brand-name">
+          MAXX <span>DIGITAL MARKETS</span>
+        </div>
+      </a>
+
+      <div class="header-right">
+
+        <div class="user-circle" id="userInitial">
+          M
+        </div>
+
+        <button
+          class="menu-button"
+          id="menuButton"
+          type="button"
+          aria-label="Open menu"
+        >
+          ☰
         </button>
-    </div>
 
-</div>
+      </div>
 
+    </header>
 
-<!-- DASHBOARD -->
 
-<div id="app">
+    <div class="layout">
 
-    <aside class="sidebar">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" id="sidebar">
 
-        <div class="logo">
+        <div class="nav-label">ACCOUNT</div>
 
-            <div class="logoBox">
-                M
-            </div>
+        <a class="nav-link active" href="dashboard.html">
+          Dashboard
+        </a>
 
-            <div class="logoText">
-                MAXX DIGITAL
-                <br>
-                <span>MARKETS</span>
-            </div>
+        <a class="nav-link" href="#profile">
+          Profile
+        </a>
 
-        </div>
+        <a class="nav-link" href="#security">
+          Security
+        </a>
 
-        <nav class="menu">
+        <a class="nav-link" href="markets.html">
+          Markets
+        </a>
 
-            <a href="#" class="active">
-                Dashboard
-            </a>
+        <a class="nav-link" href="index.html">
+          Website
+        </a>
 
-            <a href="markets.html">
-                Markets
-            </a>
+      </aside>
 
-            <a href="history.html">
-                Activity
-            </a>
 
-            <a href="profile.html">
-                Profile
-            </a>
+      <!-- MAIN -->
+      <main class="main">
 
-        </nav>
+        <section class="welcome">
 
-        <div class="logout">
+          <div class="eyebrow">
+            ACCOUNT DASHBOARD
+          </div>
 
-            <button id="logoutButton">
-                Sign Out
-            </button>
+          <h1>
+            Welcome, <span id="welcomeName">User</span>
+          </h1>
 
-        </div>
-
-    </aside>
-
-
-    <main class="main">
-
-        <header class="topbar">
-
-            <div style="display:flex;align-items:center;gap:15px;">
-
-                <div class="mobileMenu">
-                    ☰
-                </div>
-
-                <h2>
-                    Dashboard
-                </h2>
-
-            </div>
-
-            <div class="user">
-
-                <div class="userInfo">
-
-                    <strong id="headerName">
-                        Account
-                    </strong>
-
-                    <small id="headerEmail">
-                    </small>
-
-                </div>
-
-                <div class="avatar" id="avatar">
-                    M
-                </div>
-
-            </div>
-
-        </header>
-
-
-        <section class="content">
-
-            <div class="welcome">
-
-                <h1>
-                    Welcome, <span id="welcomeName">Trader</span>
-                </h1>
-
-                <p>
-                    Manage your account, review your activity and access
-                    your Maxx Digital Markets tools from one secure dashboard.
-                </p>
-
-            </div>
-
-
-            <div class="cards">
-
-                <div class="card">
-
-                    <div class="cardLabel">
-                        ACCOUNT STATUS
-                    </div>
-
-                    <div class="cardValue status">
-                        ● Active
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="cardLabel">
-                        EMAIL STATUS
-                    </div>
-
-                    <div class="cardValue" id="emailStatus">
-                        Verified
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="cardLabel">
-                        ACCOUNT EMAIL
-                    </div>
-
-                    <div class="cardValue"
-                         id="accountEmail"
-                         style="font-size:14px;word-break:break-all;">
-                        —
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="cardLabel">
-                        ACCOUNT SECURITY
-                    </div>
-
-                    <div class="cardValue">
-                        Protected
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="grid">
-
-                <div>
-
-                    <div class="panel">
-
-                        <div class="panelTitle">
-
-                            <h3>
-                                Market Overview
-                            </h3>
-
-                            <span>
-                                Watchlist
-                            </span>
-
-                        </div>
-
-
-                        <table class="marketTable">
-
-                            <thead>
-
-                                <tr>
-                                    <th>Market</th>
-                                    <th>Category</th>
-                                    <th>Status</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                <tr>
-                                    <td class="marketSymbol">
-                                        EUR/USD
-                                    </td>
-
-                                    <td>
-                                        Forex
-                                    </td>
-
-                                    <td class="status">
-                                        Available
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td class="marketSymbol">
-                                        GBP/USD
-                                    </td>
-
-                                    <td>
-                                        Forex
-                                    </td>
-
-                                    <td class="status">
-                                        Available
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td class="marketSymbol">
-                                        BTC/USD
-                                    </td>
-
-                                    <td>
-                                        Cryptocurrency
-                                    </td>
-
-                                    <td class="status">
-                                        Available
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td class="marketSymbol">
-                                        ETH/USD
-                                    </td>
-
-                                    <td>
-                                        Cryptocurrency
-                                    </td>
-
-                                    <td class="status">
-                                        Available
-                                    </td>
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-
-                    <div class="panel">
-
-                        <div class="panelTitle">
-
-                            <h3>
-                                Recent Activity
-                            </h3>
-
-                        </div>
-
-                        <div class="empty">
-                            No account activity is available yet.
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <div class="panel">
-
-                        <div class="panelTitle">
-
-                            <h3>
-                                Quick Access
-                            </h3>
-
-                        </div>
-
-
-                        <div class="quick">
-
-                            <a href="markets.html">
-                                Markets
-                            </a>
-
-                            <a href="history.html">
-                                Activity
-                            </a>
-
-                            <a href="profile.html">
-                                Profile
-                            </a>
-
-                            <a href="index.html">
-                                Website
-                            </a>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="panel">
-
-                        <div class="panelTitle">
-
-                            <h3>
-                                Account Security
-                            </h3>
-
-                        </div>
-
-
-                        <div class="securityItem">
-
-                            <strong>
-                                Email verification
-                            </strong>
-
-                            <span id="verificationText">
-                                Checking verification status...
-                            </span>
-
-                        </div>
-
-
-                        <div class="securityItem">
-
-                            <strong>
-                                Authentication
-                            </strong>
-
-                            <span>
-                                Your account is protected by Supabase authentication.
-                            </span>
-
-                        </div>
-
-
-                        <div class="securityItem">
-
-                            <strong>
-                                Password
-                            </strong>
-
-                            <span>
-                                Keep your password private and never share it with anyone.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+          <p>
+            Manage your account, review your profile and access your
+            Maxx Digital Markets tools from one secure dashboard.
+          </p>
 
         </section>
 
-    </main>
 
-</div>
+        <!-- STATUS -->
+        <section class="status-grid">
 
+          <div class="card">
+            <div class="card-label">
+              Account Status
+            </div>
 
-<script>
-
-const SUPABASE_URL =
-'https://dwojraxspohahemiarps.supabase.co';
-
-const SUPABASE_PUBLISHABLE_KEY =
-'sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X';
-
-
-function goLogin(){
-
-    window.location.replace('login.html');
-
-}
+            <div class="card-value active-status">
+              Active
+            </div>
+          </div>
 
 
-function showError(){
+          <div class="card">
+            <div class="card-label">
+              Email Status
+            </div>
 
-    document.getElementById('spinner').style.display = 'none';
-
-    document.getElementById('loadingText').style.display = 'none';
-
-    document.getElementById('errorBox').style.display = 'block';
-
-}
-
-
-function openDashboard(user){
-
-    const metadata = user.user_metadata || {};
-
-    const firstName =
-        metadata.first_name ||
-        metadata.full_name ||
-        'Trader';
-
-    const displayName =
-        metadata.full_name ||
-        firstName;
-
-    const email =
-        user.email || '';
+            <div class="card-value" id="emailStatus">
+              Verified
+            </div>
+          </div>
 
 
-    document.getElementById('welcomeName').textContent =
-        firstName;
+          <div class="card">
+            <div class="card-label">
+              Account Security
+            </div>
 
-    document.getElementById('headerName').textContent =
-        displayName;
+            <div class="card-value">
+              Protected
+            </div>
+          </div>
 
-    document.getElementById('headerEmail').textContent =
-        email;
-
-    document.getElementById('accountEmail').textContent =
-        email;
-
-
-    const initial =
-        firstName.charAt(0).toUpperCase() || 'M';
-
-    document.getElementById('avatar').textContent =
-        initial;
+        </section>
 
 
-    if(user.email_confirmed_at){
+        <!-- PROFILE -->
+        <section class="section-card" id="profile">
 
-        document.getElementById('emailStatus').textContent =
-            'Verified';
+          <h2>Account Profile</h2>
 
-        document.getElementById('verificationText').textContent =
-            'Your email address has been verified.';
+          <div class="profile-grid">
 
-    }else{
+            <div class="profile-item">
+              <span>Full Name</span>
+              <strong id="profileName">—</strong>
+            </div>
 
-        document.getElementById('emailStatus').textContent =
-            'Pending';
+            <div class="profile-item">
+              <span>Email Address</span>
+              <strong id="profileEmail">—</strong>
+            </div>
 
-        document.getElementById('verificationText').textContent =
-            'Email verification is still required.';
+            <div class="profile-item">
+              <span>Phone Number</span>
+              <strong id="profilePhone">—</strong>
+            </div>
 
-    }
+            <div class="profile-item">
+              <span>Country / Region</span>
+              <strong id="profileCountry">—</strong>
+            </div>
 
+          </div>
 
-    document.getElementById('loadingScreen').style.display =
-        'none';
-
-    document.getElementById('app').style.display =
-        'block';
-
-}
-
-
-async function startDashboard(){
-
-    let finished = false;
-
-    const safetyTimer = setTimeout(function(){
-
-        if(!finished){
-
-            showError();
-
-        }
-
-    }, 10000);
+        </section>
 
 
-    try{
+        <!-- QUICK ACCESS -->
+        <section class="section-card">
 
-        if(!window.supabase){
+          <h2>Quick Access</h2>
 
-            throw new Error('Supabase library failed to load.');
+          <div class="quick-grid">
 
-        }
+            <a class="quick-btn" href="markets.html">
+              <span class="quick-icon">⌁</span>
+              <strong>Markets</strong>
+              <small>Market area</small>
+            </a>
+
+            <a class="quick-btn" href="#profile">
+              <span class="quick-icon">◉</span>
+              <strong>Profile</strong>
+              <small>Account information</small>
+            </a>
+
+            <a class="quick-btn" href="#security">
+              <span class="quick-icon">◇</span>
+              <strong>Security</strong>
+              <small>Account protection</small>
+            </a>
+
+            <a class="quick-btn" href="index.html">
+              <span class="quick-icon">⌂</span>
+              <strong>Website</strong>
+              <small>Return home</small>
+            </a>
+
+          </div>
+
+        </section>
 
 
-        const supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_PUBLISHABLE_KEY,
-                {
-                    auth:{
-                        persistSession:true,
-                        autoRefreshToken:true,
-                        detectSessionInUrl:true
-                    }
-                }
-            );
+        <!-- SECURITY -->
+        <section class="section-card" id="security">
+
+          <h2>Account Security</h2>
+
+          <div class="security-item">
+
+            <h3>Email Verification</h3>
+
+            <p id="verificationText" class="verified">
+              ✓ Your email address has been verified.
+            </p>
+
+          </div>
 
 
-        /*
-        First read the locally stored session.
-        */
+          <div class="security-item">
+
+            <h3>Authentication</h3>
+
+            <p>
+              Your dashboard requires an authenticated account session.
+              Visitors who are not signed in are redirected to the login page.
+            </p>
+
+          </div>
+
+
+          <div class="security-item">
+
+            <h3>Password</h3>
+
+            <p>
+              Keep your password private and never share it with anyone.
+              Password recovery is available from the login page.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- LOGOUT -->
+        <div class="logout-area">
+
+          <button
+            class="logout-btn"
+            id="logoutBtn"
+            type="button"
+          >
+            Log Out
+          </button>
+
+        </div>
+
+
+        <footer class="footer">
+          © <span id="year"></span> Maxx Digital Markets.
+          Account access is protected by authentication.
+        </footer>
+
+      </main>
+
+    </div>
+
+  </div>
+
+
+  <script>
+    /*
+      IMPORTANT:
+      This is the browser-safe Supabase publishable key.
+      NEVER place a Supabase secret key or service_role key here.
+    */
+
+    const SUPABASE_URL =
+      "https://dwojraxspohahemiarps.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    const loadingScreen =
+      document.getElementById("loadingScreen");
+
+    const app =
+      document.getElementById("app");
+
+
+    /*
+      AUTHENTICATION CHECK
+    */
+
+    async function secureDashboard() {
+
+      try {
 
         const {
-            data: sessionData,
-            error: sessionError
+          data: { session },
+          error
         } = await supabaseClient.auth.getSession();
 
 
-        if(sessionError){
-
-            throw sessionError;
-
-        }
-
-
-        if(!sessionData.session){
-
-            finished = true;
-
-            clearTimeout(safetyTimer);
-
-            window.location.replace('login.html');
-
-            return;
-
+        if (error) {
+          throw error;
         }
 
 
         /*
-        Validate the authenticated user.
+          No session = user is not logged in.
         */
 
-        const {
-            data: userData,
-            error: userError
-        } = await supabaseClient.auth.getUser();
+        if (!session || !session.user) {
 
-
-        if(userError || !userData.user){
-
-            await supabaseClient.auth.signOut();
-
-            finished = true;
-
-            clearTimeout(safetyTimer);
-
-            window.location.replace('login.html');
-
-            return;
+          window.location.replace("login.html");
+          return;
 
         }
 
 
-        finished = true;
+        const user = session.user;
 
-        clearTimeout(safetyTimer);
-
-        openDashboard(userData.user);
+        loadUserInformation(user);
 
 
         /*
-        LOGOUT
+          Only reveal dashboard after authentication
+          has successfully been checked.
         */
 
-        document
-        .getElementById('logoutButton')
-        .addEventListener('click', async function(){
-
-            this.disabled = true;
-
-            this.textContent = 'Signing Out...';
-
-            await supabaseClient.auth.signOut();
-
-            window.location.replace('login.html');
-
-        });
+        loadingScreen.style.display = "none";
+        app.style.display = "block";
 
 
-        /*
-        Watch authentication changes.
-        */
-
-        supabaseClient.auth.onAuthStateChange(
-            function(event, session){
-
-                if(event === 'SIGNED_OUT'){
-
-                    window.location.replace('login.html');
-
-                }
-
-            }
-        );
-
-
-    }catch(error){
+      } catch (error) {
 
         console.error(
-            'Dashboard authentication error:',
-            error
+          "Dashboard authentication error:",
+          error
         );
 
-        finished = true;
+        window.location.replace("login.html");
 
-        clearTimeout(safetyTimer);
-
-        showError();
+      }
 
     }
 
-}
+
+    /*
+      LOAD REAL USER INFORMATION
+    */
+
+    function loadUserInformation(user) {
+
+      const metadata =
+        user.user_metadata || {};
 
 
-if(document.readyState === 'loading'){
+      const firstName =
+        metadata.first_name || "";
 
-    document.addEventListener(
-        'DOMContentLoaded',
-        startDashboard
+
+      const lastName =
+        metadata.last_name || "";
+
+
+      const fullName =
+        metadata.full_name ||
+        `${firstName} ${lastName}`.trim() ||
+        "User";
+
+
+      const displayName =
+        firstName ||
+        fullName.split(" ")[0] ||
+        "User";
+
+
+      const email =
+        user.email || "Not available";
+
+
+      const phone =
+        metadata.phone ||
+        user.phone ||
+        "Not provided";
+
+
+      const country =
+        metadata.country ||
+        "Not provided";
+
+
+      /*
+        Welcome
+      */
+
+      document.getElementById(
+        "welcomeName"
+      ).textContent = displayName;
+
+
+      /*
+        Profile
+      */
+
+      document.getElementById(
+        "profileName"
+      ).textContent = fullName;
+
+
+      document.getElementById(
+        "profileEmail"
+      ).textContent = email;
+
+
+      document.getElementById(
+        "profilePhone"
+      ).textContent = phone;
+
+
+      document.getElementById(
+        "profileCountry"
+      ).textContent = country;
+
+
+      /*
+        User avatar
+      */
+
+      document.getElementById(
+        "userInitial"
+      ).textContent =
+        displayName.charAt(0).toUpperCase();
+
+
+      /*
+        Email verification status
+      */
+
+      const emailStatus =
+        document.getElementById(
+          "emailStatus"
+        );
+
+
+      const verificationText =
+        document.getElementById(
+          "verificationText"
+        );
+
+
+      if (user.email_confirmed_at) {
+
+        emailStatus.textContent =
+          "Verified";
+
+        verificationText.textContent =
+          "✓ Your email address has been verified.";
+
+        verificationText.classList.add(
+          "verified"
+        );
+
+      } else {
+
+        emailStatus.textContent =
+          "Not Verified";
+
+        verificationText.textContent =
+          "Your email address has not been verified.";
+
+        verificationText.classList.remove(
+          "verified"
+        );
+
+      }
+
+    }
+
+
+    /*
+      LOGOUT
+    */
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
+
+
+    logoutBtn.addEventListener(
+      "click",
+      async function () {
+
+        logoutBtn.disabled = true;
+        logoutBtn.textContent =
+          "Logging out...";
+
+
+        try {
+
+          const { error } =
+            await supabaseClient.auth.signOut();
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          window.location.replace(
+            "login.html"
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Logout error:",
+            error
+          );
+
+
+          alert(
+            "Unable to log out. Please try again."
+          );
+
+
+          logoutBtn.disabled = false;
+          logoutBtn.textContent =
+            "Log Out";
+
+        }
+
+      }
     );
 
-}else{
 
-    startDashboard();
+    /*
+      SESSION CHANGES
 
-}
+      If the account session disappears while the
+      dashboard is open, send the user back to login.
+    */
 
-</script>
+    supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+
+        if (
+          event === "SIGNED_OUT" ||
+          !session
+        ) {
+
+          window.location.replace(
+            "login.html"
+          );
+
+        }
+
+      }
+    );
+
+
+    /*
+      MOBILE MENU
+    */
+
+    const menuButton =
+      document.getElementById(
+        "menuButton"
+      );
+
+    const sidebar =
+      document.getElementById(
+        "sidebar"
+      );
+
+
+    menuButton.addEventListener(
+      "click",
+      function () {
+
+        sidebar.classList.toggle(
+          "open"
+        );
+
+      }
+    );
+
+
+    document
+      .querySelectorAll(".nav-link")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          function () {
+
+            sidebar.classList.remove(
+              "open"
+            );
+
+          }
+        );
+
+      });
+
+
+    /*
+      COPYRIGHT YEAR
+    */
+
+    document.getElementById(
+      "year"
+    ).textContent =
+      new Date().getFullYear();
+
+
+    /*
+      START DASHBOARD
+    */
+
+    secureDashboard();
+
+  </script>
 
 </body>
 </html>
