@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Create Account | Maxx Digital Markets</title>
+  <meta name="description" content="Create your Maxx Digital Markets account.">
 
   <style>
     * {
@@ -13,32 +14,40 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(circle at 20% 10%, rgba(0, 190, 255, .12), transparent 30%),
-        radial-gradient(circle at 90% 90%, rgba(45, 100, 255, .10), transparent 35%),
+        radial-gradient(circle at 15% 10%, rgba(0, 201, 255, 0.13), transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(48, 91, 255, 0.12), transparent 35%),
         #07101d;
-      color: #fff;
+      color: #ffffff;
     }
 
     a {
       text-decoration: none;
+      color: inherit;
     }
 
-    /* HEADER */
+    /* =========================
+       HEADER
+    ========================= */
 
-    .header {
-      width: 100%;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-      background: rgba(7,16,29,.92);
+    header {
+      background: rgba(7, 16, 29, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(15px);
     }
 
-    .nav {
-      max-width: 1200px;
+    .navbar {
+      max-width: 1180px;
       margin: auto;
-      padding: 18px 22px;
+      padding: 17px 20px;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -48,136 +57,192 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      color: white;
+
       font-size: 19px;
       font-weight: 800;
     }
 
-    .logo-box {
+    .logo-icon {
       width: 39px;
       height: 39px;
-      border-radius: 11px;
+
       display: flex;
-      justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg,#00d9ff,#2979ff);
-      color: #04101c;
+      justify-content: center;
+
+      border-radius: 11px;
+
+      background: linear-gradient(
+        135deg,
+        #00d9ff,
+        #2979ff
+      );
+
+      color: #03111d;
       font-weight: 900;
+
+      box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
     }
 
     .logo span {
       color: #2bd9ff;
     }
 
-    .login-top {
-      color: #aab7c8;
-      font-size: 14px;
+    .top-login {
+      color: #8fa0b5;
+      font-size: 13px;
     }
 
-    .login-top a {
+    .top-login a {
       color: #2bd9ff;
       font-weight: 700;
       margin-left: 5px;
     }
 
-    /* PAGE */
+    /* =========================
+       MAIN PAGE
+    ========================= */
 
     .page {
-      max-width: 1150px;
+      max-width: 1180px;
       margin: auto;
-      padding: 65px 20px;
+
+      padding: 60px 20px 80px;
+
       display: grid;
-      grid-template-columns: 1fr 480px;
-      gap: 80px;
+      grid-template-columns: 1fr 500px;
+
       align-items: center;
+      gap: 75px;
     }
 
-    /* LEFT */
+    /* =========================
+       LEFT SIDE
+    ========================= */
 
-    .left-label {
+    .badge {
       display: inline-block;
-      color: #2bd9ff;
-      background: rgba(43,217,255,.08);
-      border: 1px solid rgba(43,217,255,.15);
+
+      padding: 7px 13px;
+
       border-radius: 30px;
-      padding: 7px 12px;
+
+      background: rgba(43, 217, 255, 0.07);
+      border: 1px solid rgba(43, 217, 255, 0.18);
+
+      color: #2bd9ff;
+
       font-size: 11px;
-      font-weight: bold;
+      font-weight: 800;
       letter-spacing: 1px;
+
       margin-bottom: 20px;
     }
 
     .left h1 {
-      font-size: 52px;
+      max-width: 600px;
+
+      font-size: 53px;
       line-height: 1.08;
       letter-spacing: -2px;
+
       margin-bottom: 20px;
     }
 
-    .blue {
-      background: linear-gradient(90deg,#24d9ff,#5b8cff);
+    .gradient {
+      background: linear-gradient(
+        90deg,
+        #25dcff,
+        #668cff
+      );
+
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .left > p {
-      max-width: 520px;
-      color: #91a1b6;
+    .description {
+      color: #91a2b8;
+
+      max-width: 540px;
+
       font-size: 16px;
       line-height: 1.8;
+
       margin-bottom: 30px;
     }
 
     .benefits {
       display: grid;
-      gap: 16px;
+      gap: 14px;
     }
 
     .benefit {
       display: flex;
       align-items: center;
-      gap: 13px;
-      color: #b6c2d1;
+      gap: 12px;
+
+      color: #a9b6c7;
       font-size: 14px;
     }
 
     .check {
       width: 30px;
       height: 30px;
-      border-radius: 50%;
-      background: rgba(35,220,151,.09);
-      border: 1px solid rgba(35,220,151,.16);
-      color: #23dc97;
+
+      min-width: 30px;
+
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-weight: bold;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: rgba(35, 220, 151, 0.08);
+      border: 1px solid rgba(35, 220, 151, 0.18);
+
+      color: #23dc97;
+
+      font-size: 13px;
+      font-weight: 900;
     }
 
-    /* FORM CARD */
+    /* =========================
+       FORM CARD
+    ========================= */
 
     .register-card {
-      background: rgba(12,25,41,.96);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 20px;
       padding: 32px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.35);
+
+      border-radius: 20px;
+
+      background: rgba(12, 25, 41, 0.97);
+
+      border: 1px solid rgba(255,255,255,0.08);
+
+      box-shadow: 0 35px 90px rgba(0,0,0,0.35);
     }
 
     .register-card h2 {
-      font-size: 27px;
+      font-size: 28px;
       margin-bottom: 7px;
     }
 
     .subtitle {
-      color: #8292a7;
+      color: #8091a7;
+
       font-size: 13px;
+
       margin-bottom: 25px;
     }
 
-    .row {
+    /* =========================
+       FORM
+    ========================= */
+
+    .name-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
+
       gap: 13px;
     }
 
@@ -187,74 +252,120 @@
 
     label {
       display: block;
-      color: #aab7c8;
+
+      color: #a9b6c7;
+
       font-size: 12px;
       font-weight: 600;
+
       margin-bottom: 7px;
     }
 
     input,
     select {
       width: 100%;
+
       padding: 14px;
+
       border-radius: 9px;
-      border: 1px solid #26364b;
+
+      border: 1px solid #26374c;
+
       background: #081522;
-      color: #fff;
+
+      color: #ffffff;
+
       outline: none;
+
       font-size: 14px;
+
+      transition: 0.2s;
     }
 
     input::placeholder {
-      color: #596b81;
+      color: #566980;
     }
 
     input:focus,
     select:focus {
-      border-color: #22cfee;
-      box-shadow: 0 0 0 3px rgba(34,207,238,.06);
+      border-color: #28d8ff;
+
+      box-shadow:
+        0 0 0 3px rgba(40, 216, 255, 0.06);
+    }
+
+    select {
+      cursor: pointer;
     }
 
     select option {
       background: #081522;
-      color: white;
+      color: #ffffff;
     }
 
-    .password-wrap {
+    /* =========================
+       PASSWORD
+    ========================= */
+
+    .password-wrapper {
       position: relative;
     }
 
-    .password-wrap input {
-      padding-right: 60px;
+    .password-wrapper input {
+      padding-right: 65px;
     }
 
-    .show-btn {
+    .show-password {
       position: absolute;
-      right: 12px;
+
+      right: 13px;
       top: 50%;
+
       transform: translateY(-50%);
-      border: 0;
-      background: transparent;
+
+      background: none;
+      border: none;
+
       color: #2bd9ff;
-      font-size: 11px;
-      font-weight: bold;
+
+      font-size: 10px;
+      font-weight: 800;
+
       cursor: pointer;
     }
+
+    .password-info {
+      margin-top: 6px;
+
+      color: #60738a;
+
+      font-size: 10px;
+    }
+
+    /* =========================
+       TERMS
+    ========================= */
 
     .terms {
       display: flex;
       align-items: flex-start;
+
       gap: 9px;
-      margin: 4px 0 20px;
+
+      margin: 5px 0 20px;
     }
 
     .terms input {
       width: auto;
+
       margin-top: 3px;
+
+      accent-color: #20cfff;
     }
 
     .terms p {
-      color: #7f90a5;
+      color: #788ba1;
+
       font-size: 11px;
       line-height: 1.6;
     }
@@ -263,82 +374,148 @@
       color: #2bd9ff;
     }
 
+    /* =========================
+       BUTTON
+    ========================= */
+
     .create-btn {
       width: 100%;
+
       padding: 15px;
-      border: 0;
+
+      border: none;
       border-radius: 10px;
-      background: linear-gradient(135deg,#00d9ff,#287cff);
-      color: #04101c;
+
+      background: linear-gradient(
+        135deg,
+        #00d9ff,
+        #287cff
+      );
+
+      color: #03111d;
+
       font-size: 14px;
       font-weight: 800;
+
       cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,153,255,.18);
+
+      box-shadow:
+        0 10px 30px rgba(0, 153, 255, 0.18);
+
+      transition: 0.2s;
     }
 
     .create-btn:hover {
-      opacity: .92;
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 14px 35px rgba(0, 153, 255, 0.25);
     }
+
+    /* =========================
+       MESSAGES
+    ========================= */
+
+    .message {
+      display: none;
+
+      padding: 12px;
+
+      border-radius: 8px;
+
+      margin-bottom: 18px;
+
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .message.error {
+      display: block;
+
+      color: #ff9999;
+
+      background: rgba(255, 75, 75, 0.08);
+
+      border: 1px solid rgba(255, 75, 75, 0.18);
+    }
+
+    /* =========================
+       BOTTOM LINKS
+    ========================= */
 
     .signin {
       text-align: center;
+
       margin-top: 20px;
-      color: #7e8fa5;
+
+      color: #788ba1;
+
       font-size: 12px;
     }
 
     .signin a {
       color: #2bd9ff;
-      font-weight: bold;
+
+      font-weight: 700;
     }
 
-    .back-home {
+    .home-link {
       display: block;
+
       text-align: center;
-      color: #77899f;
-      font-size: 12px;
-      margin-top: 17px;
+
+      margin-top: 16px;
+
+      color: #66798f;
+
+      font-size: 11px;
     }
 
-    .back-home:hover {
-      color: white;
+    .home-link:hover {
+      color: #ffffff;
     }
-
-    /* MESSAGE */
-
-    .message {
-      display: none;
-      padding: 12px;
-      margin-bottom: 18px;
-      border-radius: 8px;
-      font-size: 12px;
-    }
-
-    .error {
-      display: block;
-      background: rgba(255,75,75,.08);
-      border: 1px solid rgba(255,75,75,.2);
-      color: #ff8a8a;
-    }
-
-    /* SECURITY NOTE */
 
     .security-note {
       text-align: center;
-      color: #64768d;
+
+      margin-top: 18px;
+
+      color: #5e7187;
+
       font-size: 10px;
-      margin-top: 17px;
+
       line-height: 1.5;
     }
 
-    /* MOBILE */
+    /* =========================
+       FOOTER
+    ========================= */
 
-    @media(max-width:900px) {
+    footer {
+      padding: 25px 20px;
+
+      text-align: center;
+
+      color: #53667c;
+
+      font-size: 10px;
+
+      border-top:
+        1px solid rgba(255,255,255,0.05);
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 900px) {
 
       .page {
+        max-width: 620px;
+
         grid-template-columns: 1fr;
+
         gap: 45px;
-        max-width: 600px;
       }
 
       .left {
@@ -346,24 +523,26 @@
       }
 
       .left h1 {
-        font-size: 43px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
-      .left > p {
+      .description {
         margin-left: auto;
         margin-right: auto;
       }
 
       .benefits {
-        max-width: 370px;
+        max-width: 390px;
         margin: auto;
+
         text-align: left;
       }
     }
 
-    @media(max-width:520px) {
+    @media (max-width: 520px) {
 
-      .nav {
+      .navbar {
         padding: 15px;
       }
 
@@ -371,29 +550,38 @@
         font-size: 15px;
       }
 
-      .logo-box {
-        width: 34px;
-        height: 34px;
+      .logo-icon {
+        width: 35px;
+        height: 35px;
       }
 
-      .login-top {
+      .top-login {
         display: none;
       }
 
       .page {
-        padding: 40px 15px;
+        padding:
+          40px 14px
+          60px;
       }
 
       .left h1 {
         font-size: 38px;
+
+        letter-spacing: -1.4px;
+      }
+
+      .description {
+        font-size: 14px;
       }
 
       .register-card {
-        padding: 23px 18px;
+        padding: 24px 18px;
       }
 
-      .row {
+      .name-row {
         grid-template-columns: 1fr;
+
         gap: 0;
       }
     }
@@ -403,65 +591,125 @@
 
 <body>
 
-<header class="header">
-  <div class="nav">
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+  <nav class="navbar">
 
     <a href="index.html" class="logo">
-      <div class="logo-box">M</div>
-      MAXX <span>DIGITAL MARKETS</span>
+
+      <div class="logo-icon">
+        M
+      </div>
+
+      MAXX
+      <span>DIGITAL MARKETS</span>
+
     </a>
 
-    <div class="login-top">
+
+    <div class="top-login">
+
       Already have an account?
-      <a href="login.html">Sign In</a>
+
+      <a href="login.html">
+        Sign In
+      </a>
+
     </div>
 
-  </div>
+  </nav>
+
 </header>
 
 
+
+<!-- =========================
+     PAGE
+========================= -->
+
 <main class="page">
 
-  <!-- LEFT SIDE -->
+
+  <!-- LEFT INFORMATION -->
 
   <section class="left">
 
-    <div class="left-label">
+    <div class="badge">
       CREATE YOUR ACCOUNT
     </div>
 
+
     <h1>
+
       Your Journey Into
-      <span class="blue">Global Markets</span>
+
+      <span class="gradient">
+        Global Markets
+      </span>
+
       Starts Here.
+
     </h1>
 
-    <p>
-      Create your Maxx Digital Markets account and access a powerful,
-      streamlined dashboard designed to keep your trading activity,
-      portfolio and essential tools in one place.
+
+    <p class="description">
+
+      Create your Maxx Digital Markets account and access
+      a powerful, streamlined dashboard designed to keep
+      your trading activity, portfolio and essential tools
+      in one place.
+
     </p>
+
 
     <div class="benefits">
 
       <div class="benefit">
-        <div class="check">✓</div>
+
+        <div class="check">
+          ✓
+        </div>
+
         Access Forex, Crypto and Stock markets
+
       </div>
 
+
       <div class="benefit">
-        <div class="check">✓</div>
+
+        <div class="check">
+          ✓
+        </div>
+
         Modern and responsive trading dashboard
+
       </div>
 
+
       <div class="benefit">
-        <div class="check">✓</div>
+
+        <div class="check">
+          ✓
+        </div>
+
         Secure account access
+
       </div>
 
+
       <div class="benefit">
-        <div class="check">✓</div>
-        Manage your account from any compatible device
+
+        <div class="check">
+          ✓
+        </div>
+
+        Manage your account across compatible devices
+
       </div>
 
     </div>
@@ -469,56 +717,89 @@
   </section>
 
 
-  <!-- REGISTER FORM -->
+
+  <!-- =========================
+       REGISTRATION FORM
+  ========================= -->
 
   <section class="register-card">
 
-    <h2>Create Account</h2>
+    <h2>
+      Create Account
+    </h2>
+
 
     <p class="subtitle">
-      Enter your information to get started.
+      Complete the form below to get started.
     </p>
 
-    <div id="message" class="message"></div>
+
+    <div
+      id="message"
+      class="message">
+    </div>
+
 
     <form id="registerForm">
 
-      <div class="row">
+
+      <!-- NAME -->
+
+      <div class="name-row">
+
 
         <div class="form-group">
-          <label for="firstName">First Name</label>
+
+          <label for="firstName">
+            First Name
+          </label>
 
           <input
-            id="firstName"
             type="text"
+            id="firstName"
+            name="firstName"
             placeholder="First name"
             autocomplete="given-name"
             required
           >
+
         </div>
 
+
         <div class="form-group">
-          <label for="lastName">Last Name</label>
+
+          <label for="lastName">
+            Last Name
+          </label>
 
           <input
-            id="lastName"
             type="text"
+            id="lastName"
+            name="lastName"
             placeholder="Last name"
             autocomplete="family-name"
             required
           >
+
         </div>
+
 
       </div>
 
 
+
+      <!-- EMAIL -->
+
       <div class="form-group">
 
-        <label for="email">Email Address</label>
+        <label for="email">
+          Email Address
+        </label>
 
         <input
-          id="email"
           type="email"
+          id="email"
+          name="email"
           placeholder="name@example.com"
           autocomplete="email"
           required
@@ -527,49 +808,297 @@
       </div>
 
 
+
+      <!-- PHONE -->
+
       <div class="form-group">
 
-        <label for="country">Country</label>
+        <label for="phone">
+          Phone Number
+        </label>
 
-        <select id="country" required>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="+1 555 000 0000"
+          autocomplete="tel"
+          required
+        >
 
-          <option value="">Select your country</option>
-          <option value="NG">Nigeria</option>
-          <option value="US">United States</option>
-          <option value="GB">United Kingdom</option>
-          <option value="CA">Canada</option>
+      </div>
+
+
+
+      <!-- COUNTRY -->
+
+      <div class="form-group">
+
+        <label for="country">
+          Country / Region
+        </label>
+
+        <select
+          id="country"
+          name="country"
+          required
+        >
+
+          <option value="">
+            Select your country
+          </option>
+
+          <option value="AF">Afghanistan</option>
+          <option value="AL">Albania</option>
+          <option value="DZ">Algeria</option>
+          <option value="AD">Andorra</option>
+          <option value="AO">Angola</option>
+          <option value="AG">Antigua and Barbuda</option>
+          <option value="AR">Argentina</option>
+          <option value="AM">Armenia</option>
           <option value="AU">Australia</option>
-          <option value="ZA">South Africa</option>
-          <option value="GH">Ghana</option>
-          <option value="KE">Kenya</option>
-          <option value="DE">Germany</option>
+          <option value="AT">Austria</option>
+          <option value="AZ">Azerbaijan</option>
+
+          <option value="BS">Bahamas</option>
+          <option value="BH">Bahrain</option>
+          <option value="BD">Bangladesh</option>
+          <option value="BB">Barbados</option>
+          <option value="BY">Belarus</option>
+          <option value="BE">Belgium</option>
+          <option value="BZ">Belize</option>
+          <option value="BJ">Benin</option>
+          <option value="BT">Bhutan</option>
+          <option value="BO">Bolivia</option>
+          <option value="BA">Bosnia and Herzegovina</option>
+          <option value="BW">Botswana</option>
+          <option value="BR">Brazil</option>
+          <option value="BN">Brunei</option>
+          <option value="BG">Bulgaria</option>
+          <option value="BF">Burkina Faso</option>
+          <option value="BI">Burundi</option>
+
+          <option value="CV">Cabo Verde</option>
+          <option value="KH">Cambodia</option>
+          <option value="CM">Cameroon</option>
+          <option value="CA">Canada</option>
+          <option value="CF">Central African Republic</option>
+          <option value="TD">Chad</option>
+          <option value="CL">Chile</option>
+          <option value="CN">China</option>
+          <option value="CO">Colombia</option>
+          <option value="KM">Comoros</option>
+          <option value="CG">Congo</option>
+          <option value="CD">Congo, Democratic Republic of the</option>
+          <option value="CR">Costa Rica</option>
+          <option value="CI">Côte d'Ivoire</option>
+          <option value="HR">Croatia</option>
+          <option value="CU">Cuba</option>
+          <option value="CY">Cyprus</option>
+          <option value="CZ">Czechia</option>
+
+          <option value="DK">Denmark</option>
+          <option value="DJ">Djibouti</option>
+          <option value="DM">Dominica</option>
+          <option value="DO">Dominican Republic</option>
+
+          <option value="EC">Ecuador</option>
+          <option value="EG">Egypt</option>
+          <option value="SV">El Salvador</option>
+          <option value="GQ">Equatorial Guinea</option>
+          <option value="ER">Eritrea</option>
+          <option value="EE">Estonia</option>
+          <option value="SZ">Eswatini</option>
+          <option value="ET">Ethiopia</option>
+
+          <option value="FJ">Fiji</option>
+          <option value="FI">Finland</option>
           <option value="FR">France</option>
+
+          <option value="GA">Gabon</option>
+          <option value="GM">Gambia</option>
+          <option value="GE">Georgia</option>
+          <option value="DE">Germany</option>
+          <option value="GH">Ghana</option>
+          <option value="GR">Greece</option>
+          <option value="GD">Grenada</option>
+          <option value="GT">Guatemala</option>
+          <option value="GN">Guinea</option>
+          <option value="GW">Guinea-Bissau</option>
+          <option value="GY">Guyana</option>
+
+          <option value="HT">Haiti</option>
+          <option value="HN">Honduras</option>
+          <option value="HU">Hungary</option>
+
+          <option value="IS">Iceland</option>
+          <option value="IN">India</option>
+          <option value="ID">Indonesia</option>
+          <option value="IR">Iran</option>
+          <option value="IQ">Iraq</option>
+          <option value="IE">Ireland</option>
+          <option value="IL">Israel</option>
+          <option value="IT">Italy</option>
+
+          <option value="JM">Jamaica</option>
+          <option value="JP">Japan</option>
+          <option value="JO">Jordan</option>
+
+          <option value="KZ">Kazakhstan</option>
+          <option value="KE">Kenya</option>
+          <option value="KI">Kiribati</option>
+          <option value="KP">North Korea</option>
+          <option value="KR">South Korea</option>
+          <option value="KW">Kuwait</option>
+          <option value="KG">Kyrgyzstan</option>
+
+          <option value="LA">Laos</option>
+          <option value="LV">Latvia</option>
+          <option value="LB">Lebanon</option>
+          <option value="LS">Lesotho</option>
+          <option value="LR">Liberia</option>
+          <option value="LY">Libya</option>
+          <option value="LI">Liechtenstein</option>
+          <option value="LT">Lithuania</option>
+          <option value="LU">Luxembourg</option>
+
+          <option value="MG">Madagascar</option>
+          <option value="MW">Malawi</option>
+          <option value="MY">Malaysia</option>
+          <option value="MV">Maldives</option>
+          <option value="ML">Mali</option>
+          <option value="MT">Malta</option>
+          <option value="MH">Marshall Islands</option>
+          <option value="MR">Mauritania</option>
+          <option value="MU">Mauritius</option>
+          <option value="MX">Mexico</option>
+          <option value="FM">Micronesia</option>
+          <option value="MD">Moldova</option>
+          <option value="MC">Monaco</option>
+          <option value="MN">Mongolia</option>
+          <option value="ME">Montenegro</option>
+          <option value="MA">Morocco</option>
+          <option value="MZ">Mozambique</option>
+          <option value="MM">Myanmar</option>
+
+          <option value="NA">Namibia</option>
+          <option value="NR">Nauru</option>
+          <option value="NP">Nepal</option>
+          <option value="NL">Netherlands</option>
+          <option value="NZ">New Zealand</option>
+          <option value="NI">Nicaragua</option>
+          <option value="NE">Niger</option>
+          <option value="NG">Nigeria</option>
+          <option value="MK">North Macedonia</option>
+          <option value="NO">Norway</option>
+
+          <option value="OM">Oman</option>
+
+          <option value="PK">Pakistan</option>
+          <option value="PW">Palau</option>
+          <option value="PS">Palestine</option>
+          <option value="PA">Panama</option>
+          <option value="PG">Papua New Guinea</option>
+          <option value="PY">Paraguay</option>
+          <option value="PE">Peru</option>
+          <option value="PH">Philippines</option>
+          <option value="PL">Poland</option>
+          <option value="PT">Portugal</option>
+
+          <option value="QA">Qatar</option>
+
+          <option value="RO">Romania</option>
+          <option value="RU">Russia</option>
+          <option value="RW">Rwanda</option>
+
+          <option value="KN">Saint Kitts and Nevis</option>
+          <option value="LC">Saint Lucia</option>
+          <option value="VC">Saint Vincent and the Grenadines</option>
+          <option value="WS">Samoa</option>
+          <option value="SM">San Marino</option>
+          <option value="ST">São Tomé and Príncipe</option>
+          <option value="SA">Saudi Arabia</option>
+          <option value="SN">Senegal</option>
+          <option value="RS">Serbia</option>
+          <option value="SC">Seychelles</option>
+          <option value="SL">Sierra Leone</option>
+          <option value="SG">Singapore</option>
+          <option value="SK">Slovakia</option>
+          <option value="SI">Slovenia</option>
+          <option value="SB">Solomon Islands</option>
+          <option value="SO">Somalia</option>
+          <option value="ZA">South Africa</option>
+          <option value="SS">South Sudan</option>
+          <option value="ES">Spain</option>
+          <option value="LK">Sri Lanka</option>
+          <option value="SD">Sudan</option>
+          <option value="SR">Suriname</option>
+          <option value="SE">Sweden</option>
+          <option value="CH">Switzerland</option>
+          <option value="SY">Syria</option>
+
+          <option value="TW">Taiwan</option>
+          <option value="TJ">Tajikistan</option>
+          <option value="TZ">Tanzania</option>
+          <option value="TH">Thailand</option>
+          <option value="TL">Timor-Leste</option>
+          <option value="TG">Togo</option>
+          <option value="TO">Tonga</option>
+          <option value="TT">Trinidad and Tobago</option>
+          <option value="TN">Tunisia</option>
+          <option value="TR">Türkiye</option>
+          <option value="TM">Turkmenistan</option>
+          <option value="TV">Tuvalu</option>
+
+          <option value="UG">Uganda</option>
+          <option value="UA">Ukraine</option>
           <option value="AE">United Arab Emirates</option>
-          <option value="OTHER">Other</option>
+          <option value="GB">United Kingdom</option>
+          <option value="US">United States</option>
+          <option value="UY">Uruguay</option>
+          <option value="UZ">Uzbekistan</option>
+
+          <option value="VU">Vanuatu</option>
+          <option value="VA">Vatican City</option>
+          <option value="VE">Venezuela</option>
+          <option value="VN">Vietnam</option>
+
+          <option value="YE">Yemen</option>
+
+          <option value="ZM">Zambia</option>
+          <option value="ZW">Zimbabwe</option>
 
         </select>
 
       </div>
 
 
+
+      <!-- PASSWORD -->
+
       <div class="form-group">
 
-        <label for="password">Password</label>
+        <label for="password">
+          Password
+        </label>
 
-        <div class="password-wrap">
+
+        <div class="password-wrapper">
 
           <input
-            id="password"
             type="password"
+            id="password"
+            name="password"
             placeholder="Create a strong password"
             autocomplete="new-password"
             minlength="8"
             required
           >
 
+
           <button
             type="button"
-            class="show-btn"
+            class="show-password"
             onclick="togglePassword('password', this)"
           >
             SHOW
@@ -577,27 +1106,40 @@
 
         </div>
 
+
+        <div class="password-info">
+          Use at least 8 characters.
+        </div>
+
       </div>
 
 
+
+      <!-- CONFIRM PASSWORD -->
+
       <div class="form-group">
 
-        <label for="confirmPassword">Confirm Password</label>
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
 
-        <div class="password-wrap">
+
+        <div class="password-wrapper">
 
           <input
-            id="confirmPassword"
             type="password"
-            placeholder="Confirm your password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Enter your password again"
             autocomplete="new-password"
             minlength="8"
             required
           >
 
+
           <button
             type="button"
-            class="show-btn"
+            class="show-password"
             onclick="togglePassword('confirmPassword', this)"
           >
             SHOW
@@ -608,111 +1150,228 @@
       </div>
 
 
+
+      <!-- TERMS -->
+
       <div class="terms">
 
-        <input id="terms" type="checkbox" required>
+        <input
+          type="checkbox"
+          id="terms"
+          required
+        >
+
 
         <p>
+
           I confirm that I have read and agree to the
-          <a href="#">Terms & Conditions</a>
+
+          <a href="#">
+            Terms & Conditions
+          </a>
+
           and
-          <a href="#">Privacy Policy</a>.
+
+          <a href="#">
+            Privacy Policy
+          </a>.
+
         </p>
 
       </div>
 
 
-      <button type="submit" class="create-btn">
+
+      <!-- SUBMIT -->
+
+      <button
+        type="submit"
+        class="create-btn"
+      >
+
         Create Account →
+
       </button>
+
 
     </form>
 
 
+
     <div class="signin">
+
       Already have an account?
-      <a href="login.html">Sign In</a>
+
+      <a href="login.html">
+        Sign In
+      </a>
+
     </div>
 
-    <a href="index.html" class="back-home">
+
+    <a
+      href="index.html"
+      class="home-link"
+    >
+
       ← Back to Maxx Digital Markets
+
     </a>
 
+
     <div class="security-note">
-      🔒 Never share your password or account credentials with anyone.
+
+      🔒 Keep your password private.
+      Maxx Digital Markets will never ask you to share
+      your password with another person.
+
     </div>
 
+
   </section>
+
 
 </main>
 
 
+
+<footer>
+
+  © <span id="year"></span>
+  Maxx Digital Markets.
+  All rights reserved.
+
+</footer>
+
+
+
 <script>
 
-  function togglePassword(id, button) {
+  /* =========================
+     PASSWORD SHOW / HIDE
+  ========================= */
 
-    const input = document.getElementById(id);
+  function togglePassword(inputId, button) {
+
+    const input =
+      document.getElementById(inputId);
+
 
     if (input.type === "password") {
+
       input.type = "text";
+
       button.textContent = "HIDE";
+
     } else {
+
       input.type = "password";
+
       button.textContent = "SHOW";
+
     }
 
   }
 
 
+
+  /* =========================
+     REGISTRATION FORM
+  ========================= */
+
   document
     .getElementById("registerForm")
-    .addEventListener("submit", function(event) {
+    .addEventListener(
+      "submit",
+      function(event) {
 
-      event.preventDefault();
-
-      const password =
-        document.getElementById("password").value;
-
-      const confirmPassword =
-        document.getElementById("confirmPassword").value;
-
-      const message =
-        document.getElementById("message");
+        event.preventDefault();
 
 
-      if (password !== confirmPassword) {
+        const password =
+          document.getElementById("password").value;
+
+
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+
+        const message =
+          document.getElementById("message");
+
+
+        /* PASSWORD CHECK */
+
+        if (
+          password !==
+          confirmPassword
+        ) {
+
+          message.textContent =
+            "The passwords you entered do not match.";
+
+          message.className =
+            "message error";
+
+          message.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+
+          return;
+
+        }
+
+
+        /* PASSWORD LENGTH */
+
+        if (
+          password.length < 8
+        ) {
+
+          message.textContent =
+            "Your password must contain at least 8 characters.";
+
+          message.className =
+            "message error";
+
+          return;
+
+        }
+
+
+        /*
+        ==========================================
+        BACKEND REGISTRATION GOES HERE
+        ==========================================
+
+        Do not store passwords in localStorage.
+
+        Connect this form to a secure authentication
+        backend before accepting real registrations.
+        */
+
 
         message.textContent =
-          "Your passwords do not match.";
+          "Account registration is not connected to the server yet.";
 
         message.className =
           "message error";
 
-        return;
       }
+    );
 
 
-      /*
-        IMPORTANT:
 
-        The visual registration page is complete.
+  /* =========================
+     COPYRIGHT YEAR
+  ========================= */
 
-        Real account creation must be connected to a secure
-        authentication/backend service.
-
-        Do NOT store user passwords in localStorage or directly
-        inside JavaScript.
-      */
-
-      message.textContent =
-        "Registration backend has not been connected yet.";
-
-      message.className =
-        "message error";
-
-    });
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
 
 </script>
+
 
 </body>
 </html>
