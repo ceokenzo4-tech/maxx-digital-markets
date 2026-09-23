@@ -1,1 +1,1115 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Markets | MAXX</title><link rel="stylesheet" href="trading.css"></head><body><header class="top"><a class="brand" href="index.html">MAXX <b>DIGITAL MARKETS</b></a><nav class="nav"><a href="dashboard.html">Dashboard</a><a class="active" href="markets.html">Markets</a><a href="trade.html">Trade</a><a href="history.html">History</a><a href="profile.html">Account</a></nav><span class="badge">DEMO</span></header><main class="wrap"><div class="row"><div><h1>Markets</h1><p class="muted">Forex, crypto and stocks in one practice watchlist.</p></div><a class="btn primary" href="trade.html">Open terminal</a></div><div class="notice">Prices on this page are simulated/indicative for practice and UI testing, not executable live quotes.</div><section class="card"><div class="table-scroll"><table><thead><tr><th>Instrument</th><th>Asset class</th><th>Price</th><th>Move</th><th></th></tr></thead><tbody id="marketRows"></tbody></table></div></section></main><script src="trading.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#03101d">
+
+<title>Markets | Maxx Digital Markets</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#020c16;
+  --panel:#08192b;
+  --panel2:#0c2138;
+  --border:#173653;
+  --text:#f4f8ff;
+  --muted:#8498b5;
+  --blue:#2f7df4;
+  --cyan:#14c9ed;
+  --green:#38d98a;
+  --red:#ff6170;
+}
+
+body{
+  background:
+    radial-gradient(circle at top right,
+    rgba(24,118,202,.12),transparent 30%),
+    var(--bg);
+
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input{
+  font-family:inherit;
+}
+
+/* HEADER */
+
+header{
+  height:86px;
+  padding:0 30px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  border-bottom:1px solid var(--border);
+
+  background:rgba(3,14,25,.97);
+
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.logo{
+  width:48px;
+  height:48px;
+
+  border-radius:14px;
+
+  display:grid;
+  place-items:center;
+
+  font-size:25px;
+  font-weight:900;
+
+  color:#02101b;
+
+  background:
+    linear-gradient(135deg,#13d2ed,#2d70f6);
+}
+
+.brand-text{
+  font-size:19px;
+  font-weight:900;
+}
+
+.brand-text span{
+  color:var(--cyan);
+}
+
+.header-actions{
+  display:flex;
+  gap:10px;
+}
+
+.header-btn{
+  padding:11px 17px;
+
+  border:1px solid var(--border);
+  border-radius:10px;
+
+  background:#0a1d31;
+
+  color:white;
+  font-weight:700;
+
+  cursor:pointer;
+}
+
+.header-btn.primary{
+  background:var(--blue);
+  border-color:var(--blue);
+}
+
+/* PAGE */
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:45px 30px 70px;
+}
+
+/* TITLE */
+
+.market-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+
+  gap:20px;
+
+  margin-bottom:30px;
+}
+
+.eyebrow{
+  color:var(--cyan);
+
+  font-size:12px;
+  font-weight:900;
+
+  letter-spacing:1.8px;
+
+  margin-bottom:10px;
+}
+
+.market-heading h1{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.market-heading p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* STATUS */
+
+.market-status{
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  padding:10px 14px;
+
+  background:#081d27;
+
+  border:1px solid #14503e;
+  border-radius:100px;
+
+  color:#79e8ad;
+
+  font-size:13px;
+  font-weight:800;
+}
+
+.status-dot{
+  width:9px;
+  height:9px;
+
+  border-radius:50%;
+  background:var(--green);
+
+  box-shadow:0 0 12px var(--green);
+}
+
+/* TOOLBAR */
+
+.toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+
+  padding:17px;
+
+  margin-bottom:20px;
+
+  background:var(--panel);
+
+  border:1px solid var(--border);
+  border-radius:17px;
+}
+
+.tabs{
+  display:flex;
+  gap:7px;
+}
+
+.tab{
+  border:0;
+
+  padding:11px 17px;
+
+  border-radius:9px;
+
+  color:var(--muted);
+  background:transparent;
+
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+.tab.active{
+  color:white;
+  background:#15365a;
+}
+
+.search{
+  width:270px;
+  max-width:100%;
+
+  padding:12px 15px;
+
+  border-radius:10px;
+  border:1px solid var(--border);
+
+  outline:none;
+
+  background:#061522;
+  color:white;
+}
+
+.search:focus{
+  border-color:var(--blue);
+}
+
+/* TABLE */
+
+.market-panel{
+  overflow:hidden;
+
+  border:1px solid var(--border);
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(11,29,49,.98),
+      rgba(5,18,32,.98)
+    );
+}
+
+.market-header,
+.market-row{
+  display:grid;
+
+  grid-template-columns:
+    minmax(160px,1.5fr)
+    1fr
+    1fr
+    1fr
+    1fr
+    80px;
+
+  align-items:center;
+
+  gap:15px;
+}
+
+.market-header{
+  min-height:58px;
+
+  padding:0 24px;
+
+  color:#7186a4;
+
+  font-size:12px;
+  font-weight:900;
+
+  text-transform:uppercase;
+  letter-spacing:.8px;
+
+  border-bottom:1px solid var(--border);
+}
+
+.market-row{
+  min-height:91px;
+
+  padding:0 24px;
+
+  border-bottom:1px solid
+  rgba(35,64,94,.55);
+
+  transition:.2s;
+}
+
+.market-row:last-child{
+  border-bottom:0;
+}
+
+.market-row:hover{
+  background:rgba(29,73,116,.15);
+}
+
+.instrument{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.asset-icon{
+  width:43px;
+  height:43px;
+
+  border-radius:12px;
+
+  display:grid;
+  place-items:center;
+
+  background:#112d4c;
+
+  color:#67d9ff;
+
+  font-size:13px;
+  font-weight:900;
+}
+
+.instrument strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.instrument small{
+  color:var(--muted);
+}
+
+.number{
+  font-weight:700;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.watch{
+  width:39px;
+  height:39px;
+
+  border-radius:10px;
+
+  border:1px solid var(--border);
+
+  background:#0c2138;
+  color:#7890ad;
+
+  font-size:21px;
+
+  cursor:pointer;
+}
+
+.watch.active{
+  color:#ffc84a;
+}
+
+/* INFO */
+
+.info-grid{
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:18px;
+
+  margin-top:23px;
+}
+
+.info-card{
+  padding:23px;
+
+  border-radius:17px;
+
+  background:var(--panel);
+
+  border:1px solid var(--border);
+}
+
+.info-card small{
+  display:block;
+
+  color:var(--muted);
+
+  margin-bottom:11px;
+}
+
+.info-card strong{
+  font-size:18px;
+}
+
+/* DISCLAIMER */
+
+.data-note{
+  margin-top:24px;
+
+  padding:18px 20px;
+
+  border:1px solid #23415e;
+  border-radius:14px;
+
+  color:#8fa4bf;
+
+  background:#061522;
+
+  line-height:1.6;
+
+  font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+  header{
+    height:80px;
+    padding:0 18px;
+  }
+
+  .brand-text{
+    font-size:15px;
+  }
+
+  .header-btn:first-child{
+    display:none;
+  }
+
+  .container{
+    padding:32px 20px 55px;
+  }
+
+  .market-heading{
+    display:block;
+  }
+
+  .market-heading h1{
+    font-size:36px;
+  }
+
+  .market-status{
+    width:max-content;
+    margin-top:20px;
+  }
+
+  .toolbar{
+    display:block;
+  }
+
+  .tabs{
+    overflow:auto;
+    margin-bottom:13px;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .market-panel{
+    border-radius:16px;
+  }
+
+  .market-header{
+    display:none;
+  }
+
+  .market-row{
+    grid-template-columns:1fr auto;
+
+    min-height:auto;
+
+    padding:22px 18px;
+
+    gap:18px;
+  }
+
+  .mobile-hide{
+    display:none;
+  }
+
+  .watch{
+    grid-column:2;
+    grid-row:1;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<a href="dashboard.html" class="brand">
+
+<div class="logo">
+M
+</div>
+
+<div class="brand-text">
+MAXX <span>DIGITAL MARKETS</span>
+</div>
+
+</a>
+
+
+<div class="header-actions">
+
+<a href="dashboard.html"
+class="header-btn">
+Dashboard
+</a>
+
+<a href="dashboard.html"
+class="header-btn primary">
+My Account
+</a>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+<section class="market-heading">
+
+<div>
+
+<div class="eyebrow">
+MARKET OVERVIEW
+</div>
+
+<h1>Global Markets</h1>
+
+<p>
+Explore forex, cryptocurrency and stock
+instruments from one professional market workspace.
+</p>
+
+</div>
+
+
+<div class="market-status">
+
+<span class="status-dot"></span>
+
+Market Workspace
+
+</div>
+
+</section>
+
+
+<!-- TOOLBAR -->
+
+<div class="toolbar">
+
+<div class="tabs">
+
+<button
+class="tab active"
+data-filter="all">
+All
+</button>
+
+<button
+class="tab"
+data-filter="forex">
+Forex
+</button>
+
+<button
+class="tab"
+data-filter="crypto">
+Crypto
+</button>
+
+<button
+class="tab"
+data-filter="stocks">
+Stocks
+</button>
+
+</div>
+
+
+<input
+id="marketSearch"
+class="search"
+type="search"
+placeholder="Search markets..."
+autocomplete="off">
+
+</div>
+
+
+<!-- MARKET TABLE -->
+
+<section class="market-panel">
+
+<div class="market-header">
+
+<div>Instrument</div>
+<div>Category</div>
+<div>Bid</div>
+<div>Ask</div>
+<div>Status</div>
+<div>Watch</div>
+
+</div>
+
+
+<!-- EURUSD -->
+
+<div
+class="market-row"
+data-category="forex"
+data-symbol="eur usd euro">
+
+<div class="instrument">
+
+<div class="asset-icon">
+EUR
+</div>
+
+<div>
+<strong>EUR/USD</strong>
+<small>Euro / US Dollar</small>
+</div>
+
+</div>
+
+<div class="muted mobile-hide">
+Forex
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="muted mobile-hide">
+Awaiting data
+</div>
+
+<button
+class="watch"
+aria-label="Add EUR/USD to watchlist">
+☆
+</button>
+
+</div>
+
+
+<!-- GBPUSD -->
+
+<div
+class="market-row"
+data-category="forex"
+data-symbol="gbp usd pound sterling">
+
+<div class="instrument">
+
+<div class="asset-icon">
+GBP
+</div>
+
+<div>
+<strong>GBP/USD</strong>
+<small>British Pound / US Dollar</small>
+</div>
+
+</div>
+
+<div class="muted mobile-hide">
+Forex
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="muted mobile-hide">
+Awaiting data
+</div>
+
+<button class="watch">
+☆
+</button>
+
+</div>
+
+
+<!-- USDJPY -->
+
+<div
+class="market-row"
+data-category="forex"
+data-symbol="usd jpy yen">
+
+<div class="instrument">
+
+<div class="asset-icon">
+JPY
+</div>
+
+<div>
+<strong>USD/JPY</strong>
+<small>US Dollar / Japanese Yen</small>
+</div>
+
+</div>
+
+<div class="muted mobile-hide">
+Forex
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="muted mobile-hide">
+Awaiting data
+</div>
+
+<button class="watch">
+☆
+</button>
+
+</div>
+
+
+<!-- BTC -->
+
+<div
+class="market-row"
+data-category="crypto"
+data-symbol="btc bitcoin usd">
+
+<div class="instrument">
+
+<div class="asset-icon">
+BTC
+</div>
+
+<div>
+<strong>BTC/USD</strong>
+<small>Bitcoin / US Dollar</small>
+</div>
+
+</div>
+
+<div class="muted mobile-hide">
+Crypto
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="muted mobile-hide">
+Awaiting data
+</div>
+
+<button class="watch">
+☆
+</button>
+
+</div>
+
+
+<!-- ETH -->
+
+<div
+class="market-row"
+data-category="crypto"
+data-symbol="eth ethereum usd">
+
+<div class="instrument">
+
+<div class="asset-icon">
+ETH
+</div>
+
+<div>
+<strong>ETH/USD</strong>
+<small>Ethereum / US Dollar</small>
+</div>
+
+</div>
+
+<div class="muted mobile-hide">
+Crypto
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="muted mobile-hide">
+Awaiting data
+</div>
+
+<button class="watch">
+☆
+</button>
+
+</div>
+
+
+<!-- AAPL -->
+
+<div
+class="market-row"
+data-category="stocks"
+data-symbol="aapl apple stock">
+
+<div class="instrument">
+
+<div class="asset-icon">
+AAPL
+</div>
+
+<div>
+<strong>AAPL</strong>
+<small>Apple Inc.</small>
+</div>
+
+</div>
+
+<div class="muted mobile-hide">
+Stock
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="muted mobile-hide">
+Awaiting data
+</div>
+
+<button class="watch">
+☆
+</button>
+
+</div>
+
+
+<!-- NVDA -->
+
+<div
+class="market-row"
+data-category="stocks"
+data-symbol="nvda nvidia stock">
+
+<div class="instrument">
+
+<div class="asset-icon">
+NVDA
+</div>
+
+<div>
+<strong>NVDA</strong>
+<small>NVIDIA Corporation</small>
+</div>
+
+</div>
+
+<div class="muted mobile-hide">
+Stock
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="number mobile-hide">
+—
+</div>
+
+<div class="muted mobile-hide">
+Awaiting data
+</div>
+
+<button class="watch">
+☆
+</button>
+
+</div>
+
+</section>
+
+
+<!-- INFORMATION -->
+
+<section class="info-grid">
+
+<div class="info-card">
+
+<small>Available Categories</small>
+
+<strong>
+Forex · Crypto · Stocks
+</strong>
+
+</div>
+
+
+<div class="info-card">
+
+<small>Market Data</small>
+
+<strong>
+External feed ready
+</strong>
+
+</div>
+
+
+<div class="info-card">
+
+<small>Account Access</small>
+
+<strong>
+Secure Dashboard
+</strong>
+
+</div>
+
+</section>
+
+
+<div class="data-note">
+
+<strong>Market data notice:</strong>
+Live bid and ask prices are not displayed until
+a real market-data provider is connected.
+This prevents delayed, simulated or fabricated
+prices from being presented as live quotations.
+
+</div>
+
+</main>
+
+
+<script>
+
+/* FILTERING */
+
+const tabs =
+document.querySelectorAll(".tab");
+
+const rows =
+document.querySelectorAll(".market-row");
+
+const search =
+document.getElementById("marketSearch");
+
+let activeCategory = "all";
+
+
+function filterMarkets(){
+
+const query =
+search.value.toLowerCase().trim();
+
+
+rows.forEach(row => {
+
+const category =
+row.dataset.category;
+
+const searchable =
+row.dataset.symbol;
+
+
+const categoryMatch =
+activeCategory === "all" ||
+category === activeCategory;
+
+
+const searchMatch =
+searchable.includes(query);
+
+
+row.style.display =
+categoryMatch && searchMatch
+? ""
+: "none";
+
+});
+
+}
+
+
+tabs.forEach(tab => {
+
+tab.addEventListener("click", () => {
+
+tabs.forEach(t =>
+t.classList.remove("active")
+);
+
+tab.classList.add("active");
+
+activeCategory =
+tab.dataset.filter;
+
+filterMarkets();
+
+});
+
+});
+
+
+search.addEventListener(
+"input",
+filterMarkets
+);
+
+
+/* WATCHLIST */
+
+document
+.querySelectorAll(".watch")
+.forEach(button => {
+
+button.addEventListener(
+"click",
+function(){
+
+this.classList.toggle("active");
+
+if(
+this.classList.contains("active")
+){
+
+this.textContent = "★";
+
+}else{
+
+this.textContent = "☆";
+
+}
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
