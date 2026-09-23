@@ -1,1405 +1,1456 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Maxx Digital Markets | Forex, Crypto & Stock Trading</title>
-  <meta name="description" content="Maxx Digital Markets provides a modern platform experience for accessing forex, cryptocurrency and stock markets.">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      background: #07101d;
-      color: #ffffff;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(7, 16, 29, 0.94);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .navbar {
-      max-width: 1200px;
-      margin: auto;
-      padding: 17px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      font-size: 21px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .logo-icon {
-      width: 39px;
-      height: 39px;
-      border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #00d9ff, #2979ff);
-      color: #04101c;
-      font-weight: 900;
-      box-shadow: 0 0 30px rgba(0,217,255,0.2);
-    }
-
-    .logo span {
-      color: #28d7ff;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-      color: #b9c6d8;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .nav-links a:hover {
-      color: #ffffff;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      padding: 11px 19px;
-      font-size: 14px;
-      font-weight: 700;
-      transition: 0.25s;
-      cursor: pointer;
-    }
-
-    .btn-outline {
-      border: 1px solid #314158;
-      color: #e9f2ff;
-    }
-
-    .btn-outline:hover {
-      border-color: #21d5ff;
-      color: #21d5ff;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #00d9ff, #287cff);
-      color: #04101c;
-      border: none;
-      box-shadow: 0 8px 25px rgba(0,153,255,0.22);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0,153,255,0.32);
-    }
-
-    .menu-btn {
-      display: none;
-      background: transparent;
-      border: 0;
-      color: white;
-      font-size: 27px;
-      cursor: pointer;
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero {
-      position: relative;
-      min-height: 680px;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 700px;
-      height: 700px;
-      right: -250px;
-      top: -100px;
-      background: radial-gradient(
-        circle,
-        rgba(0,183,255,0.18),
-        transparent 65%
-      );
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      left: -250px;
-      bottom: -250px;
-      background: radial-gradient(
-        circle,
-        rgba(37,99,235,0.14),
-        transparent 70%
-      );
-    }
-
-    .hero-container {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
-      margin: auto;
-      padding: 85px 20px;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      align-items: center;
-      gap: 70px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 13px;
-      border-radius: 30px;
-      background: rgba(0,217,255,0.08);
-      border: 1px solid rgba(0,217,255,0.2);
-      color: #54ddff;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 22px;
-    }
-
-    .badge-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #27e38d;
-      box-shadow: 0 0 12px #27e38d;
-    }
-
-    .hero h1 {
-      font-size: clamp(43px, 6vw, 72px);
-      line-height: 1.06;
-      letter-spacing: -2.5px;
-      margin-bottom: 23px;
-    }
-
-    .gradient-text {
-      background: linear-gradient(90deg, #20dcff, #5d8dff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      color: #9dacbf;
-      font-size: 18px;
-      max-width: 590px;
-      margin-bottom: 31px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 35px;
-    }
-
-    .hero-buttons .btn {
-      padding: 14px 24px;
-    }
-
-    .hero-points {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      color: #9dacbf;
-      font-size: 13px;
-    }
-
-    .hero-points span::before {
-      content: "✓";
-      color: #22d3a0;
-      margin-right: 7px;
-      font-weight: bold;
-    }
-
-    /* =========================
-       TRADING PANEL
-    ========================= */
-
-    .trading-panel {
-      background: linear-gradient(
-        145deg,
-        rgba(17,32,52,0.95),
-        rgba(8,20,35,0.96)
-      );
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 35px 90px rgba(0,0,0,0.35);
-    }
-
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .panel-header h3 {
-      font-size: 15px;
-    }
-
-    .live {
-      font-size: 11px;
-      color: #25df95;
-      background: rgba(37,223,149,0.08);
-      border: 1px solid rgba(37,223,149,0.18);
-      padding: 5px 9px;
-      border-radius: 20px;
-    }
-
-    .chart {
-      height: 190px;
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      background:
-        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-      background-size: 40px 40px;
-      margin-bottom: 20px;
-    }
-
-    .chart svg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      bottom: 0;
-      left: 0;
-    }
-
-    .asset-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .asset {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 13px 14px;
-      border-radius: 11px;
-      background: rgba(255,255,255,0.035);
-    }
-
-    .asset-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .coin {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: #17273d;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      color: #31d6ff;
-    }
-
-    .asset-name {
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .asset-type {
-      color: #6f829b;
-      font-size: 10px;
-    }
-
-    .price {
-      text-align: right;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .positive {
-      color: #25df95;
-      font-size: 10px;
-    }
-
-    /* =========================
-       MARKET BAR
-    ========================= */
-
-    .market-bar {
-      background: #0a1625;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .market-inner {
-      max-width: 1200px;
-      margin: auto;
-      padding: 18px 20px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
-
-    .market-item {
-      padding-right: 15px;
-      border-right: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .market-item:last-child {
-      border-right: none;
-    }
-
-    .market-symbol {
-      color: #8191a8;
-      font-size: 11px;
-      margin-bottom: 3px;
-    }
-
-    .market-value {
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    /* =========================
-       GENERAL SECTIONS
-    ========================= */
-
-    section {
-      padding: 95px 20px;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .section-label {
-      color: #2bd9ff;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .section-title {
-      font-size: clamp(32px, 4vw, 45px);
-      line-height: 1.15;
-      letter-spacing: -1.5px;
-      margin-bottom: 14px;
-    }
-
-    .section-desc {
-      color: #8fa0b5;
-      max-width: 650px;
-      font-size: 16px;
-    }
-
-    /* =========================
-       MARKETS
-    ========================= */
-
-    .markets {
-      background: #081321;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-top: 45px;
-    }
-
-    .card {
-      position: relative;
-      background: #0c1929;
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 18px;
-      padding: 30px;
-      transition: 0.3s;
-      overflow: hidden;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(33,211,255,0.35);
-    }
-
-    .card-icon {
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 13px;
-      background: rgba(33,211,255,0.08);
-      border: 1px solid rgba(33,211,255,0.12);
-      font-size: 24px;
-      margin-bottom: 22px;
-    }
-
-    .card h3 {
-      font-size: 21px;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      color: #8496ad;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-
-    .card-link {
-      color: #2bd9ff;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    /* =========================
-       FEATURES
-    ========================= */
-
-    .features {
-      background: #07101d;
-    }
-
-    .feature-grid {
-      margin-top: 50px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .feature {
-      display: flex;
-      gap: 18px;
-      padding: 25px;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 15px;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .feature-number {
-      min-width: 43px;
-      height: 43px;
-      border-radius: 11px;
-      background: rgba(39,215,255,0.08);
-      color: #29d8ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-    }
-
-    .feature h3 {
-      margin-bottom: 6px;
-      font-size: 17px;
-    }
-
-    .feature p {
-      color: #8192a8;
-      font-size: 13px;
-    }
-
-    /* =========================
-       SECURITY
-    ========================= */
-
-    .security {
-      background:
-        radial-gradient(circle at 10% 50%, rgba(0,170,255,.08), transparent 30%),
-        #091523;
-    }
-
-    .security-box {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 70px;
-      align-items: center;
-    }
-
-    .security-visual {
-      border: 1px solid rgba(255,255,255,.08);
-      background: #0b1929;
-      border-radius: 22px;
-      padding: 35px;
-      text-align: center;
-    }
-
-    .shield {
-      width: 100px;
-      height: 100px;
-      margin: auto auto 25px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 30px;
-      background: linear-gradient(135deg,#0b3450,#10294d);
-      border: 1px solid rgba(41,216,255,.25);
-      font-size: 46px;
-      box-shadow: 0 0 50px rgba(0,198,255,.1);
-    }
-
-    .security-list {
-      margin-top: 28px;
-      display: grid;
-      gap: 15px;
-    }
-
-    .security-item {
-      display: flex;
-      gap: 12px;
-      color: #a5b2c3;
-      font-size: 14px;
-    }
-
-    .check {
-      color: #22d49a;
-      font-weight: 900;
-    }
-
-    /* =========================
-       CTA
-    ========================= */
-
-    .cta {
-      text-align: center;
-      background: #07101d;
-    }
-
-    .cta-box {
-      padding: 65px 25px;
-      border-radius: 24px;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(30,185,255,.16), transparent 55%),
-        #0c1929;
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .cta h2 {
-      font-size: clamp(31px,5vw,48px);
-      margin-bottom: 15px;
-    }
-
-    .cta p {
-      max-width: 600px;
-      margin: auto auto 27px;
-      color: #8da0b6;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      background: #050c15;
-      border-top: 1px solid rgba(255,255,255,.06);
-      padding: 55px 20px 25px;
-    }
-
-    .footer-grid {
-      max-width: 1200px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 35px;
-    }
-
-    .footer-about {
-      color: #75869c;
-      font-size: 13px;
-      max-width: 330px;
-      margin-top: 17px;
-    }
-
-    .footer-title {
-      font-weight: 700;
-      margin-bottom: 15px;
-      font-size: 14px;
-    }
-
-    .footer-links {
-      display: grid;
-      gap: 9px;
-      color: #75869c;
-      font-size: 13px;
-    }
-
-    .footer-links a:hover {
-      color: #2bd9ff;
-    }
-
-    .risk {
-      max-width: 1200px;
-      margin: 45px auto 0;
-      padding-top: 25px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      color: #65758a;
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .copyright {
-      max-width: 1200px;
-      margin: 20px auto 0;
-      color: #59697c;
-      font-size: 11px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 850px) {
-      .nav-links {
-        position: absolute;
-        display: none;
-        flex-direction: column;
-        align-items: flex-start;
-        top: 74px;
-        left: 15px;
-        right: 15px;
-        padding: 22px;
-        border-radius: 14px;
-        background: #0b1726;
-        border: 1px solid rgba(255,255,255,.08);
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .nav-actions .btn-outline {
-        display: none;
-      }
-
-      .menu-btn {
-        display: block;
-      }
-
-      .hero-container {
-        grid-template-columns: 1fr;
-        gap: 45px;
-        padding-top: 65px;
-      }
-
-      .hero h1 {
-        letter-spacing: -1.5px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .feature-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .security-box {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .market-inner {
-        grid-template-columns: repeat(2,1fr);
-      }
-
-      .market-item {
-        border-right: none;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .logo {
-        font-size: 17px;
-      }
-
-      .logo-icon {
-        width: 35px;
-        height: 35px;
-      }
-
-      .nav-actions .btn-primary {
-        display: none;
-      }
-
-      .hero {
-        min-height: auto;
-      }
-
-      .hero-container {
-        padding-top: 55px;
-      }
-
-      .hero h1 {
-        font-size: 43px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .hero-buttons {
-        display: grid;
-      }
-
-      .hero-buttons .btn {
-        width: 100%;
-      }
-
-      .market-inner {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maxx Digital Markets | Global Markets</title>
+
+<meta name="description"
+content="Explore forex, cryptocurrency and global financial markets with Maxx Digital Markets.">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+:root{
+    --bg:#020b16;
+    --bg2:#061424;
+    --panel:#09192b;
+    --panel2:#0c1e33;
+    --border:#19324e;
+    --text:#f6f8fc;
+    --muted:#91a4be;
+    --blue:#2d7cff;
+    --cyan:#19d3f3;
+    --green:#32e68b;
+    --red:#ff5f6d;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 70% 15%,rgba(0,196,255,.11),transparent 30%),
+        linear-gradient(180deg,#020b16,#04111f);
+    color:var(--text);
+    line-height:1.6;
+}
+
+a{
+    color:inherit;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(2,11,22,.94);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
+}
+
+.nav{
+    max-width:1250px;
+    margin:auto;
+    height:90px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    text-decoration:none;
+}
+
+.logo{
+    width:55px;
+    height:55px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#1bd8f3,#2676ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#03101c;
+    font-size:25px;
+    font-weight:900;
+    box-shadow:0 0 35px rgba(33,145,255,.2);
+}
+
+.brandText{
+    font-weight:900;
+    font-size:20px;
+    letter-spacing:.4px;
+}
+
+.brandText span{
+    color:#2fc8f4;
+}
+
+.navLinks{
+    display:flex;
+    align-items:center;
+    gap:28px;
+}
+
+.navLinks a{
+    text-decoration:none;
+    color:#a7b6ca;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.navLinks a:hover{
+    color:white;
+}
+
+.navLogin{
+    border:1px solid #29496d;
+    padding:10px 20px;
+    border-radius:9px;
+}
+
+.navCreate{
+    background:linear-gradient(135deg,#12ccec,#2878ff);
+    color:#03101c !important;
+    padding:11px 20px;
+    border-radius:9px;
+}
+
+.menuButton{
+    display:none;
+    background:none;
+    border:0;
+    color:white;
+    font-size:35px;
+    cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1250px;
+    margin:auto;
+    min-height:760px;
+    padding:90px 25px 70px;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    align-items:center;
+    gap:65px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 17px;
+    border:1px solid rgba(25,211,243,.28);
+    background:rgba(15,169,204,.08);
+    border-radius:100px;
+    color:#5edbf3;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.dot{
+    width:10px;
+    height:10px;
+    background:var(--green);
+    border-radius:50%;
+    box-shadow:0 0 15px var(--green);
+}
+
+.hero h1{
+    font-size:67px;
+    line-height:1.05;
+    letter-spacing:-2px;
+    max-width:700px;
+}
+
+.gradientText{
+    background:linear-gradient(90deg,#21d4f4,#4380ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.heroDescription{
+    max-width:650px;
+    color:#99abc3;
+    font-size:18px;
+    margin:28px 0 35px;
+}
+
+.heroButtons{
+    display:flex;
+    gap:14px;
+}
+
+.primaryBtn,
+.secondaryBtn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:54px;
+    padding:0 27px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:800;
+}
+
+.primaryBtn{
+    background:linear-gradient(100deg,#18d5ed,#2f78ff);
+    color:#02101c;
+}
+
+.secondaryBtn{
+    border:1px solid #2a4564;
+    background:#071525;
+    color:white;
+}
+
+/* MARKET TERMINAL */
+
+.terminal{
+    background:linear-gradient(145deg,#09182a,#06111e);
+    border:1px solid #1d3958;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.4);
+}
+
+.terminalTop{
+    height:58px;
+    border-bottom:1px solid #19304b;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+}
+
+.terminalDots{
+    display:flex;
+    gap:7px;
+}
+
+.terminalDots span{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#28415d;
+}
+
+.liveStatus{
+    color:#52e89a;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.chart{
+    height:290px;
+    position:relative;
+    padding:30px 25px;
+    overflow:hidden;
+    background:
+        linear-gradient(rgba(55,100,145,.08) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(55,100,145,.08) 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.chartTitle{
+    color:#8fa5bf;
+    font-size:12px;
+}
+
+.chartPrice{
+    font-size:30px;
+    font-weight:800;
+    margin-top:5px;
+}
+
+.chartChange{
+    color:#4ade80;
+    font-size:13px;
+}
+
+.chart svg{
+    position:absolute;
+    left:0;
+    bottom:25px;
+    width:100%;
+    height:180px;
+}
+
+.marketRows{
+    padding:0 20px 15px;
+}
+
+.marketRow{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    align-items:center;
+    padding:15px 5px;
+    border-top:1px solid #142b44;
+    font-size:13px;
+}
+
+.marketRow span:nth-child(2){
+    color:#8fa3bc;
+    text-align:center;
+}
+
+.marketRow span:last-child{
+    text-align:right;
+    color:#52e89a;
+}
+
+/* TICKER */
+
+.tickerSection{
+    border-top:1px solid #152b43;
+    border-bottom:1px solid #152b43;
+    background:#05111e;
+    overflow:hidden;
+}
+
+.ticker{
+    max-width:1250px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+}
+
+.tickerItem{
+    padding:20px 25px;
+    border-right:1px solid #152b43;
+}
+
+.tickerItem:last-child{
+    border:0;
+}
+
+.tickerSymbol{
+    font-size:13px;
+    color:#93a5bc;
+}
+
+.tickerName{
+    font-weight:bold;
+    margin-top:3px;
+}
+
+/* SECTIONS */
+
+.section{
+    max-width:1250px;
+    margin:auto;
+    padding:100px 25px;
+}
+
+.sectionHeading{
+    text-align:center;
+    max-width:750px;
+    margin:0 auto 55px;
+}
+
+.sectionLabel{
+    color:#3bd4f2;
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:1.5px;
+    margin-bottom:12px;
+}
+
+.sectionHeading h2{
+    font-size:43px;
+    line-height:1.15;
+    margin-bottom:18px;
+}
+
+.sectionHeading p{
+    color:var(--muted);
+}
+
+/* MARKETS */
+
+.marketCards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.marketCard{
+    background:linear-gradient(145deg,#0a192a,#071320);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:30px;
+    min-height:260px;
+    transition:.25s;
+}
+
+.marketCard:hover{
+    transform:translateY(-5px);
+    border-color:#2a679d;
+}
+
+.icon{
+    width:50px;
+    height:50px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#102844;
+    color:#40d7f4;
+    font-size:23px;
+    margin-bottom:25px;
+}
+
+.marketCard h3{
+    font-size:21px;
+    margin-bottom:12px;
+}
+
+.marketCard p{
+    color:#91a3bb;
+    font-size:14px;
+}
+
+/* FEATURES */
+
+.featureArea{
+    background:#04101d;
+    border-top:1px solid #142941;
+    border-bottom:1px solid #142941;
+}
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.feature{
+    padding:28px;
+}
+
+.featureNumber{
+    color:#2dcff0;
+    font-weight:bold;
+    margin-bottom:17px;
+}
+
+.feature h3{
+    margin-bottom:10px;
+}
+
+.feature p{
+    color:#8fa2ba;
+    font-size:14px;
+}
+
+/* SECURITY */
+
+.security{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+}
+
+.securityBox{
+    background:linear-gradient(145deg,#0a192b,#07121f);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:30px;
+}
+
+.securityRow{
+    display:flex;
+    gap:17px;
+    padding:20px 0;
+    border-bottom:1px solid #193049;
+}
+
+.securityRow:last-child{
+    border:0;
+}
+
+.check{
+    min-width:36px;
+    height:36px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(50,230,139,.1);
+    color:#42e38d;
+}
+
+.securityRow p{
+    color:#8ea1ba;
+    font-size:13px;
+    margin-top:4px;
+}
+
+/* REVIEWS */
+
+.reviewNotice{
+    max-width:800px;
+    margin:auto;
+    background:#09182a;
+    border:1px solid #1c3858;
+    border-radius:18px;
+    padding:35px;
+    text-align:center;
+}
+
+.reviewStars{
+    font-size:25px;
+    letter-spacing:5px;
+    color:#52677e;
+    margin-bottom:18px;
+}
+
+.reviewNotice h3{
+    margin-bottom:12px;
+}
+
+.reviewNotice p{
+    color:#91a4bd;
+}
+
+/* CTA */
+
+.cta{
+    max-width:1200px;
+    margin:30px auto 100px;
+    padding:70px 35px;
+    text-align:center;
+    border:1px solid #1b466d;
+    border-radius:25px;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(27,188,239,.17),transparent 45%),
+        #071525;
+}
+
+.cta h2{
+    font-size:43px;
+    margin-bottom:15px;
+}
+
+.cta p{
+    max-width:700px;
+    margin:0 auto 30px;
+    color:#91a5bd;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid #162b43;
+    background:#020a13;
+}
+
+.footer{
+    max-width:1250px;
+    margin:auto;
+    padding:50px 25px;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:50px;
+}
+
+.footerBrand p{
+    color:#7f93ad;
+    max-width:450px;
+    margin-top:18px;
+    font-size:13px;
+}
+
+.footer h4{
+    margin-bottom:15px;
+}
+
+.footer a{
+    display:block;
+    text-decoration:none;
+    color:#8396ae;
+    margin:9px 0;
+    font-size:13px;
+}
+
+.footerBottom{
+    border-top:1px solid #14273d;
+    text-align:center;
+    padding:22px;
+    color:#61758f;
+    font-size:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .nav{
+        height:82px;
+    }
+
+    .brandText{
+        font-size:17px;
+    }
+
+    .logo{
+        width:48px;
+        height:48px;
+    }
+
+    .menuButton{
+        display:block;
+    }
+
+    .navLinks{
+        display:none;
+        position:absolute;
+        top:82px;
+        left:0;
+        right:0;
+        padding:20px 25px 28px;
+        background:#04101c;
+        border-bottom:1px solid #1b334e;
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .navLinks.open{
+        display:flex;
+    }
+
+    .navLinks a{
+        padding:10px 0;
+    }
+
+    .navLogin,
+    .navCreate{
+        text-align:center;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+        min-height:auto;
+        padding-top:70px;
+    }
+
+    .hero h1{
+        font-size:54px;
+    }
+
+    .terminal{
+        max-width:650px;
+    }
+
+    .ticker{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .marketCards,
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .security{
+        grid-template-columns:1fr;
+    }
+
+    .footer{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:560px){
+
+    .brandText{
+        font-size:16px;
+    }
+
+    .hero{
+        padding:65px 22px;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .heroDescription{
+        font-size:17px;
+    }
+
+    .heroButtons{
+        flex-direction:column;
+    }
+
+    .primaryBtn,
+    .secondaryBtn{
+        width:100%;
+    }
+
+    .ticker{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .tickerItem{
+        padding:17px;
+    }
+
+    .section{
+        padding:75px 22px;
+    }
+
+    .sectionHeading h2,
+    .cta h2{
+        font-size:34px;
+    }
+
+    .marketRow{
+        font-size:12px;
+    }
+
+    .footer{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
-  <nav class="navbar">
 
-    <a href="index.html" class="logo">
-      <div class="logo-icon">M</div>
-      MAXX <span>DIGITAL MARKETS</span>
-    </a>
+<div class="nav">
 
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#markets">Markets</a></li>
-      <li><a href="#platform">Platform</a></li>
-      <li><a href="#security">Security</a></li>
-      <li><a href="#about">About</a></li>
-    </ul>
+<a href="index.html" class="brand">
 
-    <div class="nav-actions">
-      <a href="login.html" class="btn btn-outline">Log In</a>
-      <a href="register.html" class="btn btn-primary">Open Account</a>
+<div class="logo">M</div>
 
-      <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
-        ☰
-      </button>
-    </div>
+<div class="brandText">
+MAXX <span>DIGITAL MARKETS</span>
+</div>
 
-  </nav>
+</a>
+
+<button class="menuButton"
+        id="menuButton"
+        aria-label="Open menu">
+☰
+</button>
+
+<nav class="navLinks" id="navLinks">
+
+<a href="#markets">Markets</a>
+
+<a href="#platform">Platform</a>
+
+<a href="#security">Security</a>
+
+<a href="#reviews">Reviews</a>
+
+<a href="login.html" class="navLogin">
+Login
+</a>
+
+<a href="register.html" class="navCreate">
+Create Account
+</a>
+
+</nav>
+
+</div>
+
 </header>
 
 
+<main>
+
 <!-- HERO -->
+
 <section class="hero">
 
-  <div class="hero-container">
+<div>
 
-    <div>
+<div class="badge">
+<span class="dot"></span>
+GLOBAL MARKET ACCESS
+</div>
 
-      <div class="badge">
-        <span class="badge-dot"></span>
-        GLOBAL MARKET ACCESS
-      </div>
+<h1>
+Trade Global Markets
+<span class="gradientText">
+With Confidence.
+</span>
+</h1>
 
-      <h1>
-        Trade Global Markets
-        <span class="gradient-text">With Confidence.</span>
-      </h1>
+<p class="heroDescription">
+Access forex, cryptocurrencies and global market
+opportunities through a modern trading experience
+built around clarity, security and performance.
+</p>
 
-      <p>
-        Access forex, cryptocurrencies and global market opportunities
-        through a modern trading experience built around clarity,
-        security and performance.
-      </p>
+<div class="heroButtons">
 
-      <div class="hero-buttons">
-        <a href="register.html" class="btn btn-primary">
-          Create Your Account →
-        </a>
+<a href="register.html" class="primaryBtn">
+Create Your Account →
+</a>
 
-        <a href="login.html" class="btn btn-outline">
-          Client Login
-        </a>
-      </div>
+<a href="login.html" class="secondaryBtn">
+Login
+</a>
 
-      <div class="hero-points">
-        <span>Secure Account Access</span>
-        <span>Multiple Markets</span>
-        <span>24/7 Account Portal</span>
-      </div>
+</div>
 
-    </div>
-
-
-    <!-- TRADING PANEL -->
-    <div class="trading-panel">
-
-      <div class="panel-header">
-        <h3>Market Overview</h3>
-        <span class="live">● MARKET WATCH</span>
-      </div>
-
-      <div class="chart">
-
-        <svg viewBox="0 0 500 200" preserveAspectRatio="none">
-
-          <defs>
-            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#16d9ff" stop-opacity=".28"/>
-              <stop offset="100%" stop-color="#16d9ff" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-
-          <path
-            d="M0,155
-               C35,145 55,165 85,130
-               S135,115 160,125
-               S205,70 240,90
-               S285,120 315,75
-               S355,45 380,65
-               S425,30 500,22
-               L500,200 L0,200 Z"
-            fill="url(#chartGradient)"
-          />
-
-          <path
-            d="M0,155
-               C35,145 55,165 85,130
-               S135,115 160,125
-               S205,70 240,90
-               S285,120 315,75
-               S355,45 380,65
-               S425,30 500,22"
-            fill="none"
-            stroke="#20d9ff"
-            stroke-width="3"
-          />
-
-        </svg>
-
-      </div>
-
-      <div class="asset-list">
-
-        <div class="asset">
-          <div class="asset-left">
-            <div class="coin">₿</div>
-            <div>
-              <div class="asset-name">BTC / USD</div>
-              <div class="asset-type">Cryptocurrency</div>
-            </div>
-          </div>
-
-          <div class="price">
-            Bitcoin
-            <div class="positive">Market</div>
-          </div>
-        </div>
-
-        <div class="asset">
-          <div class="asset-left">
-            <div class="coin">€</div>
-            <div>
-              <div class="asset-name">EUR / USD</div>
-              <div class="asset-type">Forex</div>
-            </div>
-          </div>
-
-          <div class="price">
-            FX
-            <div class="positive">Market</div>
-          </div>
-        </div>
-
-        <div class="asset">
-          <div class="asset-left">
-            <div class="coin">S</div>
-            <div>
-              <div class="asset-name">Global Stocks</div>
-              <div class="asset-type">Equities</div>
-            </div>
-          </div>
-
-          <div class="price">
-            Stocks
-            <div class="positive">Market</div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- MARKET BAR -->
-<div class="market-bar">
-  <div class="market-inner">
-
-    <div class="market-item">
-      <div class="market-symbol">FOREX</div>
-      <div class="market-value">Global Currency Markets</div>
-    </div>
-
-    <div class="market-item">
-      <div class="market-symbol">CRYPTO</div>
-      <div class="market-value">Digital Assets</div>
-    </div>
-
-    <div class="market-item">
-      <div class="market-symbol">STOCKS</div>
-      <div class="market-value">Global Equities</div>
-    </div>
-
-    <div class="market-item">
-      <div class="market-symbol">ACCESS</div>
-      <div class="market-value">Online Platform</div>
-    </div>
-
-  </div>
 </div>
 
 
+<!-- MARKET VISUAL -->
+
+<div class="terminal">
+
+<div class="terminalTop">
+
+<div class="terminalDots">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div class="liveStatus">
+● MARKET OVERVIEW
+</div>
+
+</div>
+
+
+<div class="chart">
+
+<div class="chartTitle">
+GLOBAL MARKETS
+</div>
+
+<div class="chartPrice">
+Market Watch
+</div>
+
+<div class="chartChange">
+Forex • Crypto • Stocks
+</div>
+
+<svg viewBox="0 0 700 220"
+     preserveAspectRatio="none">
+
+<defs>
+
+<linearGradient id="area"
+x1="0" y1="0" x2="0" y2="1">
+
+<stop offset="0%"
+stop-color="#25c9f2"
+stop-opacity=".32"/>
+
+<stop offset="100%"
+stop-color="#25c9f2"
+stop-opacity="0"/>
+
+</linearGradient>
+
+</defs>
+
+<path
+d="M0,170
+C40,165 60,135 100,145
+S160,175 200,125
+S260,90 300,115
+S350,145 390,90
+S450,105 490,70
+S550,95 590,50
+S650,65 700,25
+L700,220 L0,220 Z"
+fill="url(#area)">
+</path>
+
+<path
+d="M0,170
+C40,165 60,135 100,145
+S160,175 200,125
+S260,90 300,115
+S350,145 390,90
+S450,105 490,70
+S550,95 590,50
+S650,65 700,25"
+fill="none"
+stroke="#31d5f2"
+stroke-width="4">
+</path>
+
+</svg>
+
+</div>
+
+
+<div class="marketRows">
+
+<div class="marketRow">
+<strong>EUR/USD</strong>
+<span>FOREX</span>
+<span>Available</span>
+</div>
+
+<div class="marketRow">
+<strong>BTC/USD</strong>
+<span>CRYPTO</span>
+<span>Available</span>
+</div>
+
+<div class="marketRow">
+<strong>GLOBAL STOCKS</strong>
+<span>EQUITIES</span>
+<span>Explore</span>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MARKET STRIP -->
+
+<section class="tickerSection">
+
+<div class="ticker">
+
+<div class="tickerItem">
+<div class="tickerSymbol">FOREX</div>
+<div class="tickerName">Major Currency Pairs</div>
+</div>
+
+<div class="tickerItem">
+<div class="tickerSymbol">CRYPTO</div>
+<div class="tickerName">Digital Assets</div>
+</div>
+
+<div class="tickerItem">
+<div class="tickerSymbol">STOCKS</div>
+<div class="tickerName">Global Equities</div>
+</div>
+
+<div class="tickerItem">
+<div class="tickerSymbol">ACCOUNT</div>
+<div class="tickerName">Secure Access</div>
+</div>
+
+</div>
+
+</section>
+
+
 <!-- MARKETS -->
-<section class="markets" id="markets">
 
-  <div class="container">
+<section class="section" id="markets">
 
-    <div class="section-label">Markets</div>
+<div class="sectionHeading">
 
-    <h2 class="section-title">
-      One Platform. Multiple Markets.
-    </h2>
+<div class="sectionLabel">
+GLOBAL MARKETS
+</div>
 
-    <p class="section-desc">
-      Explore major financial markets from a streamlined account
-      environment designed for modern investors and traders.
-    </p>
+<h2>
+Explore Multiple Financial Markets
+</h2>
 
+<p>
+Access market information across major asset
+categories through one streamlined experience.
+</p>
 
-    <div class="cards">
-
-      <div class="card">
-        <div class="card-icon">💱</div>
-
-        <h3>Forex</h3>
-
-        <p>
-          Follow major, minor and international currency pairs across
-          the global foreign exchange market.
-        </p>
-
-        <a href="register.html" class="card-link">
-          Explore Forex →
-        </a>
-      </div>
+</div>
 
 
-      <div class="card">
-        <div class="card-icon">₿</div>
+<div class="marketCards">
 
-        <h3>Cryptocurrency</h3>
+<div class="marketCard">
 
-        <p>
-          Access digital-asset markets including major cryptocurrencies
-          through your Maxx Digital Markets account.
-        </p>
+<div class="icon">
+FX
+</div>
 
-        <a href="register.html" class="card-link">
-          Explore Crypto →
-        </a>
-      </div>
+<h3>
+Forex
+</h3>
+
+<p>
+Follow major and minor currency pairs and stay
+connected with developments across the global
+foreign-exchange market.
+</p>
+
+</div>
 
 
-      <div class="card">
-        <div class="card-icon">📈</div>
+<div class="marketCard">
 
-        <h3>Stocks</h3>
+<div class="icon">
+₿
+</div>
 
-        <p>
-          Follow opportunities across major companies and global equity
-          markets from one platform.
-        </p>
+<h3>
+Cryptocurrency
+</h3>
 
-        <a href="register.html" class="card-link">
-          Explore Stocks →
-        </a>
-      </div>
+<p>
+Explore established digital-asset markets including
+Bitcoin, Ethereum and other supported cryptocurrencies.
+</p>
 
-    </div>
+</div>
 
-  </div>
+
+<div class="marketCard">
+
+<div class="icon">
+↗️
+</div>
+
+<h3>
+Stocks
+</h3>
+
+<p>
+Discover global equity markets and follow companies
+and market sectors from a modern account dashboard.
+</p>
+
+</div>
+
+</div>
+
 </section>
 
 
 <!-- PLATFORM -->
-<section class="features" id="platform">
 
-  <div class="container">
+<div class="featureArea" id="platform">
 
-    <div class="section-label">Trading Platform</div>
+<section class="section">
 
-    <h2 class="section-title">
-      Built for a Better Market Experience
-    </h2>
+<div class="sectionHeading">
 
-    <p class="section-desc">
-      A clean and intuitive account environment designed to help clients
-      access their portfolio and market information.
-    </p>
+<div class="sectionLabel">
+THE PLATFORM
+</div>
 
+<h2>
+Designed for a Clearer Market Experience
+</h2>
 
-    <div class="feature-grid">
+<p>
+A streamlined interface for account access,
+market exploration and account management.
+</p>
 
-      <div class="feature">
-        <div class="feature-number">01</div>
-
-        <div>
-          <h3>Professional Dashboard</h3>
-          <p>
-            View account information, market activity and portfolio
-            details from a centralized dashboard.
-          </p>
-        </div>
-      </div>
+</div>
 
 
-      <div class="feature">
-        <div class="feature-number">02</div>
+<div class="features">
 
-        <div>
-          <h3>Multi-Market Access</h3>
-          <p>
-            Explore forex, cryptocurrency and stock markets from one
-            account experience.
-          </p>
-        </div>
-      </div>
+<div class="feature">
 
+<div class="featureNumber">
+01
+</div>
 
-      <div class="feature">
-        <div class="feature-number">03</div>
+<h3>
+Modern Dashboard
+</h3>
 
-        <div>
-          <h3>Responsive Experience</h3>
-          <p>
-            Access your account from compatible smartphones, tablets
-            and desktop devices.
-          </p>
-        </div>
-      </div>
+<p>
+A responsive account dashboard designed for
+desktop, tablet and mobile devices.
+</p>
+
+</div>
 
 
-      <div class="feature">
-        <div class="feature-number">04</div>
+<div class="feature">
 
-        <div>
-          <h3>Account Protection</h3>
-          <p>
-            Modern authentication and security practices can help
-            protect account access and sensitive information.
-          </p>
-        </div>
-      </div>
+<div class="featureNumber">
+02
+</div>
 
-    </div>
+<h3>
+Market Access
+</h3>
 
-  </div>
+<p>
+Navigate forex, cryptocurrency and stock-market
+information from one organized platform.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<div class="featureNumber">
+03
+</div>
+
+<h3>
+Account Management
+</h3>
+
+<p>
+Manage account information, authentication and
+activity through a secure signed-in experience.
+</p>
+
+</div>
+
+</div>
+
 </section>
+
+</div>
 
 
 <!-- SECURITY -->
-<section class="security" id="security">
 
-  <div class="container security-box">
+<section class="section security" id="security">
 
-    <div>
+<div>
 
-      <div class="section-label">Security</div>
+<div class="sectionLabel">
+ACCOUNT SECURITY
+</div>
 
-      <h2 class="section-title">
-        Security at the Core
-        of Your Experience
-      </h2>
+<h2 style="font-size:43px;line-height:1.15;margin-bottom:20px;">
+Security Built Into Your Account
+</h2>
 
-      <p class="section-desc">
-        Maxx Digital Markets is designed with security-focused account
-        practices and responsible access controls.
-      </p>
+<p style="color:#91a4bd;margin-bottom:25px;">
+Maxx Digital Markets uses secure account
+authentication and email verification to help
+protect access to registered accounts.
+</p>
 
+<a href="register.html" class="primaryBtn">
+Create Account
+</a>
 
-      <div class="security-list">
-
-        <div class="security-item">
-          <span class="check">✓</span>
-          Secure account authentication
-        </div>
-
-        <div class="security-item">
-          <span class="check">✓</span>
-          Encrypted website connections when correctly deployed with HTTPS
-        </div>
-
-        <div class="security-item">
-          <span class="check">✓</span>
-          Account activity monitoring capabilities
-        </div>
-
-        <div class="security-item">
-          <span class="check">✓</span>
-          Privacy-focused data handling practices
-        </div>
-
-      </div>
-
-    </div>
+</div>
 
 
-    <div class="security-visual">
+<div class="securityBox">
 
-      <div class="shield">🛡️</div>
+<div class="securityRow">
 
-      <h3>Your Account. Your Security.</h3>
+<div class="check">
+✓
+</div>
 
-      <p style="color:#8192a8; margin-top:10px; font-size:14px;">
-        Always protect your login credentials and verify that you are
-        accessing the official Maxx Digital Markets website before
-        entering account information.
-      </p>
+<div>
 
-    </div>
+<strong>
+Email Verification
+</strong>
 
-  </div>
+<p>
+New registrations require email verification
+before normal account access.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="securityRow">
+
+<div class="check">
+✓
+</div>
+
+<div>
+
+<strong>
+Protected Dashboard
+</strong>
+
+<p>
+Account dashboard pages require an authenticated
+session before account information is displayed.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="securityRow">
+
+<div class="check">
+✓
+</div>
+
+<div>
+
+<strong>
+Password Recovery
+</strong>
+
+<p>
+Account recovery can be handled through secure
+email-based password reset links.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
 
-<!-- ABOUT -->
-<section id="about">
+<!-- REVIEWS -->
 
-  <div class="container">
+<div class="featureArea" id="reviews">
 
-    <div class="section-label">About Us</div>
+<section class="section">
 
-    <h2 class="section-title">
-      A Modern Digital Markets Experience
-    </h2>
+<div class="sectionHeading">
 
-    <p class="section-desc">
-      Maxx Digital Markets is focused on delivering a simple,
-      professional and accessible online market experience.
-      Our platform brings account management and market access
-      together in one streamlined environment.
-    </p>
+<div class="sectionLabel">
+REVIEWS
+</div>
 
-  </div>
+<h2>
+User Feedback
+</h2>
+
+<p>
+Authentic feedback matters. Published reviews should
+represent genuine experiences from verified users.
+</p>
+
+</div>
+
+
+<div class="reviewNotice">
+
+<div class="reviewStars">
+★★★★★
+</div>
+
+<h3>
+Verified Reviews Coming Soon
+</h3>
+
+<p>
+This section is reserved for genuine user feedback.
+Reviews can be published here as verified feedback
+becomes available.
+</p>
+
+</div>
 
 </section>
+
+</div>
 
 
 <!-- CTA -->
+
 <section class="cta">
 
-  <div class="container">
+<div class="sectionLabel">
+GET STARTED
+</div>
 
-    <div class="cta-box">
+<h2>
+Step Into the Global Markets
+</h2>
 
-      <div class="section-label">Get Started</div>
+<p>
+Create your Maxx Digital Markets account and access
+a streamlined dashboard designed to keep your account,
+market activity and essential tools in one place.
+</p>
 
-      <h2>
-        Ready to Access the Markets?
-      </h2>
+<div class="heroButtons"
+     style="justify-content:center;">
 
-      <p>
-        Create your Maxx Digital Markets account and access a secure, professional trading dashboard built to manage your portfolio, monitor market activity, and explore global trading opportunities.
-      </p>
+<a href="register.html" class="primaryBtn">
+Create Your Account →
+</a>
 
-      <div class="hero-buttons" style="justify-content:center;margin-bottom:0;">
+<a href="login.html" class="secondaryBtn">
+Login
+</a>
 
-        <a href="register.html" class="btn btn-primary">
-          Create Account →
-        </a>
-
-        <a href="login.html" class="btn btn-outline">
-          Sign In
-        </a>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
+</main>
+
 
 <!-- FOOTER -->
+
 <footer>
 
-  <div class="footer-grid">
+<div class="footer">
 
-    <div>
+<div class="footerBrand">
 
-      <div class="logo">
-        <div class="logo-icon">M</div>
-        MAXX <span>DIGITAL MARKETS</span>
-      </div>
+<div class="brand">
 
-      <p class="footer-about">
-        A modern digital platform experience for accessing and
-        following global financial markets.
-      </p>
+<div class="logo">
+M
+</div>
 
-    </div>
+<div class="brandText">
+MAXX <span>DIGITAL MARKETS</span>
+</div>
 
+</div>
 
-    <div>
+<p>
+A modern platform experience for accessing
+financial-market information and managing your
+Maxx Digital Markets account.
+</p>
 
-      <div class="footer-title">Markets</div>
-
-      <div class="footer-links">
-        <a href="#markets">Forex</a>
-        <a href="#markets">Cryptocurrency</a>
-        <a href="#markets">Stocks</a>
-      </div>
-
-    </div>
+</div>
 
 
-    <div>
+<div>
 
-      <div class="footer-title">Account</div>
+<h4>
+Platform
+</h4>
 
-      <div class="footer-links">
-        <a href="login.html">Login</a>
-        <a href="register.html">Create Account</a>
-        <a href="dashboard.html">Dashboard</a>
-      </div>
+<a href="#markets">
+Markets
+</a>
 
-    </div>
+<a href="#security">
+Security
+</a>
 
+<a href="login.html">
+Login
+</a>
 
-    <div>
+<a href="register.html">
+Create Account
+</a>
 
-      <div class="footer-title">Company</div>
-
-      <div class="footer-links">
-        <a href="#about">About</a>
-        <a href="#security">Security</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms & Conditions</a>
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="risk">
+<div>
 
-    <strong>Risk Disclosure:</strong>
-    Trading and investing in financial markets involves risk.
-    Market prices can move rapidly and losses are possible.
-    Past performance does not guarantee future results.
-    Users should understand the risks involved before making
-    financial decisions.
+<h4>
+Account
+</h4>
 
-  </div>
+<a href="login.html">
+Sign In
+</a>
+
+<a href="register.html">
+Register
+</a>
+
+<a href="dashboard.html">
+Dashboard
+</a>
+
+</div>
+
+</div>
 
 
-  <div class="copyright">
-
-    <span>
-      © <span id="year"></span> Maxx Digital Markets. All rights reserved.
-    </span>
-
-    <span>
-      maxxdigitalmarkets.com
-    </span>
-
-  </div>
+<div class="footerBottom">
+©️ <span id="year"></span> Maxx Digital Markets.
+All rights reserved.
+</div>
 
 </footer>
 
 
 <script>
 
-  // MOBILE MENU
-  function toggleMenu() {
-    document.getElementById("navLinks").classList.toggle("active");
-  }
+/* CURRENT YEAR */
+
+document.getElementById('year').textContent =
+new Date().getFullYear();
 
 
-  // CLOSE MOBILE MENU AFTER CLICKING LINK
-  document.querySelectorAll(".nav-links a").forEach(link => {
-    link.addEventListener("click", () => {
-      document.getElementById("navLinks").classList.remove("active");
+/* MOBILE MENU */
+
+const menuButton =
+document.getElementById('menuButton');
+
+const navLinks =
+document.getElementById('navLinks');
+
+
+menuButton.addEventListener('click',function(){
+
+    navLinks.classList.toggle('open');
+
+    if(navLinks.classList.contains('open')){
+
+        menuButton.textContent = '✕';
+
+    }else{
+
+        menuButton.textContent = '☰';
+
+    }
+
+});
+
+
+/* CLOSE MOBILE MENU AFTER CLICK */
+
+document
+.querySelectorAll('#navLinks a')
+.forEach(function(link){
+
+    link.addEventListener('click',function(){
+
+        navLinks.classList.remove('open');
+
+        menuButton.textContent = '☰';
+
     });
-  });
 
-
-  // AUTOMATIC COPYRIGHT YEAR
-  document.getElementById("year").textContent =
-    new Date().getFullYear();
+});
 
 </script>
 
