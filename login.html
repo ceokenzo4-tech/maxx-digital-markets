@@ -267,7 +267,7 @@
       line-height: 1.6;
     }
 
-    .demo-notice {
+    .-notice {
       padding: 12px 14px;
       border-radius: 10px;
       border: 1px solid rgba(56,217,255,.22);
@@ -583,11 +583,11 @@
       <h2>Client Login</h2>
 
       <p class="subtitle">
-        Continue to the MaxxDigitalMarkets demonstration dashboard.
+        Continue to the MaxxDigitalMarkets nstration dashboard.
       </p>
 
-      <div class="demo-notice">
-        <strong>Demo portal:</strong> this static website does not authenticate
+      <div class="-notice">
+        <strong> portal:</strong> this static website does not authenticate
         or store real passwords. Do not enter a real password.
       </div>
 
@@ -595,12 +595,12 @@
 
         <div class="field">
 
-          <label for="email">Demo email</label>
+          <label for="email"> email</label>
 
           <input
             type="email"
             id="email"
-            placeholder="demo@example.com"
+            placeholder="@example.com"
             autocomplete="off"
             required
           >
@@ -610,7 +610,7 @@
 
         <div class="field">
 
-          <label for="password">Demo password</label>
+          <label for="password"> password</label>
 
           <div class="input-wrap">
 
@@ -618,7 +618,7 @@
               class="password-input"
               type="password"
               id="password"
-              placeholder="Enter any demo password"
+              placeholder="Enter any  password"
               autocomplete="off"
               required
             >
@@ -640,7 +640,7 @@
 
           <label class="remember">
             <input type="checkbox" id="remember">
-            Remember demo email
+            Remember  email
           </label>
 
           <a href="security.html" class="help-link">
@@ -651,7 +651,7 @@
 
 
         <button class="login-button" type="submit">
-          Enter Demo Dashboard →
+          Enter  Dashboard →
         </button>
 
         <div id="message" class="message"></div>
@@ -671,7 +671,7 @@
 
 
       <div class="security">
-        🔒 This demonstration page runs entirely in your browser.
+        🔒 This nstration page runs entirely in your browser.
         No password is transmitted or stored by this page.
         Real authentication requires a secure server-side system.
       </div>
@@ -699,20 +699,20 @@
 
 
   /*
-    Restore only the DEMO email.
+    Restore only the  email.
     Passwords are never stored.
   */
 
-  const savedDemoEmail = localStorage.getItem("maxxDemoEmail");
+  const savedEmail = localStorage.getItem("maxxEmail");
 
-  if (savedDemoEmail) {
-    email.value = savedDemoEmail;
+  if (savedEmail) {
+    email.value = savedEmail;
     remember.checked = true;
   }
 
 
   /*
-    Show / hide demo password
+    Show / hide  password
   */
 
   showPassword.addEventListener("click", function () {
@@ -733,7 +733,7 @@
 
 
   /*
-    Demo login
+     login
   */
 
   form.addEventListener("submit", function (event) {
@@ -747,7 +747,7 @@
 
       message.className = "message error";
       message.textContent =
-        "Enter a demo email and demo password to continue.";
+        "Enter a  email and  password to continue.";
 
       return;
     }
@@ -756,14 +756,14 @@
     if (remember.checked) {
 
       localStorage.setItem(
-        "maxxDemoEmail",
+        "maxxEmail",
         emailValue
       );
 
     } else {
 
       localStorage.removeItem(
-        "maxxDemoEmail"
+        "maxxEmail"
       );
 
     }
@@ -774,15 +774,15 @@
     */
 
     sessionStorage.setItem(
-      "maxxDemoSession",
+      "maxxSession",
       "active"
     );
-    localStorage.setItem("maxx_token", "demo-" + Date.now());
+    localStorage.setItem("maxx_token", "-" + Date.now());
 
 
     message.className = "message success";
     message.textContent =
-      "Demo access successful. Opening dashboard...";
+      " access successful. Opening dashboard...";
 
 
     setTimeout(function () {
