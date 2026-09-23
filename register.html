@@ -1,930 +1,1324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account | Maxx Digital Markets</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+<title>Create Account | Maxx Digital Markets</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#050b16;
+    --panel:#0b1527;
+    --panel2:#0e1b31;
+    --border:#1d2b43;
+    --text:#f8fafc;
+    --muted:#8fa0b8;
+    --blue:#2563eb;
+    --blue2:#38bdf8;
+    --green:#22c55e;
+    --red:#ef4444;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    color:var(--text);
+
+    background:
+    radial-gradient(circle at 10% 10%,
+    rgba(37,99,235,.20),transparent 30%),
+
+    radial-gradient(circle at 90% 90%,
+    rgba(56,189,248,.10),transparent 30%),
+
+    var(--bg);
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* HEADER */
+
+header{
+    height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 6%;
+
+    background:rgba(5,11,22,.92);
+    border-bottom:1px solid var(--border);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-weight:800;
+    letter-spacing:.4px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:11px;
+
+    background:
+    linear-gradient(135deg,#2563eb,#38bdf8);
+
+    box-shadow:
+    0 10px 30px rgba(37,99,235,.30);
+}
+
+.back{
+    color:#a8b6ca;
+    font-size:14px;
+}
+
+.back:hover{
+    color:white;
+}
+
+/* MAIN */
+
+.page{
+    min-height:calc(100vh - 76px);
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+}
+
+/* LEFT SIDE */
+
+.intro{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    padding:70px 9%;
+
+    border-right:1px solid var(--border);
+}
+
+.badge{
+    width:max-content;
+
+    padding:8px 14px;
+
+    border-radius:100px;
+
+    border:1px solid rgba(56,189,248,.25);
+
+    background:rgba(37,99,235,.10);
+
+    color:#7dd3fc;
+
+    font-size:12px;
+    font-weight:bold;
+
+    margin-bottom:25px;
+}
+
+.intro h1{
+    font-size:clamp(40px,5vw,65px);
+    line-height:1.04;
+
+    max-width:650px;
+
+    margin-bottom:24px;
+}
+
+.intro h1 span{
+    color:#60a5fa;
+}
+
+.intro p{
+    color:var(--muted);
+
+    font-size:16px;
+    line-height:1.8;
+
+    max-width:590px;
+}
+
+.points{
+    display:grid;
+    gap:16px;
+
+    margin-top:35px;
+}
+
+.point{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#dbeafe;
+    font-size:14px;
+}
+
+.check{
+    width:28px;
+    height:28px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:8px;
+
+    background:rgba(34,197,94,.10);
+
+    border:1px solid rgba(34,197,94,.25);
+
+    color:#4ade80;
+}
+
+/* FORM AREA */
+
+.form-area{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:45px 25px;
+}
+
+.card{
+    width:100%;
+    max-width:560px;
+
+    padding:35px;
+
+    border-radius:24px;
+
+    border:1px solid var(--border);
+
+    background:
+    linear-gradient(
+    180deg,
+    rgba(14,27,49,.98),
+    rgba(7,16,31,.98)
+    );
+
+    box-shadow:
+    0 30px 80px rgba(0,0,0,.35);
+}
+
+.card h2{
+    font-size:29px;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:var(--muted);
+
+    font-size:14px;
+    line-height:1.6;
+
+    margin-bottom:27px;
+}
+
+/* FORM */
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.field{
+    margin-bottom:17px;
+}
+
+label{
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#dce7f7;
+
+    font-size:13px;
+    font-weight:600;
+}
+
+input,
+select{
+    width:100%;
+    height:50px;
+
+    border-radius:11px;
+
+    border:1px solid #263750;
+
+    background:#071225;
+
+    color:white;
+
+    padding:0 14px;
+
+    outline:none;
+
+    font-size:14px;
+}
+
+input::placeholder{
+    color:#60718a;
+}
+
+input:focus,
+select:focus{
+    border-color:#3b82f6;
+
+    box-shadow:
+    0 0 0 3px rgba(59,130,246,.12);
+}
+
+select option{
+    background:#071225;
+}
+
+/* PASSWORD */
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    padding-right:70px;
+}
+
+.show-password{
+    position:absolute;
+
+    right:12px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#60a5fa;
+
+    font-size:12px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    user-select:none;
+}
+
+/* TERMS */
+
+.terms{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+
+    color:var(--muted);
+
+    font-size:13px;
+    line-height:1.5;
+
+    margin:2px 0 20px;
+}
+
+.terms input{
+    width:17px;
+    height:17px;
+
+    margin-top:2px;
+
+    accent-color:#2563eb;
+}
+
+/* BUTTON */
+
+button{
+    width:100%;
+    height:52px;
+
+    border:none;
+
+    border-radius:11px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:15px;
+    font-weight:bold;
+
+    background:
+    linear-gradient(135deg,#2563eb,#3b82f6);
+
+    box-shadow:
+    0 12px 30px rgba(37,99,235,.25);
+}
+
+button:hover{
+    opacity:.95;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* MESSAGES */
+
+.message{
+    display:none;
+
+    padding:14px;
+
+    margin-bottom:20px;
+
+    border-radius:10px;
+
+    font-size:13px;
+    line-height:1.6;
+}
+
+.message.error{
+    display:block;
+
+    color:#fecaca;
+
+    border:1px solid rgba(239,68,68,.30);
+
+    background:rgba(239,68,68,.10);
+}
+
+.message.success{
+    display:block;
+
+    color:#bbf7d0;
+
+    border:1px solid rgba(34,197,94,.30);
+
+    background:rgba(34,197,94,.10);
+}
+
+.login{
+    margin-top:22px;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:14px;
+}
+
+.login a{
+    color:#60a5fa;
+    font-weight:bold;
+}
+
+.security{
+    margin-top:20px;
+
+    text-align:center;
+
+    color:#60718a;
+
+    font-size:11px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .page{
+        grid-template-columns:1fr;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(0, 212, 170, 0.12), transparent 35%),
-        #06111f;
-      color: #ffffff;
-      min-height: 100vh;
+    .intro{
+        display:none;
     }
 
-    a {
-      text-decoration: none;
+}
+
+@media(max-width:550px){
+
+    header{
+        padding:0 18px;
     }
 
-    header {
-      width: 100%;
-      border-bottom: 1px solid #1b2d40;
-      background: rgba(5, 15, 27, 0.96);
+    .brand{
+        font-size:14px;
     }
 
-    .nav {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
+    .card{
+        padding:25px 19px;
+        border-radius:18px;
     }
 
-    .logo {
-      color: #ffffff;
-      font-size: 22px;
-      font-weight: 800;
+    .row{
+        grid-template-columns:1fr;
+        gap:0;
     }
 
-    .logo span {
-      color: #19d3ae;
+    .form-area{
+        padding:30px 15px;
     }
-
-    .back-home {
-      color: #aebed0;
-      font-size: 15px;
-    }
-
-    .back-home:hover {
-      color: #19d3ae;
-    }
-
-    main {
-      width: 100%;
-      padding: 55px 20px 80px;
-    }
-
-    .layout {
-      max-width: 1100px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 55px;
-      align-items: start;
-    }
-
-    .intro {
-      padding-top: 45px;
-    }
-
-    .eyebrow {
-      color: #19d3ae;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 18px;
-    }
-
-    .intro h1 {
-      font-size: 46px;
-      line-height: 1.08;
-      margin-bottom: 20px;
-    }
-
-    .intro p {
-      color: #9fb0c3;
-      font-size: 17px;
-      line-height: 1.7;
-      max-width: 500px;
-    }
-
-    .benefits {
-      margin-top: 32px;
-      display: grid;
-      gap: 18px;
-    }
-
-    .benefit {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      color: #c6d2df;
-    }
-
-    .check {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      border-radius: 50%;
-      background: rgba(25, 211, 174, 0.12);
-      border: 1px solid rgba(25, 211, 174, 0.3);
-      color: #19d3ae;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-
-    .card {
-      background: #0b1b2b;
-      border: 1px solid #203348;
-      border-radius: 24px;
-      padding: 35px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    }
-
-    .card h2 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: #8799ad;
-      line-height: 1.6;
-      margin-bottom: 28px;
-    }
-
-    .message {
-      display: none;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 22px;
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    .message.success {
-      display: block;
-      background: rgba(25, 211, 174, 0.11);
-      border: 1px solid rgba(25, 211, 174, 0.35);
-      color: #6af0d2;
-    }
-
-    .message.error {
-      display: block;
-      background: rgba(255, 89, 111, 0.10);
-      border: 1px solid rgba(255, 89, 111, 0.35);
-      color: #ff9aaa;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .field {
-      margin-bottom: 19px;
-    }
-
-    label {
-      display: block;
-      color: #b8c6d5;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    input,
-    select {
-      width: 100%;
-      padding: 15px 14px;
-      border-radius: 10px;
-      border: 1px solid #385069;
-      background: #f2f6fc;
-      color: #07111d;
-      font-size: 16px;
-      outline: none;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: #19d3ae;
-      box-shadow: 0 0 0 3px rgba(25, 211, 174, 0.12);
-    }
-
-    .password-wrap {
-      position: relative;
-    }
-
-    .password-wrap input {
-      padding-right: 70px;
-    }
-
-    .show-password {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      border: none;
-      background: transparent;
-      color: #23405c;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .terms {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      color: #9fb0c3;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-bottom: 22px;
-    }
-
-    .terms input {
-      width: 18px;
-      height: 18px;
-      margin-top: 2px;
-    }
-
-    .terms a {
-      color: #19d3ae;
-    }
-
-    .submit-btn {
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      padding: 16px;
-      background: #19d3ae;
-      color: #041510;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .submit-btn:hover {
-      filter: brightness(1.06);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-
-    .login-text {
-      text-align: center;
-      margin-top: 22px;
-      color: #8fa2b7;
-      font-size: 14px;
-    }
-
-    .login-text a {
-      color: #19d3ae;
-      font-weight: bold;
-    }
-
-    .security-note {
-      margin-top: 18px;
-      color: #71869c;
-      font-size: 12px;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    footer {
-      text-align: center;
-      color: #64778c;
-      font-size: 13px;
-      padding: 25px 20px 40px;
-    }
-
-    @media (max-width: 850px) {
-      .layout {
-        grid-template-columns: 1fr;
-        max-width: 650px;
-      }
-
-      .intro {
-        padding-top: 0;
-      }
-
-      .intro h1 {
-        font-size: 38px;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .nav {
-        padding: 17px 18px;
-      }
-
-      main {
-        padding: 35px 15px 60px;
-      }
-
-      .intro h1 {
-        font-size: 34px;
-      }
-
-      .card {
-        padding: 25px 18px;
-        border-radius: 18px;
-      }
-
-      .row {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="nav">
-    <a class="logo" href="index.html">
-      MAXX <span>DIGITAL MARKETS</span>
-    </a>
 
-    <a class="back-home" href="index.html">
-      ← Back to Home
-    </a>
-  </div>
+<a href="index.html" class="brand">
+
+<div class="logo">
+M
+</div>
+
+MAXX DIGITAL MARKETS
+
+</a>
+
+<a href="index.html" class="back">
+Back to Home
+</a>
+
 </header>
 
-<main>
-  <div class="layout">
 
-    <section class="intro">
-      <div class="eyebrow">Account Registration</div>
+<main class="page">
 
-      <h1>
-        Start your trading journey.
-      </h1>
+<!-- LEFT -->
 
-      <p>
-        Create your Maxx Digital Markets account to access your secure
-        account area and trading dashboard.
-      </p>
+<section class="intro">
 
-      <div class="benefits">
-        <div class="benefit">
-          <div class="check">✓</div>
-          <span>Email verification for account security</span>
-        </div>
+<div class="badge">
+SECURE ACCOUNT REGISTRATION
+</div>
 
-        <div class="benefit">
-          <div class="check">✓</div>
-          <span>Secure account access</span>
-        </div>
+<h1>
+Access the
+<span>global markets.</span>
+</h1>
 
-        <div class="benefit">
-          <div class="check">✓</div>
-          <span>Manage your account across compatible devices</span>
-        </div>
-      </div>
-    </section>
+<p>
+Create your Maxx Digital Markets account and access a modern
+dashboard designed to keep your account information, market
+tools and trading activity organized in one place.
+</p>
 
-    <section class="card">
+<div class="points">
 
-      <h2>Create Account</h2>
+<div class="point">
+<div class="check">✓</div>
+Secure account authentication
+</div>
 
-      <p class="subtitle">
-        Complete the form below to get started.
-      </p>
+<div class="point">
+<div class="check">✓</div>
+Email verification
+</div>
 
-      <div id="message" class="message"></div>
+<div class="point">
+<div class="check">✓</div>
+Responsive account dashboard
+</div>
 
-      <form id="registerForm">
+<div class="point">
+<div class="check">✓</div>
+Desktop and mobile access
+</div>
 
-        <div class="row">
+</div>
 
-          <div class="field">
-            <label for="firstName">First Name</label>
-            <input
-              id="firstName"
-              name="firstName"
-              type="text"
-              autocomplete="given-name"
-              required
-            >
-          </div>
+</section>
 
-          <div class="field">
-            <label for="lastName">Last Name</label>
-            <input
-              id="lastName"
-              name="lastName"
-              type="text"
-              autocomplete="family-name"
-              required
-            >
-          </div>
 
-        </div>
+<!-- REGISTER -->
 
-        <div class="field">
-          <label for="email">Email Address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            required
-          >
-        </div>
+<section class="form-area">
 
-        <div class="field">
-          <label for="phone">Phone Number</label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            autocomplete="tel"
-            inputmode="tel"
-            placeholder="+1 555 123 4567"
-            pattern="[0-9+() .-]{7,25}"
-            required
-          >
-        </div>
+<div class="card">
 
-        <div class="field">
-          <label for="country">Country / Region</label>
+<h2>Create your account</h2>
 
-          <select id="country" name="country" required>
-            <option value="">Select your country</option>
+<p class="subtitle">
+Enter your information below to register with Maxx Digital Markets.
+</p>
 
-            <option>Afghanistan</option>
-            <option>Albania</option>
-            <option>Algeria</option>
-            <option>Andorra</option>
-            <option>Angola</option>
-            <option>Antigua and Barbuda</option>
-            <option>Argentina</option>
-            <option>Armenia</option>
-            <option>Australia</option>
-            <option>Austria</option>
-            <option>Azerbaijan</option>
-            <option>Bahamas</option>
-            <option>Bahrain</option>
-            <option>Bangladesh</option>
-            <option>Barbados</option>
-            <option>Belarus</option>
-            <option>Belgium</option>
-            <option>Belize</option>
-            <option>Benin</option>
-            <option>Bhutan</option>
-            <option>Bolivia</option>
-            <option>Bosnia and Herzegovina</option>
-            <option>Botswana</option>
-            <option>Brazil</option>
-            <option>Brunei</option>
-            <option>Bulgaria</option>
-            <option>Burkina Faso</option>
-            <option>Burundi</option>
-            <option>Cabo Verde</option>
-            <option>Cambodia</option>
-            <option>Cameroon</option>
-            <option>Canada</option>
-            <option>Central African Republic</option>
-            <option>Chad</option>
-            <option>Chile</option>
-            <option>China</option>
-            <option>Colombia</option>
-            <option>Comoros</option>
-            <option>Costa Rica</option>
-            <option>Croatia</option>
-            <option>Cuba</option>
-            <option>Cyprus</option>
-            <option>Czechia</option>
-            <option>Democratic Republic of the Congo</option>
-            <option>Denmark</option>
-            <option>Djibouti</option>
-            <option>Dominica</option>
-            <option>Dominican Republic</option>
-            <option>Ecuador</option>
-            <option>Egypt</option>
-            <option>El Salvador</option>
-            <option>Equatorial Guinea</option>
-            <option>Eritrea</option>
-            <option>Estonia</option>
-            <option>Eswatini</option>
-            <option>Ethiopia</option>
-            <option>Fiji</option>
-            <option>Finland</option>
-            <option>France</option>
-            <option>Gabon</option>
-            <option>Gambia</option>
-            <option>Georgia</option>
-            <option>Germany</option>
-            <option>Ghana</option>
-            <option>Greece</option>
-            <option>Grenada</option>
-            <option>Guatemala</option>
-            <option>Guinea</option>
-            <option>Guinea-Bissau</option>
-            <option>Guyana</option>
-            <option>Haiti</option>
-            <option>Honduras</option>
-            <option>Hungary</option>
-            <option>Iceland</option>
-            <option>India</option>
-            <option>Indonesia</option>
-            <option>Iran</option>
-            <option>Iraq</option>
-            <option>Ireland</option>
-            <option>Israel</option>
-            <option>Italy</option>
-            <option>Ivory Coast</option>
-            <option>Jamaica</option>
-            <option>Japan</option>
-            <option>Jordan</option>
-            <option>Kazakhstan</option>
-            <option>Kenya</option>
-            <option>Kiribati</option>
-            <option>Kuwait</option>
-            <option>Kyrgyzstan</option>
-            <option>Laos</option>
-            <option>Latvia</option>
-            <option>Lebanon</option>
-            <option>Lesotho</option>
-            <option>Liberia</option>
-            <option>Libya</option>
-            <option>Liechtenstein</option>
-            <option>Lithuania</option>
-            <option>Luxembourg</option>
-            <option>Madagascar</option>
-            <option>Malawi</option>
-            <option>Malaysia</option>
-            <option>Maldives</option>
-            <option>Mali</option>
-            <option>Malta</option>
-            <option>Marshall Islands</option>
-            <option>Mauritania</option>
-            <option>Mauritius</option>
-            <option>Mexico</option>
-            <option>Micronesia</option>
-            <option>Moldova</option>
-            <option>Monaco</option>
-            <option>Mongolia</option>
-            <option>Montenegro</option>
-            <option>Morocco</option>
-            <option>Mozambique</option>
-            <option>Myanmar</option>
-            <option>Namibia</option>
-            <option>Nauru</option>
-            <option>Nepal</option>
-            <option>Netherlands</option>
-            <option>New Zealand</option>
-            <option>Nicaragua</option>
-            <option>Niger</option>
-            <option>Nigeria</option>
-            <option>North Korea</option>
-            <option>North Macedonia</option>
-            <option>Norway</option>
-            <option>Oman</option>
-            <option>Pakistan</option>
-            <option>Palau</option>
-            <option>Palestine</option>
-            <option>Panama</option>
-            <option>Papua New Guinea</option>
-            <option>Paraguay</option>
-            <option>Peru</option>
-            <option>Philippines</option>
-            <option>Poland</option>
-            <option>Portugal</option>
-            <option>Qatar</option>
-            <option>Republic of the Congo</option>
-            <option>Romania</option>
-            <option>Russia</option>
-            <option>Rwanda</option>
-            <option>Saint Kitts and Nevis</option>
-            <option>Saint Lucia</option>
-            <option>Saint Vincent and the Grenadines</option>
-            <option>Samoa</option>
-            <option>San Marino</option>
-            <option>Sao Tome and Principe</option>
-            <option>Saudi Arabia</option>
-            <option>Senegal</option>
-            <option>Serbia</option>
-            <option>Seychelles</option>
-            <option>Sierra Leone</option>
-            <option>Singapore</option>
-            <option>Slovakia</option>
-            <option>Slovenia</option>
-            <option>Solomon Islands</option>
-            <option>Somalia</option>
-            <option>South Africa</option>
-            <option>South Korea</option>
-            <option>South Sudan</option>
-            <option>Spain</option>
-            <option>Sri Lanka</option>
-            <option>Sudan</option>
-            <option>Suriname</option>
-            <option>Sweden</option>
-            <option>Switzerland</option>
-            <option>Syria</option>
-            <option>Taiwan</option>
-            <option>Tajikistan</option>
-            <option>Tanzania</option>
-            <option>Thailand</option>
-            <option>Timor-Leste</option>
-            <option>Togo</option>
-            <option>Tonga</option>
-            <option>Trinidad and Tobago</option>
-            <option>Tunisia</option>
-            <option>Türkiye</option>
-            <option>Turkmenistan</option>
-            <option>Tuvalu</option>
-            <option>Uganda</option>
-            <option>Ukraine</option>
-            <option>United Arab Emirates</option>
-            <option>United Kingdom</option>
-            <option>United States</option>
-            <option>Uruguay</option>
-            <option>Uzbekistan</option>
-            <option>Vanuatu</option>
-            <option>Vatican City</option>
-            <option>Venezuela</option>
-            <option>Vietnam</option>
-            <option>Yemen</option>
-            <option>Zambia</option>
-            <option>Zimbabwe</option>
-          </select>
-        </div>
+<div id="message" class="message"></div>
 
-        <div class="field">
-          <label for="password">Password</label>
 
-          <div class="password-wrap">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="new-password"
-              minlength="8"
-              required
-            >
+<form id="registerForm">
 
-            <button
-              type="button"
-              class="show-password"
-              onclick="togglePassword('password', this)"
-            >
-              Show
-            </button>
-          </div>
-        </div>
 
-        <div class="field">
-          <label for="confirmPassword">Confirm Password</label>
+<div class="row">
 
-          <div class="password-wrap">
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              autocomplete="new-password"
-              minlength="8"
-              required
-            >
+<div class="field">
 
-            <button
-              type="button"
-              class="show-password"
-              onclick="togglePassword('confirmPassword', this)"
-            >
-              Show
-            </button>
-          </div>
-        </div>
+<label for="firstName">
+First Name
+</label>
 
-        <label class="terms">
-          <input id="terms" type="checkbox" required>
+<input
+type="text"
+id="firstName"
+autocomplete="given-name"
+placeholder="First name"
+maxlength="60"
+required>
 
-          <span>
-            I confirm that I have read and agree to the
-            <a href="terms.html">Terms & Conditions</a>
-            and
-            <a href="privacy.html">Privacy Policy</a>.
-          </span>
-        </label>
+</div>
 
-        <button id="submitBtn" class="submit-btn" type="submit">
-          Create Account
-        </button>
 
-      </form>
+<div class="field">
 
-      <div class="login-text">
-        Already have an account?
-        <a href="login.html">Sign In</a>
-      </div>
+<label for="lastName">
+Last Name
+</label>
 
-      <div class="security-note">
-        
-      </div>
+<input
+type="text"
+id="lastName"
+autocomplete="family-name"
+placeholder="Last name"
+maxlength="60"
+required>
 
-    </section>
-  </div>
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label for="email">
+Email Address
+</label>
+
+<input
+type="email"
+id="email"
+autocomplete="email"
+placeholder="you@example.com"
+required>
+
+</div>
+
+
+<div class="field">
+
+<label for="phone">
+Phone Number
+</label>
+
+<input
+type="tel"
+id="phone"
+autocomplete="tel"
+placeholder="+234 800 000 0000"
+maxlength="20"
+required>
+
+</div>
+
+
+<div class="field">
+
+<label for="country">
+Country / Region
+</label>
+
+<select
+id="country"
+autocomplete="country-name"
+required>
+
+<option value="">
+Select your country
+</option>
+
+<option>Afghanistan</option>
+<option>Albania</option>
+<option>Algeria</option>
+<option>Andorra</option>
+<option>Angola</option>
+<option>Antigua and Barbuda</option>
+<option>Argentina</option>
+<option>Armenia</option>
+<option>Australia</option>
+<option>Austria</option>
+<option>Azerbaijan</option>
+<option>Bahamas</option>
+<option>Bahrain</option>
+<option>Bangladesh</option>
+<option>Barbados</option>
+<option>Belarus</option>
+<option>Belgium</option>
+<option>Belize</option>
+<option>Benin</option>
+<option>Bhutan</option>
+<option>Bolivia</option>
+<option>Bosnia and Herzegovina</option>
+<option>Botswana</option>
+<option>Brazil</option>
+<option>Brunei</option>
+<option>Bulgaria</option>
+<option>Burkina Faso</option>
+<option>Burundi</option>
+<option>Cabo Verde</option>
+<option>Cambodia</option>
+<option>Cameroon</option>
+<option>Canada</option>
+<option>Central African Republic</option>
+<option>Chad</option>
+<option>Chile</option>
+<option>China</option>
+<option>Colombia</option>
+<option>Comoros</option>
+<option>Costa Rica</option>
+<option>Côte d'Ivoire</option>
+<option>Croatia</option>
+<option>Cuba</option>
+<option>Cyprus</option>
+<option>Czechia</option>
+<option>Democratic Republic of the Congo</option>
+<option>Denmark</option>
+<option>Djibouti</option>
+<option>Dominica</option>
+<option>Dominican Republic</option>
+<option>Ecuador</option>
+<option>Egypt</option>
+<option>El Salvador</option>
+<option>Equatorial Guinea</option>
+<option>Eritrea</option>
+<option>Estonia</option>
+<option>Eswatini</option>
+<option>Ethiopia</option>
+<option>Fiji</option>
+<option>Finland</option>
+<option>France</option>
+<option>Gabon</option>
+<option>Gambia</option>
+<option>Georgia</option>
+<option>Germany</option>
+<option>Ghana</option>
+<option>Greece</option>
+<option>Grenada</option>
+<option>Guatemala</option>
+<option>Guinea</option>
+<option>Guinea-Bissau</option>
+<option>Guyana</option>
+<option>Haiti</option>
+<option>Honduras</option>
+<option>Hungary</option>
+<option>Iceland</option>
+<option>India</option>
+<option>Indonesia</option>
+<option>Iran</option>
+<option>Iraq</option>
+<option>Ireland</option>
+<option>Israel</option>
+<option>Italy</option>
+<option>Jamaica</option>
+<option>Japan</option>
+<option>Jordan</option>
+<option>Kazakhstan</option>
+<option>Kenya</option>
+<option>Kiribati</option>
+<option>Kuwait</option>
+<option>Kyrgyzstan</option>
+<option>Laos</option>
+<option>Latvia</option>
+<option>Lebanon</option>
+<option>Lesotho</option>
+<option>Liberia</option>
+<option>Libya</option>
+<option>Liechtenstein</option>
+<option>Lithuania</option>
+<option>Luxembourg</option>
+<option>Madagascar</option>
+<option>Malawi</option>
+<option>Malaysia</option>
+<option>Maldives</option>
+<option>Mali</option>
+<option>Malta</option>
+<option>Marshall Islands</option>
+<option>Mauritania</option>
+<option>Mauritius</option>
+<option>Mexico</option>
+<option>Micronesia</option>
+<option>Moldova</option>
+<option>Monaco</option>
+<option>Mongolia</option>
+<option>Montenegro</option>
+<option>Morocco</option>
+<option>Mozambique</option>
+<option>Myanmar</option>
+<option>Namibia</option>
+<option>Nauru</option>
+<option>Nepal</option>
+<option>Netherlands</option>
+<option>New Zealand</option>
+<option>Nicaragua</option>
+<option>Niger</option>
+<option>Nigeria</option>
+<option>North Korea</option>
+<option>North Macedonia</option>
+<option>Norway</option>
+<option>Oman</option>
+<option>Pakistan</option>
+<option>Palau</option>
+<option>Palestine</option>
+<option>Panama</option>
+<option>Papua New Guinea</option>
+<option>Paraguay</option>
+<option>Peru</option>
+<option>Philippines</option>
+<option>Poland</option>
+<option>Portugal</option>
+<option>Qatar</option>
+<option>Republic of the Congo</option>
+<option>Romania</option>
+<option>Russia</option>
+<option>Rwanda</option>
+<option>Saint Kitts and Nevis</option>
+<option>Saint Lucia</option>
+<option>Saint Vincent and the Grenadines</option>
+<option>Samoa</option>
+<option>San Marino</option>
+<option>São Tomé and Príncipe</option>
+<option>Saudi Arabia</option>
+<option>Senegal</option>
+<option>Serbia</option>
+<option>Seychelles</option>
+<option>Sierra Leone</option>
+<option>Singapore</option>
+<option>Slovakia</option>
+<option>Slovenia</option>
+<option>Solomon Islands</option>
+<option>Somalia</option>
+<option>South Africa</option>
+<option>South Korea</option>
+<option>South Sudan</option>
+<option>Spain</option>
+<option>Sri Lanka</option>
+<option>Sudan</option>
+<option>Suriname</option>
+<option>Sweden</option>
+<option>Switzerland</option>
+<option>Syria</option>
+<option>Taiwan</option>
+<option>Tajikistan</option>
+<option>Tanzania</option>
+<option>Thailand</option>
+<option>Timor-Leste</option>
+<option>Togo</option>
+<option>Tonga</option>
+<option>Trinidad and Tobago</option>
+<option>Tunisia</option>
+<option>Türkiye</option>
+<option>Turkmenistan</option>
+<option>Tuvalu</option>
+<option>Uganda</option>
+<option>Ukraine</option>
+<option>United Arab Emirates</option>
+<option>United Kingdom</option>
+<option>United States</option>
+<option>Uruguay</option>
+<option>Uzbekistan</option>
+<option>Vanuatu</option>
+<option>Vatican City</option>
+<option>Venezuela</option>
+<option>Vietnam</option>
+<option>Yemen</option>
+<option>Zambia</option>
+<option>Zimbabwe</option>
+
+</select>
+
+</div>
+
+
+<div class="row">
+
+<div class="field">
+
+<label for="password">
+Password
+</label>
+
+<div class="password-box">
+
+<input
+type="password"
+id="password"
+autocomplete="new-password"
+placeholder="Minimum 8 characters"
+minlength="8"
+required>
+
+<span
+class="show-password"
+onclick="togglePassword('password',this)">
+SHOW
+</span>
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label for="confirmPassword">
+Confirm Password
+</label>
+
+<div class="password-box">
+
+<input
+type="password"
+id="confirmPassword"
+autocomplete="new-password"
+placeholder="Repeat password"
+minlength="8"
+required>
+
+<span
+class="show-password"
+onclick="togglePassword('confirmPassword',this)">
+SHOW
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="terms">
+
+<input
+type="checkbox"
+id="terms"
+required>
+
+<label for="terms">
+I confirm that the information provided is accurate and
+agree to the Terms of Service and Privacy Policy.
+</label>
+
+</div>
+
+
+<button
+type="submit"
+id="registerButton">
+
+Create Account
+
+</button>
+
+</form>
+
+
+<div class="login">
+
+Already have an account?
+
+<a href="login.html">
+Sign in
+</a>
+
+</div>
+
+
+<div class="security">
+
+Secure registration and email verification.
+
+</div>
+
+</div>
+
+</section>
+
 </main>
 
-<footer>
-  ©️ 2026 Maxx Digital Markets. All rights reserved.
-</footer>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  /*
-    Browser-safe Supabase credentials.
-    NEVER place your sb_secret or service_role key here.
-  */
 
-  const SUPABASE_URL =
-    "https://dwojraxspohahemiarps.supabase.co";
+/* ======================================
+   SUPABASE
+====================================== */
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
+const SUPABASE_URL =
+"https://dwojraxspohahemiarps.supabase.co";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
-
-  const registerForm = document.getElementById("registerForm");
-  const submitBtn = document.getElementById("submitBtn");
-  const messageBox = document.getElementById("message");
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
 
 
-  function showMessage(text, type) {
-    messageBox.textContent = text;
-    messageBox.className = "message " + type;
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
 
-    messageBox.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
+
+/* ======================================
+   ELEMENTS
+====================================== */
+
+const form =
+document.getElementById("registerForm");
+
+const message =
+document.getElementById("message");
+
+const button =
+document.getElementById("registerButton");
+
+
+/* ======================================
+   PASSWORD SHOW/HIDE
+====================================== */
+
+function togglePassword(id,control){
+
+    const input =
+    document.getElementById(id);
+
+    if(input.type === "password"){
+
+        input.type = "text";
+        control.textContent = "HIDE";
+
+    }else{
+
+        input.type = "password";
+        control.textContent = "SHOW";
+
+    }
+}
+
+
+/* ======================================
+   MESSAGE
+====================================== */
+
+function showMessage(text,type){
+
+    message.textContent = text;
+
+    message.className =
+    "message " + type;
+
+    message.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
     });
-  }
+}
 
 
-  function togglePassword(id, button) {
-    const input = document.getElementById(id);
+/* ======================================
+   REGISTRATION
+====================================== */
 
-    if (input.type === "password") {
-      input.type = "text";
-      button.textContent = "Hide";
-    } else {
-      input.type = "password";
-      button.textContent = "Show";
-    }
-  }
+form.addEventListener(
+"submit",
+async function(event){
+
+event.preventDefault();
 
 
-  registerForm.addEventListener("submit", async function(event) {
-
-    event.preventDefault();
-
-    messageBox.className = "message";
-    messageBox.textContent = "";
-
-    const firstName =
-      document.getElementById("firstName").value.trim();
-
-    const lastName =
-      document.getElementById("lastName").value.trim();
-
-    const email =
-      document.getElementById("email").value.trim().toLowerCase();
-
-    const phone =
-      document.getElementById("phone").value.trim();
-
-    const country =
-      document.getElementById("country").value;
-
-    const password =
-      document.getElementById("password").value;
-
-    const confirmPassword =
-      document.getElementById("confirmPassword").value;
+message.className = "message";
+message.textContent = "";
 
 
-    if (!firstName || !lastName || !email || !phone || !country) {
-      showMessage(
-        "Please complete all required fields.",
-        "error"
-      );
-      return;
-    }
+const firstName =
+document
+.getElementById("firstName")
+.value
+.trim();
 
 
-    if (password.length < 8) {
-      showMessage(
-        "Your password must contain at least 8 characters.",
-        "error"
-      );
-      return;
-    }
+const lastName =
+document
+.getElementById("lastName")
+.value
+.trim();
 
 
-    if (password !== confirmPassword) {
-      showMessage(
-        "The passwords do not match.",
-        "error"
-      );
-      return;
-    }
+const email =
+document
+.getElementById("email")
+.value
+.trim()
+.toLowerCase();
 
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Creating Account...";
+const phone =
+document
+.getElementById("phone")
+.value
+.trim();
 
 
-    try {
-
-      const { data, error } =
-        await supabaseClient.auth.signUp({
-
-          email: email,
-
-          password: password,
-
-          options: {
-
-            emailRedirectTo:
-              "https://maxxdigitalmarkets.com/login.html",
-
-            data: {
-              first_name: firstName,
-              last_name: lastName,
-              phone: phone,
-              country: country
-            }
-
-          }
-
-        });
+const country =
+document
+.getElementById("country")
+.value;
 
 
-      if (error) {
-        throw error;
-      }
+const password =
+document
+.getElementById("password")
+.value;
 
 
-      showMessage(
-        "Account created successfully. Check your email inbox and open the verification link before signing in.",
-        "success"
-      );
+const confirmPassword =
+document
+.getElementById("confirmPassword")
+.value;
 
 
-      registerForm.reset();
+const terms =
+document
+.getElementById("terms")
+.checked;
 
 
-      /*
-        Email confirmation is enabled in Supabase,
-        so we DO NOT send the user directly to the
-        dashboard here.
+/* VALIDATION */
 
-        They must confirm their email first.
-      */
+if(
+!firstName ||
+!lastName ||
+!email ||
+!phone ||
+!country ||
+!password
+){
 
-      setTimeout(function() {
-        window.location.href =
-          "login.html?registered=1";
-      }, 6000);
+showMessage(
+"Please complete all required fields.",
+"error"
+);
 
-
-    } catch (error) {
-
-      console.error("Registration error:", error);
-
-      let errorMessage =
-        error.message ||
-        "We couldn't create your account. Please try again.";
+return;
+}
 
 
-      if (
-        errorMessage.toLowerCase().includes("already registered") ||
-        errorMessage.toLowerCase().includes("already been registered")
-      ) {
+/*
+Allows:
++234 800 000 0000
+08012345678
++1 (555) 123-4567
+*/
 
-        errorMessage =
-          "An account with this email address already exists. Please sign in instead.";
-      }
-
-
-      showMessage(
-        errorMessage,
-        "error"
-      );
+const phonePattern =
+/^\+?[0-9\s()\-]{7,20}$/;
 
 
-    } finally {
+if(!phonePattern.test(phone)){
 
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Create Account";
+showMessage(
+"Please enter a valid phone number.",
+"error"
+);
 
-    }
+return;
+}
 
-  });
+
+if(password.length < 8){
+
+showMessage(
+"Your password must contain at least 8 characters.",
+"error"
+);
+
+return;
+}
+
+
+if(password !== confirmPassword){
+
+showMessage(
+"Your passwords do not match.",
+"error"
+);
+
+return;
+}
+
+
+if(!terms){
+
+showMessage(
+"Please accept the Terms of Service and Privacy Policy.",
+"error"
+);
+
+return;
+}
+
+
+/* DISABLE BUTTON */
+
+button.disabled = true;
+
+button.textContent =
+"Creating Account...";
+
+
+try{
+
+
+/* CREATE SUPABASE ACCOUNT */
+
+const {
+data,
+error
+} =
+await supabaseClient.auth.signUp({
+
+email:email,
+
+password:password,
+
+options:{
+
+emailRedirectTo:
+"https://maxxdigitalmarkets.com/login.html",
+
+data:{
+
+first_name:firstName,
+
+last_name:lastName,
+
+full_name:
+firstName + " " + lastName,
+
+phone:phone,
+
+country:country
+
+}
+
+}
+
+});
+
+
+if(error){
+
+throw error;
+
+}
+
+
+/*
+When email confirmation is enabled,
+Supabase creates the account but does
+not provide an authenticated session
+until the email has been verified.
+*/
+
+
+showMessage(
+"Account created successfully. We sent a verification email to " +
+email +
+". Open the email and click Verify Email Address before signing in.",
+"success"
+);
+
+
+form.reset();
+
+
+button.textContent =
+"Verification Email Sent";
+
+
+/*
+Allow another registration after a short
+delay without automatically redirecting.
+*/
+
+setTimeout(function(){
+
+button.disabled = false;
+
+button.textContent =
+"Create Account";
+
+},5000);
+
+
+}catch(error){
+
+
+console.error(
+"Registration error:",
+error
+);
+
+
+let errorMessage =
+error.message ||
+"Unable to create your account. Please try again.";
+
+
+/*
+Make common Supabase errors clearer.
+*/
+
+if(
+errorMessage
+.toLowerCase()
+.includes("already registered")
+){
+
+errorMessage =
+"An account already exists with this email address. Please sign in instead.";
+
+}
+
+
+showMessage(
+errorMessage,
+"error"
+);
+
+
+button.disabled = false;
+
+button.textContent =
+"Create Account";
+
+}
+
+});
+
 </script>
 
 </body>
