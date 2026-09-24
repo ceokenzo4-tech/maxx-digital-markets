@@ -10,7 +10,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 :root{
   --bg:#020d18;
@@ -26,24 +30,50 @@
   --orange:#ffb547;
 }
 
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+}
 
 body{
   min-height:100vh;
   background:
-    radial-gradient(circle at top right,rgba(24,110,200,.13),transparent 28%),
-    linear-gradient(180deg,#04111f 0%,#020b14 100%);
+    radial-gradient(
+      circle at top right,
+      rgba(24,110,200,.13),
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      #04111f 0%,
+      #020b14 100%
+    );
   color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
 }
 
-a{color:inherit;text-decoration:none}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
+a{
+  color:inherit;
+  text-decoration:none;
+}
 
-.hidden{display:none!important}
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
 
-/* LOADING */
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================================
+   LOADING
+========================================= */
 
 #loadingScreen{
   position:fixed;
@@ -55,7 +85,10 @@ button{cursor:pointer}
   justify-content:center;
 }
 
-.loading-inner{text-align:center;color:var(--muted)}
+.loading-inner{
+  text-align:center;
+  color:var(--muted);
+}
 
 .spinner{
   width:58px;
@@ -68,12 +101,18 @@ button{cursor:pointer}
 }
 
 @keyframes spin{
-  to{transform:rotate(360deg)}
+  to{
+    transform:rotate(360deg);
+  }
 }
 
-#app{display:none}
+#app{
+  display:none;
+}
 
-/* HEADER */
+/* =========================================
+   HEADER
+========================================= */
 
 .topbar{
   min-height:92px;
@@ -101,7 +140,11 @@ button{cursor:pointer}
   border-radius:15px;
   display:grid;
   place-items:center;
-  background:linear-gradient(135deg,#19d5ef,#2672f5);
+  background:linear-gradient(
+    135deg,
+    #19d5ef,
+    #2672f5
+  );
   color:#02101c;
   font-size:27px;
   font-weight:900;
@@ -112,7 +155,9 @@ button{cursor:pointer}
   font-weight:900;
 }
 
-.brand-name span{color:var(--cyan)}
+.brand-name span{
+  color:var(--cyan);
+}
 
 .header-right{
   display:flex;
@@ -139,7 +184,9 @@ button{cursor:pointer}
   font-size:34px;
 }
 
-/* LAYOUT */
+/* =========================================
+   LAYOUT
+========================================= */
 
 .layout{
   display:grid;
@@ -168,6 +215,7 @@ button{cursor:pointer}
   border-radius:11px;
   color:#a7b7cc;
   font-weight:700;
+  transition:.2s;
 }
 
 .nav-link:hover,
@@ -176,7 +224,9 @@ button{cursor:pointer}
   color:white;
 }
 
-.support-link{color:var(--cyan)}
+.support-link{
+  color:var(--cyan);
+}
 
 .main{
   width:100%;
@@ -185,9 +235,13 @@ button{cursor:pointer}
   margin:auto;
 }
 
-/* WELCOME */
+/* =========================================
+   WELCOME
+========================================= */
 
-.welcome{margin-bottom:30px}
+.welcome{
+  margin-bottom:30px;
+}
 
 .eyebrow{
   color:var(--cyan);
@@ -199,6 +253,7 @@ button{cursor:pointer}
 
 .welcome h1{
   font-size:40px;
+  line-height:1.15;
   margin-bottom:12px;
 }
 
@@ -206,9 +261,12 @@ button{cursor:pointer}
   color:var(--muted);
   font-size:17px;
   line-height:1.7;
+  max-width:780px;
 }
 
-/* CARDS */
+/* =========================================
+   CARDS
+========================================= */
 
 .status-grid{
   display:grid;
@@ -217,14 +275,22 @@ button{cursor:pointer}
   margin-bottom:26px;
 }
 
-.card,.section-card{
-  background:linear-gradient(145deg,rgba(12,31,52,.96),rgba(7,23,40,.96));
+.card,
+.section-card{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(12,31,52,.96),
+      rgba(7,23,40,.96)
+    );
   border:1px solid var(--border);
   border-radius:20px;
   box-shadow:0 14px 35px rgba(0,0,0,.12);
 }
 
-.card{padding:27px}
+.card{
+  padding:27px;
+}
 
 .card-label{
   color:var(--muted);
@@ -237,9 +303,12 @@ button{cursor:pointer}
 .card-value{
   font-size:25px;
   font-weight:800;
+  word-break:break-word;
 }
 
-.active-status{color:var(--green)}
+.active-status{
+  color:var(--green);
+}
 
 .active-status:before{
   content:"";
@@ -275,9 +344,14 @@ button{cursor:pointer}
   line-height:1.6;
 }
 
-/* BUTTONS */
+/* =========================================
+   BUTTONS
+========================================= */
 
 .btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   border:0;
   border-radius:11px;
   min-height:46px;
@@ -285,10 +359,20 @@ button{cursor:pointer}
   color:white;
   font-weight:800;
   background:#132a45;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
 }
 
 .btn-primary{
-  background:linear-gradient(135deg,var(--blue),#1766d8);
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue),
+      #1766d8
+    );
 }
 
 .btn-green{
@@ -299,9 +383,12 @@ button{cursor:pointer}
 .btn:disabled{
   opacity:.55;
   cursor:not-allowed;
+  transform:none;
 }
 
-/* QUICK */
+/* =========================================
+   QUICK ACCESS
+========================================= */
 
 .quick-grid{
   display:grid;
@@ -319,17 +406,30 @@ button{cursor:pointer}
   flex-direction:column;
   justify-content:center;
   gap:8px;
+  transition:.2s;
 }
 
 .quick-btn:hover{
   border-color:var(--blue);
   background:#153153;
+  transform:translateY(-2px);
 }
 
-.quick-icon{font-size:25px}
-.quick-btn small{color:var(--muted)}
+.quick-icon{
+  font-size:25px;
+}
 
-/* TRADINGVIEW */
+.quick-btn strong{
+  font-size:16px;
+}
+
+.quick-btn small{
+  color:var(--muted);
+}
+
+/* =========================================
+   TRADINGVIEW
+========================================= */
 
 .chart-shell{
   width:100%;
@@ -346,7 +446,9 @@ button{cursor:pointer}
   height:100%!important;
 }
 
-/* TRANSACTION ACTIONS */
+/* =========================================
+   ACTION CARDS
+========================================= */
 
 .action-grid{
   display:grid;
@@ -372,7 +474,9 @@ button{cursor:pointer}
   margin-bottom:15px;
 }
 
-.action-card h3{margin-bottom:8px}
+.action-card h3{
+  margin-bottom:8px;
+}
 
 .action-card p{
   color:var(--muted);
@@ -381,7 +485,9 @@ button{cursor:pointer}
   margin-bottom:18px;
 }
 
-/* DEPOSIT WALLETS */
+/* =========================================
+   DEPOSIT WALLETS
+========================================= */
 
 .wallet-grid{
   display:grid;
@@ -399,6 +505,7 @@ button{cursor:pointer}
 .wallet-top{
   display:flex;
   justify-content:space-between;
+  align-items:flex-start;
   gap:12px;
   margin-bottom:14px;
 }
@@ -412,6 +519,7 @@ button{cursor:pointer}
   color:var(--cyan);
   font-size:12px;
   font-weight:700;
+  text-align:right;
 }
 
 .wallet-address{
@@ -433,7 +541,9 @@ button{cursor:pointer}
   margin-bottom:12px;
 }
 
-/* FORMS */
+/* =========================================
+   FORMS
+========================================= */
 
 .form-grid{
   display:grid;
@@ -441,9 +551,13 @@ button{cursor:pointer}
   gap:16px;
 }
 
-.field{margin-bottom:16px}
+.field{
+  margin-bottom:16px;
+}
 
-.field.full{grid-column:1/-1}
+.field.full{
+  grid-column:1/-1;
+}
 
 .field label{
   display:block;
@@ -506,7 +620,9 @@ button{cursor:pointer}
   background:rgba(47,125,244,.18);
 }
 
-/* HISTORY */
+/* =========================================
+   HISTORY
+========================================= */
 
 .table-wrap{
   overflow-x:auto;
@@ -520,7 +636,8 @@ table{
   min-width:650px;
 }
 
-th,td{
+th,
+td{
   padding:14px;
   text-align:left;
   border-bottom:1px solid #17304a;
@@ -540,6 +657,7 @@ th{
   border-radius:999px;
   font-size:11px;
   font-weight:800;
+  text-transform:capitalize;
 }
 
 .status.pending{
@@ -566,7 +684,9 @@ th{
   color:var(--muted);
 }
 
-/* PROFILE */
+/* =========================================
+   PROFILE
+========================================= */
 
 .profile-grid{
   display:grid;
@@ -588,14 +708,26 @@ th{
 
 .profile-item strong{
   font-size:16px;
+  line-height:1.5;
   word-break:break-word;
 }
 
-/* SECURITY */
+/* =========================================
+   SECURITY
+========================================= */
 
 .security-item{
   padding:21px 0;
   border-bottom:1px solid rgba(57,84,116,.42);
+}
+
+.security-item:first-of-type{
+  padding-top:0;
+}
+
+.security-item:last-child{
+  border-bottom:0;
+  padding-bottom:0;
 }
 
 .security-item p{
@@ -609,7 +741,9 @@ th{
   font-weight:700;
 }
 
-/* SUPPORT */
+/* =========================================
+   SUPPORT
+========================================= */
 
 .support-card p{
   color:var(--muted);
@@ -622,6 +756,7 @@ th{
   min-height:48px;
   padding:0 18px;
   align-items:center;
+  justify-content:center;
   border:1px solid rgba(21,200,238,.35);
   border-radius:12px;
   background:rgba(21,200,238,.08);
@@ -630,9 +765,13 @@ th{
   word-break:break-all;
 }
 
-/* LOGOUT */
+/* =========================================
+   LOGOUT
+========================================= */
 
-.logout-area{margin-top:26px}
+.logout-area{
+  margin-top:26px;
+}
 
 .logout-btn{
   width:100%;
@@ -645,6 +784,17 @@ th{
   font-weight:800;
 }
 
+.logout-btn:hover{
+  background:#e74855;
+  border-color:#e74855;
+  color:white;
+}
+
+.logout-btn:disabled{
+  opacity:.6;
+  cursor:wait;
+}
+
 .footer{
   color:#60748f;
   font-size:13px;
@@ -653,8 +803,15 @@ th{
   line-height:1.7;
 }
 
+/* =========================================
+   MOBILE
+========================================= */
+
 @media(max-width:900px){
-  .layout{display:block}
+
+  .layout{
+    display:block;
+  }
 
   .sidebar{
     display:none;
@@ -670,37 +827,65 @@ th{
     overflow:auto;
   }
 
-  .sidebar.open{display:block}
-  .menu-button{display:block}
+  .sidebar.open{
+    display:block;
+  }
 
-  .status-grid{grid-template-columns:1fr}
-  .quick-grid{grid-template-columns:1fr 1fr}
-  .wallet-grid{grid-template-columns:1fr}
+  .menu-button{
+    display:block;
+  }
 
-  .main{padding:34px 24px 50px}
+  .status-grid{
+    grid-template-columns:1fr;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .wallet-grid{
+    grid-template-columns:1fr;
+  }
+
+  .main{
+    padding:34px 24px 50px;
+  }
 }
 
 @media(max-width:650px){
+
   .topbar{
     min-height:82px;
     padding:12px 18px;
   }
 
-  .sidebar{top:82px}
+  .sidebar{
+    top:82px;
+  }
 
   .logo{
     width:47px;
     height:47px;
   }
 
-  .brand-name{font-size:15px}
-  .user-circle{display:none}
+  .brand-name{
+    font-size:15px;
+  }
 
-  .main{padding:30px 16px 45px}
+  .user-circle{
+    display:none;
+  }
 
-  .welcome h1{font-size:32px}
+  .main{
+    padding:30px 16px 45px;
+  }
 
-  .card,.section-card{
+  .welcome h1{
+    font-size:32px;
+  }
+
+  .card,
+  .section-card{
     padding:21px;
     border-radius:18px;
   }
@@ -711,160 +896,385 @@ th{
     grid-template-columns:1fr;
   }
 
-  .field.full{grid-column:auto}
+  .field.full{
+    grid-column:auto;
+  }
 
-  .quick-grid{grid-template-columns:1fr 1fr}
+  .quick-grid{
+    grid-template-columns:1fr 1fr;
+  }
 
-  .chart-shell{height:430px}
+  .chart-shell{
+    height:430px;
+  }
+
+  .method-tabs{
+    flex-direction:column;
+  }
 }
 
 @media(max-width:390px){
-  .brand-name{font-size:13px}
-  .quick-grid{grid-template-columns:1fr}
+
+  .brand-name{
+    font-size:13px;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- =========================================
+     LOADING SCREEN
+========================================= -->
+
 <div id="loadingScreen">
+
   <div class="loading-inner">
+
     <div class="spinner"></div>
-    <p>Securing your account...</p>
+
+    <p>
+      Securing your account...
+    </p>
+
   </div>
+
 </div>
+
+<!-- =========================================
+     APP
+========================================= -->
 
 <div id="app">
 
 <header class="topbar">
 
-  <a class="brand" href="#dashboard">
-    <div class="logo">M</div>
+  <a
+    class="brand"
+    href="#dashboard"
+  >
+
+    <div class="logo">
+      M
+    </div>
+
     <div class="brand-name">
       MAXX <span>DIGITAL MARKETS</span>
     </div>
+
   </a>
 
   <div class="header-right">
-    <div class="user-circle" id="userInitial">M</div>
+
+    <div
+      class="user-circle"
+      id="userInitial"
+    >
+      M
+    </div>
 
     <button
       class="menu-button"
       id="menuButton"
       type="button"
       aria-label="Open menu"
-    >☰</button>
+    >
+      ☰
+    </button>
+
   </div>
 
 </header>
 
 <div class="layout">
 
-<aside class="sidebar" id="sidebar">
+<!-- =========================================
+     SIDEBAR
+========================================= -->
 
-  <div class="nav-label">ACCOUNT</div>
+<aside
+  class="sidebar"
+  id="sidebar"
+>
 
-  <a class="nav-link active" href="#dashboard">Dashboard</a>
-  <a class="nav-link" href="#markets">Live Markets</a>
-  <a class="nav-link" href="#deposit">Deposit</a>
-  <a class="nav-link" href="#withdraw">Withdraw</a>
-  <a class="nav-link" href="#history">History</a>
-  <a class="nav-link" href="#profile">Profile</a>
-  <a class="nav-link" href="#security">Security</a>
-  <a class="nav-link support-link" href="#support">Support</a>
-  <a class="nav-link" href="index.html">Main Website</a>
+  <div class="nav-label">
+    ACCOUNT
+  </div>
+
+  <a
+    class="nav-link active"
+    href="#dashboard"
+  >
+    Dashboard
+  </a>
+
+  <a
+    class="nav-link"
+    href="#markets"
+  >
+    Live Markets
+  </a>
+
+  <a
+    class="nav-link"
+    href="#deposit"
+  >
+    Deposit
+  </a>
+
+  <a
+    class="nav-link"
+    href="#withdraw"
+  >
+    Withdraw
+  </a>
+
+  <a
+    class="nav-link"
+    href="#history"
+  >
+    History
+  </a>
+
+  <a
+    class="nav-link"
+    href="#profile"
+  >
+    Profile
+  </a>
+
+  <a
+    class="nav-link"
+    href="#security"
+  >
+    Security
+  </a>
+
+  <a
+    class="nav-link support-link"
+    href="#support"
+  >
+    Support
+  </a>
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+    Main Website
+  </a>
 
 </aside>
 
-<main class="main" id="dashboard">
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main
+  class="main"
+  id="dashboard"
+>
+
+<!-- WELCOME -->
 
 <section class="welcome">
 
-  <div class="eyebrow">ACCOUNT DASHBOARD</div>
+  <div class="eyebrow">
+    ACCOUNT DASHBOARD
+  </div>
 
   <h1>
     Welcome,
-    <span id="welcomeName">User</span>
+    <span id="welcomeName">
+      User
+    </span>
   </h1>
 
   <p>
     Manage your MAXX Digital Markets account, access live market
-    charts, submit deposit and withdrawal requests, and contact support.
+    charts, view deposit options, submit withdrawal requests and
+    contact support.
   </p>
 
 </section>
 
+<!-- STATUS -->
+
 <section class="status-grid">
 
   <div class="card">
-    <div class="card-label">Account Status</div>
-    <div class="card-value active-status">Active</div>
+
+    <div class="card-label">
+      Account Status
+    </div>
+
+    <div class="card-value active-status">
+      Active
+    </div>
+
   </div>
 
   <div class="card">
-    <div class="card-label">Email Status</div>
-    <div class="card-value" id="emailStatus">Verified</div>
+
+    <div class="card-label">
+      Email Status
+    </div>
+
+    <div
+      class="card-value"
+      id="emailStatus"
+    >
+      Verified
+    </div>
+
   </div>
 
   <div class="card">
-    <div class="card-label">Account Security</div>
-    <div class="card-value">Protected</div>
+
+    <div class="card-label">
+      Account Security
+    </div>
+
+    <div class="card-value">
+      Protected
+    </div>
+
   </div>
 
 </section>
 
-<!-- QUICK ACCESS -->
+<!-- =========================================
+     QUICK ACCESS
+========================================= -->
 
 <section class="section-card">
 
   <div class="section-title">
+
     <div>
-      <h2>Quick Access</h2>
-      <p>Access the main areas of your account.</p>
+
+      <h2>
+        Quick Access
+      </h2>
+
+      <p>
+        Access the main areas of your account.
+      </p>
+
     </div>
+
   </div>
 
   <div class="quick-grid">
 
-    <a class="quick-btn" href="#markets">
-      <span class="quick-icon">📈</span>
-      <strong>Markets</strong>
-      <small>Live TradingView chart</small>
+    <a
+      class="quick-btn"
+      href="#markets"
+    >
+
+      <span class="quick-icon">
+        📈
+      </span>
+
+      <strong>
+        Markets
+      </strong>
+
+      <small>
+        Live TradingView chart
+      </small>
+
     </a>
 
-    <a class="quick-btn" href="#deposit">
-      <span class="quick-icon">↓</span>
-      <strong>Deposit</strong>
-      <small>Funding options</small>
+    <a
+      class="quick-btn"
+      href="#deposit"
+    >
+
+      <span class="quick-icon">
+        ↓
+      </span>
+
+      <strong>
+        Deposit
+      </strong>
+
+      <small>
+        Funding options
+      </small>
+
     </a>
 
-    <a class="quick-btn" href="#withdraw">
-      <span class="quick-icon">↑</span>
-      <strong>Withdraw</strong>
-      <small>Submit request</small>
+    <a
+      class="quick-btn"
+      href="#withdraw"
+    >
+
+      <span class="quick-icon">
+        ↑
+      </span>
+
+      <strong>
+        Withdraw
+      </strong>
+
+      <small>
+        Submit request
+      </small>
+
     </a>
 
-    <a class="quick-btn" href="#support">
-      <span class="quick-icon">💬</span>
-      <strong>Support</strong>
-      <small>Get assistance</small>
+    <a
+      class="quick-btn"
+      href="#support"
+    >
+
+      <span class="quick-icon">
+        💬
+      </span>
+
+      <strong>
+        Support
+      </strong>
+
+      <small>
+        Get assistance
+      </small>
+
     </a>
 
   </div>
 
 </section>
 
-<!-- LIVE TRADINGVIEW -->
+<!-- =========================================
+     LIVE MARKETS
+========================================= -->
 
-<section class="section-card" id="markets">
+<section
+  class="section-card"
+  id="markets"
+>
 
   <div class="section-title">
+
     <div>
-      <h2>Live Markets</h2>
+
+      <h2>
+        Live Markets
+      </h2>
+
       <p>
         Interactive market chart powered by TradingView.
       </p>
+
     </div>
+
   </div>
 
   <div class="chart-shell">
@@ -904,18 +1314,28 @@ th{
 
 </section>
 
-<!-- DEPOSIT -->
+<!-- =========================================
+     DEPOSIT
+========================================= -->
 
-<section class="section-card" id="deposit">
+<section
+  class="section-card"
+  id="deposit"
+>
 
   <div class="section-title">
 
     <div>
-      <h2>Deposit Funds</h2>
+
+      <h2>
+        Deposit Funds
+      </h2>
+
       <p>
         Choose cryptocurrency or contact support for bank-transfer
         deposit instructions.
       </p>
+
     </div>
 
     <button
@@ -930,28 +1350,43 @@ th{
 
   <div class="action-grid">
 
+    <!-- CRYPTO DEPOSIT -->
+
     <div class="action-card">
 
-      <div class="action-icon">₿</div>
+      <div class="action-icon">
+        ₿
+      </div>
 
-      <h3>Cryptocurrency Deposit</h3>
+      <h3>
+        Cryptocurrency Deposit
+      </h3>
 
       <p>
-        Use one of the active public receiving addresses provided
-        below. Confirm the cryptocurrency and network before sending.
+        Use one of the active public receiving addresses below.
+        Always confirm the cryptocurrency and network before sending.
       </p>
 
-      <a class="btn btn-primary" href="#cryptoWallets">
+      <a
+        class="btn btn-primary"
+        href="#cryptoWallets"
+      >
         View Wallets
       </a>
 
     </div>
 
+    <!-- BANK DEPOSIT -->
+
     <div class="action-card">
 
-      <div class="action-icon">🏦</div>
+      <div class="action-icon">
+        🏦
+      </div>
 
-      <h3>Bank Transfer Deposit</h3>
+      <h3>
+        Bank Transfer Deposit
+      </h3>
 
       <p>
         Bank-transfer deposit instructions are provided through
@@ -969,36 +1404,66 @@ th{
 
   </div>
 
-  <div id="cryptoWallets" style="margin-top:24px">
+  <!-- CRYPTO WALLETS -->
+
+  <div
+    id="cryptoWallets"
+    style="margin-top:24px"
+  >
 
     <div class="section-title">
+
       <div>
-        <h2 style="font-size:19px">Crypto Deposit Addresses</h2>
-        <p>Only active public receiving addresses are displayed.</p>
+
+        <h2 style="font-size:19px">
+          Crypto Deposit Addresses
+        </h2>
+
+        <p>
+          Only active public receiving addresses are displayed.
+        </p>
+
       </div>
+
     </div>
 
-    <div id="walletLoading" class="empty">
+    <div
+      id="walletLoading"
+      class="empty"
+    >
       Loading deposit wallets...
     </div>
 
-    <div id="walletGrid" class="wallet-grid"></div>
+    <div
+      id="walletGrid"
+      class="wallet-grid"
+    ></div>
 
   </div>
 
 </section>
 
-<!-- WITHDRAW -->
+<!-- =========================================
+     WITHDRAW
+========================================= -->
 
-<section class="section-card" id="withdraw">
+<section
+  class="section-card"
+  id="withdraw"
+>
 
   <div class="section-title">
 
     <div>
-      <h2>Withdraw Funds</h2>
+
+      <h2>
+        Withdraw Funds
+      </h2>
+
       <p>
         Submit a cryptocurrency or bank-transfer withdrawal request.
       </p>
+
     </div>
 
   </div>
@@ -1025,7 +1490,9 @@ th{
 
   </div>
 
-  <!-- CRYPTO -->
+  <!-- =========================================
+       CRYPTO WITHDRAWAL
+  ========================================= -->
 
   <div id="cryptoWithdrawal">
 
@@ -1035,26 +1502,46 @@ th{
 
         <div class="field">
 
-          <label>Cryptocurrency</label>
+          <label>
+            Cryptocurrency
+          </label>
 
-          <select id="cryptoCurrency" required>
-            <option value="BTC">Bitcoin (BTC)</option>
-            <option value="ETH">Ethereum (ETH)</option>
-            <option value="USDT">Tether (USDT)</option>
-            <option value="USDC">USD Coin (USDC)</option>
+          <select
+            id="cryptoCurrency"
+            required
+          >
+
+            <option value="BTC">
+              Bitcoin (BTC)
+            </option>
+
+            <option value="ETH">
+              Ethereum (ETH)
+            </option>
+
+            <option value="USDT">
+              Tether (USDT)
+            </option>
+
+            <option value="USDC">
+              USD Coin (USDC)
+            </option>
+
           </select>
 
         </div>
 
         <div class="field">
 
-          <label>Withdrawal Amount</label>
+          <label>
+            Withdrawal Amount
+          </label>
 
           <input
             id="cryptoAmount"
             type="number"
-            min="0.01"
-            step="0.01"
+            min="0.00000001"
+            step="any"
             placeholder="0.00"
             required
           >
@@ -1063,24 +1550,45 @@ th{
 
         <div class="field">
 
-          <label>Network</label>
+          <label>
+            Network
+          </label>
 
-          <select id="cryptoNetwork" required>
-            <option value="Bitcoin">Bitcoin</option>
-            <option value="Ethereum">Ethereum / ERC20</option>
-            <option value="TRC20">Tron / TRC20</option>
-            <option value="BEP20">BNB Smart Chain / BEP20</option>
+          <select
+            id="cryptoNetwork"
+            required
+          >
+
+            <option value="Bitcoin">
+              Bitcoin
+            </option>
+
+            <option value="Ethereum">
+              Ethereum / ERC20
+            </option>
+
+            <option value="TRC20">
+              Tron / TRC20
+            </option>
+
+            <option value="BEP20">
+              BNB Smart Chain / BEP20
+            </option>
+
           </select>
 
         </div>
 
         <div class="field">
 
-          <label>Receiving Wallet Address</label>
+          <label>
+            Receiving Wallet Address
+          </label>
 
           <input
             id="cryptoDestination"
             type="text"
+            autocomplete="off"
             placeholder="Enter your receiving wallet address"
             required
           >
@@ -1090,8 +1598,8 @@ th{
       </div>
 
       <p class="form-note">
-        Verify the destination address and network carefully before
-        submitting your request. Withdrawal requests remain subject to
+        Verify the destination wallet address and network carefully
+        before submitting. Withdrawal requests remain subject to
         account review and processing.
       </p>
 
@@ -1107,9 +1615,14 @@ th{
 
   </div>
 
-  <!-- BANK -->
+  <!-- =========================================
+       BANK WITHDRAWAL
+  ========================================= -->
 
-  <div id="bankWithdrawal" class="hidden">
+  <div
+    id="bankWithdrawal"
+    class="hidden"
+  >
 
     <form id="bankWithdrawalForm">
 
@@ -1117,7 +1630,9 @@ th{
 
         <div class="field">
 
-          <label>Withdrawal Amount</label>
+          <label>
+            Withdrawal Amount
+          </label>
 
           <input
             id="bankAmount"
@@ -1132,24 +1647,45 @@ th{
 
         <div class="field">
 
-          <label>Currency</label>
+          <label>
+            Currency
+          </label>
 
-          <select id="bankCurrency" required>
-            <option value="USD">USD</option>
-            <option value="NGN">NGN</option>
-            <option value="GBP">GBP</option>
-            <option value="EUR">EUR</option>
+          <select
+            id="bankCurrency"
+            required
+          >
+
+            <option value="USD">
+              USD
+            </option>
+
+            <option value="NGN">
+              NGN
+            </option>
+
+            <option value="GBP">
+              GBP
+            </option>
+
+            <option value="EUR">
+              EUR
+            </option>
+
           </select>
 
         </div>
 
         <div class="field">
 
-          <label>Bank Name</label>
+          <label>
+            Bank Name
+          </label>
 
           <input
             id="bankName"
             type="text"
+            autocomplete="organization"
             placeholder="Bank name"
             required
           >
@@ -1158,11 +1694,14 @@ th{
 
         <div class="field">
 
-          <label>Account Holder Name</label>
+          <label>
+            Account Holder Name
+          </label>
 
           <input
             id="bankAccountName"
             type="text"
+            autocomplete="name"
             placeholder="Account holder name"
             required
           >
@@ -1171,11 +1710,15 @@ th{
 
         <div class="field">
 
-          <label>Account Number</label>
+          <label>
+            Account Number
+          </label>
 
           <input
             id="bankAccountNumber"
             type="text"
+            inputmode="numeric"
+            autocomplete="off"
             placeholder="Account number"
             required
           >
@@ -1184,12 +1727,30 @@ th{
 
         <div class="field">
 
-          <label>Additional Bank Information</label>
+          <label>
+            Bank Country
+          </label>
 
           <input
-            id="bankExtra"
+            id="bankCountry"
             type="text"
-            placeholder="Optional routing / branch information"
+            placeholder="e.g. Nigeria"
+            required
+          >
+
+        </div>
+
+        <div class="field full">
+
+          <label>
+            Routing Number / SWIFT / BIC
+          </label>
+
+          <input
+            id="bankRouting"
+            type="text"
+            autocomplete="off"
+            placeholder="Enter routing number, SWIFT or BIC if applicable"
           >
 
         </div>
@@ -1197,8 +1758,9 @@ th{
       </div>
 
       <p class="form-note">
-        Make sure the beneficiary information is accurate. Bank
-        withdrawal requests are reviewed before processing.
+        Make sure the beneficiary information is accurate.
+        Bank-transfer withdrawal requests are reviewed before
+        processing.
       </p>
 
       <button
@@ -1215,15 +1777,27 @@ th{
 
 </section>
 
-<!-- HISTORY -->
+<!-- =========================================
+     HISTORY
+========================================= -->
 
-<section class="section-card" id="history">
+<section
+  class="section-card"
+  id="history"
+>
 
   <div class="section-title">
 
     <div>
-      <h2>Withdrawal History</h2>
-      <p>Your recent withdrawal requests.</p>
+
+      <h2>
+        Withdrawal History
+      </h2>
+
+      <p>
+        Your recent withdrawal requests.
+      </p>
+
     </div>
 
     <button
@@ -1241,20 +1815,41 @@ th{
     <table>
 
       <thead>
+
         <tr>
-          <th>Method</th>
-          <th>Amount</th>
-          <th>Currency</th>
-          <th>Status</th>
-          <th>Date</th>
+
+          <th>
+            Method
+          </th>
+
+          <th>
+            Amount
+          </th>
+
+          <th>
+            Currency
+          </th>
+
+          <th>
+            Status
+          </th>
+
+          <th>
+            Date
+          </th>
+
         </tr>
+
       </thead>
 
       <tbody id="withdrawalHistoryBody"></tbody>
 
     </table>
 
-    <div id="withdrawalHistoryEmpty" class="empty hidden">
+    <div
+      id="withdrawalHistoryEmpty"
+      class="empty hidden"
+    >
       No withdrawal requests yet.
     </div>
 
@@ -1262,58 +1857,116 @@ th{
 
 </section>
 
-<!-- PROFILE -->
+<!-- =========================================
+     PROFILE
+========================================= -->
 
-<section class="section-card" id="profile">
+<section
+  class="section-card"
+  id="profile"
+>
 
   <div class="section-title">
+
     <div>
-      <h2>Account Profile</h2>
-      <p>Your registered account information.</p>
+
+      <h2>
+        Account Profile
+      </h2>
+
+      <p>
+        Your registered account information.
+      </p>
+
     </div>
+
   </div>
 
   <div class="profile-grid">
 
     <div class="profile-item">
-      <span>Full Name</span>
-      <strong id="profileName">—</strong>
+
+      <span>
+        Full Name
+      </span>
+
+      <strong id="profileName">
+        —
+      </strong>
+
     </div>
 
     <div class="profile-item">
-      <span>Email Address</span>
-      <strong id="profileEmail">—</strong>
+
+      <span>
+        Email Address
+      </span>
+
+      <strong id="profileEmail">
+        —
+      </strong>
+
     </div>
 
     <div class="profile-item">
-      <span>Phone Number</span>
-      <strong id="profilePhone">—</strong>
+
+      <span>
+        Phone Number
+      </span>
+
+      <strong id="profilePhone">
+        —
+      </strong>
+
     </div>
 
     <div class="profile-item">
-      <span>Country / Region</span>
-      <strong id="profileCountry">—</strong>
+
+      <span>
+        Country / Region
+      </span>
+
+      <strong id="profileCountry">
+        —
+      </strong>
+
     </div>
 
   </div>
 
 </section>
 
-<!-- SECURITY -->
+<!-- =========================================
+     SECURITY
+========================================= -->
 
-<section class="section-card" id="security">
+<section
+  class="section-card"
+  id="security"
+>
 
   <div class="section-title">
+
     <div>
-      <h2>Account Security</h2>
+
+      <h2>
+        Account Security
+      </h2>
+
     </div>
+
   </div>
 
   <div class="security-item">
 
-    <h3>Email Verification</h3>
+    <h3>
+      Email Verification
+    </h3>
 
-    <p id="verificationText" class="verified">
+    <p
+      id="verificationText"
+      class="verified"
+    >
       ✓ Your email address has been verified.
     </p>
 
@@ -1321,7 +1974,9 @@ th{
 
   <div class="security-item">
 
-    <h3>Authentication</h3>
+    <h3>
+      Authentication
+    </h3>
 
     <p>
       Your dashboard requires an authenticated account session.
@@ -1332,25 +1987,38 @@ th{
 
   <div class="security-item">
 
-    <h3>Password Security</h3>
+    <h3>
+      Password Security
+    </h3>
 
     <p>
-      Never share your password, recovery codes, wallet private keys,
-      seed phrases or other authentication credentials with anyone.
+      Never share your password, wallet private keys, seed phrases,
+      recovery phrases or authentication credentials with anyone.
     </p>
 
   </div>
 
 </section>
 
-<!-- SUPPORT -->
+<!-- =========================================
+     SUPPORT
+========================================= -->
 
-<section class="section-card support-card" id="support">
+<section
+  class="section-card support-card"
+  id="support"
+>
 
   <div class="section-title">
+
     <div>
-      <h2>Customer Support</h2>
+
+      <h2>
+        Customer Support
+      </h2>
+
     </div>
+
   </div>
 
   <p>
@@ -1368,6 +2036,10 @@ th{
 
 </section>
 
+<!-- =========================================
+     LOGOUT
+========================================= -->
+
 <div class="logout-area">
 
   <button
@@ -1382,7 +2054,8 @@ th{
 
 <footer class="footer">
 
-  © <span id="year"></span> MAXX Digital Markets.
+  © <span id="year"></span>
+  MAXX Digital Markets.
 
   <br>
 
@@ -1391,14 +2064,19 @@ th{
 </footer>
 
 </main>
+
 </div>
 </div>
+
+<!-- =========================================
+     DASHBOARD JAVASCRIPT
+========================================= -->
 
 <script>
 
-/* =========================================================
+/* =========================================
    SUPABASE
-========================================================= */
+========================================= */
 
 const SUPABASE_URL =
   "https://dwojraxspohahemiarps.supabase.co";
@@ -1414,9 +2092,9 @@ const supabaseClient =
 
 let currentUser = null;
 
-/* =========================================================
+/* =========================================
    HELPERS
-========================================================= */
+========================================= */
 
 function escapeHtml(value){
 
@@ -1435,38 +2113,50 @@ function formatDate(value){
     return "—";
   }
 
-  try{
-    return new Date(value).toLocaleString();
-  }catch{
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
     return "—";
   }
+
+  return date.toLocaleString();
 
 }
 
 function statusBadge(status){
 
   const clean =
-    String(status || "pending")
-      .toLowerCase();
+    String(
+      status || "pending"
+    )
+    .toLowerCase()
+    .replace(/[^a-z_-]/g,"");
 
   return `
     <span class="status ${escapeHtml(clean)}">
-      ${escapeHtml(clean)}
+      ${escapeHtml(status || "pending")}
     </span>
   `;
 
 }
 
-/* =========================================================
+/* =========================================
    AUTHENTICATION
-========================================================= */
+========================================= */
 
 async function secureDashboard(){
 
   try{
 
     const {
-      data:{session},
+      data:{
+        session
+      },
       error
     } =
       await supabaseClient.auth.getSession();
@@ -1475,13 +2165,17 @@ async function secureDashboard(){
       throw error;
     }
 
-    if(!session || !session.user){
+    if(
+      !session ||
+      !session.user
+    ){
 
       window.location.replace(
         "login.html"
       );
 
       return;
+
     }
 
     currentUser =
@@ -1522,9 +2216,9 @@ async function secureDashboard(){
 
 }
 
-/* =========================================================
+/* =========================================
    USER INFORMATION
-========================================================= */
+========================================= */
 
 function loadUserInformation(user){
 
@@ -1588,7 +2282,9 @@ function loadUserInformation(user){
   document.getElementById(
     "userInitial"
   ).textContent =
-    displayName.charAt(0).toUpperCase();
+    displayName
+      .charAt(0)
+      .toUpperCase();
 
   const emailStatus =
     document.getElementById(
@@ -1612,7 +2308,8 @@ function loadUserInformation(user){
       "verified"
     );
 
-  }else{
+  }
+  else{
 
     emailStatus.textContent =
       "Not Verified";
@@ -1628,9 +2325,9 @@ function loadUserInformation(user){
 
 }
 
-/* =========================================================
+/* =========================================
    DEPOSIT WALLETS
-========================================================= */
+========================================= */
 
 async function loadDepositWallets(){
 
@@ -1651,7 +2348,8 @@ async function loadDepositWallets(){
   loading.textContent =
     "Loading deposit wallets...";
 
-  grid.innerHTML = "";
+  grid.innerHTML =
+    "";
 
   try{
 
@@ -1667,17 +2365,13 @@ async function loadDepositWallets(){
       throw error;
     }
 
-    /*
-      Support several possible column names so the UI
-      remains compatible with the wallet table.
-    */
-
     const wallets =
-      (data || []).filter(
-        wallet =>
-          wallet.active !== false &&
-          wallet.is_active !== false
-      );
+      (data || [])
+        .filter(
+          wallet =>
+            wallet.active !== false &&
+            wallet.is_active !== false
+        );
 
     if(!wallets.length){
 
@@ -1688,101 +2382,128 @@ async function loadDepositWallets(){
 
     }
 
+    const cards =
+      wallets
+        .map(
+          wallet => {
+
+            const coin =
+              wallet.asset ||
+              wallet.coin ||
+              wallet.currency ||
+              wallet.symbol ||
+              "Crypto";
+
+            const network =
+              wallet.network ||
+              wallet.chain ||
+              "Network";
+
+            const address =
+              wallet.address ||
+              wallet.wallet_address ||
+              wallet.deposit_address ||
+              "";
+
+            const minimum =
+              wallet.minimum_deposit ??
+              wallet.min_deposit ??
+              null;
+
+            if(!address){
+              return "";
+            }
+
+            return `
+
+              <div class="wallet-card">
+
+                <div class="wallet-top">
+
+                  <div class="wallet-coin">
+                    ${escapeHtml(coin)}
+                  </div>
+
+                  <div class="wallet-network">
+                    ${escapeHtml(network)}
+                  </div>
+
+                </div>
+
+                <div class="wallet-address">
+                  ${escapeHtml(address)}
+                </div>
+
+                ${
+                  minimum !== null
+                  ? `
+                    <div class="wallet-note">
+                      Minimum deposit:
+                      ${escapeHtml(minimum)}
+                      ${escapeHtml(coin)}
+                    </div>
+                  `
+                  : ""
+                }
+
+                <div class="wallet-note">
+                  Send only ${escapeHtml(coin)}
+                  using the ${escapeHtml(network)}
+                  network to this address.
+                </div>
+
+                <button
+                  class="btn btn-primary copy-wallet-btn"
+                  type="button"
+                  data-address="${escapeHtml(address)}"
+                >
+                  Copy Address
+                </button>
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+    if(!cards.trim()){
+
+      loading.textContent =
+        "No valid public deposit addresses are currently available.";
+
+      return;
+
+    }
+
     loading.classList.add(
       "hidden"
     );
 
     grid.innerHTML =
-      wallets.map(wallet => {
+      cards;
 
-        const coin =
-          wallet.asset ||
-          wallet.coin ||
-          wallet.currency ||
-          wallet.symbol ||
-          "Crypto";
+    grid
+      .querySelectorAll(
+        ".copy-wallet-btn"
+      )
+      .forEach(
+        button => {
 
-        const network =
-          wallet.network ||
-          wallet.chain ||
-          "Network";
+          button.addEventListener(
+            "click",
+            function(){
 
-        const address =
-          wallet.address ||
-          wallet.wallet_address ||
-          wallet.deposit_address ||
-          "";
+              copyWallet(
+                this.dataset.address
+              );
 
-        const minimum =
-          wallet.minimum_deposit ??
-          wallet.min_deposit ??
-          null;
-
-        if(!address){
-          return "";
-        }
-
-        return `
-
-          <div class="wallet-card">
-
-            <div class="wallet-top">
-
-              <div class="wallet-coin">
-                ${escapeHtml(coin)}
-              </div>
-
-              <div class="wallet-network">
-                ${escapeHtml(network)}
-              </div>
-
-            </div>
-
-            <div class="wallet-address">
-              ${escapeHtml(address)}
-            </div>
-
-            ${
-              minimum !== null
-              ? `
-                <div class="wallet-note">
-                  Minimum deposit:
-                  ${escapeHtml(minimum)}
-                  ${escapeHtml(coin)}
-                </div>
-              `
-              : ""
             }
+          );
 
-            <div class="wallet-note">
-              Send only ${escapeHtml(coin)} using the
-              ${escapeHtml(network)} network to this address.
-            </div>
-
-            <button
-              class="btn btn-primary"
-              type="button"
-              onclick='copyWallet(${JSON.stringify(address)})'
-            >
-              Copy Address
-            </button>
-
-          </div>
-
-        `;
-
-      }).join("");
-
-    if(!grid.innerHTML.trim()){
-
-      loading.classList.remove(
-        "hidden"
+        }
       );
-
-      loading.textContent =
-        "No valid public deposit addresses are currently available.";
-
-    }
 
   }
   catch(error){
@@ -1799,6 +2520,10 @@ async function loadDepositWallets(){
 
 }
 
+/* =========================================
+   COPY WALLET
+========================================= */
+
 async function copyWallet(address){
 
   try{
@@ -1812,7 +2537,7 @@ async function copyWallet(address){
     );
 
   }
-  catch{
+  catch(error){
 
     prompt(
       "Copy this wallet address:",
@@ -1823,9 +2548,9 @@ async function copyWallet(address){
 
 }
 
-/* =========================================================
+/* =========================================
    WITHDRAWAL METHOD
-========================================================= */
+========================================= */
 
 function showWithdrawalMethod(method){
 
@@ -1867,7 +2592,8 @@ function showWithdrawalMethod(method){
       "active"
     );
 
-  }else{
+  }
+  else{
 
     bank.classList.add(
       "hidden"
@@ -1889,9 +2615,9 @@ function showWithdrawalMethod(method){
 
 }
 
-/* =========================================================
+/* =========================================
    CRYPTO WITHDRAWAL
-========================================================= */
+========================================= */
 
 document.getElementById(
   "cryptoWithdrawalForm"
@@ -1937,6 +2663,7 @@ document.getElementById(
       );
 
       return;
+
     }
 
     if(!destination){
@@ -1946,14 +2673,24 @@ document.getElementById(
       );
 
       return;
+
     }
 
     const confirmed =
       confirm(
         "Submit this crypto withdrawal request?\n\n" +
-        "Amount: " + amount + " " + currency + "\n" +
-        "Network: " + network + "\n\n" +
-        "Please confirm the receiving address is correct."
+        "Amount: " +
+        amount +
+        " " +
+        currency +
+        "\n" +
+        "Network: " +
+        network +
+        "\n" +
+        "Wallet: " +
+        destination +
+        "\n\n" +
+        "Please confirm the information is correct."
       );
 
     if(!confirmed){
@@ -1965,39 +2702,53 @@ document.getElementById(
         "cryptoWithdrawBtn"
       );
 
-    button.disabled = true;
+    button.disabled =
+      true;
+
     button.textContent =
       "Submitting...";
 
     try{
 
-      /*
-        These are the withdrawal columns already
-        confirmed in your database:
-
-        user_id
-        method
-        amount
-        currency
-
-        We do NOT guess database column names for
-        wallet_address/network.
-
-        Those two values remain client-side until
-        we confirm which of your remaining withdrawal
-        columns store them.
-      */
-
       const {
         error
       } =
         await supabaseClient
-          .from("withdrawal_requests")
+          .from(
+            "withdrawal_requests"
+          )
           .insert({
-            user_id:currentUser.id,
-            method:"crypto",
-            amount:amount,
-            currency:currency
+
+            user_id:
+              currentUser.id,
+
+            method:
+              "crypto",
+
+            withdrawal_type:
+              "crypto",
+
+            amount:
+              amount,
+
+            currency:
+              currency,
+
+            asset:
+              currency,
+
+            crypto_asset:
+              currency,
+
+            network:
+              network,
+
+            wallet_address:
+              destination,
+
+            status:
+              "pending"
+
           });
 
       if(error){
@@ -2005,7 +2756,7 @@ document.getElementById(
       }
 
       alert(
-        "Your withdrawal request has been submitted."
+        "Your crypto withdrawal request has been submitted successfully."
       );
 
       document.getElementById(
@@ -2018,6 +2769,7 @@ document.getElementById(
     catch(error){
 
       console.error(
+        "Crypto withdrawal error:",
         error
       );
 
@@ -2029,7 +2781,8 @@ document.getElementById(
     }
     finally{
 
-      button.disabled = false;
+      button.disabled =
+        false;
 
       button.textContent =
         "Submit Crypto Withdrawal";
@@ -2039,9 +2792,9 @@ document.getElementById(
   }
 );
 
-/* =========================================================
+/* =========================================
    BANK WITHDRAWAL
-========================================================= */
+========================================= */
 
 document.getElementById(
   "bankWithdrawalForm"
@@ -2082,6 +2835,16 @@ document.getElementById(
         "bankAccountNumber"
       ).value.trim();
 
+    const bankCountry =
+      document.getElementById(
+        "bankCountry"
+      ).value.trim();
+
+    const routingOrSwift =
+      document.getElementById(
+        "bankRouting"
+      ).value.trim();
+
     if(
       !Number.isFinite(amount) ||
       amount <= 0
@@ -2092,27 +2855,45 @@ document.getElementById(
       );
 
       return;
+
     }
 
     if(
       !bankName ||
       !accountName ||
-      !accountNumber
+      !accountNumber ||
+      !bankCountry
     ){
 
       alert(
-        "Complete the required bank information."
+        "Complete all required bank information."
       );
 
       return;
+
     }
 
     const confirmed =
       confirm(
         "Submit this bank withdrawal request?\n\n" +
-        "Amount: " + amount + " " + currency + "\n" +
-        "Bank: " + bankName + "\n" +
-        "Account name: " + accountName
+        "Amount: " +
+        amount +
+        " " +
+        currency +
+        "\n" +
+        "Bank: " +
+        bankName +
+        "\n" +
+        "Account Holder: " +
+        accountName +
+        "\n" +
+        "Account Number: " +
+        accountNumber +
+        "\n" +
+        "Country: " +
+        bankCountry +
+        "\n\n" +
+        "Please confirm the bank information is correct."
       );
 
     if(!confirmed){
@@ -2124,31 +2905,56 @@ document.getElementById(
         "bankWithdrawBtn"
       );
 
-    button.disabled = true;
+    button.disabled =
+      true;
+
     button.textContent =
       "Submitting...";
 
     try{
 
-      /*
-        Submit only fields whose database names
-        have already been confirmed.
-
-        We will connect the bank-detail fields
-        after checking the remaining withdrawal
-        column names.
-      */
-
       const {
         error
       } =
         await supabaseClient
-          .from("withdrawal_requests")
+          .from(
+            "withdrawal_requests"
+          )
           .insert({
-            user_id:currentUser.id,
-            method:"bank_transfer",
-            amount:amount,
-            currency:currency
+
+            user_id:
+              currentUser.id,
+
+            method:
+              "bank_transfer",
+
+            withdrawal_type:
+              "bank_transfer",
+
+            amount:
+              amount,
+
+            currency:
+              currency,
+
+            account_holder:
+              accountName,
+
+            bank_name:
+              bankName,
+
+            account_number:
+              accountNumber,
+
+            bank_country:
+              bankCountry,
+
+            routing_or_swift:
+              routingOrSwift || null,
+
+            status:
+              "pending"
+
           });
 
       if(error){
@@ -2156,7 +2962,7 @@ document.getElementById(
       }
 
       alert(
-        "Your bank withdrawal request has been submitted."
+        "Your bank withdrawal request has been submitted successfully."
       );
 
       document.getElementById(
@@ -2169,18 +2975,20 @@ document.getElementById(
     catch(error){
 
       console.error(
+        "Bank withdrawal error:",
         error
       );
 
       alert(
-        "Could not submit the withdrawal request.\n\n" +
+        "Could not submit the bank withdrawal request.\n\n" +
         error.message
       );
 
     }
     finally{
 
-      button.disabled = false;
+      button.disabled =
+        false;
 
       button.textContent =
         "Submit Bank Withdrawal";
@@ -2190,9 +2998,9 @@ document.getElementById(
   }
 );
 
-/* =========================================================
+/* =========================================
    WITHDRAWAL HISTORY
-========================================================= */
+========================================= */
 
 async function loadWithdrawalHistory(){
 
@@ -2210,6 +3018,10 @@ async function loadWithdrawalHistory(){
       "withdrawalHistoryEmpty"
     );
 
+  empty.classList.add(
+    "hidden"
+  );
+
   try{
 
     const {
@@ -2217,8 +3029,12 @@ async function loadWithdrawalHistory(){
       error
     } =
       await supabaseClient
-        .from("withdrawal_requests")
-        .select("*")
+        .from(
+          "withdrawal_requests"
+        )
+        .select(
+          "method,withdrawal_type,amount,currency,status,created_at"
+        )
         .eq(
           "user_id",
           currentUser.id
@@ -2239,57 +3055,71 @@ async function loadWithdrawalHistory(){
 
     if(!rows.length){
 
-      body.innerHTML = "";
+      body.innerHTML =
+        "";
+
+      empty.textContent =
+        "No withdrawal requests yet.";
 
       empty.classList.remove(
         "hidden"
       );
 
       return;
+
     }
 
-    empty.classList.add(
-      "hidden"
-    );
-
     body.innerHTML =
-      rows.map(item => `
+      rows
+        .map(
+          item => {
 
-        <tr>
+            const method =
+              item.method ||
+              item.withdrawal_type ||
+              "—";
 
-          <td>
-            ${escapeHtml(
-              item.method || "—"
-            )}
-          </td>
+            return `
 
-          <td>
-            ${escapeHtml(
-              item.amount ?? "—"
-            )}
-          </td>
+              <tr>
 
-          <td>
-            ${escapeHtml(
-              item.currency || "—"
-            )}
-          </td>
+                <td>
+                  ${escapeHtml(method)}
+                </td>
 
-          <td>
-            ${statusBadge(
-              item.status
-            )}
-          </td>
+                <td>
+                  ${escapeHtml(
+                    item.amount ?? "—"
+                  )}
+                </td>
 
-          <td>
-            ${formatDate(
-              item.created_at
-            )}
-          </td>
+                <td>
+                  ${escapeHtml(
+                    item.currency || "—"
+                  )}
+                </td>
 
-        </tr>
+                <td>
+                  ${statusBadge(
+                    item.status
+                  )}
+                </td>
 
-      `).join("");
+                <td>
+                  ${escapeHtml(
+                    formatDate(
+                      item.created_at
+                    )
+                  )}
+                </td>
+
+              </tr>
+
+            `;
+
+          }
+        )
+        .join("");
 
   }
   catch(error){
@@ -2299,7 +3129,8 @@ async function loadWithdrawalHistory(){
       error
     );
 
-    body.innerHTML = "";
+    body.innerHTML =
+      "";
 
     empty.classList.remove(
       "hidden"
@@ -2312,9 +3143,9 @@ async function loadWithdrawalHistory(){
 
 }
 
-/* =========================================================
+/* =========================================
    LOGOUT
-========================================================= */
+========================================= */
 
 const logoutBtn =
   document.getElementById(
@@ -2369,9 +3200,9 @@ logoutBtn.addEventListener(
   }
 );
 
-/* =========================================================
+/* =========================================
    AUTH STATE
-========================================================= */
+========================================= */
 
 supabaseClient.auth.onAuthStateChange(
   (event,session) => {
@@ -2390,9 +3221,9 @@ supabaseClient.auth.onAuthStateChange(
   }
 );
 
-/* =========================================================
+/* =========================================
    MOBILE MENU
-========================================================= */
+========================================= */
 
 const menuButton =
   document.getElementById(
@@ -2436,55 +3267,73 @@ document
     }
   );
 
-/* =========================================================
-   YEAR
-========================================================= */
+/* =========================================
+   COPYRIGHT
+========================================= */
 
 document.getElementById(
   "year"
 ).textContent =
   new Date().getFullYear();
 
-/* =========================================================
-   START
-========================================================= */
+/* =========================================
+   START DASHBOARD
+========================================= */
 
 secureDashboard();
 
 </script>
 
-<!-- TAWK.TO LIVE SUPPORT -->
+<!-- =========================================
+     TAWK.TO LIVE SUPPORT
+========================================= -->
+
+<!--Start of Tawk.to Script-->
 
 <script type="text/javascript">
 
-var Tawk_API=Tawk_API||{},
-    Tawk_LoadStart=new Date();
+var Tawk_API =
+  Tawk_API || {};
+
+var Tawk_LoadStart =
+  new Date();
 
 (function(){
 
-var s1=document.createElement("script"),
-    s0=document.getElementsByTagName("script")[0];
+  var s1 =
+    document.createElement(
+      "script"
+    );
 
-s1.async=true;
+  var s0 =
+    document.getElementsByTagName(
+      "script"
+    )[0];
 
-s1.src=
-'https://embed.tawk.to/6ab51df05abce934461ff239/default';
+  s1.async =
+    true;
 
-s1.charset='UTF-8';
+  s1.src =
+    'https://embed.tawk.to/6ab51df05abce934461ff239/default';
 
-s1.setAttribute(
-  'crossorigin',
-  '*'
-);
+  s1.charset =
+    'UTF-8';
 
-s0.parentNode.insertBefore(
-  s1,
-  s0
-);
+  s1.setAttribute(
+    'crossorigin',
+    '*'
+  );
+
+  s0.parentNode.insertBefore(
+    s1,
+    s0
+  );
 
 })();
 
 </script>
+
+<!--End of Tawk.to Script-->
 
 </body>
 </html>
