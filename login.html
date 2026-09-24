@@ -31,7 +31,12 @@
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(circle at 50% 0%, #15284b 0%, #091426 35%, #050b16 70%);
+        radial-gradient(
+          circle at 50% 0%,
+          #15284b 0%,
+          #091426 35%,
+          #050b16 70%
+        );
       color: var(--text);
       display: flex;
       align-items: center;
@@ -54,13 +59,18 @@
       height: 64px;
       margin: 0 auto 15px;
       border-radius: 17px;
-      background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+      background: linear-gradient(
+        135deg,
+        #1d4ed8,
+        #60a5fa
+      );
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 27px;
       font-weight: 900;
-      box-shadow: 0 12px 35px rgba(37, 99, 235, .28);
+      box-shadow:
+        0 12px 35px rgba(37, 99, 235, .28);
     }
 
     .brand h1 {
@@ -79,7 +89,8 @@
       border: 1px solid var(--border);
       border-radius: 21px;
       padding: 32px 26px;
-      box-shadow: 0 28px 70px rgba(0, 0, 0, .4);
+      box-shadow:
+        0 28px 70px rgba(0, 0, 0, .4);
     }
 
     .card h2 {
@@ -129,7 +140,8 @@
 
     input:focus {
       border-color: var(--blue-light);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, .13);
+      box-shadow:
+        0 0 0 3px rgba(59, 130, 246, .13);
     }
 
     .password-input {
@@ -172,7 +184,12 @@
       height: 54px;
       border: 0;
       border-radius: 11px;
-      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      background:
+        linear-gradient(
+          135deg,
+          #1d4ed8,
+          #3b82f6
+        );
       color: #fff;
       font-size: 15px;
       font-weight: 700;
@@ -242,6 +259,10 @@
       font-weight: 700;
     }
 
+    .register a:hover {
+      text-decoration: underline;
+    }
+
     .security {
       display: flex;
       justify-content: center;
@@ -253,8 +274,6 @@
       text-align: center;
       line-height: 1.6;
     }
-
-    /* SUPPORT EMAIL */
 
     .support {
       margin-top: 14px;
@@ -308,21 +327,30 @@
 
     <header class="brand">
 
-      <div class="logo">M</div>
+      <div class="logo">
+        M
+      </div>
 
-      <h1>MAXX DIGITAL MARKETS</h1>
+      <h1>
+        MAXX DIGITAL MARKETS
+      </h1>
 
-      <p>Secure Client Access</p>
+      <p>
+        Secure Client Access
+      </p>
 
     </header>
 
 
     <section class="card">
 
-      <h2>Welcome back</h2>
+      <h2>
+        Welcome back
+      </h2>
 
       <p class="subtitle">
-        Sign in to securely access your MAXX Digital Markets account.
+        Sign in to securely access your
+        MAXX Digital Markets account.
       </p>
 
 
@@ -427,8 +455,6 @@
     </div>
 
 
-    <!-- SUPPORT -->
-
     <div class="support">
 
       Need help?
@@ -446,7 +472,10 @@
 
     <footer class="footer">
 
-      © <span id="year"></span> MAXX Digital Markets<br>
+      © <span id="year"></span>
+      MAXX Digital Markets
+
+      <br>
 
       All rights reserved.
 
@@ -483,7 +512,9 @@
     ==========================================
     */
 
-    document.getElementById("year").textContent =
+    document.getElementById(
+      "year"
+    ).textContent =
       new Date().getFullYear();
 
 
@@ -494,22 +525,57 @@
     */
 
     const loginForm =
-      document.getElementById("loginForm");
+      document.getElementById(
+        "loginForm"
+      );
 
     const emailInput =
-      document.getElementById("email");
+      document.getElementById(
+        "email"
+      );
 
     const passwordInput =
-      document.getElementById("password");
+      document.getElementById(
+        "password"
+      );
 
     const loginBtn =
-      document.getElementById("loginBtn");
+      document.getElementById(
+        "loginBtn"
+      );
 
     const message =
-      document.getElementById("message");
+      document.getElementById(
+        "message"
+      );
 
     const showPassword =
-      document.getElementById("showPassword");
+      document.getElementById(
+        "showPassword"
+      );
+
+
+    /*
+    ==========================================
+    MESSAGE
+    ==========================================
+    */
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        type;
+
+      message.style.display =
+        "block";
+
+    }
 
 
     /*
@@ -522,17 +588,24 @@
       "click",
       function() {
 
-        if (passwordInput.type === "password") {
+        if (
+          passwordInput.type ===
+          "password"
+        ) {
 
-          passwordInput.type = "text";
+          passwordInput.type =
+            "text";
 
-          showPassword.textContent = "HIDE";
+          showPassword.textContent =
+            "HIDE";
 
         } else {
 
-          passwordInput.type = "password";
+          passwordInput.type =
+            "password";
 
-          showPassword.textContent = "SHOW";
+          showPassword.textContent =
+            "SHOW";
 
         }
 
@@ -554,13 +627,18 @@
 
 
         const email =
-          emailInput.value.trim();
+          emailInput.value
+            .trim()
+            .toLowerCase();
 
         const password =
           passwordInput.value;
 
 
-        if (!email || !password) {
+        if (
+          !email ||
+          !password
+        ) {
 
           showMessage(
             "Please enter your email address and password.",
@@ -572,25 +650,34 @@
         }
 
 
-        loginBtn.disabled = true;
+        loginBtn.disabled =
+          true;
 
         loginBtn.textContent =
           "Signing In...";
 
-
-        message.style.display = "none";
+        message.style.display =
+          "none";
 
 
         try {
+
+          /*
+          ======================================
+          1. AUTHENTICATE USER
+          ======================================
+          */
 
           const {
             data,
             error
           } =
-            await supabaseClient.auth.signInWithPassword({
-              email: email,
-              password: password
-            });
+            await supabaseClient
+              .auth
+              .signInWithPassword({
+                email: email,
+                password: password
+              });
 
 
           if (error) {
@@ -598,10 +685,103 @@
           }
 
 
-          if (!data.user) {
-            throw new Error("Unable to sign in.");
+          if (
+            !data ||
+            !data.user
+          ) {
+
+            throw new Error(
+              "Unable to sign in."
+            );
+
           }
 
+
+          const user =
+            data.user;
+
+
+          /*
+          ======================================
+          2. CHECK ADMIN_USERS
+          ======================================
+          */
+
+          const {
+            data: adminRecord,
+            error: adminError
+          } =
+            await supabaseClient
+              .from("admin_users")
+              .select("user_id")
+              .eq(
+                "user_id",
+                user.id
+              )
+              .maybeSingle();
+
+
+          /*
+          ======================================
+          3. ADMIN USER
+          ======================================
+          */
+
+          if (
+            !adminError &&
+            adminRecord
+          ) {
+
+            showMessage(
+              "Administrator verified. Opening Admin Console...",
+              "success"
+            );
+
+
+            setTimeout(
+              function() {
+
+                window.location.replace(
+                  "admin.html"
+                );
+
+              },
+              500
+            );
+
+
+            return;
+
+          }
+
+
+          /*
+          ======================================
+          4. ADMIN LOOKUP ERROR
+          ======================================
+
+          We do NOT treat a failed database lookup
+          as proof that someone is an administrator.
+          They continue to the normal client dashboard.
+
+          ======================================
+          */
+
+          if (adminError) {
+
+            console.error(
+              "Admin verification error:",
+              adminError
+            );
+
+          }
+
+
+          /*
+          ======================================
+          5. NORMAL CLIENT
+          ======================================
+          */
 
           showMessage(
             "Login successful. Opening your dashboard...",
@@ -612,11 +792,12 @@
           setTimeout(
             function() {
 
-              window.location.href =
-                "dashboard.html";
+              window.location.replace(
+                "dashboard.html"
+              );
 
             },
-            700
+            500
           );
 
 
@@ -636,11 +817,28 @@
             error.message &&
             error.message
               .toLowerCase()
-              .includes("email not confirmed")
+              .includes(
+                "email not confirmed"
+              )
           ) {
 
             errorMessage =
               "Please verify your email address before signing in.";
+
+          }
+
+
+          if (
+            error.message &&
+            error.message
+              .toLowerCase()
+              .includes(
+                "invalid login credentials"
+              )
+          ) {
+
+            errorMessage =
+              "Incorrect email address or password.";
 
           }
 
@@ -651,7 +849,8 @@
           );
 
 
-          loginBtn.disabled = false;
+          loginBtn.disabled =
+            false;
 
           loginBtn.textContent =
             "Sign In";
@@ -664,19 +863,16 @@
 
     /*
     ==========================================
-    MESSAGE
+    OPTIONAL EXISTING SESSION CHECK
+    ==========================================
+
+    If someone returns to login.html while
+    already authenticated, we leave the page
+    available rather than forcing a redirect.
+
     ==========================================
     */
 
-    function showMessage(text, type) {
-
-      message.textContent = text;
-
-      message.className = type;
-
-      message.style.display = "block";
-
-    }
 
   </script>
 
@@ -689,23 +885,32 @@
 
   <script type="text/javascript">
 
-    var Tawk_API = Tawk_API || {},
-        Tawk_LoadStart = new Date();
+    var Tawk_API =
+      Tawk_API || {};
+
+    var Tawk_LoadStart =
+      new Date();
 
     (function(){
 
       var s1 =
-        document.createElement("script"),
+        document.createElement(
+          "script"
+        );
 
-          s0 =
-        document.getElementsByTagName("script")[0];
+      var s0 =
+        document.getElementsByTagName(
+          "script"
+        )[0];
 
-      s1.async = true;
+      s1.async =
+        true;
 
       s1.src =
         'https://embed.tawk.to/6ab51df05abce934461ff239/default';
 
-      s1.charset = 'UTF-8';
+      s1.charset =
+        'UTF-8';
 
       s1.setAttribute(
         'crossorigin',
