@@ -231,7 +231,7 @@ button{cursor:pointer;}
   max-width:760px;
 }
 
-/* ACCOUNT */
+/* ACCOUNT CARDS */
 
 .account-grid{
   display:grid;
@@ -286,8 +286,8 @@ button{cursor:pointer;}
   font-weight:900;
 }
 
-.profit-positive{color:var(--green);}
-.profit-negative{color:var(--red);}
+.profit-positive{color:var(--green)!important;}
+.profit-negative{color:var(--red)!important;}
 
 /* SECTIONS */
 
@@ -371,11 +371,11 @@ button{cursor:pointer;}
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:650px;
+  min-width:760px;
 }
 
 th,td{
-  padding:14px;
+  padding:15px 14px;
   text-align:left;
   border-bottom:1px solid #17304a;
   font-size:13px;
@@ -386,6 +386,49 @@ th{
   color:#9fb1c7;
   text-transform:uppercase;
   font-size:11px;
+  letter-spacing:.3px;
+}
+
+tbody tr:last-child td{
+  border-bottom:none;
+}
+
+.market-name{
+  font-weight:900;
+  color:white;
+}
+
+.trade-type{
+  display:inline-block;
+  min-width:52px;
+  text-align:center;
+  padding:6px 9px;
+  border-radius:7px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.trade-type.buy{
+  color:#59e4a9;
+  background:rgba(56,220,139,.11);
+  border:1px solid rgba(56,220,139,.22);
+}
+
+.trade-type.sell{
+  color:#ff8d96;
+  background:rgba(255,92,105,.11);
+  border:1px solid rgba(255,92,105,.22);
+}
+
+.trade-result{
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.trade-date{
+  color:#9fb1c7;
+  white-space:nowrap;
+  font-size:12px;
 }
 
 .empty{
@@ -425,7 +468,7 @@ th{
   background:rgba(255,92,105,.12);
 }
 
-/* ACTION */
+/* ACTIONS */
 
 .action-grid{
   display:grid;
@@ -582,7 +625,9 @@ th{
   margin-bottom:8px;
 }
 
-.profile-item strong{word-break:break-word;}
+.profile-item strong{
+  word-break:break-word;
+}
 
 /* SECURITY */
 
@@ -597,7 +642,9 @@ th{
   margin-top:8px;
 }
 
-.verified{color:var(--green)!important;}
+.verified{
+  color:var(--green)!important;
+}
 
 .support-email{
   display:inline-flex;
@@ -633,7 +680,9 @@ th{
 
 @media(max-width:900px){
 
-  .layout{display:block;}
+  .layout{
+    display:block;
+  }
 
   .sidebar{
     display:none;
@@ -649,11 +698,17 @@ th{
     box-shadow:0 20px 40px rgba(0,0,0,.45);
   }
 
-  .sidebar.open{display:block;}
+  .sidebar.open{
+    display:block;
+  }
 
-  .menu-button{display:block;}
+  .menu-button{
+    display:block;
+  }
 
-  .main{padding:28px 20px 45px;}
+  .main{
+    padding:28px 20px 45px;
+  }
 
   .account-grid{
     grid-template-columns:1fr 1fr;
@@ -662,19 +717,30 @@ th{
 
 @media(max-width:650px){
 
-  .topbar{padding:11px 17px;}
+  .topbar{
+    padding:11px 17px;
+  }
 
   .logo{
     width:46px;
     height:46px;
   }
 
-  .brand-name{font-size:15px;}
-  .user-circle{display:none;}
+  .brand-name{
+    font-size:15px;
+  }
 
-  .main{padding:25px 15px 40px;}
+  .user-circle{
+    display:none;
+  }
 
-  .page-header h1{font-size:28px;}
+  .main{
+    padding:25px 15px 40px;
+  }
+
+  .page-header h1{
+    font-size:28px;
+  }
 
   .account-grid{
     grid-template-columns:1fr 1fr;
@@ -686,14 +752,21 @@ th{
     padding:18px;
   }
 
-  .account-value{font-size:23px;}
+  .account-value{
+    font-size:23px;
+  }
 
   .account-card:last-child{
     grid-column:1/-1;
   }
 
-  .section-card{padding:19px;}
-  .chart-shell{height:430px;}
+  .section-card{
+    padding:19px;
+  }
+
+  .chart-shell{
+    height:430px;
+  }
 
   .action-grid,
   .wallet-grid,
@@ -702,8 +775,13 @@ th{
     grid-template-columns:1fr;
   }
 
-  .field.full{grid-column:auto;}
-  .method-tabs{flex-direction:column;}
+  .field.full{
+    grid-column:auto;
+  }
+
+  .method-tabs{
+    flex-direction:column;
+  }
 }
 </style>
 </head>
@@ -721,7 +799,8 @@ th{
 
 <header class="topbar">
 
-<button class="brand"
+<button
+class="brand"
 onclick="showPage('dashboard')"
 style="border:0;background:none;color:white;cursor:pointer">
 
@@ -737,7 +816,10 @@ MAXX <span>DIGITAL MARKETS</span>
 
 <div class="user-circle" id="userInitial">M</div>
 
-<button class="menu-button" id="menuButton" type="button">
+<button
+class="menu-button"
+id="menuButton"
+type="button">
 ☰
 </button>
 
@@ -829,7 +911,9 @@ $0.00
 Total Profit
 </div>
 
-<div class="account-value profit-positive" id="totalProfit">
+<div
+class="account-value profit-positive"
+id="totalProfit">
 $0.00
 </div>
 
@@ -851,14 +935,23 @@ Total Trades
 
 </div>
 
+<!-- RECENT TRADES -->
+
 <div class="section-card">
 
 <div class="section-title">
 
 <div>
 <h2>Recent Trades</h2>
-<p>Your latest account trading activity.</p>
+<p>Your latest completed trading activity.</p>
 </div>
+
+<button
+class="btn"
+type="button"
+onclick="showPage('history')">
+View History
+</button>
 
 </div>
 
@@ -870,9 +963,10 @@ Total Trades
 <tr>
 <th>Market</th>
 <th>Type</th>
-<th>Amount</th>
-<th>Profit</th>
+<th>Volume</th>
+<th>Result</th>
 <th>Status</th>
+<th>Closed</th>
 </tr>
 </thead>
 
@@ -880,13 +974,17 @@ Total Trades
 
 </table>
 
-<div id="tradeHistoryEmpty" class="empty hidden">
+<div
+id="tradeHistoryEmpty"
+class="empty hidden">
 No trades are available yet.
 </div>
 
 </div>
 
 </div>
+
+<!-- LIVE MARKETS -->
 
 <div class="section-card">
 
@@ -901,7 +999,8 @@ No trades are available yet.
 
 <div class="chart-shell">
 
-<div class="tradingview-widget-container"
+<div
+class="tradingview-widget-container"
 style="height:100%;width:100%">
 
 <div
@@ -928,6 +1027,7 @@ async>
 </script>
 
 </div>
+
 </div>
 
 </div>
@@ -949,6 +1049,7 @@ async>
 <div class="section-title">
 
 <div>
+
 <h2>Deposit Funds</h2>
 
 <p>
@@ -957,7 +1058,9 @@ Choose cryptocurrency or contact support for bank-transfer instructions.
 
 </div>
 
-<button class="btn" onclick="loadDepositWallets()">
+<button
+class="btn"
+onclick="loadDepositWallets()">
 Refresh
 </button>
 
@@ -1045,7 +1148,7 @@ Bank Transfer
 
 </div>
 
-<!-- CRYPTO -->
+<!-- CRYPTO WITHDRAWAL -->
 
 <div id="cryptoWithdrawal">
 
@@ -1113,16 +1216,14 @@ Carefully verify the receiving wallet address and network before submitting.
 class="btn btn-primary"
 id="cryptoWithdrawBtn"
 type="submit">
-
 Submit Crypto Withdrawal
-
 </button>
 
 </form>
 
 </div>
 
-<!-- BANK -->
+<!-- BANK WITHDRAWAL -->
 
 <div id="bankWithdrawal" class="hidden">
 
@@ -1206,9 +1307,7 @@ Check the beneficiary details carefully before submitting.
 class="btn btn-primary"
 id="bankWithdrawBtn"
 type="submit">
-
 Submit Bank Withdrawal
-
 </button>
 
 </form>
@@ -1232,10 +1331,61 @@ ACCOUNT ACTIVITY
 <h1>History</h1>
 
 <p>
-View your withdrawal request history.
+View your trading and withdrawal activity.
 </p>
 
 </div>
+
+<!-- FULL TRADING HISTORY -->
+
+<div class="section-card">
+
+<div class="section-title">
+
+<div>
+<h2>Trading History</h2>
+<p>Your completed trading activity.</p>
+</div>
+
+<button
+class="btn"
+type="button"
+onclick="loadTrades()">
+Refresh
+</button>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Market</th>
+<th>Type</th>
+<th>Volume</th>
+<th>Result</th>
+<th>Status</th>
+<th>Closed</th>
+</tr>
+</thead>
+
+<tbody id="fullTradeHistoryBody"></tbody>
+
+</table>
+
+<div
+id="fullTradeHistoryEmpty"
+class="empty hidden">
+No trading history is available yet.
+</div>
+
+</div>
+
+</div>
+
+<!-- WITHDRAWAL HISTORY -->
 
 <div class="section-card">
 
@@ -1243,6 +1393,7 @@ View your withdrawal request history.
 
 <div>
 <h2>Withdrawal History</h2>
+<p>Your submitted withdrawal requests.</p>
 </div>
 
 <button
@@ -1276,9 +1427,7 @@ Refresh
 <div
 id="withdrawalHistoryEmpty"
 class="empty hidden">
-
 No withdrawal requests yet.
-
 </div>
 
 </div>
@@ -1360,9 +1509,7 @@ Security information for your MAXX Digital Markets account.
 <p
 id="verificationText"
 class="verified">
-
 ✓ Your email address has been verified.
-
 </p>
 
 </div>
@@ -1432,9 +1579,7 @@ href="mailto:support@maxxdigitalmarkets.com">
 class="logout-btn"
 id="logoutBtn"
 type="button">
-
 Log Out
-
 </button>
 
 <footer class="footer">
@@ -1445,12 +1590,15 @@ Account access is protected by authentication.
 </footer>
 
 </main>
+
 </div>
 </div>
 
 <script>
 
-/* SUPABASE */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
 "https://dwojraxspohahemiarps.supabase.co";
@@ -1465,1218 +1613,1478 @@ window.supabase.createClient(
 );
 
 let currentUser = null;
+let accountCurrency = "USD";
 
-/* HELPERS */
+/* =====================================================
+   HELPERS
+===================================================== */
 
 function escapeHtml(value){
 
-return String(value ?? "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
-function formatMoney(value){
+function formatMoney(value,currency = accountCurrency){
 
-const number = Number(value || 0);
+  const number = Number(value || 0);
 
-return new Intl.NumberFormat(
-  "en-US",
-  {
-    style:"currency",
-    currency:"USD",
-    minimumFractionDigits:2
+  try{
+
+    return new Intl.NumberFormat(
+      "en-US",
+      {
+        style:"currency",
+        currency:currency || "USD",
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    ).format(number);
+
+  }catch(error){
+
+    return "$" + number.toFixed(2);
+
   }
-).format(number);
+}
 
+function formatTradeResult(value){
+
+  const number = Number(value || 0);
+
+  const absolute =
+    Math.abs(number);
+
+  let formatted;
+
+  try{
+
+    formatted =
+      new Intl.NumberFormat(
+        "en-US",
+        {
+          style:"currency",
+          currency:accountCurrency || "USD",
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        }
+      ).format(absolute);
+
+  }catch(error){
+
+    formatted =
+      "$" + absolute.toFixed(2);
+
+  }
+
+  if(number > 0){
+    return "+" + formatted;
+  }
+
+  if(number < 0){
+    return "-" + formatted;
+  }
+
+  return formatted;
 }
 
 function formatDate(value){
 
-if(!value){
-  return "—";
-}
+  if(!value){
+    return "—";
+  }
 
-const date = new Date(value);
+  const date =
+    new Date(value);
 
-if(Number.isNaN(date.getTime())){
-  return "—";
-}
+  if(Number.isNaN(date.getTime())){
+    return "—";
+  }
 
-return date.toLocaleString();
-
+  return date.toLocaleString();
 }
 
 function statusBadge(status){
 
-const text = status || "pending";
+  const text =
+    status || "pending";
 
-const clean =
-String(text)
-.toLowerCase()
-.replace(/[^a-z_-]/g,"");
+  const clean =
+    String(text)
+      .toLowerCase()
+      .replace(/[^a-z_-]/g,"");
 
-return `
-<span class="status ${escapeHtml(clean)}">
-${escapeHtml(text)}
-</span>
-`;
-
+  return `
+    <span class="status ${escapeHtml(clean)}">
+      ${escapeHtml(text)}
+    </span>
+  `;
 }
 
-/* NAVIGATION */
+function tradeTypeBadge(type){
+
+  const cleanType =
+    String(type || "—")
+      .toLowerCase();
+
+  if(
+    cleanType === "buy" ||
+    cleanType === "sell"
+  ){
+
+    return `
+      <span class="trade-type ${escapeHtml(cleanType)}">
+        ${escapeHtml(cleanType.toUpperCase())}
+      </span>
+    `;
+  }
+
+  return escapeHtml(
+    String(type || "—").toUpperCase()
+  );
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
 function showPage(pageName){
 
-document
-.querySelectorAll(".dashboard-page")
-.forEach(page=>{
-  page.classList.remove("active");
-});
+  document
+    .querySelectorAll(".dashboard-page")
+    .forEach(page=>{
+      page.classList.remove("active");
+    });
 
-const page =
-document.getElementById(
-  "page-" + pageName
-);
+  const page =
+    document.getElementById(
+      "page-" + pageName
+    );
 
-if(page){
-  page.classList.add("active");
+  if(page){
+    page.classList.add("active");
+  }
+
+  document
+    .querySelectorAll("[data-page]")
+    .forEach(button=>{
+
+      button.classList.toggle(
+        "active",
+        button.dataset.page === pageName
+      );
+
+    });
+
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  if(pageName === "deposit"){
+    loadDepositWallets();
+  }
+
+  if(pageName === "history"){
+
+    loadTrades();
+    loadWithdrawalHistory();
+
+  }
 }
 
 document
-.querySelectorAll("[data-page]")
-.forEach(button=>{
+  .querySelectorAll("[data-page]")
+  .forEach(button=>{
 
-  button.classList.toggle(
-    "active",
-    button.dataset.page === pageName
-  );
+    button.addEventListener(
+      "click",
+      ()=>showPage(button.dataset.page)
+    );
 
-});
+  });
 
-document
-.getElementById("sidebar")
-.classList.remove("open");
-
-window.scrollTo({
-  top:0,
-  behavior:"smooth"
-});
-
-if(pageName === "deposit"){
-  loadDepositWallets();
-}
-
-if(pageName === "history"){
-  loadWithdrawalHistory();
-}
-
-}
-
-document
-.querySelectorAll("[data-page]")
-.forEach(button=>{
-
-button.addEventListener(
-  "click",
-  ()=>showPage(button.dataset.page)
-);
-
-});
-
-/* AUTH */
+/* =====================================================
+   AUTH
+===================================================== */
 
 async function secureDashboard(){
 
-try{
+  try{
 
-const {
-  data:{session},
-  error
-} =
-await supabaseClient.auth.getSession();
+    const {
+      data:{session},
+      error
+    } =
+    await supabaseClient.auth.getSession();
 
-if(error){
-  throw error;
+    if(error){
+      throw error;
+    }
+
+    if(!session || !session.user){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return;
+    }
+
+    currentUser =
+      session.user;
+
+    loadUserInformation(
+      currentUser
+    );
+
+    await loadAccountData();
+
+    await loadTrades();
+
+    document.getElementById(
+      "loadingScreen"
+    ).style.display = "none";
+
+    document.getElementById(
+      "app"
+    ).style.display = "block";
+
+  }
+  catch(error){
+
+    console.error(
+      "Dashboard authentication error:",
+      error
+    );
+
+    window.location.replace(
+      "login.html"
+    );
+  }
 }
 
-if(!session || !session.user){
-
-  window.location.replace(
-    "login.html"
-  );
-
-  return;
-}
-
-currentUser = session.user;
-
-loadUserInformation(currentUser);
-
-document.getElementById(
-  "loadingScreen"
-).style.display = "none";
-
-document.getElementById(
-  "app"
-).style.display = "block";
-
-await Promise.all([
-  loadAccountData(),
-  loadTrades()
-]);
-
-}
-catch(error){
-
-console.error(
-  "Dashboard authentication error:",
-  error
-);
-
-window.location.replace(
-  "login.html"
-);
-
-}
-
-}
-
-/* USER */
+/* =====================================================
+   USER
+===================================================== */
 
 function loadUserInformation(user){
 
-const metadata =
-user.user_metadata || {};
+  const metadata =
+    user.user_metadata || {};
 
-const fullName =
-metadata.full_name ||
-`${metadata.first_name || ""} ${metadata.last_name || ""}`.trim() ||
-"User";
+  const fullName =
+    metadata.full_name ||
+    `${metadata.first_name || ""} ${metadata.last_name || ""}`.trim() ||
+    "User";
 
-const displayName =
-metadata.first_name ||
-fullName.split(" ")[0] ||
-"User";
+  const displayName =
+    metadata.first_name ||
+    fullName.split(" ")[0] ||
+    "User";
 
-document.getElementById(
-  "welcomeName"
-).textContent = displayName;
+  document.getElementById(
+    "welcomeName"
+  ).textContent =
+    displayName;
 
-document.getElementById(
-  "profileName"
-).textContent = fullName;
+  document.getElementById(
+    "profileName"
+  ).textContent =
+    fullName;
 
-document.getElementById(
-  "profileEmail"
-).textContent =
-user.email || "Not available";
+  document.getElementById(
+    "profileEmail"
+  ).textContent =
+    user.email ||
+    "Not available";
 
-document.getElementById(
-  "profilePhone"
-).textContent =
-metadata.phone ||
-user.phone ||
-"Not provided";
+  document.getElementById(
+    "profilePhone"
+  ).textContent =
+    metadata.phone ||
+    user.phone ||
+    "Not provided";
 
-document.getElementById(
-  "profileCountry"
-).textContent =
-metadata.country ||
-"Not provided";
+  document.getElementById(
+    "profileCountry"
+  ).textContent =
+    metadata.country ||
+    "Not provided";
 
-document.getElementById(
-  "userInitial"
-).textContent =
-displayName.charAt(0).toUpperCase();
+  document.getElementById(
+    "userInitial"
+  ).textContent =
+    displayName
+      .charAt(0)
+      .toUpperCase();
 
-const verification =
-document.getElementById(
-  "verificationText"
-);
+  const verification =
+    document.getElementById(
+      "verificationText"
+    );
 
-if(user.email_confirmed_at){
+  if(user.email_confirmed_at){
 
-verification.textContent =
-"✓ Your email address has been verified.";
+    verification.textContent =
+      "✓ Your email address has been verified.";
 
-verification.classList.add(
-  "verified"
-);
+    verification.classList.add(
+      "verified"
+    );
 
-}else{
+  }else{
 
-verification.textContent =
-"Your email address has not been verified.";
+    verification.textContent =
+      "Your email address has not been verified.";
 
-verification.classList.remove(
-  "verified"
-);
-
-}
-
+    verification.classList.remove(
+      "verified"
+    );
+  }
 }
 
 /* =====================================================
    ACCOUNT DATA
-   VERIFIED TABLE: client_accounts
 ===================================================== */
 
 async function loadAccountData(){
 
-if(!currentUser){
-  return;
+  if(!currentUser){
+    return;
+  }
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .from("client_accounts")
+      .select(
+        "balance,total_profit,currency"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .maybeSingle();
+
+    if(error){
+      throw error;
+    }
+
+    const balance =
+      Number(data?.balance || 0);
+
+    const profit =
+      Number(data?.total_profit || 0);
+
+    accountCurrency =
+      data?.currency || "USD";
+
+    document.getElementById(
+      "accountBalance"
+    ).textContent =
+      formatMoney(
+        balance,
+        accountCurrency
+      );
+
+    const profitElement =
+      document.getElementById(
+        "totalProfit"
+      );
+
+    profitElement.textContent =
+      formatTradeResult(profit);
+
+    profitElement.classList.remove(
+      "profit-positive",
+      "profit-negative"
+    );
+
+    profitElement.classList.add(
+      profit < 0
+        ? "profit-negative"
+        : "profit-positive"
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Account data error:",
+      error
+    );
+
+    document.getElementById(
+      "accountBalance"
+    ).textContent =
+      "$0.00";
+
+    document.getElementById(
+      "totalProfit"
+    ).textContent =
+      "$0.00";
+  }
 }
 
-try{
+/* =====================================================
+   TRADES
+===================================================== */
 
-const {
-  data,
-  error
-} =
-await supabaseClient
-.from("client_accounts")
-.select("balance,total_profit,currency")
-.eq("user_id",currentUser.id)
-.maybeSingle();
+function getTradeDate(trade){
 
-if(error){
-  throw error;
+  return (
+    trade.closed_at ||
+    trade.created_at ||
+    trade.opened_at ||
+    trade.date ||
+    null
+  );
 }
 
-const balance =
-Number(data?.balance || 0);
+function getTradeProfit(trade){
 
-const profit =
-Number(data?.total_profit || 0);
-
-document.getElementById(
-  "accountBalance"
-).textContent =
-formatMoney(balance);
-
-const profitElement =
-document.getElementById(
-  "totalProfit"
-);
-
-profitElement.textContent =
-formatMoney(profit);
-
-profitElement.classList.remove(
-  "profit-positive",
-  "profit-negative"
-);
-
-profitElement.classList.add(
-  profit < 0
-    ? "profit-negative"
-    : "profit-positive"
-);
-
-}
-catch(error){
-
-console.error(
-  "Account data error:",
-  error
-);
-
-document.getElementById(
-  "accountBalance"
-).textContent = "$0.00";
-
-document.getElementById(
-  "totalProfit"
-).textContent = "$0.00";
-
+  return Number(
+    trade.profit_loss ??
+    trade.profit ??
+    trade.pnl ??
+    0
+  );
 }
 
+function getTradeType(trade){
+
+  return (
+    trade.trade_type ||
+    trade.side ||
+    trade.type ||
+    trade.direction ||
+    "—"
+  );
 }
 
-/* TRADES */
+function getTradeVolume(trade){
+
+  return (
+    trade.volume ??
+    trade.amount ??
+    trade.size ??
+    trade.lot_size ??
+    "—"
+  );
+}
+
+function tradeRow(trade){
+
+  const market =
+    trade.symbol ||
+    trade.asset ||
+    trade.market ||
+    trade.pair ||
+    "—";
+
+  const type =
+    getTradeType(trade);
+
+  const volume =
+    getTradeVolume(trade);
+
+  const profit =
+    getTradeProfit(trade);
+
+  const status =
+    trade.status ||
+    "closed";
+
+  const closedDate =
+    getTradeDate(trade);
+
+  return `
+    <tr>
+
+      <td>
+        <span class="market-name">
+          ${escapeHtml(market)}
+        </span>
+      </td>
+
+      <td>
+        ${tradeTypeBadge(type)}
+      </td>
+
+      <td>
+        ${escapeHtml(volume)}
+      </td>
+
+      <td
+        class="trade-result ${
+          profit < 0
+            ? "profit-negative"
+            : "profit-positive"
+        }">
+
+        ${escapeHtml(
+          formatTradeResult(profit)
+        )}
+
+      </td>
+
+      <td>
+        ${statusBadge(status)}
+      </td>
+
+      <td class="trade-date">
+        ${escapeHtml(
+          formatDate(closedDate)
+        )}
+      </td>
+
+    </tr>
+  `;
+}
 
 async function loadTrades(){
 
-if(!currentUser){
-  return;
+  if(!currentUser){
+    return;
+  }
+
+  const recentBody =
+    document.getElementById(
+      "tradeHistoryBody"
+    );
+
+  const recentEmpty =
+    document.getElementById(
+      "tradeHistoryEmpty"
+    );
+
+  const fullBody =
+    document.getElementById(
+      "fullTradeHistoryBody"
+    );
+
+  const fullEmpty =
+    document.getElementById(
+      "fullTradeHistoryEmpty"
+    );
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .from("trades")
+      .select("*")
+      .eq(
+        "user_id",
+        currentUser.id
+      );
+
+    if(error){
+      throw error;
+    }
+
+    const trades =
+      data || [];
+
+    const sortedTrades =
+      [...trades]
+        .sort((a,b)=>{
+
+          const aDate =
+            new Date(
+              getTradeDate(a) || 0
+            ).getTime();
+
+          const bDate =
+            new Date(
+              getTradeDate(b) || 0
+            ).getTime();
+
+          return bDate - aDate;
+        });
+
+    document.getElementById(
+      "totalTrades"
+    ).textContent =
+      sortedTrades.length;
+
+    /* RECENT TRADES */
+
+    if(!sortedTrades.length){
+
+      recentBody.innerHTML = "";
+
+      recentEmpty.classList.remove(
+        "hidden"
+      );
+
+    }else{
+
+      recentEmpty.classList.add(
+        "hidden"
+      );
+
+      recentBody.innerHTML =
+        sortedTrades
+          .slice(0,5)
+          .map(tradeRow)
+          .join("");
+    }
+
+    /* FULL HISTORY */
+
+    if(!sortedTrades.length){
+
+      fullBody.innerHTML = "";
+
+      fullEmpty.classList.remove(
+        "hidden"
+      );
+
+    }else{
+
+      fullEmpty.classList.add(
+        "hidden"
+      );
+
+      fullBody.innerHTML =
+        sortedTrades
+          .map(tradeRow)
+          .join("");
+    }
+
+  }
+  catch(error){
+
+    console.error(
+      "Trades error:",
+      error
+    );
+
+    document.getElementById(
+      "totalTrades"
+    ).textContent =
+      "0";
+
+    recentBody.innerHTML = "";
+
+    recentEmpty.textContent =
+      "Trades could not be loaded.";
+
+    recentEmpty.classList.remove(
+      "hidden"
+    );
+
+    fullBody.innerHTML = "";
+
+    fullEmpty.textContent =
+      "Trading history could not be loaded.";
+
+    fullEmpty.classList.remove(
+      "hidden"
+    );
+  }
 }
 
-const body =
-document.getElementById(
-  "tradeHistoryBody"
-);
-
-const empty =
-document.getElementById(
-  "tradeHistoryEmpty"
-);
-
-try{
-
-const {
-  data,
-  error
-} =
-await supabaseClient
-.from("trades")
-.select("*")
-.eq("user_id",currentUser.id);
-
-if(error){
-  throw error;
-}
-
-const trades = data || [];
-
-document.getElementById(
-  "totalTrades"
-).textContent =
-trades.length;
-
-if(!trades.length){
-
-body.innerHTML = "";
-
-empty.classList.remove(
-  "hidden"
-);
-
-return;
-
-}
-
-empty.classList.add("hidden");
-
-const recentTrades =
-[...trades]
-.sort((a,b)=>{
-
-const aDate =
-new Date(
-  a.created_at ||
-  a.opened_at ||
-  a.date ||
-  0
-).getTime();
-
-const bDate =
-new Date(
-  b.created_at ||
-  b.opened_at ||
-  b.date ||
-  0
-).getTime();
-
-return bDate - aDate;
-
-})
-.slice(0,5);
-
-body.innerHTML =
-recentTrades.map(trade=>{
-
-const market =
-trade.symbol ||
-trade.asset ||
-trade.market ||
-trade.pair ||
-"—";
-
-const type =
-trade.side ||
-trade.type ||
-trade.trade_type ||
-trade.direction ||
-"—";
-
-const amount =
-trade.amount ??
-trade.size ??
-trade.volume ??
-trade.lot_size ??
-"—";
-
-const profit =
-trade.profit ??
-trade.pnl ??
-trade.profit_loss ??
-0;
-
-const status =
-trade.status || "open";
-
-return `
-<tr>
-
-<td>${escapeHtml(market)}</td>
-
-<td>${escapeHtml(type)}</td>
-
-<td>${escapeHtml(amount)}</td>
-
-<td class="${
-Number(profit) < 0
-? "profit-negative"
-: "profit-positive"
-}">
-${formatMoney(profit)}
-</td>
-
-<td>
-${statusBadge(status)}
-</td>
-
-</tr>
-`;
-
-}).join("");
-
-}
-catch(error){
-
-console.error(
-  "Trades error:",
-  error
-);
-
-document.getElementById(
-  "totalTrades"
-).textContent = "0";
-
-body.innerHTML = "";
-
-empty.textContent =
-"Trades could not be loaded.";
-
-empty.classList.remove(
-  "hidden"
-);
-
-}
-
-}
-
-/* DEPOSIT WALLETS */
+/* =====================================================
+   DEPOSIT WALLETS
+===================================================== */
 
 async function loadDepositWallets(){
 
-const loading =
-document.getElementById(
-  "walletLoading"
-);
+  const loading =
+    document.getElementById(
+      "walletLoading"
+    );
 
-const grid =
-document.getElementById(
-  "walletGrid"
-);
+  const grid =
+    document.getElementById(
+      "walletGrid"
+    );
 
-loading.classList.remove("hidden");
+  loading.classList.remove(
+    "hidden"
+  );
 
-loading.textContent =
-"Loading deposit wallets...";
+  loading.textContent =
+    "Loading deposit wallets...";
 
-grid.innerHTML = "";
+  grid.innerHTML = "";
 
-try{
+  try{
 
-const {
-  data,
-  error
-} =
-await supabaseClient
-.from("deposit_wallets")
-.select("*");
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .from("deposit_wallets")
+      .select("*");
 
-if(error){
-  throw error;
-}
+    if(error){
+      throw error;
+    }
 
-const wallets =
-(data || []).filter(
-wallet =>
-wallet.active !== false &&
-wallet.is_active !== false
-);
+    const wallets =
+      (data || [])
+        .filter(
+          wallet =>
+            wallet.active !== false &&
+            wallet.is_active !== false
+        );
 
-if(!wallets.length){
+    if(!wallets.length){
 
-loading.textContent =
-"No cryptocurrency deposit addresses are currently available.";
+      loading.textContent =
+        "No cryptocurrency deposit addresses are currently available.";
 
-return;
+      return;
+    }
 
-}
+    const cards =
+      wallets.map(wallet=>{
 
-const cards =
-wallets.map(wallet=>{
+        const coin =
+          wallet.asset ||
+          wallet.coin ||
+          wallet.currency ||
+          wallet.symbol ||
+          "Crypto";
 
-const coin =
-wallet.asset ||
-wallet.coin ||
-wallet.currency ||
-wallet.symbol ||
-"Crypto";
+        const network =
+          wallet.network ||
+          wallet.chain ||
+          "Network";
 
-const network =
-wallet.network ||
-wallet.chain ||
-"Network";
+        const address =
+          wallet.address ||
+          wallet.wallet_address ||
+          wallet.deposit_address ||
+          "";
 
-const address =
-wallet.address ||
-wallet.wallet_address ||
-wallet.deposit_address ||
-"";
+        if(!address){
+          return "";
+        }
 
-if(!address){
-  return "";
-}
+        return `
+          <div class="wallet-card">
 
-return `
-<div class="wallet-card">
+            <div class="wallet-top">
 
-<div class="wallet-top">
+              <div class="wallet-coin">
+                ${escapeHtml(coin)}
+              </div>
 
-<div class="wallet-coin">
-${escapeHtml(coin)}
-</div>
+              <div class="wallet-network">
+                ${escapeHtml(network)}
+              </div>
 
-<div class="wallet-network">
-${escapeHtml(network)}
-</div>
+            </div>
 
-</div>
+            <div class="wallet-address">
+              ${escapeHtml(address)}
+            </div>
 
-<div class="wallet-address">
-${escapeHtml(address)}
-</div>
+            <div class="wallet-note">
+              Confirm the asset and network carefully before sending.
+            </div>
 
-<div class="wallet-note">
-Confirm the asset and network carefully before sending.
-</div>
+            <button
+              class="btn btn-primary copy-wallet-btn"
+              data-address="${escapeHtml(address)}"
+              type="button">
 
-<button
-class="btn btn-primary copy-wallet-btn"
-data-address="${escapeHtml(address)}"
-type="button">
+              Copy Address
 
-Copy Address
+            </button>
 
-</button>
+          </div>
+        `;
 
-</div>
-`;
+      }).join("");
 
-}).join("");
+    if(!cards.trim()){
 
-if(!cards.trim()){
+      loading.textContent =
+        "No valid deposit addresses are available.";
 
-loading.textContent =
-"No valid deposit addresses are available.";
+      return;
+    }
 
-return;
+    loading.classList.add(
+      "hidden"
+    );
 
-}
+    grid.innerHTML =
+      cards;
 
-loading.classList.add("hidden");
+    grid
+      .querySelectorAll(
+        ".copy-wallet-btn"
+      )
+      .forEach(button=>{
 
-grid.innerHTML = cards;
+        button.addEventListener(
+          "click",
+          ()=>copyWallet(
+            button.dataset.address
+          )
+        );
 
-grid
-.querySelectorAll(".copy-wallet-btn")
-.forEach(button=>{
+      });
 
-button.addEventListener(
-  "click",
-  ()=>copyWallet(button.dataset.address)
-);
+  }
+  catch(error){
 
-});
+    console.error(
+      "Wallet error:",
+      error
+    );
 
-}
-catch(error){
-
-console.error(
-  "Wallet error:",
-  error
-);
-
-loading.textContent =
-"Deposit addresses could not be loaded.";
-
-}
-
+    loading.textContent =
+      "Deposit addresses could not be loaded.";
+  }
 }
 
 async function copyWallet(address){
 
-try{
+  try{
 
-await navigator.clipboard.writeText(
-  address
-);
+    await navigator.clipboard.writeText(
+      address
+    );
 
-alert("Wallet address copied.");
+    alert(
+      "Wallet address copied."
+    );
 
+  }
+  catch(error){
+
+    prompt(
+      "Copy this wallet address:",
+      address
+    );
+  }
 }
-catch(error){
 
-prompt(
-  "Copy this wallet address:",
-  address
-);
-
-}
-
-}
-
-/* WITHDRAWAL TABS */
+/* =====================================================
+   WITHDRAWAL TABS
+===================================================== */
 
 function showWithdrawalMethod(method){
 
-const crypto =
-document.getElementById(
-  "cryptoWithdrawal"
-);
+  const crypto =
+    document.getElementById(
+      "cryptoWithdrawal"
+    );
 
-const bank =
-document.getElementById(
-  "bankWithdrawal"
-);
+  const bank =
+    document.getElementById(
+      "bankWithdrawal"
+    );
 
-const cryptoButton =
-document.getElementById(
-  "cryptoTabButton"
-);
+  const cryptoButton =
+    document.getElementById(
+      "cryptoTabButton"
+    );
 
-const bankButton =
-document.getElementById(
-  "bankTabButton"
-);
+  const bankButton =
+    document.getElementById(
+      "bankTabButton"
+    );
 
-if(method === "bank"){
+  if(method === "bank"){
 
-crypto.classList.add("hidden");
-bank.classList.remove("hidden");
+    crypto.classList.add(
+      "hidden"
+    );
 
-cryptoButton.classList.remove("active");
-bankButton.classList.add("active");
+    bank.classList.remove(
+      "hidden"
+    );
 
-}else{
+    cryptoButton.classList.remove(
+      "active"
+    );
 
-bank.classList.add("hidden");
-crypto.classList.remove("hidden");
+    bankButton.classList.add(
+      "active"
+    );
 
-bankButton.classList.remove("active");
-cryptoButton.classList.add("active");
+  }else{
 
+    bank.classList.add(
+      "hidden"
+    );
+
+    crypto.classList.remove(
+      "hidden"
+    );
+
+    bankButton.classList.remove(
+      "active"
+    );
+
+    cryptoButton.classList.add(
+      "active"
+    );
+  }
 }
 
-}
-
-/* CRYPTO WITHDRAW */
-
-document.getElementById(
-"cryptoWithdrawalForm"
-).addEventListener(
-"submit",
-async event=>{
-
-event.preventDefault();
-
-if(!currentUser){
-  return;
-}
-
-const currency =
-document.getElementById(
-  "cryptoCurrency"
-).value;
-
-const amount =
-Number(
-document.getElementById(
-  "cryptoAmount"
-).value
-);
-
-const network =
-document.getElementById(
-  "cryptoNetwork"
-).value;
-
-const destination =
-document.getElementById(
-  "cryptoDestination"
-).value.trim();
-
-if(!Number.isFinite(amount) || amount <= 0){
-
-alert(
-  "Enter a valid withdrawal amount."
-);
-
-return;
-
-}
-
-if(!destination){
-
-alert(
-  "Enter your receiving wallet address."
-);
-
-return;
-
-}
-
-if(!confirm(
-`Submit withdrawal request?\n\n${amount} ${currency}\n${network}\n${destination}`
-)){
-return;
-}
-
-const button =
-document.getElementById(
-  "cryptoWithdrawBtn"
-);
-
-button.disabled = true;
-button.textContent = "Submitting...";
-
-try{
-
-const {error} =
-await supabaseClient
-.from("withdrawal_requests")
-.insert({
-
-user_id:currentUser.id,
-
-method:"crypto",
-withdrawal_type:"crypto",
-
-amount,
-currency,
-
-asset:currency,
-crypto_asset:currency,
-
-network,
-
-wallet_address:destination,
-
-status:"pending"
-
-});
-
-if(error){
-  throw error;
-}
-
-alert(
-"Your withdrawal request has been submitted."
-);
+/* =====================================================
+   CRYPTO WITHDRAWAL
+===================================================== */
 
 document.getElementById(
   "cryptoWithdrawalForm"
-).reset();
+).addEventListener(
+  "submit",
+  async event=>{
 
-await loadWithdrawalHistory();
+    event.preventDefault();
 
-}
-catch(error){
+    if(!currentUser){
+      return;
+    }
 
-console.error(error);
+    const currency =
+      document.getElementById(
+        "cryptoCurrency"
+      ).value;
 
-alert(
-"Could not submit withdrawal request.\n\n" +
-error.message
-);
+    const amount =
+      Number(
+        document.getElementById(
+          "cryptoAmount"
+        ).value
+      );
 
-}
-finally{
+    const network =
+      document.getElementById(
+        "cryptoNetwork"
+      ).value;
 
-button.disabled = false;
+    const destination =
+      document.getElementById(
+        "cryptoDestination"
+      ).value.trim();
 
-button.textContent =
-"Submit Crypto Withdrawal";
+    if(
+      !Number.isFinite(amount) ||
+      amount <= 0
+    ){
 
-}
+      alert(
+        "Enter a valid withdrawal amount."
+      );
 
-}
+      return;
+    }
+
+    if(!destination){
+
+      alert(
+        "Enter your receiving wallet address."
+      );
+
+      return;
+    }
+
+    if(
+      !confirm(
+        `Submit withdrawal request?\n\n${amount} ${currency}\n${network}\n${destination}`
+      )
+    ){
+      return;
+    }
+
+    const button =
+      document.getElementById(
+        "cryptoWithdrawBtn"
+      );
+
+    button.disabled = true;
+
+    button.textContent =
+      "Submitting...";
+
+    try{
+
+      const {error} =
+        await supabaseClient
+          .from("withdrawal_requests")
+          .insert({
+
+            user_id:
+              currentUser.id,
+
+            method:
+              "crypto",
+
+            withdrawal_type:
+              "crypto",
+
+            amount:
+              amount,
+
+            currency:
+              currency,
+
+            asset:
+              currency,
+
+            crypto_asset:
+              currency,
+
+            network:
+              network,
+
+            wallet_address:
+              destination,
+
+            status:
+              "pending"
+          });
+
+      if(error){
+        throw error;
+      }
+
+      alert(
+        "Your withdrawal request has been submitted."
+      );
+
+      document.getElementById(
+        "cryptoWithdrawalForm"
+      ).reset();
+
+      await loadWithdrawalHistory();
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      alert(
+        "Could not submit withdrawal request.\n\n" +
+        error.message
+      );
+
+    }
+    finally{
+
+      button.disabled = false;
+
+      button.textContent =
+        "Submit Crypto Withdrawal";
+    }
+  }
 );
 
 /* =====================================================
    BANK WITHDRAWAL
-   IMPORTANT FIX:
-   method MUST be "bank"
 ===================================================== */
 
 document.getElementById(
-"bankWithdrawalForm"
-).addEventListener(
-"submit",
-async event=>{
-
-event.preventDefault();
-
-if(!currentUser){
-  return;
-}
-
-const amount =
-Number(
-document.getElementById(
-  "bankAmount"
-).value
-);
-
-const currency =
-document.getElementById(
-  "bankCurrency"
-).value;
-
-const bankName =
-document.getElementById(
-  "bankName"
-).value.trim();
-
-const accountName =
-document.getElementById(
-  "bankAccountName"
-).value.trim();
-
-const accountNumber =
-document.getElementById(
-  "bankAccountNumber"
-).value.trim();
-
-const bankCountry =
-document.getElementById(
-  "bankCountry"
-).value.trim();
-
-const routing =
-document.getElementById(
-  "bankRouting"
-).value.trim();
-
-if(!Number.isFinite(amount) || amount <= 0){
-
-alert(
-  "Enter a valid withdrawal amount."
-);
-
-return;
-
-}
-
-if(
-!bankName ||
-!accountName ||
-!accountNumber ||
-!bankCountry
-){
-
-alert(
-"Complete all required bank information."
-);
-
-return;
-
-}
-
-if(!confirm(
-`Submit bank withdrawal request?\n\n${amount} ${currency}\n${bankName}\n${accountName}`
-)){
-return;
-}
-
-const button =
-document.getElementById(
-  "bankWithdrawBtn"
-);
-
-button.disabled = true;
-
-button.textContent =
-"Submitting...";
-
-try{
-
-const {error} =
-await supabaseClient
-.from("withdrawal_requests")
-.insert({
-
-user_id:currentUser.id,
-
-/* DATABASE ALLOWS crypto OR bank */
-method:"bank",
-
-withdrawal_type:"bank_transfer",
-
-amount,
-currency,
-
-account_holder:accountName,
-
-bank_name:bankName,
-
-account_number:accountNumber,
-
-bank_country:bankCountry,
-
-routing_or_swift:
-routing || null,
-
-status:"pending"
-
-});
-
-if(error){
-  throw error;
-}
-
-alert(
-"Your bank withdrawal request has been submitted."
-);
-
-document.getElementById(
   "bankWithdrawalForm"
-).reset();
+).addEventListener(
+  "submit",
+  async event=>{
 
-await loadWithdrawalHistory();
+    event.preventDefault();
 
-}
-catch(error){
+    if(!currentUser){
+      return;
+    }
 
-console.error(error);
+    const amount =
+      Number(
+        document.getElementById(
+          "bankAmount"
+        ).value
+      );
 
-alert(
-"Could not submit bank withdrawal request.\n\n" +
-error.message
+    const currency =
+      document.getElementById(
+        "bankCurrency"
+      ).value;
+
+    const bankName =
+      document.getElementById(
+        "bankName"
+      ).value.trim();
+
+    const accountName =
+      document.getElementById(
+        "bankAccountName"
+      ).value.trim();
+
+    const accountNumber =
+      document.getElementById(
+        "bankAccountNumber"
+      ).value.trim();
+
+    const bankCountry =
+      document.getElementById(
+        "bankCountry"
+      ).value.trim();
+
+    const routing =
+      document.getElementById(
+        "bankRouting"
+      ).value.trim();
+
+    if(
+      !Number.isFinite(amount) ||
+      amount <= 0
+    ){
+
+      alert(
+        "Enter a valid withdrawal amount."
+      );
+
+      return;
+    }
+
+    if(
+      !bankName ||
+      !accountName ||
+      !accountNumber ||
+      !bankCountry
+    ){
+
+      alert(
+        "Complete all required bank information."
+      );
+
+      return;
+    }
+
+    if(
+      !confirm(
+        `Submit bank withdrawal request?\n\n${amount} ${currency}\n${bankName}\n${accountName}`
+      )
+    ){
+      return;
+    }
+
+    const button =
+      document.getElementById(
+        "bankWithdrawBtn"
+      );
+
+    button.disabled = true;
+
+    button.textContent =
+      "Submitting...";
+
+    try{
+
+      const {error} =
+        await supabaseClient
+          .from("withdrawal_requests")
+          .insert({
+
+            user_id:
+              currentUser.id,
+
+            method:
+              "bank",
+
+            withdrawal_type:
+              "bank_transfer",
+
+            amount:
+              amount,
+
+            currency:
+              currency,
+
+            account_holder:
+              accountName,
+
+            bank_name:
+              bankName,
+
+            account_number:
+              accountNumber,
+
+            bank_country:
+              bankCountry,
+
+            routing_or_swift:
+              routing || null,
+
+            status:
+              "pending"
+          });
+
+      if(error){
+        throw error;
+      }
+
+      alert(
+        "Your bank withdrawal request has been submitted."
+      );
+
+      document.getElementById(
+        "bankWithdrawalForm"
+      ).reset();
+
+      await loadWithdrawalHistory();
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      alert(
+        "Could not submit bank withdrawal request.\n\n" +
+        error.message
+      );
+
+    }
+    finally{
+
+      button.disabled = false;
+
+      button.textContent =
+        "Submit Bank Withdrawal";
+    }
+  }
 );
 
-}
-finally{
-
-button.disabled = false;
-
-button.textContent =
-"Submit Bank Withdrawal";
-
-}
-
-}
-);
-
-/* HISTORY */
+/* =====================================================
+   WITHDRAWAL HISTORY
+===================================================== */
 
 async function loadWithdrawalHistory(){
 
-if(!currentUser){
-  return;
+  if(!currentUser){
+    return;
+  }
+
+  const body =
+    document.getElementById(
+      "withdrawalHistoryBody"
+    );
+
+  const empty =
+    document.getElementById(
+      "withdrawalHistoryEmpty"
+    );
+
+  empty.classList.add(
+    "hidden"
+  );
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .from("withdrawal_requests")
+      .select(
+        "method,withdrawal_type,amount,currency,status,created_at"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
+    if(error){
+      throw error;
+    }
+
+    const rows =
+      data || [];
+
+    if(!rows.length){
+
+      body.innerHTML = "";
+
+      empty.classList.remove(
+        "hidden"
+      );
+
+      return;
+    }
+
+    body.innerHTML =
+      rows.map(item=>{
+
+        const method =
+          item.method ||
+          item.withdrawal_type ||
+          "—";
+
+        return `
+          <tr>
+
+            <td>
+              ${escapeHtml(method)}
+            </td>
+
+            <td>
+              ${escapeHtml(item.amount ?? "—")}
+            </td>
+
+            <td>
+              ${escapeHtml(item.currency || "—")}
+            </td>
+
+            <td>
+              ${statusBadge(item.status)}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                formatDate(
+                  item.created_at
+                )
+              )}
+            </td>
+
+          </tr>
+        `;
+
+      }).join("");
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    body.innerHTML = "";
+
+    empty.textContent =
+      "Withdrawal history could not be loaded.";
+
+    empty.classList.remove(
+      "hidden"
+    );
+  }
 }
 
-const body =
-document.getElementById(
-  "withdrawalHistoryBody"
-);
-
-const empty =
-document.getElementById(
-  "withdrawalHistoryEmpty"
-);
-
-empty.classList.add("hidden");
-
-try{
-
-const {
-  data,
-  error
-} =
-await supabaseClient
-.from("withdrawal_requests")
-.select(
-"method,withdrawal_type,amount,currency,status,created_at"
-)
-.eq(
-"user_id",
-currentUser.id
-)
-.order(
-"created_at",
-{ascending:false}
-);
-
-if(error){
-  throw error;
-}
-
-const rows = data || [];
-
-if(!rows.length){
-
-body.innerHTML = "";
-
-empty.classList.remove(
-  "hidden"
-);
-
-return;
-
-}
-
-body.innerHTML =
-rows.map(item=>{
-
-const method =
-item.method ||
-item.withdrawal_type ||
-"—";
-
-return `
-<tr>
-
-<td>
-${escapeHtml(method)}
-</td>
-
-<td>
-${escapeHtml(item.amount ?? "—")}
-</td>
-
-<td>
-${escapeHtml(item.currency || "—")}
-</td>
-
-<td>
-${statusBadge(item.status)}
-</td>
-
-<td>
-${escapeHtml(formatDate(item.created_at))}
-</td>
-
-</tr>
-`;
-
-}).join("");
-
-}
-catch(error){
-
-console.error(error);
-
-body.innerHTML = "";
-
-empty.textContent =
-"Withdrawal history could not be loaded.";
-
-empty.classList.remove(
-  "hidden"
-);
-
-}
-
-}
-
-/* LOGOUT */
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 const logoutBtn =
-document.getElementById(
-  "logoutBtn"
-);
+  document.getElementById(
+    "logoutBtn"
+  );
 
 logoutBtn.addEventListener(
-"click",
-async ()=>{
+  "click",
+  async ()=>{
 
-logoutBtn.disabled = true;
+    logoutBtn.disabled = true;
 
-logoutBtn.textContent =
-"Logging out...";
+    logoutBtn.textContent =
+      "Logging out...";
 
-try{
+    try{
 
-const {error} =
-await supabaseClient.auth.signOut();
+      const {error} =
+        await supabaseClient
+          .auth
+          .signOut();
 
-if(error){
-  throw error;
-}
+      if(error){
+        throw error;
+      }
 
-window.location.replace(
-  "login.html"
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      alert(
+        "Unable to log out. Please try again."
+      );
+
+      logoutBtn.disabled = false;
+
+      logoutBtn.textContent =
+        "Log Out";
+    }
+  }
 );
 
-}
-catch(error){
-
-console.error(error);
-
-alert(
-"Unable to log out. Please try again."
-);
-
-logoutBtn.disabled = false;
-
-logoutBtn.textContent =
-"Log Out";
-
-}
-
-}
-);
-
-/* AUTH STATE */
+/* =====================================================
+   AUTH STATE
+===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
-(event,session)=>{
+  (event,session)=>{
 
-if(event === "SIGNED_OUT"){
+    if(event === "SIGNED_OUT"){
 
-window.location.replace(
-  "login.html"
+      window.location.replace(
+        "login.html"
+      );
+    }
+  }
 );
 
-}
-
-}
-);
-
-/* MOBILE MENU */
+/* =====================================================
+   MOBILE MENU
+===================================================== */
 
 document.getElementById(
-"menuButton"
+  "menuButton"
 ).addEventListener(
-"click",
-()=>{
+  "click",
+  ()=>{
 
-document.getElementById(
-  "sidebar"
-).classList.toggle(
-  "open"
+    document.getElementById(
+      "sidebar"
+    ).classList.toggle(
+      "open"
+    );
+  }
 );
 
-}
-);
-
-/* COPYRIGHT */
+/* =====================================================
+   COPYRIGHT
+===================================================== */
 
 document.getElementById(
-"year"
+  "year"
 ).textContent =
-new Date().getFullYear();
+  new Date().getFullYear();
 
-/* START */
+/* =====================================================
+   START
+===================================================== */
 
 secureDashboard();
 
@@ -2702,13 +3110,13 @@ s1.src=
 s1.charset='UTF-8';
 
 s1.setAttribute(
-'crossorigin',
-'*'
+  'crossorigin',
+  '*'
 );
 
 s0.parentNode.insertBefore(
-s1,
-s0
+  s1,
+  s0
 );
 
 })();
