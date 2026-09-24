@@ -10,16 +10,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
   --bg:#020814;
   --card:#081525;
-  --card2:#0b1b2e;
   --border:#18304a;
   --blue:#168cff;
   --cyan:#18d7f2;
@@ -30,46 +25,22 @@
   --muted:#8fa5bc;
 }
 
-html{
-  scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
   font-family:Arial,Helvetica,sans-serif;
   background:
-    radial-gradient(
-      circle at top right,
-      rgba(22,140,255,.13),
-      transparent 30%
-    ),
-    linear-gradient(
-      180deg,
-      #020814,
-      #030b16 50%,
-      #020814
-    );
+    radial-gradient(circle at top right,rgba(22,140,255,.13),transparent 30%),
+    linear-gradient(180deg,#020814,#030b16 50%,#020814);
   color:var(--text);
   min-height:100vh;
 }
 
-button,
-input,
-select,
-textarea{
-  font:inherit;
-}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
-button{
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* =========================
-   LOADING
-========================= */
+/* LOADING */
 
 #loadingScreen{
   position:fixed;
@@ -93,9 +64,7 @@ button{
 }
 
 @keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
+  to{transform:rotate(360deg)}
 }
 
 #loadingScreen p{
@@ -103,9 +72,7 @@ button{
   font-size:14px;
 }
 
-/* =========================
-   ACCESS DENIED
-========================= */
+/* ACCESS DENIED */
 
 #accessDenied{
   min-height:100vh;
@@ -138,9 +105,7 @@ button{
   font-size:30px;
 }
 
-.deniedCard h2{
-  margin-bottom:10px;
-}
+.deniedCard h2{margin-bottom:10px}
 
 .deniedCard p{
   color:var(--muted);
@@ -148,9 +113,7 @@ button{
   margin-bottom:22px;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
   position:sticky;
@@ -181,20 +144,14 @@ header{
   width:45px;
   height:45px;
   border-radius:13px;
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--cyan)
-    );
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight:900;
   font-size:22px;
   color:#00111c;
-  box-shadow:
-    0 0 25px rgba(24,215,242,.18);
+  box-shadow:0 0 25px rgba(24,215,242,.18);
 }
 
 .brand h1{
@@ -202,9 +159,7 @@ header{
   letter-spacing:.3px;
 }
 
-.brand h1 strong{
-  color:var(--cyan);
-}
+.brand h1 strong{color:var(--cyan)}
 
 .brand span{
   display:block;
@@ -229,9 +184,7 @@ header{
   font-weight:bold;
 }
 
-/* =========================
-   BUTTONS
-========================= */
+/* BUTTONS */
 
 .btn{
   border:none;
@@ -255,12 +208,7 @@ header{
 }
 
 .btnPrimary{
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      #0b6dd8
-    );
+  background:linear-gradient(135deg,var(--blue),#0b6dd8);
 }
 
 .btnGreen{
@@ -279,9 +227,7 @@ header{
   font-size:12px;
 }
 
-/* =========================
-   MAIN
-========================= */
+/* MAIN */
 
 .container{
   max-width:1450px;
@@ -289,9 +235,7 @@ header{
   padding:30px 20px 80px;
 }
 
-.welcome{
-  margin-bottom:25px;
-}
+.welcome{margin-bottom:25px}
 
 .eyebrow{
   color:var(--cyan);
@@ -311,9 +255,7 @@ header{
   line-height:1.65;
 }
 
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
 .stats{
   display:grid;
@@ -323,12 +265,7 @@ header{
 }
 
 .stat{
-  background:
-    linear-gradient(
-      145deg,
-      var(--card),
-      #071221
-    );
+  background:linear-gradient(145deg,var(--card),#071221);
   border:1px solid var(--border);
   border-radius:17px;
   padding:20px;
@@ -358,9 +295,7 @@ header{
   margin-top:7px;
 }
 
-/* =========================
-   TABS
-========================= */
+/* TABS */
 
 .tabs{
   display:flex;
@@ -386,9 +321,7 @@ header{
   border-color:rgba(22,140,255,.45);
 }
 
-/* =========================
-   PANEL
-========================= */
+/* PANEL */
 
 .panel{
   background:var(--card);
@@ -407,9 +340,7 @@ header{
   flex-wrap:wrap;
 }
 
-.panelHeader h3{
-  font-size:17px;
-}
+.panelHeader h3{font-size:17px}
 
 .panelHeader p{
   color:var(--muted);
@@ -429,17 +360,11 @@ header{
   outline:none;
 }
 
-.search:focus{
-  border-color:var(--blue);
-}
+.search:focus{border-color:var(--blue)}
 
-/* =========================
-   TABLE
-========================= */
+/* TABLE */
 
-.tableWrap{
-  overflow-x:auto;
-}
+.tableWrap{overflow-x:auto}
 
 table{
   width:100%;
@@ -447,8 +372,7 @@ table{
   min-width:850px;
 }
 
-th,
-td{
+th,td{
   padding:14px 16px;
   text-align:left;
   border-bottom:1px solid #12273b;
@@ -463,9 +387,7 @@ th{
   letter-spacing:.5px;
 }
 
-td{
-  color:#e5edf5;
-}
+td{color:#e5edf5}
 
 tr:hover td{
   background:rgba(255,255,255,.015);
@@ -495,9 +417,7 @@ tr:hover td{
 .status.rejected,
 .status.failed,
 .status.cancelled,
-.status.inactive,
-.status.suspended,
-.status.restricted{
+.status.inactive{
   color:#ff8c96;
   background:rgba(255,93,108,.12);
 }
@@ -506,6 +426,12 @@ tr:hover td{
   text-align:center;
   padding:40px 20px;
   color:var(--muted);
+}
+
+.userId{
+  font-family:monospace;
+  color:#b7dcff;
+  word-break:break-all;
 }
 
 .walletAddress{
@@ -526,9 +452,7 @@ tr:hover td{
   line-height:1.6;
 }
 
-/* =========================
-   MODALS
-========================= */
+/* MODALS */
 
 .modal{
   position:fixed;
@@ -567,9 +491,7 @@ tr:hover td{
   font-size:27px;
 }
 
-.field{
-  margin-bottom:15px;
-}
+.field{margin-bottom:15px}
 
 .field label{
   display:block;
@@ -601,15 +523,17 @@ tr:hover td{
   resize:vertical;
 }
 
+.readonly{
+  opacity:.75;
+}
+
 .modalActions{
   display:flex;
   gap:10px;
   margin-top:20px;
 }
 
-.modalActions button{
-  flex:1;
-}
+.modalActions button{flex:1}
 
 .notice{
   background:rgba(22,140,255,.08);
@@ -622,9 +546,7 @@ tr:hover td{
   margin-bottom:18px;
 }
 
-/* =========================
-   SUPPORT
-========================= */
+/* SUPPORT */
 
 .support{
   text-align:center;
@@ -648,152 +570,85 @@ tr:hover td{
   margin-top:22px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media(max-width:900px){
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
+  .stats{grid-template-columns:repeat(2,1fr)}
 }
 
 @media(max-width:600px){
 
-  .headerInner{
-    padding:12px 14px;
-  }
+  .headerInner{padding:12px 14px}
 
-  .brand h1{
-    font-size:14px;
-  }
+  .brand h1{font-size:14px}
 
-  .brand span{
-    display:none;
-  }
+  .brand span{display:none}
 
-  .adminBadge{
-    display:none;
-  }
+  .adminBadge{display:none}
 
-  .container{
-    padding:20px 12px 70px;
-  }
+  .container{padding:20px 12px 70px}
 
   .stats{
     grid-template-columns:1fr 1fr;
     gap:10px;
   }
 
-  .stat{
-    padding:15px;
-  }
+  .stat{padding:15px}
 
-  .statValue{
-    font-size:21px;
-  }
+  .statValue{font-size:21px}
 
-  .welcome h2{
-    font-size:23px;
-  }
+  .welcome h2{font-size:23px}
 
-  .panelHeader{
-    padding:15px;
-  }
+  .panelHeader{padding:15px}
 
-  .search{
-    width:100%;
-  }
+  .search{width:100%}
 
-  .modalActions{
-    flex-direction:column;
-  }
-
+  .modalActions{flex-direction:column}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
-
 <div id="loadingScreen">
-
   <div class="loader"></div>
-
-  <p>
-    Securing MAXX Admin Console...
-  </p>
-
+  <p>Securing MAXX Admin Console...</p>
 </div>
 
-
-<!-- ACCESS DENIED -->
-
-<div
-  id="accessDenied"
-  class="hidden"
->
-
+<div id="accessDenied" class="hidden">
   <div class="deniedCard">
 
-    <div class="deniedIcon">
-      🔒
-    </div>
+    <div class="deniedIcon">🔒</div>
 
-    <h2>
-      Admin Access Required
-    </h2>
+    <h2>Admin Access Required</h2>
 
     <p>
       This page is restricted to authorized
       MAXX Digital Markets administrators.
     </p>
 
-    <button
-      class="btn btnPrimary"
-      onclick="goLogin()"
-    >
+    <button class="btn btnPrimary" onclick="goLogin()">
       Return to Login
     </button>
 
   </div>
-
 </div>
 
-
-<!-- ADMIN APPLICATION -->
-
-<div
-  id="adminApp"
-  class="hidden"
->
+<div id="adminApp" class="hidden">
 
 <header>
-
   <div class="headerInner">
 
     <div class="brand">
 
-      <div class="logo">
-        M
-      </div>
+      <div class="logo">M</div>
 
       <div>
-
         <h1>
-          MAXX
-          <strong>
-            DIGITAL MARKETS
-          </strong>
+          MAXX <strong>DIGITAL MARKETS</strong>
         </h1>
 
-        <span>
-          Administration Console
-        </span>
-
+        <span>Administration Console</span>
       </div>
 
     </div>
@@ -814,9 +669,7 @@ tr:hover td{
     </div>
 
   </div>
-
 </header>
-
 
 <main class="container">
 
@@ -832,117 +685,46 @@ tr:hover td{
 
   <p>
     Signed in as
-    <strong id="adminEmail">
-      ...
-    </strong>.
-    Manage client account records, requests and
-    public cryptocurrency deposit destinations.
+    <strong id="adminEmail">...</strong>.
+    Manage client records, deposit requests,
+    withdrawal requests and public deposit wallets.
   </p>
 
 </section>
-
 
 <!-- STATS -->
 
 <section class="stats">
 
   <div class="stat">
-
-    <div class="statIcon">
-      👥
-    </div>
-
-    <div class="statLabel">
-      Client Accounts
-    </div>
-
-    <div
-      class="statValue"
-      id="clientCount"
-    >
-      0
-    </div>
-
-    <div class="statSub">
-      Registered account records
-    </div>
-
+    <div class="statIcon">👥</div>
+    <div class="statLabel">Client Accounts</div>
+    <div class="statValue" id="clientCount">0</div>
+    <div class="statSub">Registered account records</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="statIcon">
-      ↓
-    </div>
-
-    <div class="statLabel">
-      Pending Deposits
-    </div>
-
-    <div
-      class="statValue"
-      id="depositCount"
-    >
-      0
-    </div>
-
-    <div class="statSub">
-      Awaiting review
-    </div>
-
+    <div class="statIcon">↓</div>
+    <div class="statLabel">Pending Deposits</div>
+    <div class="statValue" id="depositCount">0</div>
+    <div class="statSub">Awaiting review</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="statIcon">
-      ↑
-    </div>
-
-    <div class="statLabel">
-      Pending Withdrawals
-    </div>
-
-    <div
-      class="statValue"
-      id="withdrawalCount"
-    >
-      0
-    </div>
-
-    <div class="statSub">
-      Awaiting review
-    </div>
-
+    <div class="statIcon">↑</div>
+    <div class="statLabel">Pending Withdrawals</div>
+    <div class="statValue" id="withdrawalCount">0</div>
+    <div class="statSub">Awaiting review</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="statIcon">
-      ₿
-    </div>
-
-    <div class="statLabel">
-      Deposit Wallets
-    </div>
-
-    <div
-      class="statValue"
-      id="walletCount"
-    >
-      0
-    </div>
-
-    <div class="statSub">
-      Active public destinations
-    </div>
-
+    <div class="statIcon">₿</div>
+    <div class="statLabel">Deposit Wallets</div>
+    <div class="statValue" id="walletCount">0</div>
+    <div class="statSub">Active public destinations</div>
   </div>
 
 </section>
-
 
 <!-- TABS -->
 
@@ -978,88 +760,51 @@ tr:hover td{
 
 </div>
 
-
 <!-- CLIENTS -->
 
-<section
-  id="clientsTab"
-  class="panel"
->
+<section id="clientsTab" class="panel">
 
   <div class="panelHeader">
 
     <div>
-
-      <h3>
-        Client Accounts
-      </h3>
-
+      <h3>Client Accounts</h3>
       <p>
-        Registered MAXX Digital Markets account records.
+        Registered MAXX Digital Markets client account records.
       </p>
-
     </div>
 
     <input
       class="search"
       id="clientSearch"
       type="search"
-      placeholder="Search clients..."
+      placeholder="Search User ID or currency..."
       oninput="filterClients()"
     >
 
   </div>
-
 
   <div class="tableWrap">
 
     <table>
 
       <thead>
-
         <tr>
-
-          <th>
-            Client
-          </th>
-
-          <th>
-            Email / User ID
-          </th>
-
-          <th>
-            Balance
-          </th>
-
-          <th>
-            Equity
-          </th>
-
-          <th>
-            Profit
-          </th>
-
-          <th>
-            Status
-          </th>
-
-          <th>
-            Action
-          </th>
-
+          <th>Client</th>
+          <th>User ID</th>
+          <th>Balance</th>
+          <th>Total Profit</th>
+          <th>Deposits</th>
+          <th>Withdrawals</th>
+          <th>Currency</th>
+          <th>Action</th>
         </tr>
-
       </thead>
 
       <tbody id="clientsBody"></tbody>
 
     </table>
 
-
-    <div
-      id="clientsEmpty"
-      class="empty hidden"
-    >
+    <div id="clientsEmpty" class="empty hidden">
       No client account records found.
     </div>
 
@@ -1067,26 +812,17 @@ tr:hover td{
 
 </section>
 
-
 <!-- DEPOSITS -->
 
-<section
-  id="depositsTab"
-  class="panel hidden"
->
+<section id="depositsTab" class="panel hidden">
 
   <div class="panelHeader">
 
     <div>
-
-      <h3>
-        Deposit Requests
-      </h3>
-
+      <h3>Deposit Requests</h3>
       <p>
         Review deposit requests submitted by clients.
       </p>
-
     </div>
 
     <button
@@ -1098,56 +834,27 @@ tr:hover td{
 
   </div>
 
-
   <div class="tableWrap">
 
     <table>
 
       <thead>
-
         <tr>
-
-          <th>
-            Client
-          </th>
-
-          <th>
-            Amount
-          </th>
-
-          <th>
-            Currency
-          </th>
-
-          <th>
-            Method
-          </th>
-
-          <th>
-            Status
-          </th>
-
-          <th>
-            Submitted
-          </th>
-
-          <th>
-            Action
-          </th>
-
+          <th>Client</th>
+          <th>Amount</th>
+          <th>Currency</th>
+          <th>Method</th>
+          <th>Status</th>
+          <th>Submitted</th>
+          <th>Action</th>
         </tr>
-
       </thead>
 
       <tbody id="depositsBody"></tbody>
 
     </table>
 
-
-    <div
-      id="depositsEmpty"
-      class="empty hidden"
-    >
+    <div id="depositsEmpty" class="empty hidden">
       No deposit requests found.
     </div>
 
@@ -1155,26 +862,17 @@ tr:hover td{
 
 </section>
 
-
 <!-- WITHDRAWALS -->
 
-<section
-  id="withdrawalsTab"
-  class="panel hidden"
->
+<section id="withdrawalsTab" class="panel hidden">
 
   <div class="panelHeader">
 
     <div>
-
-      <h3>
-        Withdrawal Requests
-      </h3>
-
+      <h3>Withdrawal Requests</h3>
       <p>
         Review withdrawal requests submitted by clients.
       </p>
-
     </div>
 
     <button
@@ -1186,56 +884,27 @@ tr:hover td{
 
   </div>
 
-
   <div class="tableWrap">
 
     <table>
 
       <thead>
-
         <tr>
-
-          <th>
-            Client
-          </th>
-
-          <th>
-            Amount
-          </th>
-
-          <th>
-            Currency
-          </th>
-
-          <th>
-            Method
-          </th>
-
-          <th>
-            Status
-          </th>
-
-          <th>
-            Submitted
-          </th>
-
-          <th>
-            Action
-          </th>
-
+          <th>Client</th>
+          <th>Amount</th>
+          <th>Currency</th>
+          <th>Method</th>
+          <th>Status</th>
+          <th>Submitted</th>
+          <th>Action</th>
         </tr>
-
       </thead>
 
       <tbody id="withdrawalsBody"></tbody>
 
     </table>
 
-
-    <div
-      id="withdrawalsEmpty"
-      class="empty hidden"
-    >
+    <div id="withdrawalsEmpty" class="empty hidden">
       No withdrawal requests found.
     </div>
 
@@ -1243,36 +912,21 @@ tr:hover td{
 
 </section>
 
-
 <!-- WALLETS -->
 
-<section
-  id="walletsTab"
-  class="panel hidden"
->
+<section id="walletsTab" class="panel hidden">
 
   <div class="panelHeader">
 
     <div>
-
-      <h3>
-        Public Deposit Wallets
-      </h3>
+      <h3>Public Deposit Wallets</h3>
 
       <p>
-        Manage public cryptocurrency addresses
-        displayed to clients.
+        Manage public cryptocurrency addresses displayed to clients.
       </p>
-
     </div>
 
-    <div
-      style="
-        display:flex;
-        gap:8px;
-        flex-wrap:wrap;
-      "
-    >
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
 
       <button
         class="btn btnSmall"
@@ -1292,12 +946,9 @@ tr:hover td{
 
   </div>
 
-
   <div class="walletWarning">
 
-    <strong>
-      Security:
-    </strong>
+    <strong>Security:</strong>
 
     Only store public receiving addresses here.
     Never enter a private key, seed phrase,
@@ -1305,52 +956,26 @@ tr:hover td{
 
   </div>
 
-
   <div class="tableWrap">
 
     <table>
 
       <thead>
-
         <tr>
-
-          <th>
-            Asset
-          </th>
-
-          <th>
-            Network
-          </th>
-
-          <th>
-            Public Address
-          </th>
-
-          <th>
-            Minimum Deposit
-          </th>
-
-          <th>
-            Status
-          </th>
-
-          <th>
-            Action
-          </th>
-
+          <th>Asset</th>
+          <th>Network</th>
+          <th>Public Address</th>
+          <th>Minimum Deposit</th>
+          <th>Status</th>
+          <th>Action</th>
         </tr>
-
       </thead>
 
       <tbody id="walletsBody"></tbody>
 
     </table>
 
-
-    <div
-      id="walletsEmpty"
-      class="empty hidden"
-    >
+    <div id="walletsEmpty" class="empty hidden">
       No deposit wallets configured yet.
     </div>
 
@@ -1358,12 +983,9 @@ tr:hover td{
 
 </section>
 
-
 <div class="support">
 
-  Need administrative assistance?
-
-  <br>
+  Need administrative assistance?<br>
 
   <a href="mailto:support@maxxdigitalmarkets.com">
     support@maxxdigitalmarkets.com
@@ -1371,49 +993,33 @@ tr:hover td{
 
 </div>
 
-
 <div class="footer">
 
   © <span id="year"></span>
-  MAXX Digital Markets.
-
-  <br>
+  MAXX Digital Markets.<br>
 
   Authorized administrative access only.
 
 </div>
 
 </main>
-
 </div>
-
 
 <!-- CLIENT MODAL -->
 
-<div
-  id="clientModal"
-  class="modal hidden"
->
+<div id="clientModal" class="modal hidden">
 
   <div class="modalCard">
 
     <div class="modalTop">
 
       <div>
-
-        <h3>
-          Update Client Account
-        </h3>
+        <h3>Client Account</h3>
 
         <div
-          id="modalClientEmail"
-          style="
-            color:#8fa5bc;
-            font-size:12px;
-            margin-top:4px;
-          "
+          id="modalClientId"
+          style="color:#8fa5bc;font-size:12px;margin-top:4px;word-break:break-all"
         ></div>
-
       </div>
 
       <button
@@ -1426,125 +1032,76 @@ tr:hover td{
 
     </div>
 
-
     <div class="notice">
-
-      Account changes should correspond to legitimate,
-      documented customer activity. An administrative
-      note is required for each update.
-
+      This page displays the client's account totals.
+      Financial totals should reflect legitimate and
+      documented account activity.
     </div>
 
-
-    <input
-      type="hidden"
-      id="modalUserId"
-    >
-
+    <input type="hidden" id="modalUserId">
 
     <div class="field">
-
-      <label>
-        Balance
-      </label>
+      <label>Balance</label>
 
       <input
         id="modalBalance"
-        type="number"
-        step="0.01"
+        class="readonly"
+        type="text"
+        readonly
       >
-
     </div>
 
-
     <div class="field">
-
-      <label>
-        Equity
-      </label>
-
-      <input
-        id="modalEquity"
-        type="number"
-        step="0.01"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        Profit / Loss
-      </label>
+      <label>Total Profit / Loss</label>
 
       <input
         id="modalProfit"
-        type="number"
-        step="0.01"
+        class="readonly"
+        type="text"
+        readonly
       >
-
     </div>
-
 
     <div class="field">
+      <label>Total Deposits</label>
 
-      <label>
-        Account Status
-      </label>
-
-      <select id="modalStatus">
-
-        <option value="active">
-          Active
-        </option>
-
-        <option value="pending">
-          Pending
-        </option>
-
-        <option value="restricted">
-          Restricted
-        </option>
-
-        <option value="suspended">
-          Suspended
-        </option>
-
-      </select>
-
+      <input
+        id="modalDeposits"
+        class="readonly"
+        type="text"
+        readonly
+      >
     </div>
-
 
     <div class="field">
+      <label>Total Withdrawals</label>
 
-      <label>
-        Administrative Note
-      </label>
-
-      <textarea
-        id="modalNote"
-        placeholder="Reason for this account update..."
-      ></textarea>
-
+      <input
+        id="modalWithdrawals"
+        class="readonly"
+        type="text"
+        readonly
+      >
     </div>
 
+    <div class="field">
+      <label>Currency</label>
+
+      <input
+        id="modalCurrency"
+        class="readonly"
+        type="text"
+        readonly
+      >
+    </div>
 
     <div class="modalActions">
 
       <button
-        class="btn"
+        class="btn btnPrimary"
         onclick="closeClientModal()"
       >
-        Cancel
-      </button>
-
-      <button
-        class="btn btnPrimary"
-        id="saveClientBtn"
-        onclick="saveClient()"
-      >
-        Save Changes
+        Close
       </button>
 
     </div>
@@ -1553,13 +1110,9 @@ tr:hover td{
 
 </div>
 
-
 <!-- WALLET MODAL -->
 
-<div
-  id="walletModal"
-  class="modal hidden"
->
+<div id="walletModal" class="modal hidden">
 
   <div class="modalCard">
 
@@ -1571,13 +1124,7 @@ tr:hover td{
           Add Deposit Wallet
         </h3>
 
-        <div
-          style="
-            color:#8fa5bc;
-            font-size:12px;
-            margin-top:4px;
-          "
-        >
+        <div style="color:#8fa5bc;font-size:12px;margin-top:4px">
           Public receiving address
         </div>
 
@@ -1593,64 +1140,32 @@ tr:hover td{
 
     </div>
 
-
     <div class="notice">
-
       Double-check the cryptocurrency and network.
       Cryptocurrency sent through an incompatible
       network may be permanently lost.
-
     </div>
 
-
-    <input
-      type="hidden"
-      id="walletId"
-    >
-
+    <input type="hidden" id="walletId">
 
     <div class="field">
 
-      <label>
-        Cryptocurrency / Asset
-      </label>
+      <label>Cryptocurrency / Asset</label>
 
       <select id="walletAsset">
-
-        <option value="BTC">
-          Bitcoin (BTC)
-        </option>
-
-        <option value="ETH">
-          Ethereum (ETH)
-        </option>
-
-        <option value="USDT">
-          Tether (USDT)
-        </option>
-
-        <option value="USDC">
-          USD Coin (USDC)
-        </option>
-
-        <option value="BNB">
-          BNB
-        </option>
-
-        <option value="SOL">
-          Solana (SOL)
-        </option>
-
+        <option value="BTC">Bitcoin (BTC)</option>
+        <option value="ETH">Ethereum (ETH)</option>
+        <option value="USDT">Tether (USDT)</option>
+        <option value="USDC">USD Coin (USDC)</option>
+        <option value="BNB">BNB</option>
+        <option value="SOL">Solana (SOL)</option>
       </select>
 
     </div>
 
-
     <div class="field">
 
-      <label>
-        Network
-      </label>
+      <label>Network</label>
 
       <input
         id="walletNetwork"
@@ -1660,12 +1175,9 @@ tr:hover td{
 
     </div>
 
-
     <div class="field">
 
-      <label>
-        Public Deposit Address
-      </label>
+      <label>Public Deposit Address</label>
 
       <textarea
         id="walletAddress"
@@ -1676,12 +1188,9 @@ tr:hover td{
 
     </div>
 
-
     <div class="field">
 
-      <label>
-        Minimum Deposit
-      </label>
+      <label>Minimum Deposit</label>
 
       <input
         id="walletMinimum"
@@ -1693,27 +1202,16 @@ tr:hover td{
 
     </div>
 
-
     <div class="field">
 
-      <label>
-        Status
-      </label>
+      <label>Status</label>
 
       <select id="walletActive">
-
-        <option value="true">
-          Active
-        </option>
-
-        <option value="false">
-          Inactive
-        </option>
-
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
       </select>
 
     </div>
-
 
     <div class="modalActions">
 
@@ -1738,7 +1236,6 @@ tr:hover td{
 
 </div>
 
-
 <script>
 
 /* =========================
@@ -1757,21 +1254,15 @@ const db =
     SUPABASE_PUBLISHABLE_KEY
   );
 
-
 /* =========================
    STATE
 ========================= */
 
 let currentUser = null;
-
 let clients = [];
-
 let deposits = [];
-
 let withdrawals = [];
-
 let wallets = [];
-
 
 /* =========================
    HELPERS
@@ -1788,23 +1279,40 @@ function escapeHtml(value){
 
 }
 
-
-function money(value){
+function money(value,currency="USD"){
 
   const number =
     Number(value || 0);
 
-  return number.toLocaleString(
-    "en-US",
-    {
-      style:"currency",
-      currency:"USD",
-      minimumFractionDigits:2
-    }
-  );
+  try{
+
+    return number.toLocaleString(
+      "en-US",
+      {
+        style:"currency",
+        currency:
+          String(currency || "USD")
+            .toUpperCase(),
+        minimumFractionDigits:2
+      }
+    );
+
+  }
+  catch(error){
+
+    return number.toLocaleString(
+      "en-US",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    ) +
+    " " +
+    String(currency || "USD");
+
+  }
 
 }
-
 
 function formatDate(value){
 
@@ -1815,11 +1323,7 @@ function formatDate(value){
   const date =
     new Date(value);
 
-  if(
-    Number.isNaN(
-      date.getTime()
-    )
-  ){
+  if(Number.isNaN(date.getTime())){
     return "—";
   }
 
@@ -1827,13 +1331,11 @@ function formatDate(value){
 
 }
 
-
 function statusBadge(status){
 
   const text =
-    String(
-      status || "pending"
-    ).toLowerCase();
+    String(status || "pending")
+      .toLowerCase();
 
   const clean =
     text.replace(
@@ -1849,7 +1351,6 @@ function statusBadge(status){
 
 }
 
-
 /* =========================
    SECURITY
 ========================= */
@@ -1859,23 +1360,16 @@ async function initializeAdmin(){
   try{
 
     const {
-      data:{
-        session
-      },
+      data:{session},
       error:sessionError
     } =
       await db.auth.getSession();
-
 
     if(sessionError){
       throw sessionError;
     }
 
-
-    if(
-      !session ||
-      !session.user
-    ){
+    if(!session || !session.user){
 
       window.location.replace(
         "login.html"
@@ -1885,10 +1379,8 @@ async function initializeAdmin(){
 
     }
 
-
     currentUser =
       session.user;
-
 
     const {
       data:adminRecord,
@@ -1903,7 +1395,6 @@ async function initializeAdmin(){
         )
         .maybeSingle();
 
-
     if(adminError){
 
       console.error(
@@ -1917,7 +1408,6 @@ async function initializeAdmin(){
 
     }
 
-
     if(!adminRecord){
 
       denyAccess();
@@ -1926,13 +1416,11 @@ async function initializeAdmin(){
 
     }
 
-
     document.getElementById(
       "adminEmail"
     ).textContent =
       currentUser.email ||
       "Administrator";
-
 
     document.getElementById(
       "loadingScreen"
@@ -1940,13 +1428,11 @@ async function initializeAdmin(){
       "hidden"
     );
 
-
     document.getElementById(
       "adminApp"
     ).classList.remove(
       "hidden"
     );
-
 
     await Promise.all([
       loadClients(),
@@ -1968,7 +1454,6 @@ async function initializeAdmin(){
   }
 
 }
-
 
 function denyAccess(){
 
@@ -1992,7 +1477,6 @@ function denyAccess(){
 
 }
 
-
 function goLogin(){
 
   window.location.replace(
@@ -2001,27 +1485,21 @@ function goLogin(){
 
 }
 
-
 async function logout(){
 
   try{
-
     await db.auth.signOut();
-
   }
   finally{
-
     window.location.replace(
       "login.html"
     );
-
   }
 
 }
 
-
 /* =========================
-   CLIENTS
+   CLIENT ACCOUNTS
 ========================= */
 
 async function loadClients(){
@@ -2031,8 +1509,17 @@ async function loadClients(){
     error
   } =
     await db
-      .from("accounts")
-      .select("*")
+      .from("client_accounts")
+      .select(`
+        user_id,
+        balance,
+        total_profit,
+        total_deposits,
+        total_withdrawals,
+        currency,
+        created_at,
+        updated_at
+      `)
       .order(
         "created_at",
         {
@@ -2040,11 +1527,10 @@ async function loadClients(){
         }
       );
 
-
   if(error){
 
     console.error(
-      "Could not load accounts:",
+      "Could not load client_accounts:",
       error
     );
 
@@ -2058,19 +1544,16 @@ async function loadClients(){
 
   }
 
-
   document.getElementById(
     "clientCount"
   ).textContent =
     clients.length;
-
 
   renderClients(
     clients
   );
 
 }
-
 
 function renderClients(list){
 
@@ -2084,11 +1567,9 @@ function renderClients(list){
       "clientsEmpty"
     );
 
-
   if(!list.length){
 
-    body.innerHTML =
-      "";
+    body.innerHTML = "";
 
     empty.classList.remove(
       "hidden"
@@ -2098,49 +1579,31 @@ function renderClients(list){
 
   }
 
-
   empty.classList.add(
     "hidden"
   );
 
-
   body.innerHTML =
     list.map(
-      client => {
+      (client,index) => {
 
         const userId =
-          client.user_id ||
-          client.id ||
-          "";
+          client.user_id || "";
 
-        const name =
-          client.full_name ||
-          client.name ||
-          "Client";
-
-        const email =
-          client.email ||
-          userId ||
-          "—";
+        const currency =
+          client.currency || "USD";
 
         const balance =
-          client.balance ??
-          client.account_balance ??
-          0;
-
-        const equity =
-          client.equity ??
-          balance;
+          client.balance ?? 0;
 
         const profit =
-          client.profit ??
-          client.profit_loss ??
-          0;
+          client.total_profit ?? 0;
 
-        const status =
-          client.status ||
-          "active";
+        const totalDeposits =
+          client.total_deposits ?? 0;
 
+        const totalWithdrawals =
+          client.total_withdrawals ?? 0;
 
         return `
 
@@ -2148,28 +1611,32 @@ function renderClients(list){
 
             <td>
               <strong>
-                ${escapeHtml(name)}
+                Client ${index + 1}
               </strong>
             </td>
 
-            <td>
-              ${escapeHtml(email)}
+            <td class="userId">
+              ${escapeHtml(userId)}
             </td>
 
             <td>
-              ${money(balance)}
+              ${money(balance,currency)}
             </td>
 
             <td>
-              ${money(equity)}
+              ${money(profit,currency)}
             </td>
 
             <td>
-              ${money(profit)}
+              ${money(totalDeposits,currency)}
             </td>
 
             <td>
-              ${statusBadge(status)}
+              ${money(totalWithdrawals,currency)}
+            </td>
+
+            <td>
+              ${escapeHtml(currency)}
             </td>
 
             <td>
@@ -2180,7 +1647,7 @@ function renderClients(list){
                 data-user-id="${escapeHtml(userId)}"
                 onclick="openClient(this.dataset.userId)"
               >
-                Manage
+                View
               </button>
 
             </td>
@@ -2194,7 +1661,6 @@ function renderClients(list){
 
 }
 
-
 function filterClients(){
 
   const query =
@@ -2204,7 +1670,6 @@ function filterClients(){
     .value
     .toLowerCase()
     .trim();
-
 
   if(!query){
 
@@ -2216,29 +1681,26 @@ function filterClients(){
 
   }
 
-
   const filtered =
     clients.filter(
       client => {
 
-        return JSON.stringify(
-          client
-        )
+        return [
+          client.user_id,
+          client.currency
+        ]
+        .join(" ")
         .toLowerCase()
-        .includes(
-          query
-        );
+        .includes(query);
 
       }
     );
-
 
   renderClients(
     filtered
   );
 
 }
-
 
 /* =========================
    CLIENT MODAL
@@ -2248,17 +1710,10 @@ function openClient(userId){
 
   const client =
     clients.find(
-      item => {
-
-        return String(
-          item.user_id ||
-          item.id
-        ) ===
-        String(userId);
-
-      }
+      item =>
+        String(item.user_id) ===
+        String(userId)
     );
-
 
   if(!client){
 
@@ -2270,58 +1725,56 @@ function openClient(userId){
 
   }
 
+  const currency =
+    client.currency ||
+    "USD";
 
   document.getElementById(
     "modalUserId"
   ).value =
     userId;
 
-
   document.getElementById(
-    "modalClientEmail"
+    "modalClientId"
   ).textContent =
-    client.email ||
-    client.full_name ||
     userId;
-
 
   document.getElementById(
     "modalBalance"
   ).value =
-    client.balance ??
-    client.account_balance ??
-    0;
-
-
-  document.getElementById(
-    "modalEquity"
-  ).value =
-    client.equity ??
-    client.balance ??
-    client.account_balance ??
-    0;
-
+    money(
+      client.balance,
+      currency
+    );
 
   document.getElementById(
     "modalProfit"
   ).value =
-    client.profit ??
-    client.profit_loss ??
-    0;
-
-
-  document.getElementById(
-    "modalStatus"
-  ).value =
-    client.status ||
-    "active";
-
+    money(
+      client.total_profit,
+      currency
+    );
 
   document.getElementById(
-    "modalNote"
+    "modalDeposits"
   ).value =
-    "";
+    money(
+      client.total_deposits,
+      currency
+    );
 
+  document.getElementById(
+    "modalWithdrawals"
+  ).value =
+    money(
+      client.total_withdrawals,
+      currency
+    );
+
+  document.getElementById(
+    "modalCurrency"
+  ).value =
+    currency;
 
   document.getElementById(
     "clientModal"
@@ -2330,7 +1783,6 @@ function openClient(userId){
   );
 
 }
-
 
 function closeClientModal(){
 
@@ -2341,180 +1793,6 @@ function closeClientModal(){
   );
 
 }
-
-
-/* =========================
-   SAVE CLIENT
-========================= */
-
-async function saveClient(){
-
-  const button =
-    document.getElementById(
-      "saveClientBtn"
-    );
-
-  const userId =
-    document.getElementById(
-      "modalUserId"
-    ).value;
-
-  const balance =
-    Number(
-      document.getElementById(
-        "modalBalance"
-      ).value
-    );
-
-  const equity =
-    Number(
-      document.getElementById(
-        "modalEquity"
-      ).value
-    );
-
-  const profit =
-    Number(
-      document.getElementById(
-        "modalProfit"
-      ).value
-    );
-
-  const status =
-    document.getElementById(
-      "modalStatus"
-    ).value;
-
-  const note =
-    document.getElementById(
-      "modalNote"
-    ).value.trim();
-
-
-  if(!userId){
-
-    alert(
-      "Missing client ID."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    !Number.isFinite(balance) ||
-    !Number.isFinite(equity) ||
-    !Number.isFinite(profit)
-  ){
-
-    alert(
-      "Enter valid account figures."
-    );
-
-    return;
-
-  }
-
-
-  if(!note){
-
-    alert(
-      "Enter an administrative note explaining the change."
-    );
-
-    return;
-
-  }
-
-
-  const confirmed =
-    confirm(
-      "Save these client account changes?"
-    );
-
-
-  if(!confirmed){
-    return;
-  }
-
-
-  button.disabled =
-    true;
-
-  button.textContent =
-    "Saving...";
-
-
-  try{
-
-    const {
-      error
-    } =
-      await db.rpc(
-        "admin_update_account",
-        {
-          p_user_id:
-            userId,
-
-          p_balance:
-            balance,
-
-          p_equity:
-            equity,
-
-          p_profit:
-            profit,
-
-          p_status:
-            status,
-
-          p_note:
-            note
-        }
-      );
-
-
-    if(error){
-      throw error;
-    }
-
-
-    alert(
-      "Client account updated successfully."
-    );
-
-
-    closeClientModal();
-
-    await loadClients();
-
-  }
-  catch(error){
-
-    console.error(
-      "Client update error:",
-      error
-    );
-
-    alert(
-      "Could not update the account.\n\n" +
-      error.message
-    );
-
-  }
-  finally{
-
-    button.disabled =
-      false;
-
-    button.textContent =
-      "Save Changes";
-
-  }
-
-}
-
 
 /* =========================
    DEPOSITS
@@ -2536,7 +1814,6 @@ async function loadDeposits(){
         }
       );
 
-
   if(error){
 
     console.error(
@@ -2544,8 +1821,7 @@ async function loadDeposits(){
       error
     );
 
-    deposits =
-      [];
+    deposits = [];
 
   }
   else{
@@ -2554,7 +1830,6 @@ async function loadDeposits(){
       data || [];
 
   }
-
 
   const pending =
     deposits.filter(
@@ -2565,17 +1840,14 @@ async function loadDeposits(){
         "pending"
     ).length;
 
-
   document.getElementById(
     "depositCount"
   ).textContent =
     pending;
 
-
   renderDeposits();
 
 }
-
 
 function renderDeposits(){
 
@@ -2589,11 +1861,9 @@ function renderDeposits(){
       "depositsEmpty"
     );
 
-
   if(!deposits.length){
 
-    body.innerHTML =
-      "";
+    body.innerHTML = "";
 
     empty.classList.remove(
       "hidden"
@@ -2603,19 +1873,16 @@ function renderDeposits(){
 
   }
 
-
   empty.classList.add(
     "hidden"
   );
-
 
   body.innerHTML =
     deposits.map(
       item => {
 
         const id =
-          item.id ||
-          "";
+          item.id || "";
 
         const user =
           item.email ||
@@ -2624,8 +1891,7 @@ function renderDeposits(){
           "Client";
 
         const amount =
-          item.amount ??
-          0;
+          item.amount ?? 0;
 
         const currency =
           item.currency ||
@@ -2636,7 +1902,6 @@ function renderDeposits(){
           item.method ||
           item.payment_method ||
           "—";
-
 
         return `
 
@@ -2701,16 +1966,11 @@ function renderDeposits(){
 
 }
 
-
-async function updateDeposit(
-  id,
-  status
-){
+async function updateDeposit(id,status){
 
   if(!id){
     return;
   }
-
 
   const confirmed =
     confirm(
@@ -2719,11 +1979,9 @@ async function updateDeposit(
       "?"
     );
 
-
   if(!confirmed){
     return;
   }
-
 
   try{
 
@@ -2731,29 +1989,21 @@ async function updateDeposit(
       error
     } =
       await db
-        .from(
-          "deposit_requests"
-        )
+        .from("deposit_requests")
         .update({
           status:status,
           updated_at:
             new Date().toISOString()
         })
-        .eq(
-          "id",
-          id
-        );
-
+        .eq("id",id);
 
     if(error){
       throw error;
     }
 
-
     alert(
       "Deposit request updated."
     );
-
 
     await Promise.all([
       loadDeposits(),
@@ -2777,7 +2027,6 @@ async function updateDeposit(
 
 }
 
-
 /* =========================
    WITHDRAWALS
 ========================= */
@@ -2789,9 +2038,7 @@ async function loadWithdrawals(){
     error
   } =
     await db
-      .from(
-        "withdrawal_requests"
-      )
+      .from("withdrawal_requests")
       .select("*")
       .order(
         "created_at",
@@ -2800,7 +2047,6 @@ async function loadWithdrawals(){
         }
       );
 
-
   if(error){
 
     console.error(
@@ -2808,8 +2054,7 @@ async function loadWithdrawals(){
       error
     );
 
-    withdrawals =
-      [];
+    withdrawals = [];
 
   }
   else{
@@ -2818,7 +2063,6 @@ async function loadWithdrawals(){
       data || [];
 
   }
-
 
   const pending =
     withdrawals.filter(
@@ -2829,17 +2073,14 @@ async function loadWithdrawals(){
         "pending"
     ).length;
 
-
   document.getElementById(
     "withdrawalCount"
   ).textContent =
     pending;
 
-
   renderWithdrawals();
 
 }
-
 
 function renderWithdrawals(){
 
@@ -2853,11 +2094,9 @@ function renderWithdrawals(){
       "withdrawalsEmpty"
     );
 
-
   if(!withdrawals.length){
 
-    body.innerHTML =
-      "";
+    body.innerHTML = "";
 
     empty.classList.remove(
       "hidden"
@@ -2867,19 +2106,16 @@ function renderWithdrawals(){
 
   }
 
-
   empty.classList.add(
     "hidden"
   );
-
 
   body.innerHTML =
     withdrawals.map(
       item => {
 
         const id =
-          item.id ||
-          "";
+          item.id || "";
 
         const user =
           item.email ||
@@ -2888,8 +2124,7 @@ function renderWithdrawals(){
           "Client";
 
         const amount =
-          item.amount ??
-          0;
+          item.amount ?? 0;
 
         const currency =
           item.currency ||
@@ -2902,7 +2137,6 @@ function renderWithdrawals(){
           item.withdrawal_type ||
           item.withdrawal_method ||
           "—";
-
 
         return `
 
@@ -2967,16 +2201,11 @@ function renderWithdrawals(){
 
 }
 
-
-async function updateWithdrawal(
-  id,
-  status
-){
+async function updateWithdrawal(id,status){
 
   if(!id){
     return;
   }
-
 
   const confirmed =
     confirm(
@@ -2985,18 +2214,15 @@ async function updateWithdrawal(
       "?"
     );
 
-
   if(!confirmed){
     return;
   }
-
 
   try{
 
     const record = {
       status:status
     };
-
 
     if(
       status === "approved" ||
@@ -3008,32 +2234,26 @@ async function updateWithdrawal(
 
     }
 
-
     const {
       error
     } =
       await db
-        .from(
-          "withdrawal_requests"
-        )
+        .from("withdrawal_requests")
         .update(record)
-        .eq(
-          "id",
-          id
-        );
-
+        .eq("id",id);
 
     if(error){
       throw error;
     }
 
-
     alert(
       "Withdrawal request updated."
     );
 
-
-    await loadWithdrawals();
+    await Promise.all([
+      loadWithdrawals(),
+      loadClients()
+    ]);
 
   }
   catch(error){
@@ -3052,7 +2272,6 @@ async function updateWithdrawal(
 
 }
 
-
 /* =========================
    DEPOSIT WALLETS
 ========================= */
@@ -3064,9 +2283,7 @@ async function loadWallets(){
     error
   } =
     await db
-      .from(
-        "deposit_wallets"
-      )
+      .from("deposit_wallets")
       .select("*")
       .order(
         "created_at",
@@ -3075,7 +2292,6 @@ async function loadWallets(){
         }
       );
 
-
   if(error){
 
     console.error(
@@ -3083,8 +2299,7 @@ async function loadWallets(){
       error
     );
 
-    wallets =
-      [];
+    wallets = [];
 
   }
   else{
@@ -3094,25 +2309,20 @@ async function loadWallets(){
 
   }
 
-
   const activeWallets =
     wallets.filter(
       wallet =>
-        wallet.is_active !==
-        false
+        wallet.is_active !== false
     ).length;
-
 
   document.getElementById(
     "walletCount"
   ).textContent =
     activeWallets;
 
-
   renderWallets();
 
 }
-
 
 function renderWallets(){
 
@@ -3126,11 +2336,9 @@ function renderWallets(){
       "walletsEmpty"
     );
 
-
   if(!wallets.length){
 
-    body.innerHTML =
-      "";
+    body.innerHTML = "";
 
     empty.classList.remove(
       "hidden"
@@ -3140,27 +2348,22 @@ function renderWallets(){
 
   }
 
-
   empty.classList.add(
     "hidden"
   );
-
 
   body.innerHTML =
     wallets.map(
       wallet => {
 
         const id =
-          wallet.id ||
-          "";
+          wallet.id || "";
 
         const asset =
-          wallet.asset ||
-          "—";
+          wallet.asset || "—";
 
         const network =
-          wallet.network ||
-          "—";
+          wallet.network || "—";
 
         const address =
           wallet.wallet_address ||
@@ -3168,13 +2371,10 @@ function renderWallets(){
           "—";
 
         const minimum =
-          wallet.minimum_deposit ??
-          0;
+          wallet.minimum_deposit ?? 0;
 
         const active =
-          wallet.is_active !==
-          false;
-
+          wallet.is_active !== false;
 
         return `
 
@@ -3200,13 +2400,11 @@ function renderWallets(){
             </td>
 
             <td>
-
               ${statusBadge(
                 active
                   ? "active"
                   : "inactive"
               )}
-
             </td>
 
             <td>
@@ -3240,7 +2438,6 @@ function renderWallets(){
 
 }
 
-
 /* =========================
    WALLET MODAL
 ========================= */
@@ -3252,48 +2449,34 @@ function openWalletModal(){
   ).textContent =
     "Add Deposit Wallet";
 
-
   document.getElementById(
     "walletId"
-  ).value =
-    "";
-
+  ).value = "";
 
   document.getElementById(
     "walletAsset"
-  ).value =
-    "BTC";
-
+  ).value = "BTC";
 
   document.getElementById(
     "walletNetwork"
-  ).value =
-    "";
-
+  ).value = "";
 
   document.getElementById(
     "walletAddress"
-  ).value =
-    "";
-
+  ).value = "";
 
   document.getElementById(
     "walletMinimum"
-  ).value =
-    "";
-
+  ).value = "";
 
   document.getElementById(
     "walletActive"
-  ).value =
-    "true";
-
+  ).value = "true";
 
   document.getElementById(
     "saveWalletBtn"
   ).textContent =
     "Save Wallet";
-
 
   document.getElementById(
     "walletModal"
@@ -3303,18 +2486,14 @@ function openWalletModal(){
 
 }
 
-
 function editWallet(id){
 
   const wallet =
     wallets.find(
       item =>
-        String(
-          item.id
-        ) ===
+        String(item.id) ===
         String(id)
     );
-
 
   if(!wallet){
 
@@ -3326,32 +2505,25 @@ function editWallet(id){
 
   }
 
-
   document.getElementById(
     "walletModalTitle"
   ).textContent =
     "Edit Deposit Wallet";
-
 
   document.getElementById(
     "walletId"
   ).value =
     wallet.id;
 
-
   document.getElementById(
     "walletAsset"
   ).value =
-    wallet.asset ||
-    "BTC";
-
+    wallet.asset || "BTC";
 
   document.getElementById(
     "walletNetwork"
   ).value =
-    wallet.network ||
-    "";
-
+    wallet.network || "";
 
   document.getElementById(
     "walletAddress"
@@ -3360,13 +2532,10 @@ function editWallet(id){
     wallet.address ||
     "";
 
-
   document.getElementById(
     "walletMinimum"
   ).value =
-    wallet.minimum_deposit ??
-    "";
-
+    wallet.minimum_deposit ?? "";
 
   document.getElementById(
     "walletActive"
@@ -3375,12 +2544,10 @@ function editWallet(id){
       ? "false"
       : "true";
 
-
   document.getElementById(
     "saveWalletBtn"
   ).textContent =
     "Update Wallet";
-
 
   document.getElementById(
     "walletModal"
@@ -3389,7 +2556,6 @@ function editWallet(id){
   );
 
 }
-
 
 function closeWalletModal(){
 
@@ -3400,7 +2566,6 @@ function closeWalletModal(){
   );
 
 }
-
 
 /* =========================
    SAVE WALLET
@@ -3443,9 +2608,7 @@ async function saveWallet(){
   const active =
     document.getElementById(
       "walletActive"
-    ).value ===
-    "true";
-
+    ).value === "true";
 
   if(!asset){
 
@@ -3457,7 +2620,6 @@ async function saveWallet(){
 
   }
 
-
   if(!network){
 
     alert(
@@ -3468,7 +2630,6 @@ async function saveWallet(){
 
   }
 
-
   if(!address){
 
     alert(
@@ -3478,7 +2639,6 @@ async function saveWallet(){
     return;
 
   }
-
 
   if(
     !Number.isFinite(minimum) ||
@@ -3493,94 +2653,64 @@ async function saveWallet(){
 
   }
 
-
   const confirmed =
     confirm(
       "Save this public deposit wallet?\n\n" +
       "Asset: " +
       asset +
-      "\n" +
-      "Network: " +
+      "\nNetwork: " +
       network +
-      "\n\n" +
-      "Make sure the public address and network are correct."
+      "\n\nMake sure the public address and network are correct."
     );
-
 
   if(!confirmed){
     return;
   }
 
-
-  button.disabled =
-    true;
-
-  button.textContent =
-    "Saving...";
-
+  button.disabled = true;
+  button.textContent = "Saving...";
 
   const record = {
 
-    asset:
-      asset,
-
-    network:
-      network,
-
-    wallet_address:
-      address,
-
-    minimum_deposit:
-      minimum,
-
-    is_active:
-      active
+    asset:asset,
+    network:network,
+    wallet_address:address,
+    minimum_deposit:minimum,
+    is_active:active
 
   };
-
 
   try{
 
     let result;
 
-
     if(id){
 
       result =
         await db
-          .from(
-            "deposit_wallets"
-          )
+          .from("deposit_wallets")
           .update(record)
-          .eq(
-            "id",
-            id
-          );
+          .eq("id",id);
 
     }
     else{
 
       result =
         await db
-          .from(
-            "deposit_wallets"
-          )
+          .from("deposit_wallets")
           .insert(record);
 
     }
 
-
     if(result.error){
       throw result.error;
     }
-
 
     alert(
       id
         ? "Deposit wallet updated."
         : "Deposit wallet added."
     );
-
 
     closeWalletModal();
 
@@ -3602,8 +2732,7 @@ async function saveWallet(){
   }
   finally{
 
-    button.disabled =
-      false;
+    button.disabled = false;
 
     button.textContent =
       id
@@ -3614,7 +2743,6 @@ async function saveWallet(){
 
 }
 
-
 /* =========================
    DELETE WALLET
 ========================= */
@@ -3624,17 +2752,13 @@ async function deleteWallet(id){
   const wallet =
     wallets.find(
       item =>
-        String(
-          item.id
-        ) ===
+        String(item.id) ===
         String(id)
     );
-
 
   if(!wallet){
     return;
   }
-
 
   const confirmed =
     confirm(
@@ -3642,15 +2766,12 @@ async function deleteWallet(id){
       (wallet.asset || "") +
       " / " +
       (wallet.network || "") +
-      "\n\n" +
-      "Clients will no longer be shown this address."
+      "\n\nClients will no longer be shown this address."
     );
-
 
   if(!confirmed){
     return;
   }
-
 
   try{
 
@@ -3658,25 +2779,17 @@ async function deleteWallet(id){
       error
     } =
       await db
-        .from(
-          "deposit_wallets"
-        )
+        .from("deposit_wallets")
         .delete()
-        .eq(
-          "id",
-          id
-        );
-
+        .eq("id",id);
 
     if(error){
       throw error;
     }
 
-
     alert(
       "Deposit wallet deleted."
     );
-
 
     await loadWallets();
 
@@ -3697,20 +2810,14 @@ async function deleteWallet(id){
 
 }
 
-
 /* =========================
    TABS
 ========================= */
 
-function showTab(
-  name,
-  button
-){
+function showTab(name,button){
 
   document
-    .querySelectorAll(
-      ".tab"
-    )
+    .querySelectorAll(".tab")
     .forEach(
       tab =>
         tab.classList.remove(
@@ -3718,11 +2825,9 @@ function showTab(
         )
     );
 
-
   button.classList.add(
     "active"
   );
-
 
   [
     "clientsTab",
@@ -3741,55 +2846,29 @@ function showTab(
     }
   );
 
-
   document.getElementById(
     name + "Tab"
   ).classList.remove(
     "hidden"
   );
 
-
-  if(
-    name ===
-    "clients"
-  ){
-
+  if(name === "clients"){
     loadClients();
-
   }
 
-
-  if(
-    name ===
-    "deposits"
-  ){
-
+  if(name === "deposits"){
     loadDeposits();
-
   }
 
-
-  if(
-    name ===
-    "withdrawals"
-  ){
-
+  if(name === "withdrawals"){
     loadWithdrawals();
-
   }
 
-
-  if(
-    name ===
-    "wallets"
-  ){
-
+  if(name === "wallets"){
     loadWallets();
-
   }
 
 }
-
 
 /* =========================
    AUTH STATE
@@ -3812,7 +2891,6 @@ db.auth.onAuthStateChange(
   }
 );
 
-
 /* =========================
    MODAL BACKDROP
 ========================= */
@@ -3823,18 +2901,12 @@ document.getElementById(
   "click",
   function(event){
 
-    if(
-      event.target ===
-      this
-    ){
-
+    if(event.target === this){
       closeClientModal();
-
     }
 
   }
 );
-
 
 document.getElementById(
   "walletModal"
@@ -3842,18 +2914,12 @@ document.getElementById(
   "click",
   function(event){
 
-    if(
-      event.target ===
-      this
-    ){
-
+    if(event.target === this){
       closeWalletModal();
-
     }
 
   }
 );
-
 
 /* =========================
    COPYRIGHT
@@ -3864,7 +2930,6 @@ document.getElementById(
 ).textContent =
   new Date().getFullYear();
 
-
 /* =========================
    START
 ========================= */
@@ -3873,12 +2938,7 @@ initializeAdmin();
 
 </script>
 
-
-<!-- =========================
-     TAWK.TO LIVE SUPPORT
-========================= -->
-
-<!--Start of Tawk.to Script-->
+<!-- TAWK.TO LIVE SUPPORT -->
 
 <script type="text/javascript">
 
@@ -3891,23 +2951,17 @@ var Tawk_LoadStart =
 (function(){
 
   var s1 =
-    document.createElement(
-      "script"
-    );
+    document.createElement("script");
 
   var s0 =
-    document.getElementsByTagName(
-      "script"
-    )[0];
+    document.getElementsByTagName("script")[0];
 
-  s1.async =
-    true;
+  s1.async = true;
 
   s1.src =
     'https://embed.tawk.to/6ab51df05abce934461ff239/default';
 
-  s1.charset =
-    'UTF-8';
+  s1.charset = 'UTF-8';
 
   s1.setAttribute(
     'crossorigin',
@@ -3922,8 +2976,6 @@ var Tawk_LoadStart =
 })();
 
 </script>
-
-<!--End of Tawk.to Script-->
 
 </body>
 </html>
