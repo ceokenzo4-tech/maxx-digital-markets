@@ -185,7 +185,10 @@ header{
   transition:.2s;
 }
 
-.btn:hover{transform:translateY(-1px);opacity:.94}
+.btn:hover{
+  transform:translateY(-1px);
+  opacity:.94;
+}
 
 .btn:disabled{
   opacity:.55;
@@ -253,7 +256,10 @@ header{
   padding:20px;
 }
 
-.statIcon{font-size:22px;margin-bottom:13px}
+.statIcon{
+  font-size:22px;
+  margin-bottom:13px;
+}
 
 .statLabel{
   color:var(--muted);
@@ -366,7 +372,10 @@ th{
 
 td{color:#e5edf5}
 
-.email{color:#75c8ff;font-weight:700}
+.email{
+  color:#75c8ff;
+  font-weight:700;
+}
 
 .userId{
   font-family:monospace;
@@ -817,7 +826,6 @@ Manage client accounts, trades, deposits, withdrawals and public cryptocurrency 
 <h3>Client Accounts</h3>
 <p>Registered MAXX Digital Markets client accounts.</p>
 </div>
-
 <input class="search" id="clientSearch" type="search"
 placeholder="Search email or User ID..." oninput="filterClients()">
 </div>
@@ -846,7 +854,7 @@ placeholder="Search email or User ID..." oninput="filterClients()">
 <div class="panelHeader">
 <div>
 <h3>Deposit Requests</h3>
-<p>Review deposit requests submitted by clients.</p>
+<p>Approve or reject client deposits. Approved deposits automatically credit the client's account.</p>
 </div>
 <button class="btn btnPrimary btnSmall" onclick="loadDeposits()">Refresh</button>
 </div>
@@ -998,7 +1006,7 @@ Save Account Adjustment
 </div>
 
 <p class="tradeHelp">
-Record the client's completed trade result. Select whether the trade closed in profit or loss and enter the final amount.
+Record the client's completed trade result. Choose WIN or LOSS and enter the final amount.
 The client's balance and total profit/loss will update automatically.
 </p>
 
@@ -1033,7 +1041,7 @@ The client's balance and total profit/loss will update automatically.
 <div class="resultOption profit">
 <input type="radio" name="tradeResult" id="tradeResultProfit"
 value="profit" checked onchange="updatePnlPreview()">
-<label for="tradeResultProfit">▲ PROFIT</label>
+<label for="tradeResultProfit">▲ WIN</label>
 </div>
 
 <div class="resultOption loss">
@@ -1059,7 +1067,7 @@ oninput="updatePnlPreview()">
 </div>
 
 <div id="pnlPreview" class="pnlPreview">
-Select the trade result and enter the final amount.
+Select WIN or LOSS and enter the final amount.
 </div>
 
 </div>
@@ -1520,7 +1528,7 @@ function updatePnlPreview(){
 
   if(!Number.isFinite(amount) || amount <= 0){
     preview.textContent =
-      "Select the trade result and enter the final amount.";
+      "Select WIN or LOSS and enter the final amount.";
     return;
   }
 
@@ -1534,10 +1542,12 @@ function updatePnlPreview(){
     preview.classList.add("profit");
 
     preview.innerHTML =
-      "<strong>PROFIT +$" +
+      "<strong>WIN +$" +
       formatted +
       "</strong><br>" +
-      "This amount will be credited to the client's balance and total profit/loss.";
+      "$" +
+      formatted +
+      " will be credited to the client's balance and total profit.";
 
   }else{
     preview.classList.add("loss");
@@ -1546,7 +1556,9 @@ function updatePnlPreview(){
       "<strong>LOSS -$" +
       formatted +
       "</strong><br>" +
-      "This amount will be deducted from the client's balance and total profit/loss.";
+      "$" +
+      formatted +
+      " will be deducted from the client's balance and total profit.";
   }
 }
 
@@ -1612,7 +1624,7 @@ async function addTrade(){
 
   const resultText =
     result === "profit"
-      ? "PROFIT +$" + formattedAmount
+      ? "WIN +$" + formattedAmount
       : "LOSS -$" + formattedAmount;
 
   const confirmed =
@@ -1633,12 +1645,6 @@ async function addTrade(){
   button.textContent = "Processing Trade...";
 
   try{
-
-    /*
-      CORRECT 5-PARAMETER RPC CALL
-      No entry price.
-      No close/current price.
-    */
 
     const {data,error} =
       await db.rpc(
@@ -1673,21 +1679,11 @@ async function addTrade(){
 
     clearTradeForm();
 
-    if(result === "profit"){
-      alert(
-        "Closed trade recorded successfully.\n\n" +
-        "PROFIT +$" +
-        formattedAmount +
-        "\n\nThe client's account figures have been updated."
-      );
-    }else{
-      alert(
-        "Closed trade recorded successfully.\n\n" +
-        "LOSS -$" +
-        formattedAmount +
-        "\n\nThe client's account figures have been updated."
-      );
-    }
+    alert(
+      "Closed trade recorded successfully.\n\n" +
+      resultText +
+      "\n\nThe client's account figures have been updated."
+    );
 
   }catch(error){
     console.error("Trade creation error:",error);
@@ -1706,17 +1702,20 @@ async function addTrade(){
 /* DEPOSITS */
 
 async function loadDeposits(){
-  const {data,error} =
-    await db
-      .from("deposit_requests")
-      .select("*")
-      .order("created_at",{ascending:false});
+  try{
+    const {data,error} =
+      await db
+        .from("deposit_requests")
+        .select("*")
+        .order("created_at",{ascending:false});
 
-  if(error){
+    if(error) throw error;
+
+    deposits = data || [];
+
+  }catch(error){
     console.error("Deposit loading error:",error);
     deposits = [];
-  }else{
-    deposits = data || [];
   }
 
   const pending = deposits.filter(
@@ -1724,7 +1723,8 @@ async function loadDeposits(){
       String(item.status || "").toLowerCase() === "pending"
   ).length;
 
-  document.getElementById("depositCount").textContent = pending;
+  document.getElementById("depositCount").textContent =
+    pending;
 
   renderDeposits();
 }
@@ -1755,7 +1755,7 @@ function renderDeposits(){
       item.user_id ||
       "Client";
 
-    const amount = item.amount ?? 0;
+    const amount = Number(item.amount || 0);
 
     const currency =
       item.currency ||
@@ -1769,57 +1769,153 @@ function renderDeposits(){
 
     return `
       <tr>
-        <td>${escapeHtml(user)}</td>
-        <td>${escapeHtml(amount)}</td>
+
+        <td>
+          <div class="email">${escapeHtml(user)}</div>
+          <div class="userId"
+            style="margin-top:6px;max-width:220px;font-size:10px;">
+            ${escapeHtml(item.user_id || "")}
+          </div>
+        </td>
+
+        <td><strong>${escapeHtml(amount.toLocaleString())}</strong></td>
+
         <td>${escapeHtml(currency)}</td>
+
         <td>${escapeHtml(method)}</td>
+
         <td>${statusBadge(item.status)}</td>
+
         <td>${escapeHtml(formatDate(item.created_at))}</td>
 
         <td>
         ${
           String(item.status || "pending").toLowerCase() === "pending"
           ? `
-            <button class="btn btnGreen btnSmall"
-              data-id="${escapeHtml(id)}"
-              onclick="updateDeposit(this.dataset.id,'approved')">
-              Approve
-            </button>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
 
-            <button class="btn btnRed btnSmall"
-              data-id="${escapeHtml(id)}"
-              onclick="updateDeposit(this.dataset.id,'rejected')">
-              Reject
-            </button>
+              <button class="btn btnGreen btnSmall"
+                data-id="${escapeHtml(id)}"
+                onclick="updateDeposit(this.dataset.id,'approved')">
+                Approve
+              </button>
+
+              <button class="btn btnRed btnSmall"
+                data-id="${escapeHtml(id)}"
+                onclick="updateDeposit(this.dataset.id,'rejected')">
+                Reject
+              </button>
+
+            </div>
           `
           : `<span style="color:#8fa5bc;">Processed</span>`
         }
         </td>
+
       </tr>
     `;
   }).join("");
 }
 
 async function updateDeposit(id,status){
-  if(!id) return;
+  if(!id){
+    alert("Missing deposit request ID.");
+    return;
+  }
 
-  if(!confirm("Mark this deposit request as " + status + "?")){
+  const normalizedStatus =
+    String(status || "").toLowerCase().trim();
+
+  if(
+    normalizedStatus !== "approved" &&
+    normalizedStatus !== "rejected"
+  ){
+    alert("Invalid deposit status.");
+    return;
+  }
+
+  const deposit = deposits.find(
+    item => String(item.id) === String(id)
+  );
+
+  if(!deposit){
+    alert("Deposit request could not be found.");
+    return;
+  }
+
+  if(
+    String(deposit.status || "").toLowerCase() !== "pending"
+  ){
+    alert("This deposit request has already been processed.");
+    return;
+  }
+
+  const amount = Number(deposit.amount || 0);
+
+  const currency =
+    deposit.currency ||
+    deposit.crypto_asset ||
+    "USD";
+
+  const action =
+    normalizedStatus === "approved"
+      ? "APPROVE"
+      : "REJECT";
+
+  const confirmed = confirm(
+    action + " DEPOSIT\n\n" +
+    "Amount: " + money(amount,currency) + "\n" +
+    "Method: " + (deposit.method || "—") + "\n\n" +
+    (
+      normalizedStatus === "approved"
+        ? "Approving this deposit will credit the client's account balance and total deposits."
+        : "Rejecting this deposit will not credit the client's account."
+    )
+  );
+
+  if(!confirmed){
     return;
   }
 
   try{
-    const {error} =
-      await db
-        .from("deposit_requests")
-        .update({
-          status:status,
-          updated_at:new Date().toISOString()
-        })
-        .eq("id",id);
+
+    const depositId = Number(id);
+
+    if(!Number.isFinite(depositId) || depositId <= 0){
+      throw new Error("Invalid deposit request ID.");
+    }
+
+    const adminNote =
+      normalizedStatus === "approved"
+        ? "Deposit approved by administrator."
+        : "Deposit rejected by administrator.";
+
+    const {data,error} =
+      await db.rpc(
+        "admin_process_deposit",
+        {
+          p_deposit_id:depositId,
+          p_status:normalizedStatus,
+          p_admin_note:adminNote
+        }
+      );
 
     if(error) throw error;
 
-    alert("Deposit request updated.");
+    console.log("Deposit processing result:",data);
+
+    if(normalizedStatus === "approved"){
+      alert(
+        "Deposit approved successfully.\n\n" +
+        money(amount,currency) +
+        " has been credited to the client's account."
+      );
+    }else{
+      alert(
+        "Deposit rejected successfully.\n\n" +
+        "No funds were credited to the client's account."
+      );
+    }
 
     await Promise.all([
       loadDeposits(),
@@ -1827,11 +1923,11 @@ async function updateDeposit(id,status){
     ]);
 
   }catch(error){
-    console.error("Deposit update error:",error);
+    console.error("Deposit processing error:",error);
 
     alert(
-      "Could not update deposit request.\n\n" +
-      error.message
+      "Could not process deposit request.\n\n" +
+      (error?.message || "Unknown database error.")
     );
   }
 }
@@ -2116,8 +2212,8 @@ async function updateWithdrawal(id,status){
 
     const adminNote =
       normalizedStatus === "approved"
-      ? "Withdrawal approved by administrator."
-      : "Withdrawal rejected by administrator.";
+        ? "Withdrawal approved by administrator."
+        : "Withdrawal rejected by administrator.";
 
     const {data,error} =
       await db.rpc("admin_process_withdrawal",{
@@ -2384,7 +2480,7 @@ async function saveWallet(){
 
     alert(
       "Could not save the wallet.\n\n" +
-      error.message
+      (error?.message || "Unknown database error.")
     );
 
   }finally{
@@ -2429,7 +2525,7 @@ async function deleteWallet(id){
 
     alert(
       "Could not delete wallet.\n\n" +
-      error.message
+      (error?.message || "Unknown database error.")
     );
   }
 }
@@ -2463,7 +2559,7 @@ function showTab(name,button){
 /* AUTH */
 
 db.auth.onAuthStateChange((event,session) => {
-  if(event === "SIGNED_OUT" || !session){
+  if(event === "SIGNED_OUT"){
     window.location.replace("login.html");
   }
 });
