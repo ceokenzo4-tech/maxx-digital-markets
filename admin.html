@@ -10,11 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
   --bg:#020814;
@@ -30,46 +26,22 @@
   --muted:#8fa5bc;
 }
 
-html{
-  scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
   font-family:Arial,Helvetica,sans-serif;
   background:
-    radial-gradient(
-      circle at top right,
-      rgba(22,140,255,.13),
-      transparent 30%
-    ),
-    linear-gradient(
-      180deg,
-      #020814,
-      #030b16 50%,
-      #020814
-    );
+    radial-gradient(circle at top right,rgba(22,140,255,.13),transparent 30%),
+    linear-gradient(180deg,#020814,#030b16 50%,#020814);
   color:var(--text);
   min-height:100vh;
 }
 
-button,
-input,
-select,
-textarea{
-  font:inherit;
-}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
-button{
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* =========================
-   LOADING
-========================= */
+/* LOADING */
 
 #loadingScreen{
   position:fixed;
@@ -93,9 +65,7 @@ button{
 }
 
 @keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
+  to{transform:rotate(360deg)}
 }
 
 #loadingScreen p{
@@ -103,9 +73,7 @@ button{
   font-size:14px;
 }
 
-/* =========================
-   ACCESS DENIED
-========================= */
+/* ACCESS DENIED */
 
 #accessDenied{
   min-height:100vh;
@@ -137,9 +105,7 @@ button{
   font-size:30px;
 }
 
-.deniedCard h2{
-  margin-bottom:10px;
-}
+.deniedCard h2{margin-bottom:10px}
 
 .deniedCard p{
   color:var(--muted);
@@ -147,9 +113,7 @@ button{
   margin-bottom:22px;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
   position:sticky;
@@ -194,9 +158,7 @@ header{
   letter-spacing:.3px;
 }
 
-.brand h1 strong{
-  color:var(--cyan);
-}
+.brand h1 strong{color:var(--cyan)}
 
 .brand span{
   display:block;
@@ -221,9 +183,7 @@ header{
   font-weight:bold;
 }
 
-/* =========================
-   BUTTONS
-========================= */
+/* BUTTONS */
 
 .btn{
   border:none;
@@ -266,9 +226,7 @@ header{
   font-size:12px;
 }
 
-/* =========================
-   MAIN
-========================= */
+/* MAIN */
 
 .container{
   max-width:1450px;
@@ -276,9 +234,7 @@ header{
   padding:30px 20px 80px;
 }
 
-.welcome{
-  margin-bottom:25px;
-}
+.welcome{margin-bottom:25px}
 
 .eyebrow{
   color:var(--cyan);
@@ -298,9 +254,7 @@ header{
   line-height:1.65;
 }
 
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
 .stats{
   display:grid;
@@ -340,9 +294,7 @@ header{
   margin-top:7px;
 }
 
-/* =========================
-   TABS
-========================= */
+/* TABS */
 
 .tabs{
   display:flex;
@@ -368,9 +320,7 @@ header{
   border-color:rgba(22,140,255,.45);
 }
 
-/* =========================
-   PANEL
-========================= */
+/* PANEL */
 
 .panel{
   background:var(--card);
@@ -389,9 +339,7 @@ header{
   flex-wrap:wrap;
 }
 
-.panelHeader h3{
-  font-size:17px;
-}
+.panelHeader h3{font-size:17px}
 
 .panelHeader p{
   color:var(--muted);
@@ -411,13 +359,9 @@ header{
   outline:none;
 }
 
-.search:focus{
-  border-color:var(--blue);
-}
+.search:focus{border-color:var(--blue)}
 
-/* =========================
-   TABLE
-========================= */
+/* TABLE */
 
 .tableWrap{
   overflow-x:auto;
@@ -430,12 +374,12 @@ table{
   min-width:1050px;
 }
 
-th,
-td{
+th,td{
   padding:14px 16px;
   text-align:left;
   border-bottom:1px solid #12273b;
   font-size:13px;
+  vertical-align:top;
 }
 
 th{
@@ -446,9 +390,7 @@ th{
   letter-spacing:.5px;
 }
 
-td{
-  color:#e5edf5;
-}
+td{color:#e5edf5}
 
 .email{
   color:#75c8ff;
@@ -517,9 +459,38 @@ td{
   line-height:1.6;
 }
 
-/* =========================
-   MODALS
-========================= */
+/* WITHDRAWAL DETAILS */
+
+.withdrawalDetails{
+  margin-top:10px;
+  padding:11px;
+  min-width:245px;
+  background:#06111f;
+  border:1px solid #17304a;
+  border-radius:10px;
+  font-size:11px;
+  line-height:1.75;
+}
+
+.withdrawalDetails div{
+  margin-bottom:2px;
+}
+
+.withdrawalDetails strong{
+  color:#8fa5bc;
+}
+
+.detailValue{
+  color:#dce8f5;
+}
+
+.detailCode{
+  color:#75c8ff;
+  font-family:monospace;
+  word-break:break-all;
+}
+
+/* MODALS */
 
 .modal{
   position:fixed;
@@ -558,9 +529,7 @@ td{
   font-size:27px;
 }
 
-.field{
-  margin-bottom:15px;
-}
+.field{margin-bottom:15px}
 
 .field label{
   display:block;
@@ -592,9 +561,7 @@ td{
   margin-top:20px;
 }
 
-.modalActions button{
-  flex:1;
-}
+.modalActions button{flex:1}
 
 .notice{
   background:rgba(22,140,255,.08);
@@ -607,9 +574,7 @@ td{
   margin-bottom:18px;
 }
 
-/* =========================
-   SUPPORT
-========================= */
+/* SUPPORT */
 
 .support{
   text-align:center;
@@ -632,9 +597,7 @@ td{
   margin-top:22px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media(max-width:900px){
   .stats{
@@ -644,18 +607,12 @@ td{
 
 @media(max-width:600px){
 
-  .headerInner{
-    padding:12px 14px;
-  }
+  .headerInner{padding:12px 14px}
 
-  .brand h1{
-    font-size:14px;
-  }
+  .brand h1{font-size:14px}
 
   .brand span,
-  .adminBadge{
-    display:none;
-  }
+  .adminBadge{display:none}
 
   .container{
     padding:20px 12px 70px;
@@ -666,21 +623,13 @@ td{
     gap:10px;
   }
 
-  .stat{
-    padding:15px;
-  }
+  .stat{padding:15px}
 
-  .statValue{
-    font-size:21px;
-  }
+  .statValue{font-size:21px}
 
-  .welcome h2{
-    font-size:23px;
-  }
+  .welcome h2{font-size:23px}
 
-  .search{
-    width:100%;
-  }
+  .search{width:100%}
 
   .modalActions{
     flex-direction:column;
@@ -719,18 +668,14 @@ td{
       <div class="logo">M</div>
 
       <div>
-        <h1>
-          MAXX <strong>DIGITAL MARKETS</strong>
-        </h1>
+        <h1>MAXX <strong>DIGITAL MARKETS</strong></h1>
         <span>Administration Console</span>
       </div>
     </div>
 
     <div class="headerActions">
 
-      <span class="adminBadge">
-        ● ADMIN
-      </span>
+      <span class="adminBadge">● ADMIN</span>
 
       <button
         class="btn btnRed btnSmall"
@@ -748,13 +693,9 @@ td{
 
 <section class="welcome">
 
-  <div class="eyebrow">
-    SECURE ADMINISTRATION
-  </div>
+  <div class="eyebrow">SECURE ADMINISTRATION</div>
 
-  <h2>
-    Administration Dashboard
-  </h2>
+  <h2>Administration Dashboard</h2>
 
   <p>
     Signed in as
@@ -799,31 +740,19 @@ td{
 
 <div class="tabs">
 
-  <button
-    class="tab active"
-    onclick="showTab('clients',this)"
-  >
+  <button class="tab active" onclick="showTab('clients',this)">
     Clients
   </button>
 
-  <button
-    class="tab"
-    onclick="showTab('deposits',this)"
-  >
+  <button class="tab" onclick="showTab('deposits',this)">
     Deposits
   </button>
 
-  <button
-    class="tab"
-    onclick="showTab('withdrawals',this)"
-  >
+  <button class="tab" onclick="showTab('withdrawals',this)">
     Withdrawals
   </button>
 
-  <button
-    class="tab"
-    onclick="showTab('wallets',this)"
-  >
+  <button class="tab" onclick="showTab('wallets',this)">
     Deposit Wallets
   </button>
 
@@ -837,9 +766,7 @@ td{
 
     <div>
       <h3>Client Accounts</h3>
-      <p>
-        Registered MAXX Digital Markets client accounts.
-      </p>
+      <p>Registered MAXX Digital Markets client accounts.</p>
     </div>
 
     <input
@@ -937,7 +864,10 @@ td{
 
     <div>
       <h3>Withdrawal Requests</h3>
-      <p>Review withdrawal requests submitted by clients.</p>
+      <p>
+        Review complete bank and cryptocurrency withdrawal
+        details submitted by clients.
+      </p>
     </div>
 
     <button
@@ -958,7 +888,7 @@ td{
           <th>Client</th>
           <th>Amount</th>
           <th>Currency</th>
-          <th>Method</th>
+          <th>Method / Destination Details</th>
           <th>Status</th>
           <th>Submitted</th>
           <th>Action</th>
@@ -986,8 +916,7 @@ td{
     <div>
       <h3>Public Deposit Wallets</h3>
       <p>
-        Manage public cryptocurrency addresses
-        displayed to clients.
+        Manage public cryptocurrency addresses displayed to clients.
       </p>
     </div>
 
@@ -1078,12 +1007,7 @@ td{
         ></div>
       </div>
 
-      <button
-        class="close"
-        onclick="closeClientModal()"
-      >
-        ×
-      </button>
+      <button class="close" onclick="closeClientModal()">×</button>
 
     </div>
 
@@ -1097,20 +1021,12 @@ td{
 
     <div class="field">
       <label>Balance</label>
-      <input
-        id="modalBalance"
-        type="number"
-        step="0.01"
-      >
+      <input id="modalBalance" type="number" step="0.01">
     </div>
 
     <div class="field">
       <label>Profit / Loss</label>
-      <input
-        id="modalProfit"
-        type="number"
-        step="0.01"
-      >
+      <input id="modalProfit" type="number" step="0.01">
     </div>
 
     <div class="field">
@@ -1123,10 +1039,7 @@ td{
 
     <div class="modalActions">
 
-      <button
-        class="btn"
-        onclick="closeClientModal()"
-      >
+      <button class="btn" onclick="closeClientModal()">
         Cancel
       </button>
 
@@ -1153,21 +1066,13 @@ td{
     <div class="modalTop">
 
       <div>
-        <h3 id="walletModalTitle">
-          Add Deposit Wallet
-        </h3>
-
+        <h3 id="walletModalTitle">Add Deposit Wallet</h3>
         <div style="color:#8fa5bc;font-size:12px;margin-top:4px;">
           Public receiving address
         </div>
       </div>
 
-      <button
-        class="close"
-        onclick="closeWalletModal()"
-      >
-        ×
-      </button>
+      <button class="close" onclick="closeWalletModal()">×</button>
 
     </div>
 
@@ -1236,10 +1141,7 @@ td{
 
     <div class="modalActions">
 
-      <button
-        class="btn"
-        onclick="closeWalletModal()"
-      >
+      <button class="btn" onclick="closeWalletModal()">
         Cancel
       </button>
 
@@ -1259,9 +1161,7 @@ td{
 
 <script>
 
-/* =========================
-   SUPABASE
-========================= */
+/* SUPABASE */
 
 const SUPABASE_URL =
   "https://dwojraxspohahemiarps.supabase.co";
@@ -1275,9 +1175,7 @@ const db =
     SUPABASE_PUBLISHABLE_KEY
   );
 
-/* =========================
-   STATE
-========================= */
+/* STATE */
 
 let currentUser = null;
 let clients = [];
@@ -1285,9 +1183,7 @@ let deposits = [];
 let withdrawals = [];
 let wallets = [];
 
-/* =========================
-   HELPERS
-========================= */
+/* HELPERS */
 
 function escapeHtml(value){
 
@@ -1297,7 +1193,6 @@ function escapeHtml(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
 }
 
 function money(value,currency="USD"){
@@ -1305,7 +1200,6 @@ function money(value,currency="USD"){
   const number = Number(value || 0);
 
   try{
-
     return number.toLocaleString(
       "en-US",
       {
@@ -1314,21 +1208,15 @@ function money(value,currency="USD"){
         minimumFractionDigits:2
       }
     );
-
   }
   catch{
-
     return "$" + number.toFixed(2);
-
   }
-
 }
 
 function formatDate(value){
 
-  if(!value){
-    return "—";
-  }
+  if(!value) return "—";
 
   const date = new Date(value);
 
@@ -1337,7 +1225,6 @@ function formatDate(value){
   }
 
   return date.toLocaleString();
-
 }
 
 function statusBadge(status){
@@ -1353,12 +1240,9 @@ function statusBadge(status){
       ${escapeHtml(text)}
     </span>
   `;
-
 }
 
-/* =========================
-   SECURITY
-========================= */
+/* SECURITY */
 
 async function initializeAdmin(){
 
@@ -1367,21 +1251,14 @@ async function initializeAdmin(){
     const {
       data:{session},
       error:sessionError
-    } =
-      await db.auth.getSession();
+    } = await db.auth.getSession();
 
-    if(sessionError){
-      throw sessionError;
-    }
+    if(sessionError) throw sessionError;
 
     if(!session || !session.user){
 
-      window.location.replace(
-        "login.html"
-      );
-
+      window.location.replace("login.html");
       return;
-
     }
 
     currentUser = session.user;
@@ -1396,23 +1273,17 @@ async function initializeAdmin(){
         .eq("user_id",currentUser.id)
         .maybeSingle();
 
-    if(adminError){
+    if(adminError || !adminRecord){
 
-      console.error(
-        "Admin verification error:",
-        adminError
-      );
-
-      denyAccess();
-      return;
-
-    }
-
-    if(!adminRecord){
+      if(adminError){
+        console.error(
+          "Admin verification error:",
+          adminError
+        );
+      }
 
       denyAccess();
       return;
-
     }
 
     document.getElementById(
@@ -1429,8 +1300,14 @@ async function initializeAdmin(){
       "adminApp"
     ).classList.remove("hidden");
 
+    /*
+     * Load clients first so their email
+     * addresses can be matched to withdrawals.
+     */
+
+    await loadClients();
+
     await Promise.all([
-      loadClients(),
       loadDeposits(),
       loadWithdrawals(),
       loadWallets()
@@ -1445,9 +1322,7 @@ async function initializeAdmin(){
     );
 
     denyAccess();
-
   }
-
 }
 
 function denyAccess(){
@@ -1463,15 +1338,10 @@ function denyAccess(){
   document.getElementById(
     "accessDenied"
   ).classList.remove("hidden");
-
 }
 
 function goLogin(){
-
-  window.location.replace(
-    "login.html"
-  );
-
+  window.location.replace("login.html");
 }
 
 async function logout(){
@@ -1482,16 +1352,9 @@ async function logout(){
   finally{
     window.location.replace("login.html");
   }
-
 }
 
-/* =========================
-   CLIENTS
-
-   IMPORTANT:
-   This now uses the secure RPC
-   created in Supabase.
-========================= */
+/* CLIENTS */
 
 async function loadClients(){
 
@@ -1505,9 +1368,7 @@ async function loadClients(){
         "admin_get_client_accounts"
       );
 
-    if(error){
-      throw error;
-    }
+    if(error) throw error;
 
     clients = data || [];
 
@@ -1533,90 +1394,58 @@ async function loadClients(){
     ).textContent = "0";
 
     renderClients([]);
-
   }
-
 }
 
 function renderClients(list){
 
   const body =
-    document.getElementById(
-      "clientsBody"
-    );
+    document.getElementById("clientsBody");
 
   const empty =
-    document.getElementById(
-      "clientsEmpty"
-    );
+    document.getElementById("clientsEmpty");
 
   if(!list.length){
 
     body.innerHTML = "";
-
-    empty.classList.remove(
-      "hidden"
-    );
-
+    empty.classList.remove("hidden");
     return;
-
   }
 
-  empty.classList.add(
-    "hidden"
-  );
+  empty.classList.add("hidden");
 
   body.innerHTML =
     list.map(client => {
 
       const currency =
-        client.currency ||
-        "USD";
+        client.currency || "USD";
 
       return `
 
         <tr>
 
           <td class="email">
-            ${escapeHtml(
-              client.email ||
-              "No email"
-            )}
+            ${escapeHtml(client.email || "No email")}
           </td>
 
           <td class="userId">
-            ${escapeHtml(
-              client.user_id ||
-              "—"
-            )}
+            ${escapeHtml(client.user_id || "—")}
           </td>
 
           <td>
-            ${money(
-              client.balance,
-              currency
-            )}
+            ${money(client.balance,currency)}
           </td>
 
           <td>
-            ${money(
-              client.total_profit,
-              currency
-            )}
+            ${money(client.total_profit,currency)}
           </td>
 
           <td>
-            ${money(
-              client.total_deposits,
-              currency
-            )}
+            ${money(client.total_deposits,currency)}
           </td>
 
           <td>
-            ${money(
-              client.total_withdrawals,
-              currency
-            )}
+            ${money(client.total_withdrawals,currency)}
           </td>
 
           <td>
@@ -1641,24 +1470,19 @@ function renderClients(list){
       `;
 
     }).join("");
-
 }
 
 function filterClients(){
 
   const query =
-    document.getElementById(
-      "clientSearch"
-    )
+    document.getElementById("clientSearch")
     .value
     .toLowerCase()
     .trim();
 
   if(!query){
-
     renderClients(clients);
     return;
-
   }
 
   const filtered =
@@ -1674,16 +1498,12 @@ function filterClients(){
         .toLowerCase();
 
       return searchable.includes(query);
-
     });
 
   renderClients(filtered);
-
 }
 
-/* =========================
-   CLIENT MODAL
-========================= */
+/* CLIENT MODAL */
 
 function openClient(userId){
 
@@ -1696,12 +1516,8 @@ function openClient(userId){
 
   if(!client){
 
-    alert(
-      "Client account could not be found."
-    );
-
+    alert("Client account could not be found.");
     return;
-
   }
 
   document.getElementById(
@@ -1718,16 +1534,12 @@ function openClient(userId){
   document.getElementById(
     "modalBalance"
   ).value =
-    Number(
-      client.balance || 0
-    );
+    Number(client.balance || 0);
 
   document.getElementById(
     "modalProfit"
   ).value =
-    Number(
-      client.total_profit || 0
-    );
+    Number(client.total_profit || 0);
 
   document.getElementById(
     "modalNote"
@@ -1736,7 +1548,6 @@ function openClient(userId){
   document.getElementById(
     "clientModal"
   ).classList.remove("hidden");
-
 }
 
 function closeClientModal(){
@@ -1744,80 +1555,58 @@ function closeClientModal(){
   document.getElementById(
     "clientModal"
   ).classList.add("hidden");
-
 }
 
-/* =========================
-   SAVE CLIENT
-========================= */
+/* SAVE CLIENT */
 
 async function saveClient(){
 
   const button =
-    document.getElementById(
-      "saveClientBtn"
-    );
+    document.getElementById("saveClientBtn");
 
   const userId =
-    document.getElementById(
-      "modalUserId"
-    ).value;
+    document.getElementById("modalUserId").value;
 
   const balance =
     Number(
-      document.getElementById(
-        "modalBalance"
-      ).value
+      document.getElementById("modalBalance").value
     );
 
   const profit =
     Number(
-      document.getElementById(
-        "modalProfit"
-      ).value
+      document.getElementById("modalProfit").value
     );
 
   const note =
-    document.getElementById(
-      "modalNote"
-    ).value.trim();
+    document.getElementById("modalNote")
+    .value
+    .trim();
 
   if(!userId){
-
     alert("Missing client ID.");
     return;
-
   }
 
   if(
     !Number.isFinite(balance) ||
     !Number.isFinite(profit)
   ){
-
-    alert(
-      "Enter valid balance and profit figures."
-    );
-
+    alert("Enter valid balance and profit figures.");
     return;
-
   }
 
   if(!note){
-
     alert(
       "Enter an administrative note explaining the change."
     );
-
     return;
-
   }
 
-  const confirmed =
-    confirm(
+  if(
+    !confirm(
       "Save these client account changes?"
-    );
-
-  if(!confirmed){
+    )
+  ){
     return;
   }
 
@@ -1826,25 +1615,7 @@ async function saveClient(){
 
   try{
 
-    /*
-      Your existing RPC was originally built
-      with equity/status parameters.
-
-      We keep those parameters for compatibility,
-      while mapping the current client-account
-      structure into it.
-    */
-
-    const currentClient =
-      clients.find(
-        item =>
-          String(item.user_id) ===
-          String(userId)
-      );
-
-    const {
-      error
-    } =
+    const {error} =
       await db.rpc(
         "admin_update_account",
         {
@@ -1857,9 +1628,7 @@ async function saveClient(){
         }
       );
 
-    if(error){
-      throw error;
-    }
+    if(error) throw error;
 
     alert(
       "Client account updated successfully."
@@ -1881,20 +1650,15 @@ async function saveClient(){
       "Could not update the client account.\n\n" +
       error.message
     );
-
   }
   finally{
 
     button.disabled = false;
     button.textContent = "Save Changes";
-
   }
-
 }
 
-/* =========================
-   DEPOSITS
-========================= */
+/* DEPOSITS */
 
 async function loadDeposits(){
 
@@ -1905,10 +1669,7 @@ async function loadDeposits(){
     await db
       .from("deposit_requests")
       .select("*")
-      .order(
-        "created_at",
-        {ascending:false}
-      );
+      .order("created_at",{ascending:false});
 
   if(error){
 
@@ -1918,21 +1679,16 @@ async function loadDeposits(){
     );
 
     deposits = [];
-
   }
   else{
-
     deposits = data || [];
-
   }
 
   const pending =
     deposits.filter(
       item =>
-        String(
-          item.status || ""
-        ).toLowerCase() ===
-        "pending"
+        String(item.status || "")
+        .toLowerCase() === "pending"
     ).length;
 
   document.getElementById(
@@ -1941,31 +1697,21 @@ async function loadDeposits(){
     pending;
 
   renderDeposits();
-
 }
 
 function renderDeposits(){
 
   const body =
-    document.getElementById(
-      "depositsBody"
-    );
+    document.getElementById("depositsBody");
 
   const empty =
-    document.getElementById(
-      "depositsEmpty"
-    );
+    document.getElementById("depositsEmpty");
 
   if(!deposits.length){
 
     body.innerHTML = "";
-
-    empty.classList.remove(
-      "hidden"
-    );
-
+    empty.classList.remove("hidden");
     return;
-
   }
 
   empty.classList.add("hidden");
@@ -1973,12 +1719,19 @@ function renderDeposits(){
   body.innerHTML =
     deposits.map(item => {
 
-      const id =
-        item.id || "";
+      const id = item.id || "";
+
+      const client =
+        clients.find(
+          c =>
+            String(c.user_id) ===
+            String(item.user_id)
+        );
 
       const user =
         item.email ||
         item.user_email ||
+        client?.email ||
         item.user_id ||
         "Client";
 
@@ -2020,30 +1773,37 @@ function renderDeposits(){
           </td>
 
           <td>
-            ${escapeHtml(
-              formatDate(
-                item.created_at
-              )
-            )}
+            ${escapeHtml(formatDate(item.created_at))}
           </td>
 
           <td>
 
-            <button
-              class="btn btnGreen btnSmall"
-              data-id="${escapeHtml(id)}"
-              onclick="updateDeposit(this.dataset.id,'approved')"
-            >
-              Approve
-            </button>
+            ${
+              String(item.status || "pending")
+              .toLowerCase() === "pending"
 
-            <button
-              class="btn btnRed btnSmall"
-              data-id="${escapeHtml(id)}"
-              onclick="updateDeposit(this.dataset.id,'rejected')"
-            >
-              Reject
-            </button>
+              ? `
+
+                <button
+                  class="btn btnGreen btnSmall"
+                  data-id="${escapeHtml(id)}"
+                  onclick="updateDeposit(this.dataset.id,'approved')"
+                >
+                  Approve
+                </button>
+
+                <button
+                  class="btn btnRed btnSmall"
+                  data-id="${escapeHtml(id)}"
+                  onclick="updateDeposit(this.dataset.id,'rejected')"
+                >
+                  Reject
+                </button>
+
+              `
+
+              : `<span style="color:#8fa5bc;">Processed</span>`
+            }
 
           </td>
 
@@ -2052,47 +1812,36 @@ function renderDeposits(){
       `;
 
     }).join("");
-
 }
 
 async function updateDeposit(id,status){
 
-  if(!id){
-    return;
-  }
+  if(!id) return;
 
-  const confirmed =
-    confirm(
+  if(
+    !confirm(
       "Mark this deposit request as " +
       status +
       "?"
-    );
-
-  if(!confirmed){
+    )
+  ){
     return;
   }
 
   try{
 
-    const {
-      error
-    } =
+    const {error} =
       await db
         .from("deposit_requests")
         .update({
           status:status,
-          updated_at:
-            new Date().toISOString()
+          updated_at:new Date().toISOString()
         })
         .eq("id",id);
 
-    if(error){
-      throw error;
-    }
+    if(error) throw error;
 
-    alert(
-      "Deposit request updated."
-    );
+    alert("Deposit request updated.");
 
     await Promise.all([
       loadDeposits(),
@@ -2111,14 +1860,10 @@ async function updateDeposit(id,status){
       "Could not update deposit request.\n\n" +
       error.message
     );
-
   }
-
 }
 
-/* =========================
-   WITHDRAWALS
-========================= */
+/* WITHDRAWALS */
 
 async function loadWithdrawals(){
 
@@ -2129,10 +1874,7 @@ async function loadWithdrawals(){
     await db
       .from("withdrawal_requests")
       .select("*")
-      .order(
-        "created_at",
-        {ascending:false}
-      );
+      .order("created_at",{ascending:false});
 
   if(error){
 
@@ -2142,21 +1884,16 @@ async function loadWithdrawals(){
     );
 
     withdrawals = [];
-
   }
   else{
-
     withdrawals = data || [];
-
   }
 
   const pending =
     withdrawals.filter(
       item =>
-        String(
-          item.status || ""
-        ).toLowerCase() ===
-        "pending"
+        String(item.status || "")
+        .toLowerCase() === "pending"
     ).length;
 
   document.getElementById(
@@ -2165,31 +1902,21 @@ async function loadWithdrawals(){
     pending;
 
   renderWithdrawals();
-
 }
 
 function renderWithdrawals(){
 
   const body =
-    document.getElementById(
-      "withdrawalsBody"
-    );
+    document.getElementById("withdrawalsBody");
 
   const empty =
-    document.getElementById(
-      "withdrawalsEmpty"
-    );
+    document.getElementById("withdrawalsEmpty");
 
   if(!withdrawals.length){
 
     body.innerHTML = "";
-
-    empty.classList.remove(
-      "hidden"
-    );
-
+    empty.classList.remove("hidden");
     return;
-
   }
 
   empty.classList.add("hidden");
@@ -2200,37 +1927,232 @@ function renderWithdrawals(){
       const id =
         item.id || "";
 
+      const client =
+        clients.find(
+          c =>
+            String(c.user_id) ===
+            String(item.user_id)
+        );
+
       const user =
         item.email ||
         item.user_email ||
+        client?.email ||
         item.user_id ||
         "Client";
 
       const amount =
-        item.amount ?? 0;
+        Number(item.amount || 0);
 
       const currency =
         item.currency ||
         item.bank_currency ||
+        item.crypto_asset ||
         item.asset ||
         "USD";
 
       const method =
-        item.method ||
-        item.withdrawal_type ||
-        item.withdrawal_method ||
+        String(
+          item.method ||
+          item.withdrawal_type ||
+          item.withdrawal_method ||
+          "—"
+        );
+
+      /* BANK FIELDS */
+
+      const accountHolder =
+        item.account_holder ||
+        item.account_name ||
         "—";
+
+      const bankName =
+        item.bank_name ||
+        "—";
+
+      const accountNumber =
+        item.account_number ||
+        "—";
+
+      const bankCountry =
+        item.bank_country ||
+        "—";
+
+      const routingSwift =
+        item.routing_or_swift ||
+        item.routing_number ||
+        item.swift_code ||
+        "—";
+
+      /* CRYPTO FIELDS */
+
+      const cryptoAsset =
+        item.crypto_asset ||
+        item.asset ||
+        "—";
+
+      const network =
+        item.network ||
+        "—";
+
+      const walletAddress =
+        item.wallet_address ||
+        item.crypto_address ||
+        item.address ||
+        "—";
+
+      const methodLower =
+        method.toLowerCase();
+
+      const hasBankDetails =
+        bankName !== "—" ||
+        accountHolder !== "—" ||
+        accountNumber !== "—" ||
+        bankCountry !== "—" ||
+        routingSwift !== "—";
+
+      const hasCryptoDetails =
+        cryptoAsset !== "—" ||
+        network !== "—" ||
+        walletAddress !== "—";
+
+      const isBank =
+        methodLower.includes("bank") ||
+        hasBankDetails;
+
+      const isCrypto =
+        !isBank &&
+        (
+          methodLower.includes("crypto") ||
+          methodLower.includes("bitcoin") ||
+          methodLower.includes("btc") ||
+          methodLower.includes("usdt") ||
+          methodLower.includes("ethereum") ||
+          methodLower.includes("eth") ||
+          hasCryptoDetails
+        );
+
+      let destinationDetails = "";
+
+      if(isBank){
+
+        destinationDetails = `
+
+          <div class="withdrawalDetails">
+
+            <div>
+              <strong>Bank:</strong>
+              <span class="detailValue">
+                ${escapeHtml(bankName)}
+              </span>
+            </div>
+
+            <div>
+              <strong>Account Holder:</strong>
+              <span class="detailValue">
+                ${escapeHtml(accountHolder)}
+              </span>
+            </div>
+
+            <div>
+              <strong>Account Number:</strong>
+              <span class="detailCode">
+                ${escapeHtml(accountNumber)}
+              </span>
+            </div>
+
+            <div>
+              <strong>Country:</strong>
+              <span class="detailValue">
+                ${escapeHtml(bankCountry)}
+              </span>
+            </div>
+
+            <div>
+              <strong>Routing / SWIFT:</strong>
+              <span class="detailCode">
+                ${escapeHtml(routingSwift)}
+              </span>
+            </div>
+
+          </div>
+
+        `;
+
+      }
+      else if(isCrypto){
+
+        destinationDetails = `
+
+          <div class="withdrawalDetails">
+
+            <div>
+              <strong>Asset:</strong>
+              <span class="detailValue">
+                ${escapeHtml(cryptoAsset)}
+              </span>
+            </div>
+
+            <div>
+              <strong>Network:</strong>
+              <span class="detailValue">
+                ${escapeHtml(network)}
+              </span>
+            </div>
+
+            <div>
+              <strong>Wallet Address:</strong>
+            </div>
+
+            <div class="detailCode">
+              ${escapeHtml(walletAddress)}
+            </div>
+
+          </div>
+
+        `;
+
+      }
+      else{
+
+        destinationDetails = `
+
+          <div class="withdrawalDetails">
+            <span style="color:#8fa5bc;">
+              No destination details available.
+            </span>
+          </div>
+
+        `;
+      }
 
       return `
 
         <tr>
 
           <td>
-            ${escapeHtml(user)}
+
+            <div class="email">
+              ${escapeHtml(user)}
+            </div>
+
+            <div
+              class="userId"
+              style="
+                margin-top:6px;
+                max-width:220px;
+                font-size:10px;
+              "
+            >
+              ${escapeHtml(item.user_id || "")}
+            </div>
+
           </td>
 
           <td>
-            ${escapeHtml(amount)}
+            <strong>
+              ${escapeHtml(amount.toLocaleString())}
+            </strong>
           </td>
 
           <td>
@@ -2238,7 +2160,13 @@ function renderWithdrawals(){
           </td>
 
           <td>
-            ${escapeHtml(method)}
+
+            <strong style="color:#75c8ff;">
+              ${escapeHtml(method)}
+            </strong>
+
+            ${destinationDetails}
+
           </td>
 
           <td>
@@ -2246,30 +2174,70 @@ function renderWithdrawals(){
           </td>
 
           <td>
-            ${escapeHtml(
-              formatDate(
-                item.created_at
-              )
-            )}
+            ${escapeHtml(formatDate(item.created_at))}
           </td>
 
           <td>
 
-            <button
-              class="btn btnGreen btnSmall"
-              data-id="${escapeHtml(id)}"
-              onclick="updateWithdrawal(this.dataset.id,'approved')"
-            >
-              Approve
-            </button>
+            ${
+              String(item.status || "pending")
+              .toLowerCase() === "pending"
 
-            <button
-              class="btn btnRed btnSmall"
-              data-id="${escapeHtml(id)}"
-              onclick="updateWithdrawal(this.dataset.id,'rejected')"
-            >
-              Reject
-            </button>
+              ? `
+
+                <div style="
+                  display:flex;
+                  gap:7px;
+                  flex-wrap:wrap;
+                ">
+
+                  <button
+                    class="btn btnGreen btnSmall"
+                    data-id="${escapeHtml(id)}"
+                    onclick="updateWithdrawal(this.dataset.id,'approved')"
+                  >
+                    Approve
+                  </button>
+
+                  <button
+                    class="btn btnRed btnSmall"
+                    data-id="${escapeHtml(id)}"
+                    onclick="updateWithdrawal(this.dataset.id,'rejected')"
+                  >
+                    Reject
+                  </button>
+
+                </div>
+
+              `
+
+              : `
+
+                <div style="
+                  color:#8fa5bc;
+                  font-size:12px;
+                ">
+                  Processed
+                </div>
+
+                ${
+                  item.processed_at
+                    ? `
+                      <div style="
+                        color:#62778d;
+                        font-size:10px;
+                        margin-top:5px;
+                      ">
+                        ${escapeHtml(
+                          formatDate(item.processed_at)
+                        )}
+                      </div>
+                    `
+                    : ""
+                }
+
+              `
+            }
 
           </td>
 
@@ -2278,57 +2246,38 @@ function renderWithdrawals(){
       `;
 
     }).join("");
-
 }
 
 async function updateWithdrawal(id,status){
 
-  if(!id){
-    return;
-  }
+  if(!id) return;
 
-  const confirmed =
-    confirm(
+  if(
+    !confirm(
       "Mark this withdrawal request as " +
       status +
       "?"
-    );
-
-  if(!confirmed){
+    )
+  ){
     return;
   }
 
   try{
 
     const record = {
-      status:status
+      status:status,
+      processed_at:new Date().toISOString()
     };
 
-    if(
-      status === "approved" ||
-      status === "rejected"
-    ){
-
-      record.processed_at =
-        new Date().toISOString();
-
-    }
-
-    const {
-      error
-    } =
+    const {error} =
       await db
         .from("withdrawal_requests")
         .update(record)
         .eq("id",id);
 
-    if(error){
-      throw error;
-    }
+    if(error) throw error;
 
-    alert(
-      "Withdrawal request updated."
-    );
+    alert("Withdrawal request updated.");
 
     await Promise.all([
       loadWithdrawals(),
@@ -2347,14 +2296,10 @@ async function updateWithdrawal(id,status){
       "Could not update withdrawal request.\n\n" +
       error.message
     );
-
   }
-
 }
 
-/* =========================
-   WALLETS
-========================= */
+/* WALLETS */
 
 async function loadWallets(){
 
@@ -2365,10 +2310,7 @@ async function loadWallets(){
     await db
       .from("deposit_wallets")
       .select("*")
-      .order(
-        "created_at",
-        {ascending:false}
-      );
+      .order("created_at",{ascending:false});
 
   if(error){
 
@@ -2378,12 +2320,9 @@ async function loadWallets(){
     );
 
     wallets = [];
-
   }
   else{
-
     wallets = data || [];
-
   }
 
   const activeWallets =
@@ -2398,31 +2337,21 @@ async function loadWallets(){
     activeWallets;
 
   renderWallets();
-
 }
 
 function renderWallets(){
 
   const body =
-    document.getElementById(
-      "walletsBody"
-    );
+    document.getElementById("walletsBody");
 
   const empty =
-    document.getElementById(
-      "walletsEmpty"
-    );
+    document.getElementById("walletsEmpty");
 
   if(!wallets.length){
 
     body.innerHTML = "";
-
-    empty.classList.remove(
-      "hidden"
-    );
-
+    empty.classList.remove("hidden");
     return;
-
   }
 
   empty.classList.add("hidden");
@@ -2430,14 +2359,9 @@ function renderWallets(){
   body.innerHTML =
     wallets.map(wallet => {
 
-      const id =
-        wallet.id || "";
-
-      const asset =
-        wallet.asset || "—";
-
-      const network =
-        wallet.network || "—";
+      const id = wallet.id || "";
+      const asset = wallet.asset || "—";
+      const network = wallet.network || "—";
 
       const address =
         wallet.wallet_address ||
@@ -2455,9 +2379,7 @@ function renderWallets(){
         <tr>
 
           <td>
-            <strong>
-              ${escapeHtml(asset)}
-            </strong>
+            <strong>${escapeHtml(asset)}</strong>
           </td>
 
           <td>
@@ -2475,9 +2397,7 @@ function renderWallets(){
 
           <td>
             ${statusBadge(
-              active
-                ? "active"
-                : "inactive"
+              active ? "active" : "inactive"
             )}
           </td>
 
@@ -2506,12 +2426,9 @@ function renderWallets(){
       `;
 
     }).join("");
-
 }
 
-/* =========================
-   WALLET MODAL
-========================= */
+/* WALLET MODAL */
 
 function openWalletModal(){
 
@@ -2520,29 +2437,12 @@ function openWalletModal(){
   ).textContent =
     "Add Deposit Wallet";
 
-  document.getElementById(
-    "walletId"
-  ).value = "";
-
-  document.getElementById(
-    "walletAsset"
-  ).value = "BTC";
-
-  document.getElementById(
-    "walletNetwork"
-  ).value = "";
-
-  document.getElementById(
-    "walletAddress"
-  ).value = "";
-
-  document.getElementById(
-    "walletMinimum"
-  ).value = "";
-
-  document.getElementById(
-    "walletActive"
-  ).value = "true";
+  document.getElementById("walletId").value = "";
+  document.getElementById("walletAsset").value = "BTC";
+  document.getElementById("walletNetwork").value = "";
+  document.getElementById("walletAddress").value = "";
+  document.getElementById("walletMinimum").value = "";
+  document.getElementById("walletActive").value = "true";
 
   document.getElementById(
     "saveWalletBtn"
@@ -2552,7 +2452,6 @@ function openWalletModal(){
   document.getElementById(
     "walletModal"
   ).classList.remove("hidden");
-
 }
 
 function editWallet(id){
@@ -2566,12 +2465,8 @@ function editWallet(id){
 
   if(!wallet){
 
-    alert(
-      "Wallet could not be found."
-    );
-
+    alert("Wallet could not be found.");
     return;
-
   }
 
   document.getElementById(
@@ -2621,7 +2516,6 @@ function editWallet(id){
   document.getElementById(
     "walletModal"
   ).classList.remove("hidden");
-
 }
 
 function closeWalletModal(){
@@ -2629,92 +2523,64 @@ function closeWalletModal(){
   document.getElementById(
     "walletModal"
   ).classList.add("hidden");
-
 }
 
 async function saveWallet(){
 
   const button =
-    document.getElementById(
-      "saveWalletBtn"
-    );
+    document.getElementById("saveWalletBtn");
 
   const id =
-    document.getElementById(
-      "walletId"
-    ).value;
+    document.getElementById("walletId").value;
 
   const asset =
-    document.getElementById(
-      "walletAsset"
-    ).value.trim();
+    document.getElementById("walletAsset")
+    .value.trim();
 
   const network =
-    document.getElementById(
-      "walletNetwork"
-    ).value.trim();
+    document.getElementById("walletNetwork")
+    .value.trim();
 
   const address =
-    document.getElementById(
-      "walletAddress"
-    ).value.trim();
+    document.getElementById("walletAddress")
+    .value.trim();
 
   const minimum =
     Number(
-      document.getElementById(
-        "walletMinimum"
-      ).value || 0
+      document.getElementById("walletMinimum").value || 0
     );
 
   const active =
-    document.getElementById(
-      "walletActive"
-    ).value === "true";
+    document.getElementById("walletActive").value === "true";
 
   if(!network){
-
-    alert(
-      "Enter the wallet network."
-    );
-
+    alert("Enter the wallet network.");
     return;
-
   }
 
   if(!address){
-
-    alert(
-      "Enter the public deposit address."
-    );
-
+    alert("Enter the public deposit address.");
     return;
-
   }
 
   if(
     !Number.isFinite(minimum) ||
     minimum < 0
   ){
-
-    alert(
-      "Enter a valid minimum deposit."
-    );
-
+    alert("Enter a valid minimum deposit.");
     return;
-
   }
 
-  const confirmed =
-    confirm(
+  if(
+    !confirm(
       "Save this public deposit wallet?\n\n" +
       "Asset: " +
       asset +
       "\nNetwork: " +
       network +
       "\n\nDouble-check the public address and network."
-    );
-
-  if(!confirmed){
+    )
+  ){
     return;
   }
 
@@ -2722,13 +2588,11 @@ async function saveWallet(){
   button.textContent = "Saving...";
 
   const record = {
-
     asset:asset,
     network:network,
     wallet_address:address,
     minimum_deposit:minimum,
     is_active:active
-
   };
 
   try{
@@ -2750,7 +2614,6 @@ async function saveWallet(){
         await db
           .from("deposit_wallets")
           .insert(record);
-
     }
 
     if(result.error){
@@ -2764,7 +2627,6 @@ async function saveWallet(){
     );
 
     closeWalletModal();
-
     await loadWallets();
 
   }
@@ -2779,7 +2641,6 @@ async function saveWallet(){
       "Could not save the wallet.\n\n" +
       error.message
     );
-
   }
   finally{
 
@@ -2789,9 +2650,7 @@ async function saveWallet(){
       id
         ? "Update Wallet"
         : "Save Wallet";
-
   }
-
 }
 
 async function deleteWallet(id){
@@ -2803,39 +2662,30 @@ async function deleteWallet(id){
         String(id)
     );
 
-  if(!wallet){
-    return;
-  }
+  if(!wallet) return;
 
-  const confirmed =
-    confirm(
+  if(
+    !confirm(
       "Delete this public deposit wallet?\n\n" +
       (wallet.asset || "") +
       " / " +
       (wallet.network || "")
-    );
-
-  if(!confirmed){
+    )
+  ){
     return;
   }
 
   try{
 
-    const {
-      error
-    } =
+    const {error} =
       await db
         .from("deposit_wallets")
         .delete()
         .eq("id",id);
 
-    if(error){
-      throw error;
-    }
+    if(error) throw error;
 
-    alert(
-      "Deposit wallet deleted."
-    );
+    alert("Deposit wallet deleted.");
 
     await loadWallets();
 
@@ -2851,14 +2701,10 @@ async function deleteWallet(id){
       "Could not delete wallet.\n\n" +
       error.message
     );
-
   }
-
 }
 
-/* =========================
-   TABS
-========================= */
+/* TABS */
 
 function showTab(name,button){
 
@@ -2878,10 +2724,8 @@ function showTab(name,button){
     "walletsTab"
   ].forEach(id => {
 
-    document.getElementById(
-      id
-    ).classList.add("hidden");
-
+    document.getElementById(id)
+      .classList.add("hidden");
   });
 
   document.getElementById(
@@ -2903,12 +2747,9 @@ function showTab(name,button){
   if(name === "wallets"){
     loadWallets();
   }
-
 }
 
-/* =========================
-   AUTH STATE
-========================= */
+/* AUTH STATE */
 
 db.auth.onAuthStateChange(
   (event,session) => {
@@ -2917,19 +2758,12 @@ db.auth.onAuthStateChange(
       event === "SIGNED_OUT" ||
       !session
     ){
-
-      window.location.replace(
-        "login.html"
-      );
-
+      window.location.replace("login.html");
     }
-
   }
 );
 
-/* =========================
-   MODAL BACKDROP
-========================= */
+/* MODAL BACKDROP */
 
 document.getElementById(
   "clientModal"
@@ -2940,7 +2774,6 @@ document.getElementById(
     if(event.target === this){
       closeClientModal();
     }
-
   }
 );
 
@@ -2953,22 +2786,17 @@ document.getElementById(
     if(event.target === this){
       closeWalletModal();
     }
-
   }
 );
 
-/* =========================
-   YEAR
-========================= */
+/* YEAR */
 
 document.getElementById(
   "year"
 ).textContent =
   new Date().getFullYear();
 
-/* =========================
-   START
-========================= */
+/* START */
 
 initializeAdmin();
 
@@ -2978,38 +2806,30 @@ initializeAdmin();
 
 <script type="text/javascript">
 
-var Tawk_API =
-  Tawk_API || {};
-
-var Tawk_LoadStart =
-  new Date();
+var Tawk_API=Tawk_API||{},
+Tawk_LoadStart=new Date();
 
 (function(){
 
-  var s1 =
-    document.createElement("script");
+var s1=document.createElement("script"),
+s0=document.getElementsByTagName("script")[0];
 
-  var s0 =
-    document.getElementsByTagName(
-      "script"
-    )[0];
+s1.async=true;
 
-  s1.async = true;
+s1.src=
+'https://embed.tawk.to/6ab51df05abce934461ff239/default';
 
-  s1.src =
-    'https://embed.tawk.to/6ab51df05abce934461ff239/default';
+s1.charset='UTF-8';
 
-  s1.charset = 'UTF-8';
+s1.setAttribute(
+  'crossorigin',
+  '*'
+);
 
-  s1.setAttribute(
-    'crossorigin',
-    '*'
-  );
-
-  s0.parentNode.insertBefore(
-    s1,
-    s0
-  );
+s0.parentNode.insertBefore(
+  s1,
+  s0
+);
 
 })();
 
