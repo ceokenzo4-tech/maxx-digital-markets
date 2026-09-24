@@ -276,8 +276,28 @@
       line-height: 1.6;
     }
 
+    /* SUPPORT */
+
+    .support {
+      margin-top: 16px;
+      text-align: center;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .support a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .support a:hover {
+      text-decoration: underline;
+    }
+
     .footer {
-      margin-top: 22px;
+      margin-top: 18px;
       text-align: center;
       color: #475569;
       font-size: 11px;
@@ -330,7 +350,6 @@
 
 
     <form id="registerForm">
-
 
       <!-- FULL NAME -->
 
@@ -575,9 +594,31 @@
   </div>
 
 
+  <!-- SUPPORT -->
+
+  <div class="support">
+
+    Need help creating your account?
+
+    <br>
+
+    <a href="mailto:support@maxxdigitalmarkets.com">
+      support@maxxdigitalmarkets.com
+    </a>
+
+    <br>
+
+    or use Live Chat
+
+  </div>
+
+
   <footer class="footer">
-    © 2026 MAXX Digital Markets<br>
+
+    © <span id="year"></span> MAXX Digital Markets<br>
+
     All rights reserved.
+
   </footer>
 
 </main>
@@ -603,6 +644,16 @@
       SUPABASE_URL,
       SUPABASE_ANON_KEY
     );
+
+
+  /*
+  ==========================================
+  CURRENT YEAR
+  ==========================================
+  */
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
 
 
   /*
@@ -989,6 +1040,47 @@
   }
 
 </script>
+
+
+<!-- ==========================================
+     TAWK.TO LIVE SUPPORT
+=========================================== -->
+
+<!--Start of Tawk.to Script-->
+
+<script type="text/javascript">
+
+var Tawk_API = Tawk_API || {},
+    Tawk_LoadStart = new Date();
+
+(function(){
+
+  var s1 = document.createElement("script"),
+      s0 = document.getElementsByTagName("script")[0];
+
+  s1.async = true;
+
+  s1.src =
+    'https://embed.tawk.to/6ab51df05abce934461ff239/default';
+
+  s1.charset = 'UTF-8';
+
+  s1.setAttribute(
+    'crossorigin',
+    '*'
+  );
+
+  s0.parentNode.insertBefore(
+    s1,
+    s0
+  );
+
+})();
+
+</script>
+
+<!--End of Tawk.to Script-->
+
 
 </body>
 </html>
