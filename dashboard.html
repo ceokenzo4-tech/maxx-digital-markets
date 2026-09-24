@@ -19,7 +19,6 @@
 :root{
   --bg:#020d18;
   --panel:#091a2d;
-  --panel2:#0d2139;
   --border:#1c3959;
   --text:#f5f8ff;
   --muted:#8fa2bf;
@@ -30,13 +29,24 @@
   --orange:#ffb547;
 }
 
-html{scroll-behavior:smooth;}
+html{
+  scroll-behavior:smooth;
+}
 
 body{
   min-height:100vh;
   background:
-    radial-gradient(circle at top right,rgba(24,110,200,.13),transparent 28%),
-    linear-gradient(180deg,#04111f 0%,#020b14 100%);
+    radial-gradient(
+      circle at top right,
+      rgba(24,110,200,.13),
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      #04111f,
+      #020b14
+    );
+
   color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
 }
@@ -46,14 +56,23 @@ a{
   text-decoration:none;
 }
 
-button,input,select,textarea{
+button,
+input,
+select{
   font:inherit;
 }
 
-button{cursor:pointer;}
-.hidden{display:none!important;}
+button{
+  cursor:pointer;
+}
 
-/* LOADING */
+.hidden{
+  display:none!important;
+}
+
+/* ===============================
+   LOADING
+================================ */
 
 #loadingScreen{
   position:fixed;
@@ -81,12 +100,18 @@ button{cursor:pointer;}
 }
 
 @keyframes spin{
-  to{transform:rotate(360deg);}
+  to{
+    transform:rotate(360deg);
+  }
 }
 
-#app{display:none;}
+#app{
+  display:none;
+}
 
-/* HEADER */
+/* ===============================
+   HEADER
+================================ */
 
 .topbar{
   min-height:82px;
@@ -99,7 +124,6 @@ button{cursor:pointer;}
   position:sticky;
   top:0;
   z-index:100;
-  backdrop-filter:blur(12px);
 }
 
 .brand{
@@ -114,7 +138,11 @@ button{cursor:pointer;}
   border-radius:15px;
   display:grid;
   place-items:center;
-  background:linear-gradient(135deg,#19d5ef,#2672f5);
+  background:linear-gradient(
+    135deg,
+    #19d5ef,
+    #2672f5
+  );
   color:#02101c;
   font-size:26px;
   font-weight:900;
@@ -153,7 +181,9 @@ button{cursor:pointer;}
   font-size:34px;
 }
 
-/* LAYOUT */
+/* ===============================
+   LAYOUT
+================================ */
 
 .layout{
   display:grid;
@@ -194,7 +224,9 @@ button{cursor:pointer;}
   color:white;
 }
 
-.support-link{color:var(--cyan);}
+.support-link{
+  color:var(--cyan);
+}
 
 .main{
   width:100%;
@@ -203,10 +235,17 @@ button{cursor:pointer;}
   margin:0 auto;
 }
 
-/* PAGES */
+/* ===============================
+   PAGES
+================================ */
 
-.dashboard-page{display:none;}
-.dashboard-page.active{display:block;}
+.dashboard-page{
+  display:none;
+}
+
+.dashboard-page.active{
+  display:block;
+}
 
 .page-header{
   margin-bottom:27px;
@@ -225,13 +264,17 @@ button{cursor:pointer;}
   margin-bottom:9px;
 }
 
-.page-header p{
+.page-header p,
+.section-title p,
+.action-card p,
+.security-item p{
   color:var(--muted);
   line-height:1.65;
-  max-width:760px;
 }
 
-/* ACCOUNT CARDS */
+/* ===============================
+   ACCOUNT
+================================ */
 
 .account-grid{
   display:grid;
@@ -240,25 +283,22 @@ button{cursor:pointer;}
   margin-bottom:24px;
 }
 
-.account-card{
-  position:relative;
-  overflow:hidden;
-  min-height:150px;
-  padding:24px;
-  border-radius:19px;
+.account-card,
+.section-card{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(12,31,52,.98),
+      rgba(7,23,40,.98)
+    );
+
   border:1px solid var(--border);
-  background:linear-gradient(145deg,rgba(12,31,52,.98),rgba(7,23,40,.98));
+  border-radius:20px;
 }
 
-.account-card::after{
-  content:"";
-  position:absolute;
-  width:120px;
-  height:120px;
-  right:-45px;
-  top:-45px;
-  border-radius:50%;
-  background:rgba(47,125,244,.08);
+.account-card{
+  min-height:150px;
+  padding:24px;
 }
 
 .account-icon{
@@ -269,7 +309,6 @@ button{cursor:pointer;}
   display:grid;
   place-items:center;
   margin-bottom:20px;
-  font-size:19px;
 }
 
 .account-label{
@@ -286,15 +325,19 @@ button{cursor:pointer;}
   font-weight:900;
 }
 
-.profit-positive{color:var(--green)!important;}
-.profit-negative{color:var(--red)!important;}
+.profit-positive{
+  color:var(--green)!important;
+}
 
-/* SECTIONS */
+.profit-negative{
+  color:var(--red)!important;
+}
+
+/* ===============================
+   SECTIONS
+================================ */
 
 .section-card{
-  background:linear-gradient(145deg,rgba(12,31,52,.96),rgba(7,23,40,.96));
-  border:1px solid var(--border);
-  border-radius:20px;
   padding:26px;
   margin-bottom:22px;
 }
@@ -314,12 +357,43 @@ button{cursor:pointer;}
 }
 
 .section-title p{
-  color:var(--muted);
-  line-height:1.6;
   font-size:14px;
 }
 
-/* CHART */
+/* ===============================
+   BUTTONS
+================================ */
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:45px;
+  padding:0 17px;
+  border:0;
+  border-radius:10px;
+  background:#132a45;
+  color:white;
+  font-weight:800;
+}
+
+.btn-primary{
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue),
+      #1766d8
+    );
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* ===============================
+   CHART
+================================ */
 
 .chart-shell{
   width:100%;
@@ -336,31 +410,9 @@ button{cursor:pointer;}
   height:100%!important;
 }
 
-/* BUTTONS */
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:45px;
-  padding:0 17px;
-  border:0;
-  border-radius:10px;
-  background:#132a45;
-  color:white;
-  font-weight:800;
-}
-
-.btn-primary{
-  background:linear-gradient(135deg,var(--blue),#1766d8);
-}
-
-.btn:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-/* TABLE */
+/* ===============================
+   TABLES
+================================ */
 
 .table-wrap{
   overflow-x:auto;
@@ -374,7 +426,8 @@ table{
   min-width:760px;
 }
 
-th,td{
+th,
+td{
   padding:15px 14px;
   text-align:left;
   border-bottom:1px solid #17304a;
@@ -386,49 +439,6 @@ th{
   color:#9fb1c7;
   text-transform:uppercase;
   font-size:11px;
-  letter-spacing:.3px;
-}
-
-tbody tr:last-child td{
-  border-bottom:none;
-}
-
-.market-name{
-  font-weight:900;
-  color:white;
-}
-
-.trade-type{
-  display:inline-block;
-  min-width:52px;
-  text-align:center;
-  padding:6px 9px;
-  border-radius:7px;
-  font-size:11px;
-  font-weight:900;
-}
-
-.trade-type.buy{
-  color:#59e4a9;
-  background:rgba(56,220,139,.11);
-  border:1px solid rgba(56,220,139,.22);
-}
-
-.trade-type.sell{
-  color:#ff8d96;
-  background:rgba(255,92,105,.11);
-  border:1px solid rgba(255,92,105,.22);
-}
-
-.trade-result{
-  font-weight:900;
-  white-space:nowrap;
-}
-
-.trade-date{
-  color:#9fb1c7;
-  white-space:nowrap;
-  font-size:12px;
 }
 
 .empty{
@@ -437,13 +447,34 @@ tbody tr:last-child td{
   color:var(--muted);
 }
 
+.market-name,
+.trade-result{
+  font-weight:900;
+}
+
+.trade-type,
 .status{
   display:inline-block;
   padding:6px 9px;
-  border-radius:999px;
+  border-radius:7px;
   font-size:11px;
-  font-weight:800;
-  text-transform:capitalize;
+  font-weight:900;
+}
+
+.trade-type.buy,
+.status.approved,
+.status.completed,
+.status.closed{
+  color:#59e4a9;
+  background:rgba(56,220,139,.12);
+}
+
+.trade-type.sell,
+.status.rejected,
+.status.failed,
+.status.cancelled{
+  color:#ff8d96;
+  background:rgba(255,92,105,.12);
 }
 
 .status.pending,
@@ -452,58 +483,43 @@ tbody tr:last-child td{
   background:rgba(255,181,71,.12);
 }
 
-.status.approved,
-.status.completed,
-.status.closed,
-.status.won{
-  color:#59e4a9;
-  background:rgba(56,220,139,.12);
-}
+/* ===============================
+   CARDS
+================================ */
 
-.status.rejected,
-.status.failed,
-.status.cancelled,
-.status.lost{
-  color:#ff8d96;
-  background:rgba(255,92,105,.12);
-}
-
-/* ACTIONS */
-
-.action-grid{
+.action-grid,
+.wallet-grid,
+.profile-grid,
+.form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:18px;
 }
 
-.action-card{
+.action-card,
+.wallet-card,
+.profile-item{
   border:1px solid var(--border);
   background:#071827;
   border-radius:17px;
   padding:22px;
 }
 
-.action-card h3{margin-bottom:9px;}
+.action-card h3{
+  margin-bottom:9px;
+}
 
 .action-card p{
-  color:var(--muted);
-  line-height:1.6;
   margin-bottom:17px;
 }
 
-/* WALLETS */
-
-.wallet-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
+/* ===============================
+   DEPOSIT WALLETS
+================================ */
 
 .wallet-card{
-  border:1px solid var(--border);
-  border-radius:15px;
-  background:#061522;
-  padding:20px;
+  position:relative;
+  overflow:hidden;
 }
 
 .wallet-top{
@@ -543,16 +559,21 @@ tbody tr:last-child td{
   margin-bottom:12px;
 }
 
-/* FORMS */
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
+.copy-wallet-btn{
+  width:100%;
 }
 
-.field{margin-bottom:16px;}
-.field.full{grid-column:1/-1;}
+/* ===============================
+   FORMS
+================================ */
+
+.field{
+  margin-bottom:16px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
 
 .field label{
   display:block;
@@ -603,20 +624,9 @@ tbody tr:last-child td{
   background:rgba(47,125,244,.18);
 }
 
-/* PROFILE */
-
-.profile-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-}
-
-.profile-item{
-  border:1px solid var(--border);
-  background:#071827;
-  border-radius:14px;
-  padding:19px;
-}
+/* ===============================
+   PROFILE / SECURITY
+================================ */
 
 .profile-item span{
   display:block;
@@ -629,17 +639,9 @@ tbody tr:last-child td{
   word-break:break-word;
 }
 
-/* SECURITY */
-
 .security-item{
   padding:20px 0;
   border-bottom:1px solid rgba(57,84,116,.42);
-}
-
-.security-item p{
-  color:var(--muted);
-  line-height:1.6;
-  margin-top:8px;
 }
 
 .verified{
@@ -654,7 +656,6 @@ tbody tr:last-child td{
   color:var(--cyan);
   background:rgba(21,200,238,.08);
   font-weight:700;
-  word-break:break-all;
 }
 
 .logout-btn{
@@ -676,7 +677,9 @@ tbody tr:last-child td{
   line-height:1.7;
 }
 
-/* MOBILE */
+/* ===============================
+   MOBILE
+================================ */
 
 @media(max-width:900px){
 
@@ -691,11 +694,9 @@ tbody tr:last-child td{
     left:0;
     right:0;
     z-index:90;
-    border-right:0;
-    border-bottom:1px solid var(--border);
+    background:#051220;
     max-height:calc(100vh - 82px);
     overflow:auto;
-    box-shadow:0 20px 40px rgba(0,0,0,.45);
   }
 
   .sidebar.open{
@@ -707,7 +708,7 @@ tbody tr:last-child td{
   }
 
   .main{
-    padding:28px 20px 45px;
+    padding:28px 20px;
   }
 
   .account-grid{
@@ -719,11 +720,6 @@ tbody tr:last-child td{
 
   .topbar{
     padding:11px 17px;
-  }
-
-  .logo{
-    width:46px;
-    height:46px;
   }
 
   .brand-name{
@@ -748,12 +744,7 @@ tbody tr:last-child td{
   }
 
   .account-card{
-    min-height:135px;
     padding:18px;
-  }
-
-  .account-value{
-    font-size:23px;
   }
 
   .account-card:last-child{
@@ -789,10 +780,17 @@ tbody tr:last-child td{
 <body>
 
 <div id="loadingScreen">
+
   <div class="loading-inner">
+
     <div class="spinner"></div>
-    <p>Securing your account...</p>
+
+    <p>
+      Securing your account...
+    </p>
+
   </div>
+
 </div>
 
 <div id="app">
@@ -802,9 +800,11 @@ tbody tr:last-child td{
 <button
 class="brand"
 onclick="showPage('dashboard')"
-style="border:0;background:none;color:white;cursor:pointer">
+style="border:0;background:none;color:white">
 
-<div class="logo">M</div>
+<div class="logo">
+M
+</div>
 
 <div class="brand-name">
 MAXX <span>DIGITAL MARKETS</span>
@@ -814,12 +814,15 @@ MAXX <span>DIGITAL MARKETS</span>
 
 <div class="header-right">
 
-<div class="user-circle" id="userInitial">M</div>
+<div
+class="user-circle"
+id="userInitial">
+M
+</div>
 
 <button
 class="menu-button"
-id="menuButton"
-type="button">
+id="menuButton">
 ☰
 </button>
 
@@ -829,39 +832,59 @@ type="button">
 
 <div class="layout">
 
-<aside class="sidebar" id="sidebar">
+<aside
+class="sidebar"
+id="sidebar">
 
-<div class="nav-label">ACCOUNT</div>
+<div class="nav-label">
+ACCOUNT
+</div>
 
-<button class="nav-link active" data-page="dashboard">
+<button
+class="nav-link active"
+data-page="dashboard">
 Dashboard
 </button>
 
-<button class="nav-link" data-page="deposit">
+<button
+class="nav-link"
+data-page="deposit">
 Deposit
 </button>
 
-<button class="nav-link" data-page="withdraw">
+<button
+class="nav-link"
+data-page="withdraw">
 Withdraw
 </button>
 
-<button class="nav-link" data-page="history">
+<button
+class="nav-link"
+data-page="history">
 History
 </button>
 
-<button class="nav-link" data-page="profile">
+<button
+class="nav-link"
+data-page="profile">
 Profile
 </button>
 
-<button class="nav-link" data-page="security">
+<button
+class="nav-link"
+data-page="security">
 Security
 </button>
 
-<button class="nav-link support-link" data-page="support">
+<button
+class="nav-link support-link"
+data-page="support">
 Support
 </button>
 
-<a class="nav-link" href="index.html">
+<a
+class="nav-link"
+href="index.html">
 Main Website
 </a>
 
@@ -869,20 +892,30 @@ Main Website
 
 <main class="main">
 
-<!-- DASHBOARD -->
+<!-- =============================
+     DASHBOARD
+============================== -->
 
-<section id="page-dashboard" class="dashboard-page active">
+<section
+id="page-dashboard"
+class="dashboard-page active">
 
 <div class="page-header">
 
-<div class="eyebrow">ACCOUNT DASHBOARD</div>
+<div class="eyebrow">
+ACCOUNT DASHBOARD
+</div>
 
 <h1>
-Welcome, <span id="welcomeName">User</span>
+Welcome,
+<span id="welcomeName">
+User
+</span>
 </h1>
 
 <p>
-Monitor your account, trading performance and live financial markets.
+Monitor your account, trading performance
+and live financial markets.
 </p>
 
 </div>
@@ -891,13 +924,17 @@ Monitor your account, trading performance and live financial markets.
 
 <div class="account-card">
 
-<div class="account-icon">💰</div>
+<div class="account-icon">
+💰
+</div>
 
 <div class="account-label">
 Account Balance
 </div>
 
-<div class="account-value" id="accountBalance">
+<div
+class="account-value"
+id="accountBalance">
 $0.00
 </div>
 
@@ -905,7 +942,9 @@ $0.00
 
 <div class="account-card">
 
-<div class="account-icon">📈</div>
+<div class="account-icon">
+📈
+</div>
 
 <div class="account-label">
 Total Profit
@@ -921,13 +960,17 @@ $0.00
 
 <div class="account-card">
 
-<div class="account-icon">📊</div>
+<div class="account-icon">
+📊
+</div>
 
 <div class="account-label">
 Total Trades
 </div>
 
-<div class="account-value" id="totalTrades">
+<div
+class="account-value"
+id="totalTrades">
 0
 </div>
 
@@ -935,20 +978,24 @@ Total Trades
 
 </div>
 
-<!-- RECENT TRADES -->
-
 <div class="section-card">
 
 <div class="section-title">
 
 <div>
-<h2>Recent Trades</h2>
-<p>Your latest completed trading activity.</p>
+
+<h2>
+Recent Trades
+</h2>
+
+<p>
+Your latest completed trading activity.
+</p>
+
 </div>
 
 <button
 class="btn"
-type="button"
 onclick="showPage('history')">
 View History
 </button>
@@ -960,6 +1007,7 @@ View History
 <table>
 
 <thead>
+
 <tr>
 <th>Market</th>
 <th>Type</th>
@@ -968,6 +1016,7 @@ View History
 <th>Status</th>
 <th>Closed</th>
 </tr>
+
 </thead>
 
 <tbody id="tradeHistoryBody"></tbody>
@@ -984,45 +1033,43 @@ No trades are available yet.
 
 </div>
 
-<!-- LIVE MARKETS -->
-
 <div class="section-card">
 
 <div class="section-title">
 
 <div>
-<h2>Live Markets</h2>
-<p>Interactive market chart powered by TradingView.</p>
+
+<h2>
+Live Markets
+</h2>
+
+<p>
+Interactive market chart powered by TradingView.
+</p>
+
 </div>
 
 </div>
 
 <div class="chart-shell">
 
-<div
-class="tradingview-widget-container"
-style="height:100%;width:100%">
+<div class="tradingview-widget-container">
 
-<div
-class="tradingview-widget-container__widget"
-style="height:calc(100% - 32px);width:100%">
+<div class="tradingview-widget-container__widget">
 </div>
 
 <script
-type="text/javascript"
 src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
 async>
 {
-  "autosize": true,
-  "symbol": "BITSTAMP:BTCUSD",
-  "interval": "60",
-  "timezone": "Etc/UTC",
-  "theme": "dark",
-  "style": "1",
-  "locale": "en",
-  "allow_symbol_change": true,
-  "calendar": false,
-  "support_host": "https://www.tradingview.com"
+  "autosize":true,
+  "symbol":"BITSTAMP:BTCUSD",
+  "interval":"60",
+  "timezone":"Etc/UTC",
+  "theme":"dark",
+  "style":"1",
+  "locale":"en",
+  "allow_symbol_change":true
 }
 </script>
 
@@ -1034,14 +1081,29 @@ async>
 
 </section>
 
-<!-- DEPOSIT -->
+<!-- =============================
+     DEPOSIT
+============================== -->
 
-<section id="page-deposit" class="dashboard-page">
+<section
+id="page-deposit"
+class="dashboard-page">
 
 <div class="page-header">
-<div class="eyebrow">FUND ACCOUNT</div>
-<h1>Deposit</h1>
-<p>View the available account funding options.</p>
+
+<div class="eyebrow">
+FUND ACCOUNT
+</div>
+
+<h1>
+Deposit
+</h1>
+
+<p>
+Choose an active cryptocurrency funding option
+or contact support for bank-transfer instructions.
+</p>
+
 </div>
 
 <div class="section-card">
@@ -1050,10 +1112,13 @@ async>
 
 <div>
 
-<h2>Deposit Funds</h2>
+<h2>
+Cryptocurrency Deposit
+</h2>
 
 <p>
-Choose cryptocurrency or contact support for bank-transfer instructions.
+Available wallets are managed from the
+Admin Console and update automatically here.
 </p>
 
 </div>
@@ -1066,53 +1131,102 @@ Refresh
 
 </div>
 
-<div class="action-grid">
+<div
+id="walletLoading"
+class="empty">
+Loading deposit wallets...
+</div>
 
-<div class="action-card">
+<div
+id="walletGrid"
+class="wallet-grid">
+</div>
 
-<h3>₿ Cryptocurrency</h3>
+</div>
+
+<div class="section-card">
+
+<div class="section-title">
+
+<div>
+
+<h2>
+🏦 Bank Transfer
+</h2>
 
 <p>
-View available cryptocurrency receiving addresses below.
+Contact support before making a bank transfer
+so you receive the current funding instructions.
 </p>
+
+</div>
 
 </div>
 
 <div class="action-card">
 
-<h3>🏦 Bank Transfer</h3>
+<h3>
+Bank Deposit
+</h3>
 
 <p>
-Contact support for current bank-transfer deposit instructions.
+Bank details may vary by currency and region.
 </p>
 
 <a
 class="btn btn-primary"
 href="mailto:support@maxxdigitalmarkets.com?subject=Bank%20Transfer%20Deposit">
+
 Contact Support
+
 </a>
 
 </div>
 
 </div>
 
-<div style="margin-top:25px">
+<div class="section-card">
 
-<div id="walletLoading" class="empty">
-Loading deposit wallets...
+<div class="section-title">
+
+<div>
+
+<h2>
+Deposit Safety
+</h2>
+
 </div>
 
-<div id="walletGrid" class="wallet-grid"></div>
-
 </div>
+
+<p
+style="
+color:var(--muted);
+line-height:1.8;
+">
+
+Confirm the cryptocurrency and network before
+sending.
+
+Only send the displayed asset through the
+displayed network.
+
+Blockchain transfers sent to an incompatible
+address or network may be irreversible.
+
+</p>
 
 </div>
 
 </section>
 
-<!-- WITHDRAW -->
+<!-- =============================
+     WITHDRAW
+============================== -->
 
-<section id="page-withdraw" class="dashboard-page">
+<section
+id="page-withdraw"
+class="dashboard-page">
 
 <div class="page-header">
 
@@ -1120,10 +1234,13 @@ Loading deposit wallets...
 ACCOUNT WITHDRAWAL
 </div>
 
-<h1>Withdraw</h1>
+<h1>
+Withdraw
+</h1>
 
 <p>
-Submit a cryptocurrency or bank-transfer withdrawal request.
+Submit a cryptocurrency or bank-transfer
+withdrawal request.
 </p>
 
 </div>
@@ -1148,8 +1265,6 @@ Bank Transfer
 
 </div>
 
-<!-- CRYPTO WITHDRAWAL -->
-
 <div id="cryptoWithdrawal">
 
 <form id="cryptoWithdrawalForm">
@@ -1158,20 +1273,37 @@ Bank Transfer
 
 <div class="field">
 
-<label>Cryptocurrency</label>
+<label>
+Cryptocurrency
+</label>
 
-<select id="cryptoCurrency" required>
-<option value="BTC">Bitcoin (BTC)</option>
-<option value="ETH">Ethereum (ETH)</option>
-<option value="USDT">Tether (USDT)</option>
-<option value="USDC">USD Coin (USDC)</option>
+<select id="cryptoCurrency">
+
+<option>
+BTC
+</option>
+
+<option>
+ETH
+</option>
+
+<option>
+USDT
+</option>
+
+<option>
+USDC
+</option>
+
 </select>
 
 </div>
 
 <div class="field">
 
-<label>Withdrawal Amount</label>
+<label>
+Withdrawal Amount
+</label>
 
 <input
 id="cryptoAmount"
@@ -1184,24 +1316,40 @@ required>
 
 <div class="field">
 
-<label>Network</label>
+<label>
+Network
+</label>
 
-<select id="cryptoNetwork" required>
-<option value="Bitcoin">Bitcoin</option>
-<option value="Ethereum">Ethereum / ERC20</option>
-<option value="TRC20">Tron / TRC20</option>
-<option value="BEP20">BNB Smart Chain / BEP20</option>
+<select id="cryptoNetwork">
+
+<option>
+Bitcoin
+</option>
+
+<option>
+Ethereum
+</option>
+
+<option>
+TRC20
+</option>
+
+<option>
+BEP20
+</option>
+
 </select>
 
 </div>
 
 <div class="field">
 
-<label>Receiving Wallet Address</label>
+<label>
+Receiving Wallet Address
+</label>
 
 <input
 id="cryptoDestination"
-type="text"
 required>
 
 </div>
@@ -1209,23 +1357,25 @@ required>
 </div>
 
 <p class="form-note">
-Carefully verify the receiving wallet address and network before submitting.
+Carefully verify the receiving wallet address
+and network.
 </p>
 
 <button
 class="btn btn-primary"
-id="cryptoWithdrawBtn"
-type="submit">
+id="cryptoWithdrawBtn">
+
 Submit Crypto Withdrawal
+
 </button>
 
 </form>
 
 </div>
 
-<!-- BANK WITHDRAWAL -->
-
-<div id="bankWithdrawal" class="hidden">
+<div
+id="bankWithdrawal"
+class="hidden">
 
 <form id="bankWithdrawalForm">
 
@@ -1233,81 +1383,113 @@ Submit Crypto Withdrawal
 
 <div class="field">
 
-<label>Withdrawal Amount</label>
+<label>
+Withdrawal Amount
+</label>
 
 <input
 id="bankAmount"
 type="number"
-min="0.01"
-step="0.01"
+min=".01"
+step=".01"
 required>
 
 </div>
 
 <div class="field">
 
-<label>Currency</label>
+<label>
+Currency
+</label>
 
-<select id="bankCurrency" required>
-<option value="USD">USD</option>
-<option value="NGN">NGN</option>
-<option value="GBP">GBP</option>
-<option value="EUR">EUR</option>
+<select id="bankCurrency">
+
+<option>
+USD
+</option>
+
+<option>
+NGN
+</option>
+
+<option>
+GBP
+</option>
+
+<option>
+EUR
+</option>
+
 </select>
 
 </div>
 
 <div class="field">
 
-<label>Bank Name</label>
+<label>
+Bank Name
+</label>
 
-<input id="bankName" type="text" required>
-
-</div>
-
-<div class="field">
-
-<label>Account Holder Name</label>
-
-<input id="bankAccountName" type="text" required>
+<input
+id="bankName"
+required>
 
 </div>
 
 <div class="field">
 
-<label>Account Number</label>
+<label>
+Account Holder Name
+</label>
 
-<input id="bankAccountNumber" type="text" required>
+<input
+id="bankAccountName"
+required>
 
 </div>
 
 <div class="field">
 
-<label>Bank Country</label>
+<label>
+Account Number
+</label>
 
-<input id="bankCountry" type="text" required>
+<input
+id="bankAccountNumber"
+required>
+
+</div>
+
+<div class="field">
+
+<label>
+Bank Country
+</label>
+
+<input
+id="bankCountry"
+required>
 
 </div>
 
 <div class="field full">
 
-<label>Routing Number / SWIFT / BIC</label>
+<label>
+Routing Number / SWIFT / BIC
+</label>
 
-<input id="bankRouting" type="text">
+<input id="bankRouting">
 
 </div>
 
 </div>
-
-<p class="form-note">
-Check the beneficiary details carefully before submitting.
-</p>
 
 <button
 class="btn btn-primary"
-id="bankWithdrawBtn"
-type="submit">
+id="bankWithdrawBtn">
+
 Submit Bank Withdrawal
+
 </button>
 
 </form>
@@ -1318,9 +1500,13 @@ Submit Bank Withdrawal
 
 </section>
 
-<!-- HISTORY -->
+<!-- =============================
+     HISTORY
+============================== -->
 
-<section id="page-history" class="dashboard-page">
+<section
+id="page-history"
+class="dashboard-page">
 
 <div class="page-header">
 
@@ -1328,7 +1514,9 @@ Submit Bank Withdrawal
 ACCOUNT ACTIVITY
 </div>
 
-<h1>History</h1>
+<h1>
+History
+</h1>
 
 <p>
 View your trading and withdrawal activity.
@@ -1336,20 +1524,20 @@ View your trading and withdrawal activity.
 
 </div>
 
-<!-- FULL TRADING HISTORY -->
-
 <div class="section-card">
 
 <div class="section-title">
 
 <div>
-<h2>Trading History</h2>
-<p>Your completed trading activity.</p>
+
+<h2>
+Trading History
+</h2>
+
 </div>
 
 <button
 class="btn"
-type="button"
 onclick="loadTrades()">
 Refresh
 </button>
@@ -1361,6 +1549,7 @@ Refresh
 <table>
 
 <thead>
+
 <tr>
 <th>Market</th>
 <th>Type</th>
@@ -1369,6 +1558,7 @@ Refresh
 <th>Status</th>
 <th>Closed</th>
 </tr>
+
 </thead>
 
 <tbody id="fullTradeHistoryBody"></tbody>
@@ -1385,15 +1575,16 @@ No trading history is available yet.
 
 </div>
 
-<!-- WITHDRAWAL HISTORY -->
-
 <div class="section-card">
 
 <div class="section-title">
 
 <div>
-<h2>Withdrawal History</h2>
-<p>Your submitted withdrawal requests.</p>
+
+<h2>
+Withdrawal History
+</h2>
+
 </div>
 
 <button
@@ -1436,19 +1627,23 @@ No withdrawal requests yet.
 
 </section>
 
-<!-- PROFILE -->
+<!-- =============================
+     PROFILE
+============================== -->
 
-<section id="page-profile" class="dashboard-page">
+<section
+id="page-profile"
+class="dashboard-page">
 
 <div class="page-header">
 
-<div class="eyebrow">MY ACCOUNT</div>
+<div class="eyebrow">
+MY ACCOUNT
+</div>
 
-<h1>Profile</h1>
-
-<p>
-Your registered account information.
-</p>
+<h1>
+Profile
+</h1>
 
 </div>
 
@@ -1457,23 +1652,51 @@ Your registered account information.
 <div class="profile-grid">
 
 <div class="profile-item">
-<span>Full Name</span>
-<strong id="profileName">—</strong>
+
+<span>
+Full Name
+</span>
+
+<strong id="profileName">
+—
+</strong>
+
 </div>
 
 <div class="profile-item">
-<span>Email Address</span>
-<strong id="profileEmail">—</strong>
+
+<span>
+Email Address
+</span>
+
+<strong id="profileEmail">
+—
+</strong>
+
 </div>
 
 <div class="profile-item">
-<span>Phone Number</span>
-<strong id="profilePhone">—</strong>
+
+<span>
+Phone Number
+</span>
+
+<strong id="profilePhone">
+—
+</strong>
+
 </div>
 
 <div class="profile-item">
-<span>Country / Region</span>
-<strong id="profileCountry">—</strong>
+
+<span>
+Country / Region
+</span>
+
+<strong id="profileCountry">
+—
+</strong>
+
 </div>
 
 </div>
@@ -1482,9 +1705,13 @@ Your registered account information.
 
 </section>
 
-<!-- SECURITY -->
+<!-- =============================
+     SECURITY
+============================== -->
 
-<section id="page-security" class="dashboard-page">
+<section
+id="page-security"
+class="dashboard-page">
 
 <div class="page-header">
 
@@ -1492,11 +1719,9 @@ Your registered account information.
 ACCOUNT PROTECTION
 </div>
 
-<h1>Security</h1>
-
-<p>
-Security information for your MAXX Digital Markets account.
-</p>
+<h1>
+Security
+</h1>
 
 </div>
 
@@ -1504,7 +1729,9 @@ Security information for your MAXX Digital Markets account.
 
 <div class="security-item">
 
-<h3>Email Verification</h3>
+<h3>
+Email Verification
+</h3>
 
 <p
 id="verificationText"
@@ -1516,20 +1743,26 @@ class="verified">
 
 <div class="security-item">
 
-<h3>Authentication</h3>
+<h3>
+Authentication
+</h3>
 
 <p>
-An authenticated account session is required to access this dashboard.
+An authenticated account session is required
+to access this dashboard.
 </p>
 
 </div>
 
 <div class="security-item">
 
-<h3>Password Security</h3>
+<h3>
+Password Security
+</h3>
 
 <p>
-Never share your password, private keys, seed phrases or authentication credentials.
+Never share your password, private keys,
+seed phrases or authentication credentials.
 </p>
 
 </div>
@@ -1538,28 +1771,38 @@ Never share your password, private keys, seed phrases or authentication credenti
 
 </section>
 
-<!-- SUPPORT -->
+<!-- =============================
+     SUPPORT
+============================== -->
 
-<section id="page-support" class="dashboard-page">
+<section
+id="page-support"
+class="dashboard-page">
 
 <div class="page-header">
 
-<div class="eyebrow">HELP CENTER</div>
+<div class="eyebrow">
+HELP CENTER
+</div>
 
-<h1>Customer Support</h1>
-
-<p>
-Contact MAXX Digital Markets support.
-</p>
+<h1>
+Customer Support
+</h1>
 
 </div>
 
 <div class="section-card">
 
-<p style="color:var(--muted);line-height:1.7;margin-bottom:20px">
+<p
+style="
+color:var(--muted);
+margin-bottom:20px;
+">
 
-Need assistance with your account, deposit or withdrawal?
-Contact support by email or use the live-chat button.
+Need assistance with your account,
+deposit or withdrawal?
+
+Contact support by email or use live chat.
 
 </p>
 
@@ -1577,14 +1820,20 @@ href="mailto:support@maxxdigitalmarkets.com">
 
 <button
 class="logout-btn"
-id="logoutBtn"
-type="button">
+id="logoutBtn">
+
 Log Out
+
 </button>
 
 <footer class="footer">
 
-© <span id="year"></span> MAXX Digital Markets.<br>
+©
+<span id="year"></span>
+MAXX Digital Markets.
+
+<br>
+
 Account access is protected by authentication.
 
 </footer>
@@ -1592,13 +1841,14 @@ Account access is protected by authentication.
 </main>
 
 </div>
+
 </div>
 
 <script>
 
-/* =====================================================
+/* ===============================
    SUPABASE
-===================================================== */
+================================ */
 
 const SUPABASE_URL =
 "https://dwojraxspohahemiarps.supabase.co";
@@ -1613,11 +1863,12 @@ window.supabase.createClient(
 );
 
 let currentUser = null;
+
 let accountCurrency = "USD";
 
-/* =====================================================
+/* ===============================
    HELPERS
-===================================================== */
+================================ */
 
 function escapeHtml(value){
 
@@ -1629,9 +1880,13 @@ function escapeHtml(value){
     .replace(/'/g,"&#039;");
 }
 
-function formatMoney(value,currency = accountCurrency){
+function formatMoney(
+  value,
+  currency = accountCurrency
+){
 
-  const number = Number(value || 0);
+  const number =
+    Number(value || 0);
 
   try{
 
@@ -1645,7 +1900,8 @@ function formatMoney(value,currency = accountCurrency){
       }
     ).format(number);
 
-  }catch(error){
+  }
+  catch(error){
 
     return "$" + number.toFixed(2);
 
@@ -1654,7 +1910,8 @@ function formatMoney(value,currency = accountCurrency){
 
 function formatTradeResult(value){
 
-  const number = Number(value || 0);
+  const number =
+    Number(value || 0);
 
   const absolute =
     Math.abs(number);
@@ -1674,7 +1931,8 @@ function formatTradeResult(value){
         }
       ).format(absolute);
 
-  }catch(error){
+  }
+  catch(error){
 
     formatted =
       "$" + absolute.toFixed(2);
@@ -1682,11 +1940,15 @@ function formatTradeResult(value){
   }
 
   if(number > 0){
+
     return "+" + formatted;
+
   }
 
   if(number < 0){
+
     return "-" + formatted;
+
   }
 
   return formatted;
@@ -1695,14 +1957,22 @@ function formatTradeResult(value){
 function formatDate(value){
 
   if(!value){
+
     return "—";
+
   }
 
   const date =
     new Date(value);
 
-  if(Number.isNaN(date.getTime())){
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
     return "—";
+
   }
 
   return date.toLocaleString();
@@ -1716,7 +1986,10 @@ function statusBadge(status){
   const clean =
     String(text)
       .toLowerCase()
-      .replace(/[^a-z_-]/g,"");
+      .replace(
+        /[^a-z_-]/g,
+        ""
+      );
 
   return `
     <span class="status ${escapeHtml(clean)}">
@@ -1725,39 +1998,22 @@ function statusBadge(status){
   `;
 }
 
-function tradeTypeBadge(type){
-
-  const cleanType =
-    String(type || "—")
-      .toLowerCase();
-
-  if(
-    cleanType === "buy" ||
-    cleanType === "sell"
-  ){
-
-    return `
-      <span class="trade-type ${escapeHtml(cleanType)}">
-        ${escapeHtml(cleanType.toUpperCase())}
-      </span>
-    `;
-  }
-
-  return escapeHtml(
-    String(type || "—").toUpperCase()
-  );
-}
-
-/* =====================================================
+/* ===============================
    NAVIGATION
-===================================================== */
+================================ */
 
 function showPage(pageName){
 
   document
-    .querySelectorAll(".dashboard-page")
+    .querySelectorAll(
+      ".dashboard-page"
+    )
     .forEach(page=>{
-      page.classList.remove("active");
+
+      page.classList.remove(
+        "active"
+      );
+
     });
 
   const page =
@@ -1766,11 +2022,17 @@ function showPage(pageName){
     );
 
   if(page){
-    page.classList.add("active");
+
+    page.classList.add(
+      "active"
+    );
+
   }
 
   document
-    .querySelectorAll("[data-page]")
+    .querySelectorAll(
+      "[data-page]"
+    )
     .forEach(button=>{
 
       button.classList.toggle(
@@ -1781,40 +2043,51 @@ function showPage(pageName){
     });
 
   document
-    .getElementById("sidebar")
-    .classList.remove("open");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+    .getElementById(
+      "sidebar"
+    )
+    .classList.remove(
+      "open"
+    );
 
   if(pageName === "deposit"){
+
     loadDepositWallets();
+
   }
 
   if(pageName === "history"){
 
     loadTrades();
+
     loadWithdrawalHistory();
 
   }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
 
 document
-  .querySelectorAll("[data-page]")
+  .querySelectorAll(
+    "[data-page]"
+  )
   .forEach(button=>{
 
     button.addEventListener(
       "click",
-      ()=>showPage(button.dataset.page)
+      ()=>showPage(
+        button.dataset.page
+      )
     );
 
   });
 
-/* =====================================================
+/* ===============================
    AUTH
-===================================================== */
+================================ */
 
 async function secureDashboard(){
 
@@ -1824,13 +2097,20 @@ async function secureDashboard(){
       data:{session},
       error
     } =
-    await supabaseClient.auth.getSession();
+    await supabaseClient
+      .auth
+      .getSession();
 
     if(error){
+
       throw error;
+
     }
 
-    if(!session || !session.user){
+    if(
+      !session ||
+      !session.user
+    ){
 
       window.location.replace(
         "login.html"
@@ -1850,13 +2130,19 @@ async function secureDashboard(){
 
     await loadTrades();
 
-    document.getElementById(
-      "loadingScreen"
-    ).style.display = "none";
+    document
+      .getElementById(
+        "loadingScreen"
+      )
+      .style.display =
+        "none";
 
-    document.getElementById(
-      "app"
-    ).style.display = "block";
+    document
+      .getElementById(
+        "app"
+      )
+      .style.display =
+        "block";
 
   }
   catch(error){
@@ -1869,12 +2155,13 @@ async function secureDashboard(){
     window.location.replace(
       "login.html"
     );
+
   }
 }
 
-/* =====================================================
-   USER
-===================================================== */
+/* ===============================
+   USER INFORMATION
+================================ */
 
 function loadUserInformation(user){
 
@@ -1891,41 +2178,53 @@ function loadUserInformation(user){
     fullName.split(" ")[0] ||
     "User";
 
-  document.getElementById(
-    "welcomeName"
-  ).textContent =
-    displayName;
+  document
+    .getElementById(
+      "welcomeName"
+    )
+    .textContent =
+      displayName;
 
-  document.getElementById(
-    "profileName"
-  ).textContent =
-    fullName;
+  document
+    .getElementById(
+      "profileName"
+    )
+    .textContent =
+      fullName;
 
-  document.getElementById(
-    "profileEmail"
-  ).textContent =
-    user.email ||
-    "Not available";
+  document
+    .getElementById(
+      "profileEmail"
+    )
+    .textContent =
+      user.email ||
+      "Not available";
 
-  document.getElementById(
-    "profilePhone"
-  ).textContent =
-    metadata.phone ||
-    user.phone ||
-    "Not provided";
+  document
+    .getElementById(
+      "profilePhone"
+    )
+    .textContent =
+      metadata.phone ||
+      user.phone ||
+      "Not provided";
 
-  document.getElementById(
-    "profileCountry"
-  ).textContent =
-    metadata.country ||
-    "Not provided";
+  document
+    .getElementById(
+      "profileCountry"
+    )
+    .textContent =
+      metadata.country ||
+      "Not provided";
 
-  document.getElementById(
-    "userInitial"
-  ).textContent =
-    displayName
-      .charAt(0)
-      .toUpperCase();
+  document
+    .getElementById(
+      "userInitial"
+    )
+    .textContent =
+      displayName
+        .charAt(0)
+        .toUpperCase();
 
   const verification =
     document.getElementById(
@@ -1941,7 +2240,8 @@ function loadUserInformation(user){
       "verified"
     );
 
-  }else{
+  }
+  else{
 
     verification.textContent =
       "Your email address has not been verified.";
@@ -1949,17 +2249,20 @@ function loadUserInformation(user){
     verification.classList.remove(
       "verified"
     );
+
   }
 }
 
-/* =====================================================
-   ACCOUNT DATA
-===================================================== */
+/* ===============================
+   ACCOUNT
+================================ */
 
 async function loadAccountData(){
 
   if(!currentUser){
+
     return;
+
   }
 
   try{
@@ -1969,7 +2272,9 @@ async function loadAccountData(){
       error
     } =
     await supabaseClient
-      .from("client_accounts")
+      .from(
+        "client_accounts"
+      )
       .select(
         "balance,total_profit,currency"
       )
@@ -1980,25 +2285,34 @@ async function loadAccountData(){
       .maybeSingle();
 
     if(error){
+
       throw error;
+
     }
 
     const balance =
-      Number(data?.balance || 0);
+      Number(
+        data?.balance || 0
+      );
 
     const profit =
-      Number(data?.total_profit || 0);
+      Number(
+        data?.total_profit || 0
+      );
 
     accountCurrency =
-      data?.currency || "USD";
+      data?.currency ||
+      "USD";
 
-    document.getElementById(
-      "accountBalance"
-    ).textContent =
-      formatMoney(
-        balance,
-        accountCurrency
-      );
+    document
+      .getElementById(
+        "accountBalance"
+      )
+      .textContent =
+        formatMoney(
+          balance,
+          accountCurrency
+        );
 
     const profitElement =
       document.getElementById(
@@ -2006,7 +2320,9 @@ async function loadAccountData(){
       );
 
     profitElement.textContent =
-      formatTradeResult(profit);
+      formatTradeResult(
+        profit
+      );
 
     profitElement.classList.remove(
       "profit-positive",
@@ -2027,21 +2343,12 @@ async function loadAccountData(){
       error
     );
 
-    document.getElementById(
-      "accountBalance"
-    ).textContent =
-      "$0.00";
-
-    document.getElementById(
-      "totalProfit"
-    ).textContent =
-      "$0.00";
   }
 }
 
-/* =====================================================
+/* ===============================
    TRADES
-===================================================== */
+================================ */
 
 function getTradeDate(trade){
 
@@ -2049,40 +2356,7 @@ function getTradeDate(trade){
     trade.closed_at ||
     trade.created_at ||
     trade.opened_at ||
-    trade.date ||
     null
-  );
-}
-
-function getTradeProfit(trade){
-
-  return Number(
-    trade.profit_loss ??
-    trade.profit ??
-    trade.pnl ??
-    0
-  );
-}
-
-function getTradeType(trade){
-
-  return (
-    trade.trade_type ||
-    trade.side ||
-    trade.type ||
-    trade.direction ||
-    "—"
-  );
-}
-
-function getTradeVolume(trade){
-
-  return (
-    trade.volume ??
-    trade.amount ??
-    trade.size ??
-    trade.lot_size ??
-    "—"
   );
 }
 
@@ -2091,37 +2365,44 @@ function tradeRow(trade){
   const market =
     trade.symbol ||
     trade.asset ||
-    trade.market ||
-    trade.pair ||
     "—";
 
   const type =
-    getTradeType(trade);
+    String(
+      trade.trade_type ||
+      "—"
+    ).toLowerCase();
 
   const volume =
-    getTradeVolume(trade);
+    trade.volume ?? "—";
 
   const profit =
-    getTradeProfit(trade);
+    Number(
+      trade.profit_loss || 0
+    );
 
   const status =
     trade.status ||
     "closed";
 
-  const closedDate =
-    getTradeDate(trade);
-
   return `
     <tr>
 
-      <td>
-        <span class="market-name">
-          ${escapeHtml(market)}
-        </span>
+      <td class="market-name">
+        ${escapeHtml(market)}
       </td>
 
       <td>
-        ${tradeTypeBadge(type)}
+
+        <span
+          class="trade-type ${escapeHtml(type)}">
+
+          ${escapeHtml(
+            type.toUpperCase()
+          )}
+
+        </span>
+
       </td>
 
       <td>
@@ -2129,14 +2410,19 @@ function tradeRow(trade){
       </td>
 
       <td
-        class="trade-result ${
-          profit < 0
-            ? "profit-negative"
-            : "profit-positive"
-        }">
+        class="
+          trade-result
+          ${
+            profit < 0
+              ? "profit-negative"
+              : "profit-positive"
+          }
+        ">
 
         ${escapeHtml(
-          formatTradeResult(profit)
+          formatTradeResult(
+            profit
+          )
         )}
 
       </td>
@@ -2145,9 +2431,13 @@ function tradeRow(trade){
         ${statusBadge(status)}
       </td>
 
-      <td class="trade-date">
+      <td>
         ${escapeHtml(
-          formatDate(closedDate)
+          formatDate(
+            getTradeDate(
+              trade
+            )
+          )
         )}
       </td>
 
@@ -2158,7 +2448,9 @@ function tradeRow(trade){
 async function loadTrades(){
 
   if(!currentUser){
+
     return;
+
   }
 
   const recentBody =
@@ -2166,14 +2458,14 @@ async function loadTrades(){
       "tradeHistoryBody"
     );
 
-  const recentEmpty =
-    document.getElementById(
-      "tradeHistoryEmpty"
-    );
-
   const fullBody =
     document.getElementById(
       "fullTradeHistoryBody"
+    );
+
+  const recentEmpty =
+    document.getElementById(
+      "tradeHistoryEmpty"
     );
 
   const fullEmpty =
@@ -2196,78 +2488,69 @@ async function loadTrades(){
       );
 
     if(error){
+
       throw error;
+
     }
 
     const trades =
       data || [];
 
-    const sortedTrades =
-      [...trades]
-        .sort((a,b)=>{
+    const sorted =
+      [...trades].sort(
+        (a,b)=>
+          new Date(
+            getTradeDate(b) || 0
+          ) -
+          new Date(
+            getTradeDate(a) || 0
+          )
+      );
 
-          const aDate =
-            new Date(
-              getTradeDate(a) || 0
-            ).getTime();
+    document
+      .getElementById(
+        "totalTrades"
+      )
+      .textContent =
+        sorted.length;
 
-          const bDate =
-            new Date(
-              getTradeDate(b) || 0
-            ).getTime();
+    if(!sorted.length){
 
-          return bDate - aDate;
-        });
+      recentBody.innerHTML =
+        "";
 
-    document.getElementById(
-      "totalTrades"
-    ).textContent =
-      sortedTrades.length;
-
-    /* RECENT TRADES */
-
-    if(!sortedTrades.length){
-
-      recentBody.innerHTML = "";
+      fullBody.innerHTML =
+        "";
 
       recentEmpty.classList.remove(
         "hidden"
       );
 
-    }else{
-
-      recentEmpty.classList.add(
-        "hidden"
-      );
-
-      recentBody.innerHTML =
-        sortedTrades
-          .slice(0,5)
-          .map(tradeRow)
-          .join("");
-    }
-
-    /* FULL HISTORY */
-
-    if(!sortedTrades.length){
-
-      fullBody.innerHTML = "";
-
       fullEmpty.classList.remove(
         "hidden"
       );
 
-    }else{
-
-      fullEmpty.classList.add(
-        "hidden"
-      );
-
-      fullBody.innerHTML =
-        sortedTrades
-          .map(tradeRow)
-          .join("");
+      return;
     }
+
+    recentEmpty.classList.add(
+      "hidden"
+    );
+
+    fullEmpty.classList.add(
+      "hidden"
+    );
+
+    recentBody.innerHTML =
+      sorted
+        .slice(0,5)
+        .map(tradeRow)
+        .join("");
+
+    fullBody.innerHTML =
+      sorted
+        .map(tradeRow)
+        .join("");
 
   }
   catch(error){
@@ -2277,34 +2560,12 @@ async function loadTrades(){
       error
     );
 
-    document.getElementById(
-      "totalTrades"
-    ).textContent =
-      "0";
-
-    recentBody.innerHTML = "";
-
-    recentEmpty.textContent =
-      "Trades could not be loaded.";
-
-    recentEmpty.classList.remove(
-      "hidden"
-    );
-
-    fullBody.innerHTML = "";
-
-    fullEmpty.textContent =
-      "Trading history could not be loaded.";
-
-    fullEmpty.classList.remove(
-      "hidden"
-    );
   }
 }
 
-/* =====================================================
+/* ===============================
    DEPOSIT WALLETS
-===================================================== */
+================================ */
 
 async function loadDepositWallets(){
 
@@ -2325,7 +2586,8 @@ async function loadDepositWallets(){
   loading.textContent =
     "Loading deposit wallets...";
 
-  grid.innerHTML = "";
+  grid.innerHTML =
+    "";
 
   try{
 
@@ -2334,19 +2596,34 @@ async function loadDepositWallets(){
       error
     } =
     await supabaseClient
-      .from("deposit_wallets")
-      .select("*");
+      .from(
+        "deposit_wallets"
+      )
+      .select(
+        "asset,network,wallet_address,minimum_deposit,is_active,created_at"
+      )
+      .eq(
+        "is_active",
+        true
+      )
+      .order(
+        "created_at",
+        {
+          ascending:true
+        }
+      );
 
     if(error){
+
       throw error;
+
     }
 
     const wallets =
       (data || [])
         .filter(
           wallet =>
-            wallet.active !== false &&
-            wallet.is_active !== false
+            wallet.wallet_address
         );
 
     if(!wallets.length){
@@ -2357,38 +2634,47 @@ async function loadDepositWallets(){
       return;
     }
 
-    const cards =
+    loading.classList.add(
+      "hidden"
+    );
+
+    grid.innerHTML =
       wallets.map(wallet=>{
 
-        const coin =
-          wallet.asset ||
-          wallet.coin ||
-          wallet.currency ||
-          wallet.symbol ||
-          "Crypto";
+        const asset =
+          String(
+            wallet.asset ||
+            "Crypto"
+          ).toUpperCase();
 
         const network =
           wallet.network ||
-          wallet.chain ||
           "Network";
 
         const address =
-          wallet.address ||
-          wallet.wallet_address ||
-          wallet.deposit_address ||
-          "";
+          String(
+            wallet.wallet_address
+          );
 
-        if(!address){
-          return "";
-        }
+        const minimum =
+          Number(
+            wallet.minimum_deposit ||
+            0
+          );
+
+        const minimumText =
+          minimum > 0
+            ? `${minimum} ${asset}`
+            : "Not specified";
 
         return `
+
           <div class="wallet-card">
 
             <div class="wallet-top">
 
               <div class="wallet-coin">
-                ${escapeHtml(coin)}
+                ${escapeHtml(asset)}
               </div>
 
               <div class="wallet-network">
@@ -2397,16 +2683,80 @@ async function loadDepositWallets(){
 
             </div>
 
+            <div
+              style="
+                color:#8fa2bf;
+                font-size:11px;
+                font-weight:800;
+                margin-bottom:7px;
+                text-transform:uppercase;
+              ">
+
+              Deposit Address
+
+            </div>
+
             <div class="wallet-address">
+
               ${escapeHtml(address)}
+
+            </div>
+
+            <div
+              style="
+                padding:11px 12px;
+                background:#071827;
+                border:1px solid #173553;
+                border-radius:10px;
+                margin-bottom:13px;
+              ">
+
+              <div
+                style="
+                  color:#7188a3;
+                  font-size:10px;
+                  text-transform:uppercase;
+                  margin-bottom:5px;
+                ">
+
+                Minimum Deposit
+
+              </div>
+
+              <strong>
+
+                ${escapeHtml(
+                  minimumText
+                )}
+
+              </strong>
+
             </div>
 
             <div class="wallet-note">
-              Confirm the asset and network carefully before sending.
+
+              ⚠ Send only
+
+              <strong>
+                ${escapeHtml(asset)}
+              </strong>
+
+              using the
+
+              <strong>
+                ${escapeHtml(network)}
+              </strong>
+
+              network.
+
             </div>
 
             <button
-              class="btn btn-primary copy-wallet-btn"
+              class="
+                btn
+                btn-primary
+                copy-wallet-btn
+              "
               data-address="${escapeHtml(address)}"
               type="button">
 
@@ -2415,26 +2765,12 @@ async function loadDepositWallets(){
             </button>
 
           </div>
+
         `;
 
       }).join("");
 
-    if(!cards.trim()){
-
-      loading.textContent =
-        "No valid deposit addresses are available.";
-
-      return;
-    }
-
-    loading.classList.add(
-      "hidden"
-    );
-
-    grid.innerHTML =
-      cards;
-
-    grid
+    document
       .querySelectorAll(
         ".copy-wallet-btn"
       )
@@ -2443,7 +2779,8 @@ async function loadDepositWallets(){
         button.addEventListener(
           "click",
           ()=>copyWallet(
-            button.dataset.address
+            button.dataset.address,
+            button
           )
         );
 
@@ -2453,25 +2790,43 @@ async function loadDepositWallets(){
   catch(error){
 
     console.error(
-      "Wallet error:",
+      "Deposit wallet error:",
       error
     );
 
     loading.textContent =
       "Deposit addresses could not be loaded.";
+
   }
 }
 
-async function copyWallet(address){
+async function copyWallet(
+  address,
+  button
+){
 
   try{
 
-    await navigator.clipboard.writeText(
-      address
-    );
+    await navigator
+      .clipboard
+      .writeText(
+        address
+      );
 
-    alert(
-      "Wallet address copied."
+    const oldText =
+      button.textContent;
+
+    button.textContent =
+      "✓ Address Copied";
+
+    setTimeout(
+      ()=>{
+
+        button.textContent =
+          oldText;
+
+      },
+      1800
     );
 
   }
@@ -2481,14 +2836,17 @@ async function copyWallet(address){
       "Copy this wallet address:",
       address
     );
+
   }
 }
 
-/* =====================================================
-   WITHDRAWAL TABS
-===================================================== */
+/* ===============================
+   WITHDRAWAL METHOD
+================================ */
 
-function showWithdrawalMethod(method){
+function showWithdrawalMethod(
+  method
+){
 
   const crypto =
     document.getElementById(
@@ -2528,7 +2886,8 @@ function showWithdrawalMethod(method){
       "active"
     );
 
-  }else{
+  }
+  else{
 
     bank.classList.add(
       "hidden"
@@ -2545,91 +2904,104 @@ function showWithdrawalMethod(method){
     cryptoButton.classList.add(
       "active"
     );
+
   }
 }
 
-/* =====================================================
+/* ===============================
    CRYPTO WITHDRAWAL
-===================================================== */
+================================ */
 
-document.getElementById(
-  "cryptoWithdrawalForm"
-).addEventListener(
-  "submit",
-  async event=>{
+document
+  .getElementById(
+    "cryptoWithdrawalForm"
+  )
+  .addEventListener(
+    "submit",
+    async event=>{
 
-    event.preventDefault();
+      event.preventDefault();
 
-    if(!currentUser){
-      return;
-    }
+      if(!currentUser){
 
-    const currency =
-      document.getElementById(
-        "cryptoCurrency"
-      ).value;
+        return;
 
-    const amount =
-      Number(
+      }
+
+      const amount =
+        Number(
+          document
+            .getElementById(
+              "cryptoAmount"
+            )
+            .value
+        );
+
+      const currency =
+        document
+          .getElementById(
+            "cryptoCurrency"
+          )
+          .value;
+
+      const network =
+        document
+          .getElementById(
+            "cryptoNetwork"
+          )
+          .value;
+
+      const destination =
+        document
+          .getElementById(
+            "cryptoDestination"
+          )
+          .value
+          .trim();
+
+      if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+      ){
+
+        alert(
+          "Enter a valid withdrawal amount."
+        );
+
+        return;
+
+      }
+
+      if(!destination){
+
+        alert(
+          "Enter your receiving wallet address."
+        );
+
+        return;
+
+      }
+
+      const button =
         document.getElementById(
-          "cryptoAmount"
-        ).value
-      );
+          "cryptoWithdrawBtn"
+        );
 
-    const network =
-      document.getElementById(
-        "cryptoNetwork"
-      ).value;
+      button.disabled =
+        true;
 
-    const destination =
-      document.getElementById(
-        "cryptoDestination"
-      ).value.trim();
+      button.textContent =
+        "Submitting...";
 
-    if(
-      !Number.isFinite(amount) ||
-      amount <= 0
-    ){
+      try{
 
-      alert(
-        "Enter a valid withdrawal amount."
-      );
-
-      return;
-    }
-
-    if(!destination){
-
-      alert(
-        "Enter your receiving wallet address."
-      );
-
-      return;
-    }
-
-    if(
-      !confirm(
-        `Submit withdrawal request?\n\n${amount} ${currency}\n${network}\n${destination}`
-      )
-    ){
-      return;
-    }
-
-    const button =
-      document.getElementById(
-        "cryptoWithdrawBtn"
-      );
-
-    button.disabled = true;
-
-    button.textContent =
-      "Submitting...";
-
-    try{
-
-      const {error} =
+        const {
+          error
+        } =
         await supabaseClient
-          .from("withdrawal_requests")
+          .from(
+            "withdrawal_requests"
+          )
           .insert({
 
             user_id:
@@ -2661,145 +3033,122 @@ document.getElementById(
 
             status:
               "pending"
+
           });
 
-      if(error){
-        throw error;
+        if(error){
+
+          throw error;
+
+        }
+
+        alert(
+          "Your withdrawal request has been submitted."
+        );
+
+        document
+          .getElementById(
+            "cryptoWithdrawalForm"
+          )
+          .reset();
+
+        await loadWithdrawalHistory();
+
+      }
+      catch(error){
+
+        console.error(
+          error
+        );
+
+        alert(
+          "Could not submit withdrawal request.\n\n" +
+          error.message
+        );
+
+      }
+      finally{
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Submit Crypto Withdrawal";
+
       }
 
-      alert(
-        "Your withdrawal request has been submitted."
-      );
-
-      document.getElementById(
-        "cryptoWithdrawalForm"
-      ).reset();
-
-      await loadWithdrawalHistory();
-
     }
-    catch(error){
+  );
 
-      console.error(error);
+/* ===============================
+   BANK WITHDRAWAL
+================================ */
 
-      alert(
-        "Could not submit withdrawal request.\n\n" +
-        error.message
-      );
+document
+  .getElementById(
+    "bankWithdrawalForm"
+  )
+  .addEventListener(
+    "submit",
+    async event=>{
 
-    }
-    finally{
+      event.preventDefault();
 
-      button.disabled = false;
+      if(!currentUser){
+
+        return;
+
+      }
+
+      const amount =
+        Number(
+          document
+            .getElementById(
+              "bankAmount"
+            )
+            .value
+        );
+
+      const currency =
+        document
+          .getElementById(
+            "bankCurrency"
+          )
+          .value;
+
+      if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+      ){
+
+        alert(
+          "Enter a valid withdrawal amount."
+        );
+
+        return;
+
+      }
+
+      const button =
+        document.getElementById(
+          "bankWithdrawBtn"
+        );
+
+      button.disabled =
+        true;
 
       button.textContent =
-        "Submit Crypto Withdrawal";
-    }
-  }
-);
+        "Submitting...";
 
-/* =====================================================
-   BANK WITHDRAWAL
-===================================================== */
+      try{
 
-document.getElementById(
-  "bankWithdrawalForm"
-).addEventListener(
-  "submit",
-  async event=>{
-
-    event.preventDefault();
-
-    if(!currentUser){
-      return;
-    }
-
-    const amount =
-      Number(
-        document.getElementById(
-          "bankAmount"
-        ).value
-      );
-
-    const currency =
-      document.getElementById(
-        "bankCurrency"
-      ).value;
-
-    const bankName =
-      document.getElementById(
-        "bankName"
-      ).value.trim();
-
-    const accountName =
-      document.getElementById(
-        "bankAccountName"
-      ).value.trim();
-
-    const accountNumber =
-      document.getElementById(
-        "bankAccountNumber"
-      ).value.trim();
-
-    const bankCountry =
-      document.getElementById(
-        "bankCountry"
-      ).value.trim();
-
-    const routing =
-      document.getElementById(
-        "bankRouting"
-      ).value.trim();
-
-    if(
-      !Number.isFinite(amount) ||
-      amount <= 0
-    ){
-
-      alert(
-        "Enter a valid withdrawal amount."
-      );
-
-      return;
-    }
-
-    if(
-      !bankName ||
-      !accountName ||
-      !accountNumber ||
-      !bankCountry
-    ){
-
-      alert(
-        "Complete all required bank information."
-      );
-
-      return;
-    }
-
-    if(
-      !confirm(
-        `Submit bank withdrawal request?\n\n${amount} ${currency}\n${bankName}\n${accountName}`
-      )
-    ){
-      return;
-    }
-
-    const button =
-      document.getElementById(
-        "bankWithdrawBtn"
-      );
-
-    button.disabled = true;
-
-    button.textContent =
-      "Submitting...";
-
-    try{
-
-      const {error} =
+        const {
+          error
+        } =
         await supabaseClient
-          .from("withdrawal_requests")
+          .from(
+            "withdrawal_requests"
+          )
           .insert({
 
             user_id:
@@ -2818,67 +3167,105 @@ document.getElementById(
               currency,
 
             account_holder:
-              accountName,
+              document
+                .getElementById(
+                  "bankAccountName"
+                )
+                .value
+                .trim(),
 
             bank_name:
-              bankName,
+              document
+                .getElementById(
+                  "bankName"
+                )
+                .value
+                .trim(),
 
             account_number:
-              accountNumber,
+              document
+                .getElementById(
+                  "bankAccountNumber"
+                )
+                .value
+                .trim(),
 
             bank_country:
-              bankCountry,
+              document
+                .getElementById(
+                  "bankCountry"
+                )
+                .value
+                .trim(),
 
             routing_or_swift:
-              routing || null,
+              document
+                .getElementById(
+                  "bankRouting"
+                )
+                .value
+                .trim() ||
+              null,
 
             status:
               "pending"
+
           });
 
-      if(error){
-        throw error;
+        if(error){
+
+          throw error;
+
+        }
+
+        alert(
+          "Your bank withdrawal request has been submitted."
+        );
+
+        document
+          .getElementById(
+            "bankWithdrawalForm"
+          )
+          .reset();
+
+        await loadWithdrawalHistory();
+
+      }
+      catch(error){
+
+        console.error(
+          error
+        );
+
+        alert(
+          "Could not submit bank withdrawal request.\n\n" +
+          error.message
+        );
+
+      }
+      finally{
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Submit Bank Withdrawal";
+
       }
 
-      alert(
-        "Your bank withdrawal request has been submitted."
-      );
-
-      document.getElementById(
-        "bankWithdrawalForm"
-      ).reset();
-
-      await loadWithdrawalHistory();
-
     }
-    catch(error){
+  );
 
-      console.error(error);
-
-      alert(
-        "Could not submit bank withdrawal request.\n\n" +
-        error.message
-      );
-
-    }
-    finally{
-
-      button.disabled = false;
-
-      button.textContent =
-        "Submit Bank Withdrawal";
-    }
-  }
-);
-
-/* =====================================================
+/* ===============================
    WITHDRAWAL HISTORY
-===================================================== */
+================================ */
 
 async function loadWithdrawalHistory(){
 
   if(!currentUser){
+
     return;
+
   }
 
   const body =
@@ -2891,10 +3278,6 @@ async function loadWithdrawalHistory(){
       "withdrawalHistoryEmpty"
     );
 
-  empty.classList.add(
-    "hidden"
-  );
-
   try{
 
     const {
@@ -2902,7 +3285,9 @@ async function loadWithdrawalHistory(){
       error
     } =
     await supabaseClient
-      .from("withdrawal_requests")
+      .from(
+        "withdrawal_requests"
+      )
       .select(
         "method,withdrawal_type,amount,currency,status,created_at"
       )
@@ -2912,11 +3297,15 @@ async function loadWithdrawalHistory(){
       )
       .order(
         "created_at",
-        {ascending:false}
+        {
+          ascending:false
+        }
       );
 
     if(error){
+
       throw error;
+
     }
 
     const rows =
@@ -2924,61 +3313,86 @@ async function loadWithdrawalHistory(){
 
     if(!rows.length){
 
-      body.innerHTML = "";
+      body.innerHTML =
+        "";
 
       empty.classList.remove(
         "hidden"
       );
 
       return;
+
     }
 
+    empty.classList.add(
+      "hidden"
+    );
+
     body.innerHTML =
-      rows.map(item=>{
+      rows.map(item=>`
 
-        const method =
-          item.method ||
-          item.withdrawal_type ||
-          "—";
+        <tr>
 
-        return `
-          <tr>
+          <td>
 
-            <td>
-              ${escapeHtml(method)}
-            </td>
+            ${escapeHtml(
+              item.method ||
+              item.withdrawal_type ||
+              "—"
+            )}
 
-            <td>
-              ${escapeHtml(item.amount ?? "—")}
-            </td>
+          </td>
 
-            <td>
-              ${escapeHtml(item.currency || "—")}
-            </td>
+          <td>
 
-            <td>
-              ${statusBadge(item.status)}
-            </td>
+            ${escapeHtml(
+              item.amount ??
+              "—"
+            )}
 
-            <td>
-              ${escapeHtml(
-                formatDate(
-                  item.created_at
-                )
-              )}
-            </td>
+          </td>
 
-          </tr>
-        `;
+          <td>
 
-      }).join("");
+            ${escapeHtml(
+              item.currency ||
+              "—"
+            )}
+
+          </td>
+
+          <td>
+
+            ${statusBadge(
+              item.status
+            )}
+
+          </td>
+
+          <td>
+
+            ${escapeHtml(
+              formatDate(
+                item.created_at
+              )
+            )}
+
+          </td>
+
+        </tr>
+
+      `).join("");
 
   }
   catch(error){
 
-    console.error(error);
+    console.error(
+      "Withdrawal history error:",
+      error
+    );
 
-    body.innerHTML = "";
+    body.innerHTML =
+      "";
 
     empty.textContent =
       "Withdrawal history could not be loaded.";
@@ -2986,12 +3400,13 @@ async function loadWithdrawalHistory(){
     empty.classList.remove(
       "hidden"
     );
+
   }
 }
 
-/* =====================================================
+/* ===============================
    LOGOUT
-===================================================== */
+================================ */
 
 const logoutBtn =
   document.getElementById(
@@ -3002,20 +3417,25 @@ logoutBtn.addEventListener(
   "click",
   async ()=>{
 
-    logoutBtn.disabled = true;
+    logoutBtn.disabled =
+      true;
 
     logoutBtn.textContent =
       "Logging out...";
 
     try{
 
-      const {error} =
-        await supabaseClient
-          .auth
-          .signOut();
+      const {
+        error
+      } =
+      await supabaseClient
+        .auth
+        .signOut();
 
       if(error){
+
         throw error;
+
       }
 
       window.location.replace(
@@ -3025,99 +3445,138 @@ logoutBtn.addEventListener(
     }
     catch(error){
 
-      console.error(error);
+      console.error(
+        error
+      );
+
+      logoutBtn.disabled =
+        false;
+
+      logoutBtn.textContent =
+        "Log Out";
 
       alert(
         "Unable to log out. Please try again."
       );
 
-      logoutBtn.disabled = false;
-
-      logoutBtn.textContent =
-        "Log Out";
     }
+
   }
 );
 
-/* =====================================================
+/* ===============================
    AUTH STATE
-===================================================== */
+================================ */
 
-supabaseClient.auth.onAuthStateChange(
-  (event,session)=>{
+supabaseClient
+  .auth
+  .onAuthStateChange(
+    (
+      event,
+      session
+    )=>{
 
-    if(event === "SIGNED_OUT"){
+      if(
+        event ===
+        "SIGNED_OUT"
+      ){
 
-      window.location.replace(
-        "login.html"
-      );
+        window.location.replace(
+          "login.html"
+        );
+
+      }
+
     }
-  }
-);
+  );
 
-/* =====================================================
+/* ===============================
    MOBILE MENU
-===================================================== */
+================================ */
 
-document.getElementById(
-  "menuButton"
-).addEventListener(
-  "click",
-  ()=>{
+document
+  .getElementById(
+    "menuButton"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
 
-    document.getElementById(
-      "sidebar"
-    ).classList.toggle(
-      "open"
-    );
-  }
-);
+      document
+        .getElementById(
+          "sidebar"
+        )
+        .classList
+        .toggle(
+          "open"
+        );
 
-/* =====================================================
+    }
+  );
+
+/* ===============================
    COPYRIGHT
-===================================================== */
+================================ */
 
-document.getElementById(
-  "year"
-).textContent =
-  new Date().getFullYear();
+document
+  .getElementById(
+    "year"
+  )
+  .textContent =
+    new Date()
+      .getFullYear();
 
-/* =====================================================
+/* ===============================
    START
-===================================================== */
+================================ */
 
 secureDashboard();
 
 </script>
 
-<!-- TAWK.TO LIVE SUPPORT -->
+<!-- =============================
+     TAWK.TO LIVE SUPPORT
+============================== -->
 
 <script type="text/javascript">
 
-var Tawk_API=Tawk_API||{},
-Tawk_LoadStart=new Date();
+var Tawk_API =
+  Tawk_API || {};
+
+var Tawk_LoadStart =
+  new Date();
 
 (function(){
 
-var s1=document.createElement("script"),
-s0=document.getElementsByTagName("script")[0];
+  var s1 =
+    document.createElement(
+      "script"
+    );
 
-s1.async=true;
+  var s0 =
+    document
+      .getElementsByTagName(
+        "script"
+      )[0];
 
-s1.src=
-'https://embed.tawk.to/6ab51df05abce934461ff239/default';
+  s1.async =
+    true;
 
-s1.charset='UTF-8';
+  s1.src =
+    "https://embed.tawk.to/6ab51df05abce934461ff239/default";
 
-s1.setAttribute(
-  'crossorigin',
-  '*'
-);
+  s1.charset =
+    "UTF-8";
 
-s0.parentNode.insertBefore(
-  s1,
-  s0
-);
+  s1.setAttribute(
+    "crossorigin",
+    "*"
+  );
+
+  s0.parentNode.insertBefore(
+    s1,
+    s0
+  );
 
 })();
 
