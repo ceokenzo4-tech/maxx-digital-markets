@@ -1,1176 +1,633 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sign In | Maxx Digital Markets</title>
+  <title>Login | MAXX Digital Markets</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-:root{
-    --bg:#050b16;
-    --panel:#0b1527;
-    --border:#1d2b43;
-    --text:#f8fafc;
-    --muted:#8fa0b8;
-    --blue:#2563eb;
-    --blue-light:#60a5fa;
-    --green:#22c55e;
-    --red:#ef4444;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    min-height:100vh;
-    font-family:Arial,Helvetica,sans-serif;
-    color:var(--text);
-
-    background:
-    radial-gradient(circle at 10% 10%,
-    rgba(37,99,235,.20),transparent 30%),
-
-    radial-gradient(circle at 90% 90%,
-    rgba(56,189,248,.10),transparent 30%),
-
-    var(--bg);
-}
-
-a{
-    color:inherit;
-    text-decoration:none;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-header{
-    height:76px;
-    padding:0 6%;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    background:rgba(5,11,22,.94);
-    border-bottom:1px solid var(--border);
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    font-weight:800;
-    letter-spacing:.4px;
-}
-
-.logo{
-    width:42px;
-    height:42px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:11px;
-
-    background:linear-gradient(
-        135deg,
-        #2563eb,
-        #38bdf8
-    );
-
-    box-shadow:
-    0 10px 30px rgba(37,99,235,.30);
-}
-
-.home-link{
-    color:#a8b6ca;
-    font-size:14px;
-}
-
-.home-link:hover{
-    color:white;
-}
-
-/* =========================
-   PAGE
-========================= */
-
-.page{
-    min-height:calc(100vh - 76px);
-
-    display:grid;
-    grid-template-columns:1fr 1fr;
-}
-
-/* =========================
-   LEFT SECTION
-========================= */
-
-.intro{
-    padding:70px 9%;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-
-    border-right:1px solid var(--border);
-}
-
-.badge{
-    width:max-content;
-
-    margin-bottom:25px;
-    padding:8px 14px;
-
-    border-radius:100px;
-
-    border:1px solid rgba(56,189,248,.25);
-
-    background:rgba(37,99,235,.10);
-
-    color:#7dd3fc;
-
-    font-size:12px;
-    font-weight:bold;
-}
-
-.intro h1{
-    max-width:650px;
-
-    margin-bottom:24px;
-
-    font-size:clamp(40px,5vw,65px);
-    line-height:1.04;
-}
-
-.intro h1 span{
-    color:var(--blue-light);
-}
-
-.intro p{
-    max-width:590px;
-
-    color:var(--muted);
-
-    font-size:16px;
-    line-height:1.8;
-}
-
-.points{
-    display:grid;
-    gap:16px;
-
-    margin-top:35px;
-}
-
-.point{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    color:#dbeafe;
-
-    font-size:14px;
-}
-
-.check{
-    width:28px;
-    height:28px;
-
-    display:grid;
-    place-items:center;
-
-    flex-shrink:0;
-
-    border-radius:8px;
-
-    background:rgba(34,197,94,.10);
-    border:1px solid rgba(34,197,94,.25);
-
-    color:#4ade80;
-}
-
-/* =========================
-   LOGIN SIDE
-========================= */
-
-.login-area{
-    padding:45px 25px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.card{
-    width:100%;
-    max-width:500px;
-
-    padding:38px;
-
-    border:1px solid var(--border);
-    border-radius:24px;
-
-    background:
-    linear-gradient(
-        180deg,
-        rgba(14,27,49,.98),
-        rgba(7,16,31,.98)
-    );
-
-    box-shadow:
-    0 30px 80px rgba(0,0,0,.35);
-}
-
-.card h2{
-    margin-bottom:8px;
-
-    font-size:30px;
-}
-
-.subtitle{
-    margin-bottom:28px;
-
-    color:var(--muted);
-
-    font-size:14px;
-    line-height:1.6;
-}
-
-/* =========================
-   MESSAGE
-========================= */
-
-.message{
-    display:none;
-
-    margin-bottom:20px;
-    padding:14px;
-
-    border-radius:10px;
-
-    font-size:13px;
-    line-height:1.6;
-}
-
-.message.error{
-    display:block;
-
-    color:#fecaca;
-
-    background:rgba(239,68,68,.10);
-    border:1px solid rgba(239,68,68,.30);
-}
-
-.message.success{
-    display:block;
-
-    color:#bbf7d0;
-
-    background:rgba(34,197,94,.10);
-    border:1px solid rgba(34,197,94,.30);
-}
-
-.message.info{
-    display:block;
-
-    color:#bfdbfe;
-
-    background:rgba(37,99,235,.10);
-    border:1px solid rgba(59,130,246,.30);
-}
-
-/* =========================
-   FORM
-========================= */
-
-.field{
-    margin-bottom:18px;
-}
-
-label{
-    display:block;
-
-    margin-bottom:8px;
-
-    color:#dce7f7;
-
-    font-size:13px;
-    font-weight:600;
-}
-
-input{
-    width:100%;
-    height:52px;
-
-    padding:0 14px;
-
-    border:1px solid #263750;
-    border-radius:11px;
-
-    outline:none;
-
-    background:#071225;
-
-    color:white;
-
-    font-size:14px;
-}
-
-input::placeholder{
-    color:#60718a;
-}
-
-input:focus{
-    border-color:#3b82f6;
-
-    box-shadow:
-    0 0 0 3px rgba(59,130,246,.12);
-}
-
-/* =========================
-   PASSWORD
-========================= */
-
-.password-box{
-    position:relative;
-}
-
-.password-box input{
-    padding-right:70px;
-}
-
-.show-password{
-    position:absolute;
-
-    top:50%;
-    right:13px;
-
-    transform:translateY(-50%);
-
-    cursor:pointer;
-    user-select:none;
-
-    color:#60a5fa;
-
-    font-size:12px;
-    font-weight:bold;
-}
-
-/* =========================
-   OPTIONS
-========================= */
-
-.options{
-    margin-top:2px;
-    margin-bottom:22px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:15px;
-}
-
-.remember{
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    color:var(--muted);
-
-    font-size:13px;
-}
-
-.remember input{
-    width:16px;
-    height:16px;
-
-    accent-color:#2563eb;
-}
-
-.forgot{
-    border:0;
-    padding:0;
-
-    cursor:pointer;
-
-    background:none;
-
-    color:#60a5fa;
-
-    font-size:13px;
-    font-weight:600;
-}
-
-.forgot:hover{
-    text-decoration:underline;
-}
-
-/* =========================
-   SIGN IN BUTTON
-========================= */
-
-.signin-button{
-    width:100%;
-    height:52px;
-
-    border:0;
-    border-radius:11px;
-
-    cursor:pointer;
-
-    background:
-    linear-gradient(
-        135deg,
-        #2563eb,
-        #3b82f6
-    );
-
-    color:white;
-
-    font-size:15px;
-    font-weight:bold;
-
-    box-shadow:
-    0 12px 30px rgba(37,99,235,.25);
-}
-
-.signin-button:hover{
-    opacity:.95;
-}
-
-.signin-button:disabled{
-    opacity:.6;
-    cursor:not-allowed;
-}
-
-/* =========================
-   REGISTER
-========================= */
-
-.register{
-    margin-top:24px;
-
-    text-align:center;
-
-    color:var(--muted);
-
-    font-size:14px;
-}
-
-.register a{
-    color:#60a5fa;
-    font-weight:bold;
-}
-
-/* =========================
-   SECURITY
-========================= */
-
-.security{
-    margin-top:22px;
-    padding-top:20px;
-
-    border-top:1px solid var(--border);
-
-    text-align:center;
-
-    color:#60718a;
-
-    font-size:11px;
-    line-height:1.6;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:900px){
-
-    .page{
-        grid-template-columns:1fr;
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .intro{
-        display:none;
-    }
-}
-
-@media(max-width:550px){
-
-    header{
-        padding:0 18px;
-    }
-
-    .brand{
-        font-size:14px;
+    :root {
+      --bg: #050b16;
+      --panel: #0b1527;
+      --border: #1d2b43;
+      --text: #f8fafc;
+      --muted: #8fa0b8;
+      --blue: #2563eb;
+      --blue-light: #60a5fa;
+      --green: #22c55e;
+      --red: #ef4444;
     }
 
-    .login-area{
-        padding:30px 15px;
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 50% 0%, #15284b 0%, #091426 35%, #050b16 70%);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
     }
 
-    .card{
-        padding:28px 20px;
-
-        border-radius:18px;
+    .page {
+      width: 100%;
+      max-width: 440px;
     }
 
-    .options{
-        align-items:flex-start;
+    .brand {
+      text-align: center;
+      margin-bottom: 28px;
     }
-}
-</style>
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 15px;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+      font-weight: 900;
+      box-shadow: 0 12px 35px rgba(37, 99, 235, .28);
+    }
+
+    .brand h1 {
+      font-size: 23px;
+      letter-spacing: .7px;
+    }
+
+    .brand p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .card {
+      background: rgba(11, 21, 39, .96);
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      padding: 32px 26px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, .4);
+    }
+
+    .card h2 {
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 27px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+
+    .input-box {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      height: 54px;
+      border: 1px solid #334155;
+      border-radius: 11px;
+      background: #08111f;
+      color: #fff;
+      padding: 0 15px;
+      font-size: 15px;
+      outline: none;
+      transition: .2s;
+    }
+
+    input::placeholder {
+      color: #64748b;
+    }
+
+    input:focus {
+      border-color: var(--blue-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, .13);
+    }
+
+    .password-input {
+      padding-right: 65px;
+    }
+
+    .show-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .forgot-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -7px;
+      margin-bottom: 21px;
+    }
+
+    .forgot-row a {
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .forgot-row a:hover {
+      text-decoration: underline;
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 54px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .login-btn:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #message {
+      display: none;
+      margin-top: 17px;
+      padding: 13px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    #message.error {
+      display: block;
+      background: rgba(239, 68, 68, .1);
+      border: 1px solid rgba(239, 68, 68, .25);
+      color: #fecaca;
+    }
+
+    #message.success {
+      display: block;
+      background: rgba(34, 197, 94, .1);
+      border: 1px solid rgba(34, 197, 94, .25);
+      color: #bbf7d0;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 25px 0;
+      color: #64748b;
+      font-size: 11px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      background: #263449;
+      flex: 1;
+    }
+
+    .register {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .register a {
+      color: #93c5fd;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .security {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 25px;
+      color: #64748b;
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .footer {
+      margin-top: 22px;
+      text-align: center;
+      color: #475569;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 18px;
+      }
+
+      .card {
+        padding: 28px 21px;
+      }
+
+      .card h2 {
+        font-size: 25px;
+      }
+
+      .brand h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <main class="page">
 
-<a href="index.html" class="brand">
+    <header class="brand">
+      <div class="logo">M</div>
 
-    <div class="logo">
-        M
-    </div>
+      <h1>MAXX DIGITAL MARKETS</h1>
 
-    MAXX DIGITAL MARKETS
-
-</a>
-
-<a href="index.html" class="home-link">
-    Back to Home
-</a>
-
-</header>
+      <p>Secure Client Access</p>
+    </header>
 
 
-<main class="page">
+    <section class="card">
 
-<!-- =========================
-     LEFT SIDE
-========================= -->
+      <h2>Welcome back</h2>
 
-<section class="intro">
-
-    <div class="badge">
-        SECURE ACCOUNT ACCESS
-    </div>
-
-    <h1>
-        Welcome back to
-        <span>Maxx Digital Markets.</span>
-    </h1>
-
-    <p>
-        Sign in to access your account dashboard, account
-        information and available market tools from one
-        secure location.
-    </p>
-
-    <div class="points">
-
-        <div class="point">
-            <div class="check">✓</div>
-            Secure authentication
-        </div>
-
-        <div class="point">
-            <div class="check">✓</div>
-            Verified account access
-        </div>
-
-        <div class="point">
-            <div class="check">✓</div>
-            Responsive account dashboard
-        </div>
-
-        <div class="point">
-            <div class="check">✓</div>
-            Secure sign-out controls
-        </div>
-
-    </div>
-
-</section>
+      <p class="subtitle">
+        Sign in to securely access your MAXX Digital Markets account.
+      </p>
 
 
-<!-- =========================
-     LOGIN
-========================= -->
-
-<section class="login-area">
-
-<div class="card">
-
-    <h2>Sign in</h2>
-
-    <p class="subtitle">
-        Enter your verified email address and password to continue.
-    </p>
-
-    <div
-        id="message"
-        class="message">
-    </div>
-
-
-    <form id="loginForm">
+      <form id="loginForm">
 
         <div class="field">
 
-            <label for="email">
-                Email Address
-            </label>
+          <label for="email">
+            Email address
+          </label>
+
+          <div class="input-box">
 
             <input
-                type="email"
-                id="email"
-                autocomplete="email"
-                placeholder="you@example.com"
-                required>
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email address"
+              autocomplete="email"
+              required
+            >
+
+          </div>
 
         </div>
 
 
         <div class="field">
 
-            <label for="password">
-                Password
-            </label>
+          <label for="password">
+            Password
+          </label>
 
-            <div class="password-box">
+          <div class="input-box">
 
-                <input
-                    type="password"
-                    id="password"
-                    autocomplete="current-password"
-                    placeholder="Enter your password"
-                    required>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="password-input"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
 
-                <span
-                    class="show-password"
-                    id="passwordToggle">
-                    SHOW
-                </span>
+            <button
+              type="button"
+              id="showPassword"
+              class="show-password"
+            >
+              SHOW
+            </button>
 
-            </div>
+          </div>
 
         </div>
 
 
-        <div class="options">
+        <div class="forgot-row">
 
-            <label class="remember">
-
-                <input
-                    type="checkbox"
-                    id="remember">
-
-                Remember me
-
-            </label>
-
-
-            <button
-                type="button"
-                class="forgot"
-                id="forgotPassword">
-
-                Forgot password?
-
-            </button>
+          <a href="forgot-password.html">
+            Forgot password?
+          </a>
 
         </div>
 
 
         <button
-            type="submit"
-            class="signin-button"
-            id="loginButton">
-
-            Sign In
-
+          type="submit"
+          id="loginBtn"
+          class="login-btn"
+        >
+          Sign In
         </button>
 
-    </form>
+
+        <div id="message"></div>
+
+      </form>
 
 
-    <div class="register">
+      <div class="divider">
+        NEW TO MAXX?
+      </div>
 
+
+      <div class="register">
         Don't have an account?
-
         <a href="register.html">
-            Create account
+          Create account
         </a>
+      </div>
 
-    </div>
+    </section>
 
 
     <div class="security">
-        Authentication is securely processed through your
-        Maxx Digital Markets account.
+      🔒 Protected account access
     </div>
 
-</div>
 
-</section>
+    <footer class="footer">
+      © 2026 MAXX Digital Markets<br>
+      All rights reserved.
+    </footer>
 
-</main>
-
-
-<script>
-
-/* ========================================
-   SUPABASE CONFIGURATION
-======================================== */
-
-const SUPABASE_URL =
-    "https://dwojraxspohahemiarps.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
+  </main>
 
 
-const supabaseClient =
-    window.supabase.createClient(
+  <script>
+
+    /*
+    ==========================================
+    SUPABASE
+    ==========================================
+    */
+
+    const SUPABASE_URL =
+      "https://dwojraxspohahemiarps.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+      "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
+        SUPABASE_ANON_KEY
+      );
+
+
+    /*
+    ==========================================
+    ELEMENTS
+    ==========================================
+    */
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const emailInput =
+      document.getElementById("email");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const message =
+      document.getElementById("message");
+
+    const showPassword =
+      document.getElementById("showPassword");
+
+
+    /*
+    ==========================================
+    SHOW / HIDE PASSWORD
+    ==========================================
+    */
+
+    showPassword.addEventListener(
+      "click",
+      function() {
+
+        if (passwordInput.type === "password") {
+
+          passwordInput.type = "text";
+
+          showPassword.textContent = "HIDE";
+
+        } else {
+
+          passwordInput.type = "password";
+
+          showPassword.textContent = "SHOW";
+
+        }
+
+      }
     );
 
 
-/* ========================================
-   ELEMENTS
-======================================== */
+    /*
+    ==========================================
+    LOGIN
+    ==========================================
+    */
 
-const loginForm =
-    document.getElementById("loginForm");
-
-const emailInput =
-    document.getElementById("email");
-
-const passwordInput =
-    document.getElementById("password");
-
-const loginButton =
-    document.getElementById("loginButton");
-
-const message =
-    document.getElementById("message");
-
-const passwordToggle =
-    document.getElementById("passwordToggle");
-
-const forgotPasswordButton =
-    document.getElementById("forgotPassword");
-
-
-/* ========================================
-   MESSAGE
-======================================== */
-
-function showMessage(text,type){
-
-    message.textContent = text;
-
-    message.className =
-        "message " + type;
-}
-
-
-function clearMessage(){
-
-    message.textContent = "";
-
-    message.className = "message";
-}
-
-
-/* ========================================
-   PASSWORD SHOW / HIDE
-======================================== */
-
-passwordToggle.addEventListener(
-    "click",
-    function(){
-
-        if(passwordInput.type === "password"){
-
-            passwordInput.type = "text";
-
-            passwordToggle.textContent =
-                "HIDE";
-
-        }else{
-
-            passwordInput.type =
-                "password";
-
-            passwordToggle.textContent =
-                "SHOW";
-        }
-    }
-);
-
-
-/* ========================================
-   CHECK EXISTING SESSION
-======================================== */
-
-async function checkExistingSession(){
-
-    try{
-
-        const {
-            data:{
-                session
-            }
-        } =
-        await supabaseClient.auth.getSession();
-
-
-        /*
-        If the user is already authenticated,
-        send them directly to the dashboard.
-        */
-
-        if(session){
-
-            window.location.replace(
-                "dashboard.html"
-            );
-
-        }
-
-    }catch(error){
-
-        console.error(
-            "Session check error:",
-            error
-        );
-
-    }
-
-}
-
-
-checkExistingSession();
-
-
-/* ========================================
-   LOGIN
-======================================== */
-
-loginForm.addEventListener(
-    "submit",
-    async function(event){
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
 
         event.preventDefault();
 
-        clearMessage();
-
 
         const email =
-            emailInput
-            .value
-            .trim()
-            .toLowerCase();
-
+          emailInput.value.trim();
 
         const password =
-            passwordInput.value;
+          passwordInput.value;
 
 
-        if(!email || !password){
+        if (!email || !password) {
 
-            showMessage(
-                "Please enter your email address and password.",
-                "error"
-            );
+          showMessage(
+            "Please enter your email address and password.",
+            "error"
+          );
 
-            return;
+          return;
+
         }
 
 
-        loginButton.disabled = true;
+        loginBtn.disabled = true;
 
-        loginButton.textContent =
-            "Signing In...";
+        loginBtn.textContent =
+          "Signing In...";
 
 
-        try{
+        message.style.display = "none";
 
-            const {
-                data,
-                error
-            } =
-            await supabaseClient.auth
-            .signInWithPassword({
 
-                email:email,
+        try {
 
-                password:password
-
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth.signInWithPassword({
+              email: email,
+              password: password
             });
 
 
-            if(error){
-
-                throw error;
-
-            }
+          if (error) {
+            throw error;
+          }
 
 
-            if(
-                !data ||
-                !data.user ||
-                !data.session
-            ){
-
-                throw new Error(
-                    "Unable to create a secure login session."
-                );
-
-            }
+          if (!data.user) {
+            throw new Error("Unable to sign in.");
+          }
 
 
-            /*
-            Extra verification check.
-
-            Supabase already prevents normal
-            password login when confirmation is
-            required, but this adds another check.
-            */
-
-            if(
-                !data.user.email_confirmed_at
-            ){
-
-                await supabaseClient.auth.signOut();
-
-                showMessage(
-                    "Please verify your email address before signing in.",
-                    "error"
-                );
-
-                loginButton.disabled = false;
-
-                loginButton.textContent =
-                    "Sign In";
-
-                return;
-            }
+          showMessage(
+            "Login successful. Opening your dashboard...",
+            "success"
+          );
 
 
-            showMessage(
-                "Sign in successful. Opening your dashboard...",
-                "success"
-            );
+          /*
+          Successful login
+          */
+
+          setTimeout(
+            function() {
+
+              window.location.href =
+                "dashboard.html";
+
+            },
+            700
+          );
 
 
-            setTimeout(function(){
+        } catch (error) {
 
-                window.location.replace(
-                    "dashboard.html"
-                );
-
-            },600);
-
-
-        }catch(error){
-
-            console.error(
-                "Login error:",
-                error
-            );
+          console.error(
+            "Login error:",
+            error
+          );
 
 
-            let errorMessage =
-                error.message ||
-                "Unable to sign in. Please try again.";
+          let errorMessage =
+            "Unable to sign in. Please check your email and password.";
 
 
-            const lowerMessage =
-                errorMessage.toLowerCase();
+          if (
+            error.message &&
+            error.message
+              .toLowerCase()
+              .includes("email not confirmed")
+          ) {
+
+            errorMessage =
+              "Please verify your email address before signing in.";
+
+          }
 
 
-            if(
-                lowerMessage.includes(
-                    "invalid login credentials"
-                )
-            ){
-
-                errorMessage =
-                    "Incorrect email address or password.";
-
-            }
+          showMessage(
+            errorMessage,
+            "error"
+          );
 
 
-            if(
-                lowerMessage.includes(
-                    "email not confirmed"
-                )
-            ){
+          loginBtn.disabled = false;
 
-                errorMessage =
-                    "Please verify your email address before signing in.";
+          loginBtn.textContent =
+            "Sign In";
 
-            }
-
-
-            showMessage(
-                errorMessage,
-                "error"
-            );
-
-
-            loginButton.disabled = false;
-
-            loginButton.textContent =
-                "Sign In";
         }
+
+      }
+    );
+
+
+    /*
+    ==========================================
+    MESSAGE
+    ==========================================
+    */
+
+    function showMessage(text, type) {
+
+      message.textContent = text;
+
+      message.className = type;
+
+      message.style.display = "block";
 
     }
-);
 
-
-/* ========================================
-   PASSWORD RECOVERY
-======================================== */
-
-forgotPasswordButton.addEventListener(
-    "click",
-    async function(){
-
-        clearMessage();
-
-
-        const email =
-            emailInput
-            .value
-            .trim()
-            .toLowerCase();
-
-
-        if(!email){
-
-            showMessage(
-                "Enter your email address first, then select Forgot password.",
-                "info"
-            );
-
-            emailInput.focus();
-
-            return;
-        }
-
-
-        forgotPasswordButton.disabled =
-            true;
-
-        forgotPasswordButton.textContent =
-            "Sending...";
-
-
-        try{
-
-            const {
-                error
-            } =
-            await supabaseClient.auth
-            .resetPasswordForEmail(
-                email,
-                {
-                    redirectTo:
-                    "https://maxxdigitalmarkets.com/reset-password.html"
-                }
-            );
-
-
-            if(error){
-
-                throw error;
-
-            }
-
-
-            /*
-            Generic response avoids exposing
-            whether an email is registered.
-            */
-
-            showMessage(
-                "If an account exists for that email address, password recovery instructions will be sent shortly.",
-                "success"
-            );
-
-
-        }catch(error){
-
-            console.error(
-                "Password recovery error:",
-                error
-            );
-
-
-            showMessage(
-                error.message ||
-                "Unable to send password recovery instructions. Please try again.",
-                "error"
-            );
-
-        }finally{
-
-            forgotPasswordButton.disabled =
-                false;
-
-            forgotPasswordButton.textContent =
-                "Forgot password?";
-        }
-
-    }
-);
-
-
-/* ========================================
-   AUTH STATE
-======================================== */
-
-supabaseClient.auth.onAuthStateChange(
-    function(event,session){
-
-        if(
-            event === "SIGNED_IN" &&
-            session &&
-            window.location.pathname
-                .endsWith("login.html")
-        ){
-
-            /*
-            Login form performs the actual
-            redirect. This listener keeps the
-            authentication state synchronized.
-            */
-
-        }
-
-    }
-);
-
-</script>
+  </script>
 
 </body>
 </html>
