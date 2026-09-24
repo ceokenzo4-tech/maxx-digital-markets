@@ -1,10 +1,2046 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MAXX Admin</title><link rel="stylesheet" href="styles.css?v=20260922-admin"></head><body><main class="container" style="padding-top:40px;padding-bottom:60px"><h1>MAXX Admin Console</h1><p class="muted">Private administration for users, demo balances, orders and genuine review moderation. Demo balances are simulated and must not be represented as withdrawable customer funds.</p><div class="card" style="display:flex;gap:10px;flex-wrap:wrap"><input id="key" type="password" placeholder="Admin key" style="flex:1;min-width:220px"><button class="btn primary" onclick="loadAll()">Load dashboard</button></div><h2>Users & demo balances</h2><div id="users"></div><h2>Orders</h2><div id="orders"></div><h2>Customer reviews</h2><div id="reviews"></div></main><script>
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-async function req(path,opt={}){opt.headers={...(opt.headers||{}),'content-type':'application/json','x-admin-key':document.querySelector('#key').value};const r=await fetch(path,opt);const j=await r.json().catch(()=>({}));if(!r.ok)throw Error(j.error||'Request failed');return j}
-async function loadAll(){try{const [u,o,v]=await Promise.all([req('/api/admin/users'),req('/api/admin/orders'),req('/api/admin/reviews')]);document.querySelector('#users').innerHTML=u.users.map(x=>`<div class="card" style="margin:12px 0"><b>${esc(x.name)}</b> <span class="muted">${esc(x.email)}</span><p>Demo balance: <b>$${Number(x.demoBalance||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</b> • ${x.verified?'Verified':'Unverified'}</p><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="a-${x.id}" type="number" step="0.01" placeholder="+500 or -100"><input id="n-${x.id}" placeholder="Reason / audit note"><button class="btn primary" onclick="balance('${x.id}')">Adjust demo balance</button>${x.verified?'':`<button class="btn" onclick="verifyUser('${x.id}')">Verify user</button>`}</div></div>`).join('')||'<p>No users.</p>';document.querySelector('#orders').innerHTML=o.orders.map(x=>`<div class="card" style="margin:12px 0"><b>${esc(x.id)} — ${esc(x.side.toUpperCase())} ${esc(x.asset)}</b><p>${esc(x.fiat)} ${esc(x.amount)} • status <b>${esc(x.status)}</b></p><p>Customer proof: ${esc(x.customerProof||'Not submitted')}</p>${x.proofImageFile?`<button class="btn" onclick="viewProof('${x.id}')">View proof</button>`:''}<select id="s-${x.id}"><option>funds_verified</option><option>crypto_verified</option><option>payout_sent</option><option>crypto_sent</option><option>completed</option><option>cancelled</option><option>failed</option></select><button class="btn primary" onclick="setStatus('${x.id}')">Update</button></div>`).join('')||'<p>No orders.</p>';document.querySelector('#reviews').innerHTML=v.reviews.map(r=>`<div class="card" style="margin:12px 0"><b>${esc(r.name)} • ${'★'.repeat(r.rating)}</b><p>${esc(r.text)}</p><p class="muted">Status: ${esc(r.status)}</p><button class="btn primary" onclick="review('${r.id}','approved')">Approve genuine review</button> <button class="btn" onclick="review('${r.id}','rejected')">Reject</button></div>`).join('')||'<p>No reviews.</p>'}catch(e){alert(e.message)}}
-async function balance(id){try{const amount=Number(document.querySelector('#a-'+id).value),note=document.querySelector('#n-'+id).value;if(!confirm(`Adjust DEMO balance by $${amount}? This is logged.`))return;await req('/api/admin/users/'+id+'/balance',{method:'POST',body:JSON.stringify({amount,note})});loadAll()}catch(e){alert(e.message)}}
-async function verifyUser(id){try{await req('/api/admin/users/'+id+'/verify',{method:'PATCH',body:'{}'});loadAll()}catch(e){alert(e.message)}}
-async function review(id,status){try{await req('/api/admin/reviews/'+id,{method:'PATCH',body:JSON.stringify({status})});loadAll()}catch(e){alert(e.message)}}
-async function setStatus(id){try{await req('/api/admin/orders/'+id,{method:'PATCH',body:JSON.stringify({status:document.querySelector('#s-'+id).value})});loadAll()}catch(e){alert(e.message)}}
-async function viewProof(id){try{const r=await fetch('/api/admin/orders/'+id+'/proof-image',{headers:{'x-admin-key':document.querySelector('#key').value}});if(!r.ok)throw Error('Could not load proof');const url=URL.createObjectURL(await r.blob());window.open(url,'_blank','noopener,noreferrer');setTimeout(()=>URL.revokeObjectURL(url),60000)}catch(e){alert(e.message)}}
-</script><script src="support.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Console | MAXX Digital Markets</title>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    :root{
+      --bg:#020814;
+      --bg2:#06101f;
+      --card:#081525;
+      --card2:#0b1b2f;
+      --border:#18304a;
+      --blue:#168cff;
+      --cyan:#18d7f2;
+      --green:#19c37d;
+      --red:#ff5d6c;
+      --orange:#ffb547;
+      --text:#f8fafc;
+      --muted:#8fa5bc;
+    }
+
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:
+        radial-gradient(circle at top right,rgba(22,140,255,.12),transparent 28%),
+        linear-gradient(180deg,#020814,#030b16 50%,#020814);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    button,
+    input,
+    select,
+    textarea{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    /* LOADING */
+
+    #loadingScreen{
+      position:fixed;
+      inset:0;
+      background:#020814;
+      z-index:9999;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .loader{
+      width:52px;
+      height:52px;
+      border:4px solid #14263b;
+      border-top-color:var(--cyan);
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin{
+      to{transform:rotate(360deg)}
+    }
+
+    #loadingScreen p{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* ACCESS DENIED */
+
+    #accessDenied{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:25px;
+    }
+
+    .deniedCard{
+      width:100%;
+      max-width:480px;
+      padding:32px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:22px;
+      text-align:center;
+      box-shadow:0 20px 70px rgba(0,0,0,.35);
+    }
+
+    .deniedIcon{
+      width:70px;
+      height:70px;
+      margin:0 auto 20px;
+      border-radius:50%;
+      background:rgba(255,93,108,.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:30px;
+      color:var(--red);
+    }
+
+    .deniedCard h2{
+      margin-bottom:10px;
+    }
+
+    .deniedCard p{
+      color:var(--muted);
+      line-height:1.6;
+      margin-bottom:22px;
+    }
+
+    /* HEADER */
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(2,8,20,.94);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+
+    .headerInner{
+      max-width:1450px;
+      margin:auto;
+      padding:15px 22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo{
+      width:43px;
+      height:43px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--blue),var(--cyan));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      color:white;
+      box-shadow:0 0 25px rgba(24,215,242,.18);
+    }
+
+    .brand h1{
+      font-size:17px;
+      letter-spacing:.3px;
+    }
+
+    .brand span{
+      display:block;
+      color:var(--muted);
+      font-size:11px;
+      margin-top:3px;
+    }
+
+    .headerActions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .adminBadge{
+      background:rgba(25,195,125,.12);
+      border:1px solid rgba(25,195,125,.35);
+      color:#57e7a8;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+    }
+
+    /* BUTTONS */
+
+    .btn{
+      border:none;
+      border-radius:10px;
+      padding:11px 15px;
+      background:#13263b;
+      color:white;
+      font-weight:700;
+    }
+
+    .btn:hover{
+      opacity:.9;
+    }
+
+    .btnPrimary{
+      background:linear-gradient(135deg,var(--blue),#0b6dd8);
+    }
+
+    .btnGreen{
+      background:var(--green);
+      color:#00150c;
+    }
+
+    .btnRed{
+      background:rgba(255,93,108,.15);
+      color:#ff8490;
+      border:1px solid rgba(255,93,108,.35);
+    }
+
+    .btnSmall{
+      padding:8px 11px;
+      font-size:12px;
+    }
+
+    /* LAYOUT */
+
+    .container{
+      max-width:1450px;
+      margin:auto;
+      padding:25px 20px 70px;
+    }
+
+    .welcome{
+      margin-bottom:25px;
+    }
+
+    .welcome h2{
+      font-size:27px;
+      margin-bottom:7px;
+    }
+
+    .welcome p{
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    /* STATS */
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:15px;
+      margin-bottom:25px;
+    }
+
+    .stat{
+      background:linear-gradient(145deg,var(--card),#071221);
+      border:1px solid var(--border);
+      border-radius:17px;
+      padding:20px;
+    }
+
+    .statLabel{
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.7px;
+    }
+
+    .statValue{
+      font-size:27px;
+      font-weight:800;
+      margin-top:10px;
+    }
+
+    .statSub{
+      color:var(--muted);
+      font-size:11px;
+      margin-top:7px;
+    }
+
+    /* TABS */
+
+    .tabs{
+      display:flex;
+      gap:9px;
+      overflow-x:auto;
+      padding-bottom:8px;
+      margin-bottom:18px;
+    }
+
+    .tab{
+      white-space:nowrap;
+      padding:11px 16px;
+      border:1px solid var(--border);
+      background:#071424;
+      color:var(--muted);
+      border-radius:10px;
+      font-weight:bold;
+    }
+
+    .tab.active{
+      background:rgba(22,140,255,.14);
+      color:#6cb8ff;
+      border-color:rgba(22,140,255,.45);
+    }
+
+    /* PANEL */
+
+    .panel{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .panelHeader{
+      padding:18px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .panelHeader h3{
+      font-size:17px;
+    }
+
+    .panelHeader p{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:5px;
+    }
+
+    .search{
+      width:280px;
+      max-width:100%;
+      padding:11px 13px;
+      background:#06111f;
+      border:1px solid var(--border);
+      border-radius:10px;
+      color:white;
+      outline:none;
+    }
+
+    /* TABLE */
+
+    .tableWrap{
+      overflow-x:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:850px;
+    }
+
+    th,
+    td{
+      padding:14px 16px;
+      text-align:left;
+      border-bottom:1px solid #12273b;
+      font-size:13px;
+    }
+
+    th{
+      color:#9db0c4;
+      background:#06111f;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+
+    td{
+      color:#e5edf5;
+    }
+
+    tr:hover td{
+      background:rgba(255,255,255,.015);
+    }
+
+    .status{
+      display:inline-block;
+      padding:6px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      text-transform:capitalize;
+    }
+
+    .status.pending{
+      color:#ffd280;
+      background:rgba(255,181,71,.12);
+    }
+
+    .status.approved,
+    .status.completed{
+      color:#59e4a9;
+      background:rgba(25,195,125,.12);
+    }
+
+    .status.rejected,
+    .status.failed,
+    .status.cancelled{
+      color:#ff8c96;
+      background:rgba(255,93,108,.12);
+    }
+
+    .empty{
+      text-align:center;
+      padding:40px 20px;
+      color:var(--muted);
+    }
+
+    /* MODAL */
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.75);
+      z-index:1000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .modalCard{
+      width:100%;
+      max-width:500px;
+      max-height:90vh;
+      overflow:auto;
+      background:#071424;
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:22px;
+    }
+
+    .modalTop{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+    }
+
+    .close{
+      background:none;
+      border:none;
+      color:#94a3b8;
+      font-size:25px;
+    }
+
+    .field{
+      margin-bottom:15px;
+    }
+
+    .field label{
+      display:block;
+      color:#9db0c4;
+      font-size:12px;
+      margin-bottom:7px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      padding:12px 13px;
+      border:1px solid var(--border);
+      background:#030c17;
+      color:white;
+      border-radius:10px;
+      outline:none;
+    }
+
+    .field textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .modalActions{
+      display:flex;
+      gap:10px;
+      margin-top:20px;
+    }
+
+    .modalActions button{
+      flex:1;
+    }
+
+    .notice{
+      background:rgba(22,140,255,.08);
+      border:1px solid rgba(22,140,255,.22);
+      color:#a8d4ff;
+      padding:12px;
+      border-radius:10px;
+      font-size:12px;
+      line-height:1.5;
+      margin-bottom:18px;
+    }
+
+    .support{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:30px;
+      line-height:1.7;
+    }
+
+    .support a{
+      color:var(--cyan);
+      text-decoration:none;
+    }
+
+    @media(max-width:900px){
+      .stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    @media(max-width:600px){
+      .headerInner{
+        padding:12px 14px;
+      }
+
+      .brand h1{
+        font-size:14px;
+      }
+
+      .brand span{
+        display:none;
+      }
+
+      .adminBadge{
+        display:none;
+      }
+
+      .container{
+        padding:20px 12px 60px;
+      }
+
+      .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+      }
+
+      .stat{
+        padding:15px;
+      }
+
+      .statValue{
+        font-size:21px;
+      }
+
+      .welcome h2{
+        font-size:22px;
+      }
+
+      .panelHeader{
+        padding:15px;
+      }
+
+      .search{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+
+<div id="loadingScreen">
+  <div class="loader"></div>
+  <p>Securing MAXX Admin Console...</p>
+</div>
+
+
+<!-- ACCESS DENIED -->
+
+<div id="accessDenied" class="hidden">
+  <div class="deniedCard">
+
+    <div class="deniedIcon">🔒</div>
+
+    <h2>Admin Access Required</h2>
+
+    <p>
+      This page is restricted to authorized MAXX Digital Markets
+      administrators.
+    </p>
+
+    <button class="btn btnPrimary" onclick="goLogin()">
+      Return to Login
+    </button>
+
+  </div>
+</div>
+
+
+<!-- ADMIN APP -->
+
+<div id="adminApp" class="hidden">
+
+<header>
+
+  <div class="headerInner">
+
+    <div class="brand">
+
+      <div class="logo">M</div>
+
+      <div>
+        <h1>MAXX DIGITAL MARKETS</h1>
+        <span>Administration Console</span>
+      </div>
+
+    </div>
+
+    <div class="headerActions">
+
+      <span class="adminBadge">
+        ● ADMIN
+      </span>
+
+      <button class="btn btnRed btnSmall" onclick="logout()">
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+  <section class="welcome">
+
+    <h2>Administration Dashboard</h2>
+
+    <p>
+      Signed in as
+      <strong id="adminEmail">...</strong>.
+      Manage client records and review account requests securely.
+    </p>
+
+  </section>
+
+
+  <!-- STATISTICS -->
+
+  <section class="stats">
+
+    <div class="stat">
+      <div class="statLabel">Client Accounts</div>
+      <div class="statValue" id="clientCount">0</div>
+      <div class="statSub">Registered account records</div>
+    </div>
+
+    <div class="stat">
+      <div class="statLabel">Pending Deposits</div>
+      <div class="statValue" id="depositCount">0</div>
+      <div class="statSub">Awaiting review</div>
+    </div>
+
+    <div class="stat">
+      <div class="statLabel">Pending Withdrawals</div>
+      <div class="statValue" id="withdrawalCount">0</div>
+      <div class="statSub">Awaiting review</div>
+    </div>
+
+    <div class="stat">
+      <div class="statLabel">Admin Status</div>
+      <div class="statValue" style="color:#59e4a9;font-size:19px;">
+        Authorized
+      </div>
+      <div class="statSub">Protected by Supabase authentication</div>
+    </div>
+
+  </section>
+
+
+  <!-- TABS -->
+
+  <div class="tabs">
+
+    <button class="tab active"
+            onclick="showTab('clients',this)">
+      Clients
+    </button>
+
+    <button class="tab"
+            onclick="showTab('deposits',this)">
+      Deposits
+    </button>
+
+    <button class="tab"
+            onclick="showTab('withdrawals',this)">
+      Withdrawals
+    </button>
+
+  </div>
+
+
+  <!-- CLIENTS -->
+
+  <section id="clientsTab" class="panel">
+
+    <div class="panelHeader">
+
+      <div>
+        <h3>Client Accounts</h3>
+        <p>Registered MAXX Digital Markets account records.</p>
+      </div>
+
+      <input
+        class="search"
+        id="clientSearch"
+        placeholder="Search clients..."
+        oninput="filterClients()"
+      >
+
+    </div>
+
+    <div class="tableWrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Email / User ID</th>
+            <th>Balance</th>
+            <th>Equity</th>
+            <th>Profit</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="clientsBody"></tbody>
+
+      </table>
+
+      <div id="clientsEmpty" class="empty hidden">
+        No client account records found.
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- DEPOSITS -->
+
+  <section id="depositsTab" class="panel hidden">
+
+    <div class="panelHeader">
+
+      <div>
+        <h3>Deposit Requests</h3>
+        <p>Review deposit requests submitted by clients.</p>
+      </div>
+
+      <button class="btn btnPrimary btnSmall"
+              onclick="loadDeposits()">
+        Refresh
+      </button>
+
+    </div>
+
+    <div class="tableWrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th>Submitted</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="depositsBody"></tbody>
+
+      </table>
+
+      <div id="depositsEmpty" class="empty hidden">
+        No deposit requests found.
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- WITHDRAWALS -->
+
+  <section id="withdrawalsTab" class="panel hidden">
+
+    <div class="panelHeader">
+
+      <div>
+        <h3>Withdrawal Requests</h3>
+        <p>Review withdrawal requests submitted by clients.</p>
+      </div>
+
+      <button class="btn btnPrimary btnSmall"
+              onclick="loadWithdrawals()">
+        Refresh
+      </button>
+
+    </div>
+
+    <div class="tableWrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th>Submitted</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="withdrawalsBody"></tbody>
+
+      </table>
+
+      <div id="withdrawalsEmpty" class="empty hidden">
+        No withdrawal requests found.
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <div class="support">
+
+    Administrative support:
+    <a href="mailto:support@maxxdigitalmarkets.com">
+      support@maxxdigitalmarkets.com
+    </a>
+
+  </div>
+
+</main>
+
+</div>
+
+
+<!-- CLIENT MODAL -->
+
+<div id="clientModal" class="modal hidden">
+
+  <div class="modalCard">
+
+    <div class="modalTop">
+
+      <div>
+        <h3>Update Client Account</h3>
+        <div id="modalClientEmail"
+             style="color:#8fa5bc;font-size:12px;margin-top:4px;">
+        </div>
+      </div>
+
+      <button class="close" onclick="closeClientModal()">
+        ×
+      </button>
+
+    </div>
+
+    <div class="notice">
+      Account changes should correspond to legitimate, documented
+      customer activity. Do not represent simulated or manually entered
+      figures as actual deposited, withdrawable, or investment funds.
+    </div>
+
+    <input type="hidden" id="modalUserId">
+
+    <div class="field">
+      <label>Balance</label>
+      <input id="modalBalance"
+             type="number"
+             step="0.01">
+    </div>
+
+    <div class="field">
+      <label>Equity</label>
+      <input id="modalEquity"
+             type="number"
+             step="0.01">
+    </div>
+
+    <div class="field">
+      <label>Profit / Loss</label>
+      <input id="modalProfit"
+             type="number"
+             step="0.01">
+    </div>
+
+    <div class="field">
+
+      <label>Account Status</label>
+
+      <select id="modalStatus">
+        <option value="active">Active</option>
+        <option value="pending">Pending</option>
+        <option value="restricted">Restricted</option>
+        <option value="suspended">Suspended</option>
+      </select>
+
+    </div>
+
+    <div class="field">
+
+      <label>Administrative note</label>
+
+      <textarea
+        id="modalNote"
+        placeholder="Reason for this account update..."
+      ></textarea>
+
+    </div>
+
+    <div class="modalActions">
+
+      <button class="btn"
+              onclick="closeClientModal()">
+        Cancel
+      </button>
+
+      <button class="btn btnPrimary"
+              id="saveClientBtn"
+              onclick="saveClient()">
+        Save Changes
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+  "https://dwojraxspohahemiarps.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentUser = null;
+let clients = [];
+let deposits = [];
+let withdrawals = [];
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function money(value){
+
+  const number = Number(value || 0);
+
+  return number.toLocaleString(
+    "en-US",
+    {
+      style:"currency",
+      currency:"USD",
+      minimumFractionDigits:2
+    }
+  );
+
+}
+
+
+function formatDate(value){
+
+  if(!value) return "—";
+
+  try{
+
+    return new Date(value).toLocaleString();
+
+  }catch{
+
+    return "—";
+
+  }
+
+}
+
+
+function statusBadge(status){
+
+  const clean =
+    String(status || "pending")
+    .toLowerCase();
+
+  return `
+    <span class="status ${escapeHtml(clean)}">
+      ${escapeHtml(clean)}
+    </span>
+  `;
+
+}
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+async function initializeAdmin(){
+
+  try{
+
+    const {
+      data:{ session },
+      error:sessionError
+    } = await db.auth.getSession();
+
+    if(sessionError){
+      throw sessionError;
+    }
+
+    if(!session){
+
+      window.location.href = "login.html";
+      return;
+
+    }
+
+    currentUser = session.user;
+
+    document.getElementById("adminEmail").textContent =
+      currentUser.email || "Administrator";
+
+
+    /*
+      IMPORTANT:
+      Access is determined by the authenticated user's
+      UUID existing inside public.admin_users.
+
+      RLS must protect admin_users.
+    */
+
+    const {
+      data:adminRecord,
+      error:adminError
+    } = await db
+      .from("admin_users")
+      .select("user_id")
+      .eq("user_id",currentUser.id)
+      .maybeSingle();
+
+
+    if(adminError){
+
+      console.error(adminError);
+      denyAccess();
+      return;
+
+    }
+
+
+    if(!adminRecord){
+
+      denyAccess();
+      return;
+
+    }
+
+
+    document.getElementById("loadingScreen")
+      .classList.add("hidden");
+
+    document.getElementById("adminApp")
+      .classList.remove("hidden");
+
+
+    await Promise.all([
+      loadClients(),
+      loadDeposits(),
+      loadWithdrawals()
+    ]);
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    document.getElementById("loadingScreen")
+      .classList.add("hidden");
+
+    denyAccess();
+
+  }
+
+}
+
+
+function denyAccess(){
+
+  document.getElementById("loadingScreen")
+    .classList.add("hidden");
+
+  document.getElementById("adminApp")
+    .classList.add("hidden");
+
+  document.getElementById("accessDenied")
+    .classList.remove("hidden");
+
+}
+
+
+function goLogin(){
+
+  window.location.href = "login.html";
+
+}
+
+
+async function logout(){
+
+  await db.auth.signOut();
+
+  window.location.href = "login.html";
+
+}
+
+
+/* =====================================================
+   CLIENT ACCOUNTS
+===================================================== */
+
+async function loadClients(){
+
+  /*
+    Change "accounts" below ONLY if your client account
+    table has a different name.
+  */
+
+  const {
+    data,
+    error
+  } = await db
+    .from("accounts")
+    .select("*")
+    .order("created_at",{
+      ascending:false
+    });
+
+
+  if(error){
+
+    console.error(
+      "Could not load accounts:",
+      error
+    );
+
+    clients = [];
+
+  }else{
+
+    clients = data || [];
+
+  }
+
+
+  document.getElementById("clientCount")
+    .textContent = clients.length;
+
+  renderClients(clients);
+
+}
+
+
+function renderClients(list){
+
+  const body =
+    document.getElementById("clientsBody");
+
+  const empty =
+    document.getElementById("clientsEmpty");
+
+
+  if(!list.length){
+
+    body.innerHTML = "";
+
+    empty.classList.remove("hidden");
+
+    return;
+
+  }
+
+
+  empty.classList.add("hidden");
+
+
+  body.innerHTML = list.map(client => {
+
+    const userId =
+      client.user_id ||
+      client.id ||
+      "";
+
+    const name =
+      client.full_name ||
+      client.name ||
+      "Client";
+
+    const email =
+      client.email ||
+      userId ||
+      "—";
+
+    const balance =
+      client.balance ??
+      client.account_balance ??
+      0;
+
+    const equity =
+      client.equity ??
+      balance;
+
+    const profit =
+      client.profit ??
+      client.profit_loss ??
+      0;
+
+    const status =
+      client.status ||
+      "active";
+
+
+    return `
+
+      <tr>
+
+        <td>
+          <strong>${escapeHtml(name)}</strong>
+        </td>
+
+        <td>
+          ${escapeHtml(email)}
+        </td>
+
+        <td>
+          ${money(balance)}
+        </td>
+
+        <td>
+          ${money(equity)}
+        </td>
+
+        <td>
+          ${money(profit)}
+        </td>
+
+        <td>
+          ${statusBadge(status)}
+        </td>
+
+        <td>
+
+          <button
+            class="btn btnPrimary btnSmall"
+            onclick='openClient(${JSON.stringify(userId)})'
+          >
+            Manage
+          </button>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }).join("");
+
+}
+
+
+function filterClients(){
+
+  const query =
+    document.getElementById("clientSearch")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  if(!query){
+
+    renderClients(clients);
+    return;
+
+  }
+
+
+  const filtered =
+    clients.filter(client => {
+
+      return JSON.stringify(client)
+        .toLowerCase()
+        .includes(query);
+
+    });
+
+
+  renderClients(filtered);
+
+}
+
+
+/* =====================================================
+   CLIENT MODAL
+===================================================== */
+
+function openClient(userId){
+
+  const client =
+    clients.find(c =>
+      String(c.user_id || c.id) ===
+      String(userId)
+    );
+
+
+  if(!client){
+
+    alert("Client account could not be found.");
+    return;
+
+  }
+
+
+  document.getElementById("modalUserId")
+    .value = userId;
+
+
+  document.getElementById("modalClientEmail")
+    .textContent =
+      client.email ||
+      client.full_name ||
+      userId;
+
+
+  document.getElementById("modalBalance")
+    .value =
+      client.balance ??
+      client.account_balance ??
+      0;
+
+
+  document.getElementById("modalEquity")
+    .value =
+      client.equity ??
+      client.balance ??
+      0;
+
+
+  document.getElementById("modalProfit")
+    .value =
+      client.profit ??
+      client.profit_loss ??
+      0;
+
+
+  document.getElementById("modalStatus")
+    .value =
+      client.status ||
+      "active";
+
+
+  document.getElementById("modalNote")
+    .value = "";
+
+
+  document.getElementById("clientModal")
+    .classList.remove("hidden");
+
+}
+
+
+function closeClientModal(){
+
+  document.getElementById("clientModal")
+    .classList.add("hidden");
+
+}
+
+
+/* =====================================================
+   PROTECTED ACCOUNT UPDATE
+===================================================== */
+
+async function saveClient(){
+
+  const button =
+    document.getElementById("saveClientBtn");
+
+  const userId =
+    document.getElementById("modalUserId")
+      .value;
+
+  const balance =
+    Number(
+      document.getElementById("modalBalance")
+        .value
+    );
+
+  const equity =
+    Number(
+      document.getElementById("modalEquity")
+        .value
+    );
+
+  const profit =
+    Number(
+      document.getElementById("modalProfit")
+        .value
+    );
+
+  const status =
+    document.getElementById("modalStatus")
+      .value;
+
+  const note =
+    document.getElementById("modalNote")
+      .value
+      .trim();
+
+
+  if(!userId){
+
+    alert("Missing client ID.");
+    return;
+
+  }
+
+
+  if(
+    !Number.isFinite(balance) ||
+    !Number.isFinite(equity) ||
+    !Number.isFinite(profit)
+  ){
+
+    alert("Enter valid account figures.");
+    return;
+
+  }
+
+
+  if(!note){
+
+    alert(
+      "Enter an administrative note explaining the change."
+    );
+
+    return;
+
+  }
+
+
+  const confirmed = confirm(
+    "Save these account changes?\n\n" +
+    "Balance: " + money(balance) + "\n" +
+    "Equity: " + money(equity) + "\n" +
+    "Profit/Loss: " + money(profit) + "\n" +
+    "Status: " + status
+  );
+
+
+  if(!confirmed) return;
+
+
+  button.disabled = true;
+  button.textContent = "Saving...";
+
+
+  try{
+
+    /*
+      This calls the protected Supabase RPC that
+      you already created.
+
+      The parameter names must match the function
+      definition in your database.
+    */
+
+    const {
+      error
+    } = await db.rpc(
+      "admin_update_account",
+      {
+        p_user_id:userId,
+        p_balance:balance,
+        p_equity:equity,
+        p_profit:profit,
+        p_status:status,
+        p_note:note
+      }
+    );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    alert("Client account updated.");
+
+    closeClientModal();
+
+    await loadClients();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "Could not update the account.\n\n" +
+      error.message
+    );
+
+  }
+  finally{
+
+    button.disabled = false;
+    button.textContent = "Save Changes";
+
+  }
+
+}
+
+
+/* =====================================================
+   DEPOSIT REQUESTS
+===================================================== */
+
+async function loadDeposits(){
+
+  const {
+    data,
+    error
+  } = await db
+    .from("deposit_requests")
+    .select("*")
+    .order("created_at",{
+      ascending:false
+    });
+
+
+  if(error){
+
+    console.error(error);
+
+    deposits = [];
+
+  }else{
+
+    deposits = data || [];
+
+  }
+
+
+  const pending =
+    deposits.filter(x =>
+      String(x.status || "")
+      .toLowerCase() === "pending"
+    ).length;
+
+
+  document.getElementById("depositCount")
+    .textContent = pending;
+
+
+  renderDeposits();
+
+}
+
+
+function renderDeposits(){
+
+  const body =
+    document.getElementById("depositsBody");
+
+  const empty =
+    document.getElementById("depositsEmpty");
+
+
+  if(!deposits.length){
+
+    body.innerHTML = "";
+
+    empty.classList.remove("hidden");
+
+    return;
+
+  }
+
+
+  empty.classList.add("hidden");
+
+
+  body.innerHTML =
+    deposits.map(item => {
+
+      const id =
+        item.id || "";
+
+      const user =
+        item.email ||
+        item.user_email ||
+        item.user_id ||
+        "Client";
+
+      const amount =
+        item.amount || 0;
+
+      const method =
+        item.method ||
+        item.payment_method ||
+        "—";
+
+
+      return `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(user)}
+          </td>
+
+          <td>
+            ${money(amount)}
+          </td>
+
+          <td>
+            ${escapeHtml(method)}
+          </td>
+
+          <td>
+            ${statusBadge(item.status)}
+          </td>
+
+          <td>
+            ${formatDate(item.created_at)}
+          </td>
+
+          <td>
+
+            <button
+              class="btn btnGreen btnSmall"
+              onclick='updateDeposit(${JSON.stringify(id)},"approved")'
+            >
+              Approve
+            </button>
+
+            <button
+              class="btn btnRed btnSmall"
+              onclick='updateDeposit(${JSON.stringify(id)},"rejected")'
+            >
+              Reject
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   UPDATE DEPOSIT
+===================================================== */
+
+async function updateDeposit(id,status){
+
+  if(!confirm(
+    `Mark this deposit request as ${status}?`
+  )){
+    return;
+  }
+
+
+  const {
+    error
+  } = await db
+    .from("deposit_requests")
+    .update({
+      status:status
+    })
+    .eq("id",id);
+
+
+  if(error){
+
+    alert(error.message);
+    return;
+
+  }
+
+
+  await Promise.all([
+    loadDeposits(),
+    loadClients()
+  ]);
+
+}
+
+
+/* =====================================================
+   WITHDRAWAL REQUESTS
+===================================================== */
+
+async function loadWithdrawals(){
+
+  const {
+    data,
+    error
+  } = await db
+    .from("withdrawal_requests")
+    .select("*")
+    .order("created_at",{
+      ascending:false
+    });
+
+
+  if(error){
+
+    console.error(error);
+
+    withdrawals = [];
+
+  }else{
+
+    withdrawals = data || [];
+
+  }
+
+
+  const pending =
+    withdrawals.filter(x =>
+      String(x.status || "")
+      .toLowerCase() === "pending"
+    ).length;
+
+
+  document.getElementById("withdrawalCount")
+    .textContent = pending;
+
+
+  renderWithdrawals();
+
+}
+
+
+function renderWithdrawals(){
+
+  const body =
+    document.getElementById("withdrawalsBody");
+
+  const empty =
+    document.getElementById("withdrawalsEmpty");
+
+
+  if(!withdrawals.length){
+
+    body.innerHTML = "";
+
+    empty.classList.remove("hidden");
+
+    return;
+
+  }
+
+
+  empty.classList.add("hidden");
+
+
+  body.innerHTML =
+    withdrawals.map(item => {
+
+      const id =
+        item.id || "";
+
+      const user =
+        item.email ||
+        item.user_email ||
+        item.user_id ||
+        "Client";
+
+      const amount =
+        item.amount || 0;
+
+      const method =
+        item.method ||
+        item.withdrawal_method ||
+        "—";
+
+
+      return `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(user)}
+          </td>
+
+          <td>
+            ${money(amount)}
+          </td>
+
+          <td>
+            ${escapeHtml(method)}
+          </td>
+
+          <td>
+            ${statusBadge(item.status)}
+          </td>
+
+          <td>
+            ${formatDate(item.created_at)}
+          </td>
+
+          <td>
+
+            <button
+              class="btn btnGreen btnSmall"
+              onclick='updateWithdrawal(${JSON.stringify(id)},"approved")'
+            >
+              Approve
+            </button>
+
+            <button
+              class="btn btnRed btnSmall"
+              onclick='updateWithdrawal(${JSON.stringify(id)},"rejected")'
+            >
+              Reject
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   UPDATE WITHDRAWAL
+===================================================== */
+
+async function updateWithdrawal(id,status){
+
+  if(!confirm(
+    `Mark this withdrawal request as ${status}?`
+  )){
+    return;
+  }
+
+
+  const {
+    error
+  } = await db
+    .from("withdrawal_requests")
+    .update({
+      status:status
+    })
+    .eq("id",id);
+
+
+  if(error){
+
+    alert(error.message);
+    return;
+
+  }
+
+
+  await loadWithdrawals();
+
+}
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+function showTab(name,button){
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(x =>
+      x.classList.remove("active")
+    );
+
+
+  button.classList.add("active");
+
+
+  document.getElementById("clientsTab")
+    .classList.add("hidden");
+
+  document.getElementById("depositsTab")
+    .classList.add("hidden");
+
+  document.getElementById("withdrawalsTab")
+    .classList.add("hidden");
+
+
+  document.getElementById(name + "Tab")
+    .classList.remove("hidden");
+
+}
+
+
+/* =====================================================
+   AUTH CHANGE PROTECTION
+===================================================== */
+
+db.auth.onAuthStateChange(
+  (event,session) => {
+
+    if(
+      event === "SIGNED_OUT" ||
+      !session
+    ){
+
+      window.location.href =
+        "login.html";
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+initializeAdmin();
+
+</script>
+
+
+<!-- TAWK.TO LIVE SUPPORT -->
+
+<script type="text/javascript">
+
+var Tawk_API=Tawk_API||{},
+    Tawk_LoadStart=new Date();
+
+(function(){
+
+var s1=document.createElement("script"),
+    s0=document.getElementsByTagName("script")[0];
+
+s1.async=true;
+
+s1.src=
+'https://embed.tawk.to/6ab51df05abce934461ff239/default';
+
+s1.charset='UTF-8';
+
+s1.setAttribute(
+  'crossorigin',
+  '*'
+);
+
+s0.parentNode.insertBefore(
+  s1,
+  s0
+);
+
+})();
+
+</script>
+
+</body>
+</html>
