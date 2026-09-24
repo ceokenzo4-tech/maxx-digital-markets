@@ -41,8 +41,6 @@ button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
 
-/* LOADING */
-
 #loadingScreen{
   position:fixed;
   inset:0;
@@ -64,16 +62,12 @@ button{cursor:pointer}
   animation:spin .8s linear infinite;
 }
 
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 #loadingScreen p{
   color:var(--muted);
   font-size:14px;
 }
-
-/* ACCESS DENIED */
 
 #accessDenied{
   min-height:100vh;
@@ -112,8 +106,6 @@ button{cursor:pointer}
   line-height:1.7;
   margin-bottom:22px;
 }
-
-/* HEADER */
 
 header{
   position:sticky;
@@ -183,8 +175,6 @@ header{
   font-weight:bold;
 }
 
-/* BUTTONS */
-
 .btn{
   border:none;
   border-radius:10px;
@@ -226,8 +216,6 @@ header{
   font-size:12px;
 }
 
-/* MAIN */
-
 .container{
   max-width:1450px;
   margin:auto;
@@ -253,8 +241,6 @@ header{
   color:var(--muted);
   line-height:1.65;
 }
-
-/* STATS */
 
 .stats{
   display:grid;
@@ -294,8 +280,6 @@ header{
   margin-top:7px;
 }
 
-/* TABS */
-
 .tabs{
   display:flex;
   gap:9px;
@@ -319,8 +303,6 @@ header{
   color:#6cb8ff;
   border-color:rgba(22,140,255,.45);
 }
-
-/* PANEL */
 
 .panel{
   background:var(--card);
@@ -360,8 +342,6 @@ header{
 }
 
 .search:focus{border-color:var(--blue)}
-
-/* TABLE */
 
 .tableWrap{
   overflow-x:auto;
@@ -420,7 +400,8 @@ td{color:#e5edf5}
 
 .status.approved,
 .status.completed,
-.status.active{
+.status.active,
+.status.closed{
   color:#59e4a9;
   background:rgba(25,195,125,.12);
 }
@@ -459,8 +440,6 @@ td{color:#e5edf5}
   line-height:1.6;
 }
 
-/* WITHDRAWAL DETAILS */
-
 .withdrawalDetails{
   margin-top:10px;
   padding:11px;
@@ -472,25 +451,15 @@ td{color:#e5edf5}
   line-height:1.75;
 }
 
-.withdrawalDetails div{
-  margin-bottom:2px;
-}
-
-.withdrawalDetails strong{
-  color:#8fa5bc;
-}
-
-.detailValue{
-  color:#dce8f5;
-}
+.withdrawalDetails div{margin-bottom:2px}
+.withdrawalDetails strong{color:#8fa5bc}
+.detailValue{color:#dce8f5}
 
 .detailCode{
   color:#75c8ff;
   font-family:monospace;
   word-break:break-all;
 }
-
-/* MODALS */
 
 .modal{
   position:fixed;
@@ -505,7 +474,7 @@ td{color:#e5edf5}
 
 .modalCard{
   width:100%;
-  max-width:540px;
+  max-width:600px;
   max-height:90vh;
   overflow:auto;
   background:#071424;
@@ -574,7 +543,57 @@ td{color:#e5edf5}
   margin-bottom:18px;
 }
 
-/* SUPPORT */
+.tradeSection{
+  margin-top:25px;
+  padding-top:22px;
+  border-top:1px solid var(--border);
+}
+
+.tradeTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+}
+
+.tradeTitle h3{
+  font-size:18px;
+}
+
+.tradeTag{
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.7px;
+  color:#59e4a9;
+  background:rgba(25,195,125,.12);
+  border:1px solid rgba(25,195,125,.25);
+  padding:6px 9px;
+  border-radius:999px;
+}
+
+.tradeHelp{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:17px;
+}
+
+.tradeGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.pnlHelp{
+  margin-top:7px;
+  color:#8fa5bc;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.pnlPositive{color:#59e4a9!important}
+.pnlNegative{color:#ff8c96!important}
 
 .support{
   text-align:center;
@@ -598,40 +617,21 @@ td{color:#e5edf5}
 }
 
 @media(max-width:900px){
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
+  .stats{grid-template-columns:repeat(2,1fr)}
 }
 
 @media(max-width:600px){
-
   .headerInner{padding:12px 14px}
-
   .brand h1{font-size:14px}
-
-  .brand span,
-  .adminBadge{display:none}
-
-  .container{
-    padding:20px 12px 70px;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
+  .brand span,.adminBadge{display:none}
+  .container{padding:20px 12px 70px}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
   .stat{padding:15px}
-
   .statValue{font-size:21px}
-
   .welcome h2{font-size:23px}
-
   .search{width:100%}
-
-  .modalActions{
-    flex-direction:column;
-  }
+  .modalActions{flex-direction:column}
+  .tradeGrid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -680,7 +680,7 @@ td{color:#e5edf5}
 <h2>Administration Dashboard</h2>
 <p>
 Signed in as <strong id="adminEmail">...</strong>.
-Manage client accounts, deposits, withdrawals and public cryptocurrency deposit destinations.
+Manage client accounts, trades, deposits, withdrawals and public cryptocurrency deposit destinations.
 </p>
 </section>
 
@@ -723,26 +723,18 @@ Manage client accounts, deposits, withdrawals and public cryptocurrency deposit 
 <button class="tab" onclick="showTab('wallets',this)">Deposit Wallets</button>
 </div>
 
-<!-- CLIENTS -->
-
 <section id="clientsTab" class="panel">
-
 <div class="panelHeader">
 <div>
 <h3>Client Accounts</h3>
 <p>Registered MAXX Digital Markets client accounts.</p>
 </div>
 
-<input
-class="search"
-id="clientSearch"
-type="search"
-placeholder="Search email or User ID..."
-oninput="filterClients()">
+<input class="search" id="clientSearch" type="search"
+placeholder="Search email or User ID..." oninput="filterClients()">
 </div>
 
 <div class="tableWrap">
-
 <table>
 <thead>
 <tr>
@@ -756,34 +748,22 @@ oninput="filterClients()">
 <th>Action</th>
 </tr>
 </thead>
-
 <tbody id="clientsBody"></tbody>
 </table>
-
-<div id="clientsEmpty" class="empty hidden">
-No client account records found.
-</div>
-
+<div id="clientsEmpty" class="empty hidden">No client account records found.</div>
 </div>
 </section>
 
-<!-- DEPOSITS -->
-
 <section id="depositsTab" class="panel hidden">
-
 <div class="panelHeader">
 <div>
 <h3>Deposit Requests</h3>
 <p>Review deposit requests submitted by clients.</p>
 </div>
-
-<button class="btn btnPrimary btnSmall" onclick="loadDeposits()">
-Refresh
-</button>
+<button class="btn btnPrimary btnSmall" onclick="loadDeposits()">Refresh</button>
 </div>
 
 <div class="tableWrap">
-
 <table>
 <thead>
 <tr>
@@ -796,40 +776,23 @@ Refresh
 <th>Action</th>
 </tr>
 </thead>
-
 <tbody id="depositsBody"></tbody>
 </table>
-
-<div id="depositsEmpty" class="empty hidden">
-No deposit requests found.
-</div>
-
+<div id="depositsEmpty" class="empty hidden">No deposit requests found.</div>
 </div>
 </section>
 
-<!-- WITHDRAWALS -->
-
 <section id="withdrawalsTab" class="panel hidden">
-
 <div class="panelHeader">
-
 <div>
 <h3>Withdrawal Requests</h3>
-<p>
-Review complete bank and cryptocurrency withdrawal details submitted by clients.
-</p>
+<p>Review complete bank and cryptocurrency withdrawal details submitted by clients.</p>
 </div>
-
-<button class="btn btnPrimary btnSmall" onclick="loadWithdrawals()">
-Refresh
-</button>
-
+<button class="btn btnPrimary btnSmall" onclick="loadWithdrawals()">Refresh</button>
 </div>
 
 <div class="tableWrap">
-
 <table>
-
 <thead>
 <tr>
 <th>Client</th>
@@ -841,24 +804,14 @@ Refresh
 <th>Action</th>
 </tr>
 </thead>
-
 <tbody id="withdrawalsBody"></tbody>
-
 </table>
-
-<div id="withdrawalsEmpty" class="empty hidden">
-No withdrawal requests found.
-</div>
-
+<div id="withdrawalsEmpty" class="empty hidden">No withdrawal requests found.</div>
 </div>
 </section>
 
-<!-- WALLETS -->
-
 <section id="walletsTab" class="panel hidden">
-
 <div class="panelHeader">
-
 <div>
 <h3>Public Deposit Wallets</h3>
 <p>Manage public cryptocurrency addresses displayed to clients.</p>
@@ -868,17 +821,14 @@ No withdrawal requests found.
 <button class="btn btnSmall" onclick="loadWallets()">Refresh</button>
 <button class="btn btnPrimary btnSmall" onclick="openWalletModal()">+ Add Wallet</button>
 </div>
-
 </div>
 
 <div class="walletWarning">
-<strong>Security:</strong>
-Only store public receiving addresses here.
+<strong>Security:</strong> Only store public receiving addresses here.
 Never enter private keys, seed phrases, passwords or API secrets.
 </div>
 
 <div class="tableWrap">
-
 <table>
 <thead>
 <tr>
@@ -890,28 +840,19 @@ Never enter private keys, seed phrases, passwords or API secrets.
 <th>Action</th>
 </tr>
 </thead>
-
 <tbody id="walletsBody"></tbody>
 </table>
-
-<div id="walletsEmpty" class="empty hidden">
-No deposit wallets configured yet.
-</div>
-
+<div id="walletsEmpty" class="empty hidden">No deposit wallets configured yet.</div>
 </div>
 </section>
 
 <div class="support">
-Need administrative assistance?
-<br>
-<a href="mailto:support@maxxdigitalmarkets.com">
-support@maxxdigitalmarkets.com
-</a>
+Need administrative assistance?<br>
+<a href="mailto:support@maxxdigitalmarkets.com">support@maxxdigitalmarkets.com</a>
 </div>
 
 <div class="footer">
-© <span id="year"></span> MAXX Digital Markets.
-<br>
+© <span id="year"></span> MAXX Digital Markets.<br>
 Authorized administrative access only.
 </div>
 
@@ -921,24 +862,24 @@ Authorized administrative access only.
 <!-- CLIENT MODAL -->
 
 <div id="clientModal" class="modal hidden">
-
 <div class="modalCard">
 
 <div class="modalTop">
 <div>
-<h3>Update Client Account</h3>
+<h3>Manage Client Account</h3>
 <div id="modalClientEmail" style="color:#8fa5bc;font-size:12px;margin-top:4px;"></div>
 </div>
-
 <button class="close" onclick="closeClientModal()">×</button>
 </div>
 
+<input type="hidden" id="modalUserId">
+
 <div class="notice">
-Account adjustments should correspond to legitimate, documented customer activity.
-An administrative note is required for each change.
+Use Account Adjustment only for legitimate manual corrections.
+Use Add Closed Trade for trading profit or loss so the trade and account figures stay synchronized.
 </div>
 
-<input type="hidden" id="modalUserId">
+<h3 style="margin-bottom:15px;">Account Adjustment</h3>
 
 <div class="field">
 <label>Balance</label>
@@ -946,7 +887,7 @@ An administrative note is required for each change.
 </div>
 
 <div class="field">
-<label>Profit / Loss</label>
+<label>Total Profit / Loss</label>
 <input id="modalProfit" type="number" step="0.01">
 </div>
 
@@ -956,10 +897,77 @@ An administrative note is required for each change.
 </div>
 
 <div class="modalActions">
-<button class="btn" onclick="closeClientModal()">Cancel</button>
 <button class="btn btnPrimary" id="saveClientBtn" onclick="saveClient()">
-Save Changes
+Save Account Adjustment
 </button>
+</div>
+
+<!-- ADD TRADE -->
+
+<div class="tradeSection">
+
+<div class="tradeTitle">
+<h3>Add Closed Trade</h3>
+<span class="tradeTag">AUTO BALANCE</span>
+</div>
+
+<p class="tradeHelp">
+Enter the actual result of the closed trade. A positive Profit/Loss adds to the client's balance.
+A negative Profit/Loss deducts from the balance.
+</p>
+
+<div class="tradeGrid">
+
+<div class="field">
+<label>Symbol</label>
+<input id="tradeSymbol" type="text" placeholder="BTCUSD">
+</div>
+
+<div class="field">
+<label>Trade Type</label>
+<select id="tradeType">
+<option value="buy">BUY</option>
+<option value="sell">SELL</option>
+</select>
+</div>
+
+<div class="field">
+<label>Volume</label>
+<input id="tradeVolume" type="number" step="any" min="0" placeholder="0.10">
+</div>
+
+<div class="field">
+<label>Entry Price</label>
+<input id="tradeEntryPrice" type="number" step="any" min="0" placeholder="65000">
+</div>
+
+<div class="field">
+<label>Close Price</label>
+<input id="tradeCurrentPrice" type="number" step="any" min="0" placeholder="66000">
+</div>
+
+<div class="field">
+<label>Profit / Loss</label>
+<input id="tradeProfitLoss" type="number" step="0.01"
+placeholder="+200 or -200" oninput="updatePnlHelp()">
+
+<div id="pnlHelp" class="pnlHelp">
+Positive = win. Negative = loss.
+</div>
+</div>
+
+</div>
+
+<div class="modalActions">
+<button class="btn btnGreen" id="addTradeBtn" onclick="addTrade()">
+Add Closed Trade
+</button>
+</div>
+
+</div>
+
+<div class="modalActions">
+<button class="btn" onclick="closeClientModal()">Close</button>
 </div>
 
 </div>
@@ -968,20 +976,16 @@ Save Changes
 <!-- WALLET MODAL -->
 
 <div id="walletModal" class="modal hidden">
-
 <div class="modalCard">
 
 <div class="modalTop">
-
 <div>
 <h3 id="walletModalTitle">Add Deposit Wallet</h3>
 <div style="color:#8fa5bc;font-size:12px;margin-top:4px;">
 Public receiving address
 </div>
 </div>
-
 <button class="close" onclick="closeWalletModal()">×</button>
-
 </div>
 
 <div class="notice">
@@ -993,7 +997,6 @@ Cryptocurrency sent through an incompatible network may be permanently lost.
 
 <div class="field">
 <label>Cryptocurrency / Asset</label>
-
 <select id="walletAsset">
 <option value="BTC">Bitcoin (BTC)</option>
 <option value="ETH">Ethereum (ETH)</option>
@@ -1011,11 +1014,9 @@ Cryptocurrency sent through an incompatible network may be permanently lost.
 
 <div class="field">
 <label>Public Deposit Address</label>
-<textarea
-id="walletAddress"
+<textarea id="walletAddress"
 placeholder="Paste public receiving address"
-autocomplete="off"
-spellcheck="false"></textarea>
+autocomplete="off" spellcheck="false"></textarea>
 </div>
 
 <div class="field">
@@ -1033,9 +1034,7 @@ spellcheck="false"></textarea>
 
 <div class="modalActions">
 <button class="btn" onclick="closeWalletModal()">Cancel</button>
-<button class="btn btnPrimary" id="saveWalletBtn" onclick="saveWallet()">
-Save Wallet
-</button>
+<button class="btn btnPrimary" id="saveWalletBtn" onclick="saveWallet()">Save Wallet</button>
 </div>
 
 </div>
@@ -1043,21 +1042,16 @@ Save Wallet
 
 <script>
 
-/* SUPABASE */
-
 const SUPABASE_URL =
 "https://dwojraxspohahemiarps.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
 
-const db =
-window.supabase.createClient(
+const db = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
-
-/* STATE */
 
 let currentUser = null;
 let clients = [];
@@ -1065,10 +1059,7 @@ let deposits = [];
 let withdrawals = [];
 let wallets = [];
 
-/* HELPERS */
-
 function escapeHtml(value){
-
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
@@ -1078,44 +1069,32 @@ function escapeHtml(value){
 }
 
 function money(value,currency="USD"){
-
   const number = Number(value || 0);
 
   try{
-    return number.toLocaleString(
-      "en-US",
-      {
-        style:"currency",
-        currency:currency || "USD",
-        minimumFractionDigits:2
-      }
-    );
-  }
-  catch{
+    return number.toLocaleString("en-US",{
+      style:"currency",
+      currency:currency || "USD",
+      minimumFractionDigits:2
+    });
+  }catch{
     return "$" + number.toFixed(2);
   }
 }
 
 function formatDate(value){
-
   if(!value) return "—";
 
   const date = new Date(value);
 
-  if(Number.isNaN(date.getTime())){
-    return "—";
-  }
+  if(Number.isNaN(date.getTime())) return "—";
 
   return date.toLocaleString();
 }
 
 function statusBadge(status){
-
-  const text =
-    String(status || "pending").toLowerCase();
-
-  const clean =
-    text.replace(/[^a-z_-]/g,"");
+  const text = String(status || "pending").toLowerCase();
+  const clean = text.replace(/[^a-z_-]/g,"");
 
   return `
     <span class="status ${escapeHtml(clean)}">
@@ -1127,9 +1106,7 @@ function statusBadge(status){
 /* SECURITY */
 
 async function initializeAdmin(){
-
   try{
-
     const {
       data:{session},
       error:sessionError
@@ -1147,22 +1124,14 @@ async function initializeAdmin(){
     const {
       data:adminRecord,
       error:adminError
-    } =
-    await db
+    } = await db
       .from("admin_users")
       .select("user_id")
       .eq("user_id",currentUser.id)
       .maybeSingle();
 
     if(adminError || !adminRecord){
-
-      if(adminError){
-        console.error(
-          "Admin verification error:",
-          adminError
-        );
-      }
-
+      if(adminError) console.error("Admin verification error:",adminError);
       denyAccess();
       return;
     }
@@ -1170,11 +1139,8 @@ async function initializeAdmin(){
     document.getElementById("adminEmail").textContent =
       currentUser.email || "Administrator";
 
-    document.getElementById("loadingScreen")
-      .classList.add("hidden");
-
-    document.getElementById("adminApp")
-      .classList.remove("hidden");
+    document.getElementById("loadingScreen").classList.add("hidden");
+    document.getElementById("adminApp").classList.remove("hidden");
 
     await loadClients();
 
@@ -1184,28 +1150,16 @@ async function initializeAdmin(){
       loadWallets()
     ]);
 
-  }
-  catch(error){
-
-    console.error(
-      "Admin initialization error:",
-      error
-    );
-
+  }catch(error){
+    console.error("Admin initialization error:",error);
     denyAccess();
   }
 }
 
 function denyAccess(){
-
-  document.getElementById("loadingScreen")
-    .classList.add("hidden");
-
-  document.getElementById("adminApp")
-    .classList.add("hidden");
-
-  document.getElementById("accessDenied")
-    .classList.remove("hidden");
+  document.getElementById("loadingScreen").classList.add("hidden");
+  document.getElementById("adminApp").classList.add("hidden");
+  document.getElementById("accessDenied").classList.remove("hidden");
 }
 
 function goLogin(){
@@ -1213,11 +1167,9 @@ function goLogin(){
 }
 
 async function logout(){
-
   try{
     await db.auth.signOut();
-  }
-  finally{
+  }finally{
     window.location.replace("login.html");
   }
 }
@@ -1225,16 +1177,9 @@ async function logout(){
 /* CLIENTS */
 
 async function loadClients(){
-
   try{
-
-    const {
-      data,
-      error
-    } =
-    await db.rpc(
-      "admin_get_client_accounts"
-    );
+    const {data,error} =
+      await db.rpc("admin_get_client_accounts");
 
     if(error) throw error;
 
@@ -1245,32 +1190,20 @@ async function loadClients(){
 
     renderClients(clients);
 
-  }
-  catch(error){
-
-    console.error(
-      "Could not load client accounts:",
-      error
-    );
+  }catch(error){
+    console.error("Could not load client accounts:",error);
 
     clients = [];
-
     document.getElementById("clientCount").textContent = "0";
-
     renderClients([]);
   }
 }
 
 function renderClients(list){
-
-  const body =
-    document.getElementById("clientsBody");
-
-  const empty =
-    document.getElementById("clientsEmpty");
+  const body = document.getElementById("clientsBody");
+  const empty = document.getElementById("clientsEmpty");
 
   if(!list.length){
-
     body.innerHTML = "";
     empty.classList.remove("hidden");
     return;
@@ -1278,16 +1211,11 @@ function renderClients(list){
 
   empty.classList.add("hidden");
 
-  body.innerHTML =
-  list.map(client => {
-
-    const currency =
-      client.currency || "USD";
+  body.innerHTML = list.map(client => {
+    const currency = client.currency || "USD";
 
     return `
-
       <tr>
-
         <td class="email">
           ${escapeHtml(client.email || "No email")}
         </td>
@@ -1296,85 +1224,55 @@ function renderClients(list){
           ${escapeHtml(client.user_id || "—")}
         </td>
 
-        <td>
-          ${money(client.balance,currency)}
-        </td>
-
-        <td>
-          ${money(client.total_profit,currency)}
-        </td>
-
-        <td>
-          ${money(client.total_deposits,currency)}
-        </td>
-
-        <td>
-          ${money(client.total_withdrawals,currency)}
-        </td>
-
-        <td>
-          ${escapeHtml(currency)}
-        </td>
+        <td>${money(client.balance,currency)}</td>
+        <td>${money(client.total_profit,currency)}</td>
+        <td>${money(client.total_deposits,currency)}</td>
+        <td>${money(client.total_withdrawals,currency)}</td>
+        <td>${escapeHtml(currency)}</td>
 
         <td>
           <button
             class="btn btnPrimary btnSmall"
             type="button"
             data-user-id="${escapeHtml(client.user_id)}"
-            onclick="openClient(this.dataset.userId)"
-          >
+            onclick="openClient(this.dataset.userId)">
             Manage
           </button>
         </td>
-
       </tr>
-
     `;
-
   }).join("");
 }
 
 function filterClients(){
-
   const query =
     document.getElementById("clientSearch")
-      .value
-      .toLowerCase()
-      .trim();
+      .value.toLowerCase().trim();
 
   if(!query){
     renderClients(clients);
     return;
   }
 
-  const filtered =
+  renderClients(
     clients.filter(client => {
-
-      const searchable =
-        [
-          client.email,
-          client.user_id,
-          client.currency
-        ]
-        .join(" ")
-        .toLowerCase();
+      const searchable = [
+        client.email,
+        client.user_id,
+        client.currency
+      ].join(" ").toLowerCase();
 
       return searchable.includes(query);
-    });
-
-  renderClients(filtered);
+    })
+  );
 }
 
 /* CLIENT MODAL */
 
 function openClient(userId){
-
-  const client =
-    clients.find(
-      item =>
-        String(item.user_id) ===
-        String(userId)
-    );
+  const client = clients.find(
+    item => String(item.user_id) === String(userId)
+  );
 
   if(!client){
     alert("Client account could not be found.");
@@ -1395,62 +1293,48 @@ function openClient(userId){
 
   document.getElementById("modalNote").value = "";
 
+  clearTradeForm();
+
   document.getElementById("clientModal")
     .classList.remove("hidden");
 }
 
 function closeClientModal(){
-
   document.getElementById("clientModal")
     .classList.add("hidden");
 }
 
-/* SAVE CLIENT */
-
 async function saveClient(){
-
-  const button =
-    document.getElementById("saveClientBtn");
+  const button = document.getElementById("saveClientBtn");
 
   const userId =
     document.getElementById("modalUserId").value;
 
   const balance =
-    Number(
-      document.getElementById("modalBalance").value
-    );
+    Number(document.getElementById("modalBalance").value);
 
   const profit =
-    Number(
-      document.getElementById("modalProfit").value
-    );
+    Number(document.getElementById("modalProfit").value);
 
   const note =
-    document.getElementById("modalNote")
-      .value
-      .trim();
+    document.getElementById("modalNote").value.trim();
 
   if(!userId){
     alert("Missing client ID.");
     return;
   }
 
-  if(
-    !Number.isFinite(balance) ||
-    !Number.isFinite(profit)
-  ){
+  if(!Number.isFinite(balance) || !Number.isFinite(profit)){
     alert("Enter valid balance and profit figures.");
     return;
   }
 
   if(!note){
-    alert(
-      "Enter an administrative note explaining the change."
-    );
+    alert("Enter an administrative note explaining the change.");
     return;
   }
 
-  if(!confirm("Save these client account changes?")){
+  if(!confirm("Save these manual client account changes?")){
     return;
   }
 
@@ -1458,99 +1342,262 @@ async function saveClient(){
   button.textContent = "Saving...";
 
   try{
-
     const {error} =
-    await db.rpc(
-      "admin_update_account",
-      {
+      await db.rpc("admin_update_account",{
         p_user_id:userId,
         p_balance:balance,
         p_equity:balance,
         p_profit:profit,
         p_status:"active",
         p_note:note
-      }
-    );
+      });
 
     if(error) throw error;
 
-    alert(
-      "Client account updated successfully."
-    );
-
-    closeClientModal();
+    alert("Client account updated successfully.");
 
     await loadClients();
 
-  }
-  catch(error){
+    const refreshed =
+      clients.find(c => String(c.user_id) === String(userId));
 
-    console.error(
-      "Client update error:",
-      error
-    );
+    if(refreshed){
+      document.getElementById("modalBalance").value =
+        Number(refreshed.balance || 0);
+
+      document.getElementById("modalProfit").value =
+        Number(refreshed.total_profit || 0);
+    }
+
+    document.getElementById("modalNote").value = "";
+
+  }catch(error){
+    console.error("Client update error:",error);
 
     alert(
       "Could not update the client account.\n\n" +
       error.message
     );
-  }
-  finally{
-
+  }finally{
     button.disabled = false;
-    button.textContent = "Save Changes";
+    button.textContent = "Save Account Adjustment";
+  }
+}
+
+/* =====================================================
+   ADD CLOSED TRADE
+   Calls your Supabase admin_add_trade RPC.
+   The RPC is responsible for inserting the trade and
+   applying profit_loss to balance + total_profit.
+===================================================== */
+
+function clearTradeForm(){
+  document.getElementById("tradeSymbol").value = "";
+  document.getElementById("tradeType").value = "buy";
+  document.getElementById("tradeVolume").value = "";
+  document.getElementById("tradeEntryPrice").value = "";
+  document.getElementById("tradeCurrentPrice").value = "";
+  document.getElementById("tradeProfitLoss").value = "";
+
+  const help = document.getElementById("pnlHelp");
+  help.className = "pnlHelp";
+  help.textContent = "Positive = win. Negative = loss.";
+}
+
+function updatePnlHelp(){
+  const value =
+    Number(document.getElementById("tradeProfitLoss").value);
+
+  const help = document.getElementById("pnlHelp");
+
+  help.className = "pnlHelp";
+
+  if(!Number.isFinite(value) || value === 0){
+    help.textContent = "Positive = win. Negative = loss.";
+    return;
+  }
+
+  if(value > 0){
+    help.classList.add("pnlPositive");
+    help.textContent =
+      `WIN: +$${Math.abs(value).toFixed(2)} will be added to balance and total profit.`;
+  }else{
+    help.classList.add("pnlNegative");
+    help.textContent =
+      `LOSS: -$${Math.abs(value).toFixed(2)} will be deducted from balance and total profit.`;
+  }
+}
+
+async function addTrade(){
+  const button = document.getElementById("addTradeBtn");
+
+  const userId =
+    document.getElementById("modalUserId").value;
+
+  const symbol =
+    document.getElementById("tradeSymbol")
+      .value.trim().toUpperCase();
+
+  const tradeType =
+    document.getElementById("tradeType")
+      .value.trim().toLowerCase();
+
+  const volume =
+    Number(document.getElementById("tradeVolume").value);
+
+  const entryPrice =
+    Number(document.getElementById("tradeEntryPrice").value);
+
+  const currentPrice =
+    Number(document.getElementById("tradeCurrentPrice").value);
+
+  const profitLoss =
+    Number(document.getElementById("tradeProfitLoss").value);
+
+  if(!userId){
+    alert("Missing client ID.");
+    return;
+  }
+
+  if(!symbol){
+    alert("Enter the trade symbol, for example BTCUSD.");
+    return;
+  }
+
+  if(tradeType !== "buy" && tradeType !== "sell"){
+    alert("Select BUY or SELL.");
+    return;
+  }
+
+  if(!Number.isFinite(volume) || volume <= 0){
+    alert("Enter a valid trade volume.");
+    return;
+  }
+
+  if(!Number.isFinite(entryPrice) || entryPrice <= 0){
+    alert("Enter a valid entry price.");
+    return;
+  }
+
+  if(!Number.isFinite(currentPrice) || currentPrice <= 0){
+    alert("Enter a valid close price.");
+    return;
+  }
+
+  if(!Number.isFinite(profitLoss) || profitLoss === 0){
+    alert(
+      "Enter the actual Profit / Loss.\n\n" +
+      "Example:\n" +
+      "+200 for a $200 win\n" +
+      "-200 for a $200 loss"
+    );
+    return;
+  }
+
+  const resultText =
+    profitLoss > 0
+      ? `WIN +$${profitLoss.toFixed(2)}`
+      : `LOSS -$${Math.abs(profitLoss).toFixed(2)}`;
+
+  if(
+    !confirm(
+      "Add this closed trade?\n\n" +
+      "Symbol: " + symbol + "\n" +
+      "Type: " + tradeType.toUpperCase() + "\n" +
+      "Volume: " + volume + "\n" +
+      "Entry: " + entryPrice + "\n" +
+      "Close: " + currentPrice + "\n" +
+      "Result: " + resultText + "\n\n" +
+      "This will automatically update the client's balance and total profit."
+    )
+  ){
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Adding Trade...";
+
+  try{
+    const {data,error} =
+      await db.rpc("admin_add_trade",{
+        p_user_id:userId,
+        p_symbol:symbol,
+        p_trade_type:tradeType,
+        p_volume:volume,
+        p_entry_price:entryPrice,
+        p_current_price:currentPrice,
+        p_profit_loss:profitLoss
+      });
+
+    if(error) throw error;
+
+    console.log("Trade result:",data);
+
+    await loadClients();
+
+    const refreshed =
+      clients.find(c => String(c.user_id) === String(userId));
+
+    if(refreshed){
+      document.getElementById("modalBalance").value =
+        Number(refreshed.balance || 0);
+
+      document.getElementById("modalProfit").value =
+        Number(refreshed.total_profit || 0);
+    }
+
+    clearTradeForm();
+
+    alert(
+      profitLoss > 0
+        ? `Win trade added successfully.\n\n+$${profitLoss.toFixed(2)} was applied to the client's account.`
+        : `Loss trade added successfully.\n\n-$${Math.abs(profitLoss).toFixed(2)} was applied to the client's account.`
+    );
+
+  }catch(error){
+    console.error("Trade creation error:",error);
+
+    alert(
+      "Could not add the trade.\n\n" +
+      (error?.message || "Unknown database error.")
+    );
+  }finally{
+    button.disabled = false;
+    button.textContent = "Add Closed Trade";
   }
 }
 
 /* DEPOSITS */
 
 async function loadDeposits(){
-
-  const {
-    data,
-    error
-  } =
-  await db
-    .from("deposit_requests")
-    .select("*")
-    .order("created_at",{ascending:false});
+  const {data,error} =
+    await db
+      .from("deposit_requests")
+      .select("*")
+      .order("created_at",{ascending:false});
 
   if(error){
-
-    console.error(
-      "Deposit loading error:",
-      error
-    );
-
+    console.error("Deposit loading error:",error);
     deposits = [];
-  }
-  else{
+  }else{
     deposits = data || [];
   }
 
-  const pending =
-    deposits.filter(
-      item =>
-        String(item.status || "")
-          .toLowerCase() === "pending"
-    ).length;
+  const pending = deposits.filter(
+    item =>
+      String(item.status || "").toLowerCase() === "pending"
+  ).length;
 
-  document.getElementById("depositCount").textContent =
-    pending;
+  document.getElementById("depositCount").textContent = pending;
 
   renderDeposits();
 }
 
 function renderDeposits(){
-
-  const body =
-    document.getElementById("depositsBody");
-
-  const empty =
-    document.getElementById("depositsEmpty");
+  const body = document.getElementById("depositsBody");
+  const empty = document.getElementById("depositsEmpty");
 
   if(!deposits.length){
-
     body.innerHTML = "";
     empty.classList.remove("hidden");
     return;
@@ -1558,17 +1605,12 @@ function renderDeposits(){
 
   empty.classList.add("hidden");
 
-  body.innerHTML =
-  deposits.map(item => {
-
+  body.innerHTML = deposits.map(item => {
     const id = item.id || "";
 
-    const client =
-      clients.find(
-        c =>
-          String(c.user_id) ===
-          String(item.user_id)
-      );
+    const client = clients.find(
+      c => String(c.user_id) === String(item.user_id)
+    );
 
     const user =
       item.email ||
@@ -1577,8 +1619,7 @@ function renderDeposits(){
       item.user_id ||
       "Client";
 
-    const amount =
-      item.amount ?? 0;
+    const amount = item.amount ?? 0;
 
     const currency =
       item.currency ||
@@ -1591,85 +1632,54 @@ function renderDeposits(){
       "—";
 
     return `
-
       <tr>
-
         <td>${escapeHtml(user)}</td>
-
         <td>${escapeHtml(amount)}</td>
-
         <td>${escapeHtml(currency)}</td>
-
         <td>${escapeHtml(method)}</td>
-
         <td>${statusBadge(item.status)}</td>
+        <td>${escapeHtml(formatDate(item.created_at))}</td>
 
         <td>
-          ${escapeHtml(formatDate(item.created_at))}
+        ${
+          String(item.status || "pending").toLowerCase() === "pending"
+          ? `
+            <button class="btn btnGreen btnSmall"
+              data-id="${escapeHtml(id)}"
+              onclick="updateDeposit(this.dataset.id,'approved')">
+              Approve
+            </button>
+
+            <button class="btn btnRed btnSmall"
+              data-id="${escapeHtml(id)}"
+              onclick="updateDeposit(this.dataset.id,'rejected')">
+              Reject
+            </button>
+          `
+          : `<span style="color:#8fa5bc;">Processed</span>`
+        }
         </td>
-
-        <td>
-
-          ${
-            String(item.status || "pending")
-              .toLowerCase() === "pending"
-
-            ? `
-
-              <button
-                class="btn btnGreen btnSmall"
-                data-id="${escapeHtml(id)}"
-                onclick="updateDeposit(this.dataset.id,'approved')"
-              >
-                Approve
-              </button>
-
-              <button
-                class="btn btnRed btnSmall"
-                data-id="${escapeHtml(id)}"
-                onclick="updateDeposit(this.dataset.id,'rejected')"
-              >
-                Reject
-              </button>
-
-            `
-
-            : `<span style="color:#8fa5bc;">Processed</span>`
-          }
-
-        </td>
-
       </tr>
-
     `;
-
   }).join("");
 }
 
 async function updateDeposit(id,status){
-
   if(!id) return;
 
-  if(
-    !confirm(
-      "Mark this deposit request as " +
-      status +
-      "?"
-    )
-  ){
+  if(!confirm("Mark this deposit request as " + status + "?")){
     return;
   }
 
   try{
-
     const {error} =
-    await db
-      .from("deposit_requests")
-      .update({
-        status:status,
-        updated_at:new Date().toISOString()
-      })
-      .eq("id",id);
+      await db
+        .from("deposit_requests")
+        .update({
+          status:status,
+          updated_at:new Date().toISOString()
+        })
+        .eq("id",id);
 
     if(error) throw error;
 
@@ -1680,13 +1690,8 @@ async function updateDeposit(id,status){
       loadClients()
     ]);
 
-  }
-  catch(error){
-
-    console.error(
-      "Deposit update error:",
-      error
-    );
+  }catch(error){
+    console.error("Deposit update error:",error);
 
     alert(
       "Could not update deposit request.\n\n" +
@@ -1698,35 +1703,23 @@ async function updateDeposit(id,status){
 /* WITHDRAWALS */
 
 async function loadWithdrawals(){
-
-  const {
-    data,
-    error
-  } =
-  await db
-    .from("withdrawal_requests")
-    .select("*")
-    .order("created_at",{ascending:false});
+  const {data,error} =
+    await db
+      .from("withdrawal_requests")
+      .select("*")
+      .order("created_at",{ascending:false});
 
   if(error){
-
-    console.error(
-      "Withdrawal loading error:",
-      error
-    );
-
+    console.error("Withdrawal loading error:",error);
     withdrawals = [];
-  }
-  else{
+  }else{
     withdrawals = data || [];
   }
 
-  const pending =
-    withdrawals.filter(
-      item =>
-        String(item.status || "")
-          .toLowerCase() === "pending"
-    ).length;
+  const pending = withdrawals.filter(
+    item =>
+      String(item.status || "").toLowerCase() === "pending"
+  ).length;
 
   document.getElementById("withdrawalCount").textContent =
     pending;
@@ -1735,15 +1728,10 @@ async function loadWithdrawals(){
 }
 
 function renderWithdrawals(){
-
-  const body =
-    document.getElementById("withdrawalsBody");
-
-  const empty =
-    document.getElementById("withdrawalsEmpty");
+  const body = document.getElementById("withdrawalsBody");
+  const empty = document.getElementById("withdrawalsEmpty");
 
   if(!withdrawals.length){
-
     body.innerHTML = "";
     empty.classList.remove("hidden");
     return;
@@ -1751,18 +1739,12 @@ function renderWithdrawals(){
 
   empty.classList.add("hidden");
 
-  body.innerHTML =
-  withdrawals.map(item => {
+  body.innerHTML = withdrawals.map(item => {
+    const id = item.id || "";
 
-    const id =
-      item.id || "";
-
-    const client =
-      clients.find(
-        c =>
-          String(c.user_id) ===
-          String(item.user_id)
-      );
+    const client = clients.find(
+      c => String(c.user_id) === String(item.user_id)
+    );
 
     const user =
       item.email ||
@@ -1771,8 +1753,7 @@ function renderWithdrawals(){
       item.user_id ||
       "Client";
 
-    const amount =
-      Number(item.amount || 0);
+    const amount = Number(item.amount || 0);
 
     const currency =
       item.currency ||
@@ -1781,32 +1762,21 @@ function renderWithdrawals(){
       item.asset ||
       "USD";
 
-    const method =
-      String(
-        item.method ||
-        item.withdrawal_type ||
-        item.withdrawal_method ||
-        "—"
-      );
-
-    /* BANK DETAILS */
+    const method = String(
+      item.method ||
+      item.withdrawal_type ||
+      item.withdrawal_method ||
+      "—"
+    );
 
     const accountHolder =
       item.account_holder ||
       item.account_name ||
       "—";
 
-    const bankName =
-      item.bank_name ||
-      "—";
-
-    const accountNumber =
-      item.account_number ||
-      "—";
-
-    const bankCountry =
-      item.bank_country ||
-      "—";
+    const bankName = item.bank_name || "—";
+    const accountNumber = item.account_number || "—";
+    const bankCountry = item.bank_country || "—";
 
     const routingSwift =
       item.routing_or_swift ||
@@ -1814,16 +1784,12 @@ function renderWithdrawals(){
       item.swift_code ||
       "—";
 
-    /* CRYPTO DETAILS */
-
     const cryptoAsset =
       item.crypto_asset ||
       item.asset ||
       "—";
 
-    const network =
-      item.network ||
-      "—";
+    const network = item.network || "—";
 
     const walletAddress =
       item.wallet_address ||
@@ -1831,8 +1797,7 @@ function renderWithdrawals(){
       item.address ||
       "—";
 
-    const methodLower =
-      method.toLowerCase();
+    const methodLower = method.toLowerCase();
 
     const hasBankDetails =
       bankName !== "—" ||
@@ -1865,243 +1830,122 @@ function renderWithdrawals(){
     let destinationDetails = "";
 
     if(isBank){
-
       destinationDetails = `
-
         <div class="withdrawalDetails">
+          <div><strong>Bank:</strong>
+          <span class="detailValue">${escapeHtml(bankName)}</span></div>
 
-          <div>
-            <strong>Bank:</strong>
-            <span class="detailValue">
-              ${escapeHtml(bankName)}
-            </span>
-          </div>
+          <div><strong>Account Holder:</strong>
+          <span class="detailValue">${escapeHtml(accountHolder)}</span></div>
 
-          <div>
-            <strong>Account Holder:</strong>
-            <span class="detailValue">
-              ${escapeHtml(accountHolder)}
-            </span>
-          </div>
+          <div><strong>Account Number:</strong>
+          <span class="detailCode">${escapeHtml(accountNumber)}</span></div>
 
-          <div>
-            <strong>Account Number:</strong>
-            <span class="detailCode">
-              ${escapeHtml(accountNumber)}
-            </span>
-          </div>
+          <div><strong>Country:</strong>
+          <span class="detailValue">${escapeHtml(bankCountry)}</span></div>
 
-          <div>
-            <strong>Country:</strong>
-            <span class="detailValue">
-              ${escapeHtml(bankCountry)}
-            </span>
-          </div>
-
-          <div>
-            <strong>Routing / SWIFT:</strong>
-            <span class="detailCode">
-              ${escapeHtml(routingSwift)}
-            </span>
-          </div>
-
+          <div><strong>Routing / SWIFT:</strong>
+          <span class="detailCode">${escapeHtml(routingSwift)}</span></div>
         </div>
-
       `;
-
-    }
-    else if(isCrypto){
-
+    }else if(isCrypto){
       destinationDetails = `
-
         <div class="withdrawalDetails">
+          <div><strong>Asset:</strong>
+          <span class="detailValue">${escapeHtml(cryptoAsset)}</span></div>
 
-          <div>
-            <strong>Asset:</strong>
-            <span class="detailValue">
-              ${escapeHtml(cryptoAsset)}
-            </span>
-          </div>
+          <div><strong>Network:</strong>
+          <span class="detailValue">${escapeHtml(network)}</span></div>
 
-          <div>
-            <strong>Network:</strong>
-            <span class="detailValue">
-              ${escapeHtml(network)}
-            </span>
-          </div>
-
-          <div>
-            <strong>Wallet Address:</strong>
-          </div>
-
-          <div class="detailCode">
-            ${escapeHtml(walletAddress)}
-          </div>
-
+          <div><strong>Wallet Address:</strong></div>
+          <div class="detailCode">${escapeHtml(walletAddress)}</div>
         </div>
-
       `;
-
-    }
-    else{
-
+    }else{
       destinationDetails = `
-
         <div class="withdrawalDetails">
           <span style="color:#8fa5bc;">
             No destination details available.
           </span>
         </div>
-
       `;
     }
 
     return `
-
       <tr>
 
         <td>
-
-          <div class="email">
-            ${escapeHtml(user)}
-          </div>
-
-          <div
-            class="userId"
-            style="
-              margin-top:6px;
-              max-width:220px;
-              font-size:10px;
-            "
-          >
+          <div class="email">${escapeHtml(user)}</div>
+          <div class="userId"
+            style="margin-top:6px;max-width:220px;font-size:10px;">
             ${escapeHtml(item.user_id || "")}
           </div>
-
         </td>
 
-        <td>
-          <strong>
-            ${escapeHtml(amount.toLocaleString())}
-          </strong>
-        </td>
+        <td><strong>${escapeHtml(amount.toLocaleString())}</strong></td>
+        <td>${escapeHtml(currency)}</td>
 
         <td>
-          ${escapeHtml(currency)}
-        </td>
-
-        <td>
-
           <strong style="color:#75c8ff;">
             ${escapeHtml(method)}
           </strong>
-
           ${destinationDetails}
-
         </td>
 
-        <td>
-          ${statusBadge(item.status)}
-        </td>
+        <td>${statusBadge(item.status)}</td>
+        <td>${escapeHtml(formatDate(item.created_at))}</td>
 
         <td>
-          ${escapeHtml(formatDate(item.created_at))}
-        </td>
+        ${
+          String(item.status || "pending").toLowerCase() === "pending"
+          ? `
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
 
-        <td>
+              <button class="btn btnGreen btnSmall"
+                data-id="${escapeHtml(id)}"
+                onclick="updateWithdrawal(this.dataset.id,'approved')">
+                Approve
+              </button>
 
-          ${
-            String(item.status || "pending")
-              .toLowerCase() === "pending"
+              <button class="btn btnRed btnSmall"
+                data-id="${escapeHtml(id)}"
+                onclick="updateWithdrawal(this.dataset.id,'rejected')">
+                Reject
+              </button>
 
-            ? `
+            </div>
+          `
+          : `
+            <div style="color:#8fa5bc;font-size:12px;">
+              Processed
+            </div>
 
-              <div style="
-                display:flex;
-                gap:7px;
-                flex-wrap:wrap;
-              ">
-
-                <button
-                  class="btn btnGreen btnSmall"
-                  data-id="${escapeHtml(id)}"
-                  onclick="updateWithdrawal(this.dataset.id,'approved')"
-                >
-                  Approve
-                </button>
-
-                <button
-                  class="btn btnRed btnSmall"
-                  data-id="${escapeHtml(id)}"
-                  onclick="updateWithdrawal(this.dataset.id,'rejected')"
-                >
-                  Reject
-                </button>
-
-              </div>
-
-            `
-
-            : `
-
-              <div style="
-                color:#8fa5bc;
-                font-size:12px;
-              ">
-                Processed
-              </div>
-
-              ${
-                item.processed_at
-                ? `
-                  <div style="
-                    color:#62778d;
-                    font-size:10px;
-                    margin-top:5px;
-                  ">
-                    ${escapeHtml(
-                      formatDate(item.processed_at)
-                    )}
-                  </div>
-                `
-                : ""
-              }
-
-            `
-          }
-
+            ${
+              item.processed_at
+              ? `
+                <div style="color:#62778d;font-size:10px;margin-top:5px;">
+                  ${escapeHtml(formatDate(item.processed_at))}
+                </div>
+              `
+              : ""
+            }
+          `
+        }
         </td>
 
       </tr>
-
     `;
-
   }).join("");
 }
 
-/*
-=========================================================
-CORRECTED WITHDRAWAL PROCESSING
-Supabase function confirmed as:
-
-admin_process_withdrawal(
-  p_withdrawal_id bigint,
-  p_status text,
-  p_admin_note text
-)
-=========================================================
-*/
-
 async function updateWithdrawal(id,status){
-
   if(!id){
     alert("Missing withdrawal request ID.");
     return;
   }
 
   const normalizedStatus =
-    String(status || "")
-      .toLowerCase()
-      .trim();
+    String(status || "").toLowerCase().trim();
 
   if(
     normalizedStatus !== "approved" &&
@@ -2116,96 +1960,54 @@ async function updateWithdrawal(id,status){
       ? "approve"
       : "reject";
 
-  if(
-    !confirm(
-      "Are you sure you want to " +
-      action +
-      " this withdrawal request?"
-    )
-  ){
+  if(!confirm(
+    "Are you sure you want to " +
+    action +
+    " this withdrawal request?"
+  )){
     return;
   }
 
   try{
+    const withdrawalId = Number(id);
 
-    const withdrawalId =
-      Number(id);
-
-    if(
-      !Number.isFinite(withdrawalId) ||
-      withdrawalId <= 0
-    ){
-      throw new Error(
-        "Invalid withdrawal request ID."
-      );
+    if(!Number.isFinite(withdrawalId) || withdrawalId <= 0){
+      throw new Error("Invalid withdrawal request ID.");
     }
 
     const adminNote =
       normalizedStatus === "approved"
-        ? "Withdrawal approved by administrator."
-        : "Withdrawal rejected by administrator.";
+      ? "Withdrawal approved by administrator."
+      : "Withdrawal rejected by administrator.";
 
-    /*
-     * IMPORTANT:
-     * These parameter names exactly match
-     * the function confirmed in Supabase.
-     */
-
-    const {
-      data,
-      error
-    } =
-    await db.rpc(
-      "admin_process_withdrawal",
-      {
+    const {data,error} =
+      await db.rpc("admin_process_withdrawal",{
         p_withdrawal_id:withdrawalId,
         p_status:normalizedStatus,
         p_admin_note:adminNote
-      }
+      });
+
+    if(error) throw error;
+
+    console.log("Withdrawal processing result:",data);
+
+    alert(
+      normalizedStatus === "approved"
+        ? "Withdrawal approved successfully."
+        : "Withdrawal rejected successfully. Funds were returned according to the withdrawal processing rule."
     );
-
-    if(error){
-      throw error;
-    }
-
-    console.log(
-      "Withdrawal processing result:",
-      data
-    );
-
-    if(normalizedStatus === "approved"){
-
-      alert(
-        "Withdrawal approved successfully."
-      );
-
-    }
-    else{
-
-      alert(
-        "Withdrawal rejected successfully."
-      );
-    }
 
     await Promise.all([
       loadWithdrawals(),
       loadClients()
     ]);
 
-  }
-  catch(error){
-
-    console.error(
-      "Withdrawal processing error:",
-      error
-    );
+  }catch(error){
+    console.error("Withdrawal processing error:",error);
 
     alert(
       "Could not process withdrawal request.\n\n" +
-      (
-        error?.message ||
-        "Unknown database error."
-      )
+      (error?.message || "Unknown database error.")
     );
   }
 }
@@ -2213,34 +2015,21 @@ async function updateWithdrawal(id,status){
 /* WALLETS */
 
 async function loadWallets(){
-
-  const {
-    data,
-    error
-  } =
-  await db
-    .from("deposit_wallets")
-    .select("*")
-    .order("created_at",{ascending:false});
+  const {data,error} =
+    await db
+      .from("deposit_wallets")
+      .select("*")
+      .order("created_at",{ascending:false});
 
   if(error){
-
-    console.error(
-      "Wallet loading error:",
-      error
-    );
-
+    console.error("Wallet loading error:",error);
     wallets = [];
-  }
-  else{
+  }else{
     wallets = data || [];
   }
 
   const activeWallets =
-    wallets.filter(
-      wallet =>
-        wallet.is_active !== false
-    ).length;
+    wallets.filter(wallet => wallet.is_active !== false).length;
 
   document.getElementById("walletCount").textContent =
     activeWallets;
@@ -2249,15 +2038,10 @@ async function loadWallets(){
 }
 
 function renderWallets(){
-
-  const body =
-    document.getElementById("walletsBody");
-
-  const empty =
-    document.getElementById("walletsEmpty");
+  const body = document.getElementById("walletsBody");
+  const empty = document.getElementById("walletsEmpty");
 
   if(!wallets.length){
-
     body.innerHTML = "";
     empty.classList.remove("hidden");
     return;
@@ -2265,9 +2049,7 @@ function renderWallets(){
 
   empty.classList.add("hidden");
 
-  body.innerHTML =
-  wallets.map(wallet => {
-
+  body.innerHTML = wallets.map(wallet => {
     const id = wallet.id || "";
     const asset = wallet.asset || "—";
     const network = wallet.network || "—";
@@ -2284,63 +2066,39 @@ function renderWallets(){
       wallet.is_active !== false;
 
     return `
-
       <tr>
-
-        <td>
-          <strong>${escapeHtml(asset)}</strong>
-        </td>
-
-        <td>
-          ${escapeHtml(network)}
-        </td>
-
-        <td class="walletAddress">
-          ${escapeHtml(address)}
-        </td>
+        <td><strong>${escapeHtml(asset)}</strong></td>
+        <td>${escapeHtml(network)}</td>
+        <td class="walletAddress">${escapeHtml(address)}</td>
 
         <td>
           ${escapeHtml(minimum)}
           ${escapeHtml(asset)}
         </td>
 
-        <td>
-          ${statusBadge(
-            active ? "active" : "inactive"
-          )}
-        </td>
+        <td>${statusBadge(active ? "active" : "inactive")}</td>
 
         <td>
-
-          <button
-            class="btn btnPrimary btnSmall"
+          <button class="btn btnPrimary btnSmall"
             data-id="${escapeHtml(id)}"
-            onclick="editWallet(this.dataset.id)"
-          >
+            onclick="editWallet(this.dataset.id)">
             Edit
           </button>
 
-          <button
-            class="btn btnRed btnSmall"
+          <button class="btn btnRed btnSmall"
             data-id="${escapeHtml(id)}"
-            onclick="deleteWallet(this.dataset.id)"
-          >
+            onclick="deleteWallet(this.dataset.id)">
             Delete
           </button>
-
         </td>
-
       </tr>
-
     `;
-
   }).join("");
 }
 
 /* WALLET MODAL */
 
 function openWalletModal(){
-
   document.getElementById("walletModalTitle").textContent =
     "Add Deposit Wallet";
 
@@ -2359,16 +2117,11 @@ function openWalletModal(){
 }
 
 function editWallet(id){
-
-  const wallet =
-    wallets.find(
-      item =>
-        String(item.id) ===
-        String(id)
-    );
+  const wallet = wallets.find(
+    item => String(item.id) === String(id)
+  );
 
   if(!wallet){
-
     alert("Wallet could not be found.");
     return;
   }
@@ -2394,9 +2147,7 @@ function editWallet(id){
     wallet.minimum_deposit ?? "";
 
   document.getElementById("walletActive").value =
-    wallet.is_active === false
-      ? "false"
-      : "true";
+    wallet.is_active === false ? "false" : "true";
 
   document.getElementById("saveWalletBtn").textContent =
     "Update Wallet";
@@ -2406,13 +2157,11 @@ function editWallet(id){
 }
 
 function closeWalletModal(){
-
   document.getElementById("walletModal")
     .classList.add("hidden");
 }
 
 async function saveWallet(){
-
   const button =
     document.getElementById("saveWalletBtn");
 
@@ -2420,21 +2169,16 @@ async function saveWallet(){
     document.getElementById("walletId").value;
 
   const asset =
-    document.getElementById("walletAsset")
-      .value.trim();
+    document.getElementById("walletAsset").value.trim();
 
   const network =
-    document.getElementById("walletNetwork")
-      .value.trim();
+    document.getElementById("walletNetwork").value.trim();
 
   const address =
-    document.getElementById("walletAddress")
-      .value.trim();
+    document.getElementById("walletAddress").value.trim();
 
   const minimum =
-    Number(
-      document.getElementById("walletMinimum").value || 0
-    );
+    Number(document.getElementById("walletMinimum").value || 0);
 
   const active =
     document.getElementById("walletActive").value === "true";
@@ -2449,24 +2193,17 @@ async function saveWallet(){
     return;
   }
 
-  if(
-    !Number.isFinite(minimum) ||
-    minimum < 0
-  ){
+  if(!Number.isFinite(minimum) || minimum < 0){
     alert("Enter a valid minimum deposit.");
     return;
   }
 
-  if(
-    !confirm(
-      "Save this public deposit wallet?\n\n" +
-      "Asset: " +
-      asset +
-      "\nNetwork: " +
-      network +
-      "\n\nDouble-check the public address and network."
-    )
-  ){
+  if(!confirm(
+    "Save this public deposit wallet?\n\n" +
+    "Asset: " + asset +
+    "\nNetwork: " + network +
+    "\n\nDouble-check the public address and network."
+  )){
     return;
   }
 
@@ -2482,29 +2219,22 @@ async function saveWallet(){
   };
 
   try{
-
     let result;
 
     if(id){
-
       result =
-      await db
-        .from("deposit_wallets")
-        .update(record)
-        .eq("id",id);
-
-    }
-    else{
-
+        await db
+          .from("deposit_wallets")
+          .update(record)
+          .eq("id",id);
+    }else{
       result =
-      await db
-        .from("deposit_wallets")
-        .insert(record);
+        await db
+          .from("deposit_wallets")
+          .insert(record);
     }
 
-    if(result.error){
-      throw result.error;
-    }
+    if(result.error) throw result.error;
 
     alert(
       id
@@ -2515,59 +2245,43 @@ async function saveWallet(){
     closeWalletModal();
     await loadWallets();
 
-  }
-  catch(error){
-
-    console.error(
-      "Wallet save error:",
-      error
-    );
+  }catch(error){
+    console.error("Wallet save error:",error);
 
     alert(
       "Could not save the wallet.\n\n" +
       error.message
     );
-  }
-  finally{
-
+  }finally{
     button.disabled = false;
 
     button.textContent =
-      id
-        ? "Update Wallet"
-        : "Save Wallet";
+      id ? "Update Wallet" : "Save Wallet";
   }
 }
 
 async function deleteWallet(id){
-
-  const wallet =
-    wallets.find(
-      item =>
-        String(item.id) ===
-        String(id)
-    );
+  const wallet = wallets.find(
+    item => String(item.id) === String(id)
+  );
 
   if(!wallet) return;
 
-  if(
-    !confirm(
-      "Delete this public deposit wallet?\n\n" +
-      (wallet.asset || "") +
-      " / " +
-      (wallet.network || "")
-    )
-  ){
+  if(!confirm(
+    "Delete this public deposit wallet?\n\n" +
+    (wallet.asset || "") +
+    " / " +
+    (wallet.network || "")
+  )){
     return;
   }
 
   try{
-
     const {error} =
-    await db
-      .from("deposit_wallets")
-      .delete()
-      .eq("id",id);
+      await db
+        .from("deposit_wallets")
+        .delete()
+        .eq("id",id);
 
     if(error) throw error;
 
@@ -2575,13 +2289,8 @@ async function deleteWallet(id){
 
     await loadWallets();
 
-  }
-  catch(error){
-
-    console.error(
-      "Wallet deletion error:",
-      error
-    );
+  }catch(error){
+    console.error("Wallet deletion error:",error);
 
     alert(
       "Could not delete wallet.\n\n" +
@@ -2593,13 +2302,9 @@ async function deleteWallet(id){
 /* TABS */
 
 function showTab(name,button){
-
-  document
-    .querySelectorAll(".tab")
-    .forEach(
-      tab =>
-        tab.classList.remove("active")
-    );
+  document.querySelectorAll(".tab").forEach(
+    tab => tab.classList.remove("active")
+  );
 
   button.classList.add("active");
 
@@ -2609,112 +2314,63 @@ function showTab(name,button){
     "withdrawalsTab",
     "walletsTab"
   ].forEach(id => {
-
-    document.getElementById(id)
-      .classList.add("hidden");
+    document.getElementById(id).classList.add("hidden");
   });
 
-  document.getElementById(
-    name + "Tab"
-  ).classList.remove("hidden");
+  document.getElementById(name + "Tab")
+    .classList.remove("hidden");
 
-  if(name === "clients"){
-    loadClients();
-  }
-
-  if(name === "deposits"){
-    loadDeposits();
-  }
-
-  if(name === "withdrawals"){
-    loadWithdrawals();
-  }
-
-  if(name === "wallets"){
-    loadWallets();
-  }
+  if(name === "clients") loadClients();
+  if(name === "deposits") loadDeposits();
+  if(name === "withdrawals") loadWithdrawals();
+  if(name === "wallets") loadWallets();
 }
 
-/* AUTH STATE */
+/* AUTH */
 
-db.auth.onAuthStateChange(
-  (event,session) => {
-
-    if(
-      event === "SIGNED_OUT" ||
-      !session
-    ){
-      window.location.replace("login.html");
-    }
+db.auth.onAuthStateChange((event,session) => {
+  if(event === "SIGNED_OUT" || !session){
+    window.location.replace("login.html");
   }
-);
+});
 
 /* MODAL BACKDROP */
 
 document.getElementById("clientModal")
-.addEventListener(
-  "click",
-  function(event){
-
-    if(event.target === this){
-      closeClientModal();
-    }
+.addEventListener("click",function(event){
+  if(event.target === this){
+    closeClientModal();
   }
-);
+});
 
 document.getElementById("walletModal")
-.addEventListener(
-  "click",
-  function(event){
-
-    if(event.target === this){
-      closeWalletModal();
-    }
+.addEventListener("click",function(event){
+  if(event.target === this){
+    closeWalletModal();
   }
-);
-
-/* YEAR */
+});
 
 document.getElementById("year").textContent =
   new Date().getFullYear();
-
-/* START */
 
 initializeAdmin();
 
 </script>
 
 <!-- TAWK.TO LIVE SUPPORT -->
-
 <script type="text/javascript">
-
-var Tawk_API=Tawk_API||{},
-Tawk_LoadStart=new Date();
+var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();
 
 (function(){
-
 var s1=document.createElement("script"),
 s0=document.getElementsByTagName("script")[0];
 
 s1.async=true;
-
-s1.src=
-'https://embed.tawk.to/6ab51df05abce934461ff239/default';
-
+s1.src='https://embed.tawk.to/6ab51df05abce934461ff239/default';
 s1.charset='UTF-8';
-
-s1.setAttribute(
-  'crossorigin',
-  '*'
-);
-
-s0.parentNode.insertBefore(
-  s1,
-  s0
-);
-
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
 })();
-
 </script>
 
 </body>
