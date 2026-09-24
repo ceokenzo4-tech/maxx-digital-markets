@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#03101d">
 
-  <title>Dashboard | Maxx Digital Markets</title>
+  <title>Dashboard | MAXX Digital Markets</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -29,6 +29,10 @@
       --red: #ff5c69;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: 100vh;
       background:
@@ -47,7 +51,9 @@
       font-family: inherit;
     }
 
-    /* Loading screen */
+    /* ==========================
+       LOADING SCREEN
+    ========================== */
 
     #loadingScreen {
       position: fixed;
@@ -84,7 +90,9 @@
       display: none;
     }
 
-    /* Header */
+    /* ==========================
+       HEADER
+    ========================== */
 
     .topbar {
       height: 92px;
@@ -97,6 +105,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      backdrop-filter: blur(12px);
     }
 
     .brand {
@@ -115,6 +124,7 @@
       color: #02101c;
       font-size: 27px;
       font-weight: 900;
+      box-shadow: 0 8px 25px rgba(21, 200, 238, .15);
     }
 
     .brand-name {
@@ -153,7 +163,9 @@
       cursor: pointer;
     }
 
-    /* Layout */
+    /* ==========================
+       LAYOUT
+    ========================== */
 
     .layout {
       display: grid;
@@ -191,6 +203,10 @@
       color: white;
     }
 
+    .support-link {
+      color: var(--cyan);
+    }
+
     .main {
       width: 100%;
       max-width: 1180px;
@@ -198,7 +214,9 @@
       margin: 0 auto;
     }
 
-    /* Welcome */
+    /* ==========================
+       WELCOME
+    ========================== */
 
     .welcome {
       margin-bottom: 34px;
@@ -225,7 +243,9 @@
       max-width: 700px;
     }
 
-    /* Cards */
+    /* ==========================
+       STATUS CARDS
+    ========================== */
 
     .status-grid {
       display: grid;
@@ -235,7 +255,12 @@
     }
 
     .card {
-      background: linear-gradient(145deg, rgba(12, 31, 52, .96), rgba(7, 23, 40, .96));
+      background:
+        linear-gradient(
+          145deg,
+          rgba(12, 31, 52, .96),
+          rgba(7, 23, 40, .96)
+        );
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 27px;
@@ -270,11 +295,18 @@
       background: var(--green);
     }
 
-    /* Profile */
+    /* ==========================
+       SECTIONS
+    ========================== */
 
     .section-card {
       margin-top: 24px;
-      background: linear-gradient(145deg, rgba(12, 31, 52, .96), rgba(7, 23, 40, .96));
+      background:
+        linear-gradient(
+          145deg,
+          rgba(12, 31, 52, .96),
+          rgba(7, 23, 40, .96)
+        );
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 30px;
@@ -284,6 +316,10 @@
       font-size: 23px;
       margin-bottom: 25px;
     }
+
+    /* ==========================
+       PROFILE
+    ========================== */
 
     .profile-grid {
       display: grid;
@@ -309,7 +345,9 @@
       word-break: break-word;
     }
 
-    /* Quick access */
+    /* ==========================
+       QUICK ACCESS
+    ========================== */
 
     .quick-grid {
       display: grid;
@@ -349,7 +387,9 @@
       color: var(--muted);
     }
 
-    /* Security */
+    /* ==========================
+       SECURITY
+    ========================== */
 
     .security-item {
       padding: 21px 0;
@@ -376,11 +416,41 @@
     }
 
     .verified {
-      color: var(--green);
+      color: var(--green) !important;
       font-weight: 700;
     }
 
-    /* Logout */
+    /* ==========================
+       SUPPORT
+    ========================== */
+
+    .support-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .support-email {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid rgba(21, 200, 238, .35);
+      border-radius: 12px;
+      background: rgba(21, 200, 238, .08);
+      color: var(--cyan);
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .support-email:hover {
+      background: rgba(21, 200, 238, .14);
+    }
+
+    /* ==========================
+       LOGOUT
+    ========================== */
 
     .logout-area {
       margin-top: 26px;
@@ -418,9 +488,12 @@
       line-height: 1.7;
     }
 
-    /* Mobile */
+    /* ==========================
+       MOBILE
+    ========================== */
 
     @media (max-width: 900px) {
+
       .layout {
         display: block;
       }
@@ -459,6 +532,7 @@
     }
 
     @media (max-width: 600px) {
+
       .topbar {
         height: 82px;
         padding: 0 20px;
@@ -518,6 +592,7 @@
     }
 
     @media (max-width: 390px) {
+
       .brand-name {
         font-size: 14px;
       }
@@ -531,32 +606,58 @@
 
 <body>
 
-  <!-- SECURE LOADING SCREEN -->
+  <!-- ==========================
+       SECURE LOADING SCREEN
+  =========================== -->
+
   <div id="loadingScreen">
+
     <div class="loading-inner">
+
       <div class="spinner"></div>
-      <p>Securing your account...</p>
+
+      <p>
+        Securing your account...
+      </p>
+
     </div>
+
   </div>
 
-  <!-- DASHBOARD -->
+
+  <!-- ==========================
+       DASHBOARD
+  =========================== -->
+
   <div id="app">
+
+
+    <!-- HEADER -->
 
     <header class="topbar">
 
       <a class="brand" href="dashboard.html">
-        <div class="logo">M</div>
+
+        <div class="logo">
+          M
+        </div>
 
         <div class="brand-name">
           MAXX <span>DIGITAL MARKETS</span>
         </div>
+
       </a>
+
 
       <div class="header-right">
 
-        <div class="user-circle" id="userInitial">
+        <div
+          class="user-circle"
+          id="userInitial"
+        >
           M
         </div>
+
 
         <button
           class="menu-button"
@@ -574,36 +675,79 @@
 
     <div class="layout">
 
-      <!-- SIDEBAR -->
-      <aside class="sidebar" id="sidebar">
 
-        <div class="nav-label">ACCOUNT</div>
+      <!-- ==========================
+           SIDEBAR
+      =========================== -->
 
-        <a class="nav-link active" href="dashboard.html">
+      <aside
+        class="sidebar"
+        id="sidebar"
+      >
+
+        <div class="nav-label">
+          ACCOUNT
+        </div>
+
+
+        <a
+          class="nav-link active"
+          href="dashboard.html"
+        >
           Dashboard
         </a>
 
-        <a class="nav-link" href="#profile">
+
+        <a
+          class="nav-link"
+          href="#profile"
+        >
           Profile
         </a>
 
-        <a class="nav-link" href="#security">
+
+        <a
+          class="nav-link"
+          href="#security"
+        >
           Security
         </a>
 
-        <a class="nav-link" href="markets.html">
+
+        <a
+          class="nav-link"
+          href="markets.html"
+        >
           Markets
         </a>
 
-        <a class="nav-link" href="index.html">
+
+        <a
+          class="nav-link"
+          href="index.html"
+        >
           Website
+        </a>
+
+
+        <a
+          class="nav-link support-link"
+          href="#support"
+        >
+          Support
         </a>
 
       </aside>
 
 
-      <!-- MAIN -->
+      <!-- ==========================
+           MAIN
+      =========================== -->
+
       <main class="main">
+
+
+        <!-- WELCOME -->
 
         <section class="welcome">
 
@@ -612,21 +756,28 @@
           </div>
 
           <h1>
-            Welcome, <span id="welcomeName">User</span>
+            Welcome,
+            <span id="welcomeName">
+              User
+            </span>
           </h1>
 
           <p>
             Manage your account, review your profile and access your
-            Maxx Digital Markets tools from one secure dashboard.
+            MAXX Digital Markets tools from one secure dashboard.
           </p>
 
         </section>
 
 
-        <!-- STATUS -->
+        <!-- ==========================
+             STATUS
+        =========================== -->
+
         <section class="status-grid">
 
           <div class="card">
+
             <div class="card-label">
               Account Status
             </div>
@@ -634,21 +785,28 @@
             <div class="card-value active-status">
               Active
             </div>
+
           </div>
 
 
           <div class="card">
+
             <div class="card-label">
               Email Status
             </div>
 
-            <div class="card-value" id="emailStatus">
+            <div
+              class="card-value"
+              id="emailStatus"
+            >
               Verified
             </div>
+
           </div>
 
 
           <div class="card">
+
             <div class="card-label">
               Account Security
             </div>
@@ -656,89 +814,209 @@
             <div class="card-value">
               Protected
             </div>
+
           </div>
 
         </section>
 
 
-        <!-- PROFILE -->
-        <section class="section-card" id="profile">
+        <!-- ==========================
+             PROFILE
+        =========================== -->
 
-          <h2>Account Profile</h2>
+        <section
+          class="section-card"
+          id="profile"
+        >
+
+          <h2>
+            Account Profile
+          </h2>
+
 
           <div class="profile-grid">
 
-            <div class="profile-item">
-              <span>Full Name</span>
-              <strong id="profileName">—</strong>
-            </div>
 
             <div class="profile-item">
-              <span>Email Address</span>
-              <strong id="profileEmail">—</strong>
+
+              <span>
+                Full Name
+              </span>
+
+              <strong id="profileName">
+                —
+              </strong>
+
             </div>
 
-            <div class="profile-item">
-              <span>Phone Number</span>
-              <strong id="profilePhone">—</strong>
-            </div>
 
             <div class="profile-item">
-              <span>Country / Region</span>
-              <strong id="profileCountry">—</strong>
+
+              <span>
+                Email Address
+              </span>
+
+              <strong id="profileEmail">
+                —
+              </strong>
+
             </div>
+
+
+            <div class="profile-item">
+
+              <span>
+                Phone Number
+              </span>
+
+              <strong id="profilePhone">
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="profile-item">
+
+              <span>
+                Country / Region
+              </span>
+
+              <strong id="profileCountry">
+                —
+              </strong>
+
+            </div>
+
 
           </div>
 
         </section>
 
 
-        <!-- QUICK ACCESS -->
+        <!-- ==========================
+             QUICK ACCESS
+        =========================== -->
+
         <section class="section-card">
 
-          <h2>Quick Access</h2>
+          <h2>
+            Quick Access
+          </h2>
+
 
           <div class="quick-grid">
 
-            <a class="quick-btn" href="markets.html">
-              <span class="quick-icon">⌁</span>
-              <strong>Markets</strong>
-              <small>Market area</small>
+
+            <a
+              class="quick-btn"
+              href="markets.html"
+            >
+
+              <span class="quick-icon">
+                ⌁
+              </span>
+
+              <strong>
+                Markets
+              </strong>
+
+              <small>
+                Market area
+              </small>
+
             </a>
 
-            <a class="quick-btn" href="#profile">
-              <span class="quick-icon">◉</span>
-              <strong>Profile</strong>
-              <small>Account information</small>
+
+            <a
+              class="quick-btn"
+              href="#profile"
+            >
+
+              <span class="quick-icon">
+                ◉
+              </span>
+
+              <strong>
+                Profile
+              </strong>
+
+              <small>
+                Account information
+              </small>
+
             </a>
 
-            <a class="quick-btn" href="#security">
-              <span class="quick-icon">◇</span>
-              <strong>Security</strong>
-              <small>Account protection</small>
+
+            <a
+              class="quick-btn"
+              href="#security"
+            >
+
+              <span class="quick-icon">
+                ◇
+              </span>
+
+              <strong>
+                Security
+              </strong>
+
+              <small>
+                Account protection
+              </small>
+
             </a>
 
-            <a class="quick-btn" href="index.html">
-              <span class="quick-icon">⌂</span>
-              <strong>Website</strong>
-              <small>Return home</small>
+
+            <a
+              class="quick-btn"
+              href="#support"
+            >
+
+              <span class="quick-icon">
+                ◌
+              </span>
+
+              <strong>
+                Support
+              </strong>
+
+              <small>
+                Get assistance
+              </small>
+
             </a>
+
 
           </div>
 
         </section>
 
 
-        <!-- SECURITY -->
-        <section class="section-card" id="security">
+        <!-- ==========================
+             SECURITY
+        =========================== -->
 
-          <h2>Account Security</h2>
+        <section
+          class="section-card"
+          id="security"
+        >
+
+          <h2>
+            Account Security
+          </h2>
+
 
           <div class="security-item">
 
-            <h3>Email Verification</h3>
+            <h3>
+              Email Verification
+            </h3>
 
-            <p id="verificationText" class="verified">
+            <p
+              id="verificationText"
+              class="verified"
+            >
               ✓ Your email address has been verified.
             </p>
 
@@ -747,11 +1025,14 @@
 
           <div class="security-item">
 
-            <h3>Authentication</h3>
+            <h3>
+              Authentication
+            </h3>
 
             <p>
               Your dashboard requires an authenticated account session.
-              Visitors who are not signed in are redirected to the login page.
+              Visitors who are not signed in are redirected to the
+              login page.
             </p>
 
           </div>
@@ -759,7 +1040,9 @@
 
           <div class="security-item">
 
-            <h3>Password</h3>
+            <h3>
+              Password
+            </h3>
 
             <p>
               Keep your password private and never share it with anyone.
@@ -771,7 +1054,40 @@
         </section>
 
 
-        <!-- LOGOUT -->
+        <!-- ==========================
+             SUPPORT
+        =========================== -->
+
+        <section
+          class="section-card support-card"
+          id="support"
+        >
+
+          <h2>
+            Customer Support
+          </h2>
+
+          <p>
+            Need assistance with your MAXX Digital Markets account?
+            Contact our support team by email or use the live chat
+            button on this page.
+          </p>
+
+
+          <a
+            class="support-email"
+            href="mailto:support@maxxdigitalmarkets.com"
+          >
+            ✉ support@maxxdigitalmarkets.com
+          </a>
+
+        </section>
+
+
+        <!-- ==========================
+             LOGOUT
+        =========================== -->
+
         <div class="logout-area">
 
           <button
@@ -785,10 +1101,19 @@
         </div>
 
 
+        <!-- FOOTER -->
+
         <footer class="footer">
-          © <span id="year"></span> Maxx Digital Markets.
+
+          © <span id="year"></span>
+          MAXX Digital Markets.
+
+          <br>
+
           Account access is protected by authentication.
+
         </footer>
+
 
       </main>
 
@@ -797,15 +1122,23 @@
   </div>
 
 
+  <!-- ==========================
+       SUPABASE / DASHBOARD SCRIPT
+  =========================== -->
+
   <script>
+
     /*
       IMPORTANT:
-      This is the browser-safe Supabase publishable key.
-      NEVER place a Supabase secret key or service_role key here.
+      Browser-safe Supabase publishable key.
+
+      NEVER place a service_role or secret key
+      inside this HTML file.
     */
 
     const SUPABASE_URL =
       "https://dwojraxspohahemiarps.supabase.co";
+
 
     const SUPABASE_PUBLISHABLE_KEY =
       "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
@@ -818,15 +1151,28 @@
       );
 
 
+    /*
+    ==========================
+    ELEMENTS
+    ==========================
+    */
+
     const loadingScreen =
-      document.getElementById("loadingScreen");
+      document.getElementById(
+        "loadingScreen"
+      );
+
 
     const app =
-      document.getElementById("app");
+      document.getElementById(
+        "app"
+      );
 
 
     /*
-      AUTHENTICATION CHECK
+    ==========================
+    AUTHENTICATION CHECK
+    ==========================
     */
 
     async function secureDashboard() {
@@ -836,7 +1182,8 @@
         const {
           data: { session },
           error
-        } = await supabaseClient.auth.getSession();
+        } =
+          await supabaseClient.auth.getSession();
 
 
         if (error) {
@@ -845,29 +1192,43 @@
 
 
         /*
-          No session = user is not logged in.
+          No session means the visitor
+          is not logged in.
         */
 
-        if (!session || !session.user) {
+        if (
+          !session ||
+          !session.user
+        ) {
 
-          window.location.replace("login.html");
+          window.location.replace(
+            "login.html"
+          );
+
           return;
 
         }
 
 
-        const user = session.user;
+        const user =
+          session.user;
 
-        loadUserInformation(user);
+
+        loadUserInformation(
+          user
+        );
 
 
         /*
-          Only reveal dashboard after authentication
-          has successfully been checked.
+          Reveal dashboard only after
+          authentication succeeds.
         */
 
-        loadingScreen.style.display = "none";
-        app.style.display = "block";
+        loadingScreen.style.display =
+          "none";
+
+        app.style.display =
+          "block";
 
 
       } catch (error) {
@@ -877,7 +1238,10 @@
           error
         );
 
-        window.location.replace("login.html");
+
+        window.location.replace(
+          "login.html"
+        );
 
       }
 
@@ -885,7 +1249,9 @@
 
 
     /*
-      LOAD REAL USER INFORMATION
+    ==========================
+    LOAD USER INFORMATION
+    ==========================
     */
 
     function loadUserInformation(user) {
@@ -915,7 +1281,8 @@
 
 
       const email =
-        user.email || "Not available";
+        user.email ||
+        "Not available";
 
 
       const phone =
@@ -930,50 +1297,57 @@
 
 
       /*
-        Welcome
+      Welcome name
       */
 
       document.getElementById(
         "welcomeName"
-      ).textContent = displayName;
+      ).textContent =
+        displayName;
 
 
       /*
-        Profile
+      Profile
       */
 
       document.getElementById(
         "profileName"
-      ).textContent = fullName;
+      ).textContent =
+        fullName;
 
 
       document.getElementById(
         "profileEmail"
-      ).textContent = email;
+      ).textContent =
+        email;
 
 
       document.getElementById(
         "profilePhone"
-      ).textContent = phone;
+      ).textContent =
+        phone;
 
 
       document.getElementById(
         "profileCountry"
-      ).textContent = country;
+      ).textContent =
+        country;
 
 
       /*
-        User avatar
+      User avatar initial
       */
 
       document.getElementById(
         "userInitial"
       ).textContent =
-        displayName.charAt(0).toUpperCase();
+        displayName
+          .charAt(0)
+          .toUpperCase();
 
 
       /*
-        Email verification status
+      Email verification
       */
 
       const emailStatus =
@@ -993,20 +1367,25 @@
         emailStatus.textContent =
           "Verified";
 
+
         verificationText.textContent =
           "✓ Your email address has been verified.";
+
 
         verificationText.classList.add(
           "verified"
         );
+
 
       } else {
 
         emailStatus.textContent =
           "Not Verified";
 
+
         verificationText.textContent =
           "Your email address has not been verified.";
+
 
         verificationText.classList.remove(
           "verified"
@@ -1018,18 +1397,25 @@
 
 
     /*
-      LOGOUT
+    ==========================
+    LOGOUT
+    ==========================
     */
 
     const logoutBtn =
-      document.getElementById("logoutBtn");
+      document.getElementById(
+        "logoutBtn"
+      );
 
 
     logoutBtn.addEventListener(
       "click",
       async function () {
 
-        logoutBtn.disabled = true;
+        logoutBtn.disabled =
+          true;
+
+
         logoutBtn.textContent =
           "Logging out...";
 
@@ -1063,7 +1449,10 @@
           );
 
 
-          logoutBtn.disabled = false;
+          logoutBtn.disabled =
+            false;
+
+
           logoutBtn.textContent =
             "Log Out";
 
@@ -1074,10 +1463,9 @@
 
 
     /*
-      SESSION CHANGES
-
-      If the account session disappears while the
-      dashboard is open, send the user back to login.
+    ==========================
+    SESSION CHANGES
+    ==========================
     */
 
     supabaseClient.auth.onAuthStateChange(
@@ -1099,13 +1487,16 @@
 
 
     /*
-      MOBILE MENU
+    ==========================
+    MOBILE MENU
+    ==========================
     */
 
     const menuButton =
       document.getElementById(
         "menuButton"
       );
+
 
     const sidebar =
       document.getElementById(
@@ -1126,25 +1517,31 @@
 
 
     document
-      .querySelectorAll(".nav-link")
-      .forEach(link => {
+      .querySelectorAll(
+        ".nav-link"
+      )
+      .forEach(
+        function (link) {
 
-        link.addEventListener(
-          "click",
-          function () {
+          link.addEventListener(
+            "click",
+            function () {
 
-            sidebar.classList.remove(
-              "open"
-            );
+              sidebar.classList.remove(
+                "open"
+              );
 
-          }
-        );
+            }
+          );
 
-      });
+        }
+      );
 
 
     /*
-      COPYRIGHT YEAR
+    ==========================
+    COPYRIGHT YEAR
+    ==========================
     */
 
     document.getElementById(
@@ -1154,12 +1551,75 @@
 
 
     /*
-      START DASHBOARD
+    ==========================
+    START DASHBOARD
+    ==========================
     */
 
     secureDashboard();
 
   </script>
+
+
+  <!-- ==========================
+       TAWK.TO LIVE SUPPORT
+  =========================== -->
+
+  <!--Start of Tawk.to Script-->
+
+  <script type="text/javascript">
+
+    var Tawk_API =
+      Tawk_API || {};
+
+
+    var Tawk_LoadStart =
+      new Date();
+
+
+    (function(){
+
+      var s1 =
+        document.createElement(
+          "script"
+        );
+
+
+      var s0 =
+        document.getElementsByTagName(
+          "script"
+        )[0];
+
+
+      s1.async =
+        true;
+
+
+      s1.src =
+        'https://embed.tawk.to/6ab51df05abce934461ff239/default';
+
+
+      s1.charset =
+        'UTF-8';
+
+
+      s1.setAttribute(
+        'crossorigin',
+        '*'
+      );
+
+
+      s0.parentNode.insertBefore(
+        s1,
+        s0
+      );
+
+    })();
+
+  </script>
+
+  <!--End of Tawk.to Script-->
+
 
 </body>
 </html>
