@@ -1,1625 +1,2490 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#03101d">
-
-  <title>Dashboard | MAXX Digital Markets</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #020d18;
-      --panel: #091a2d;
-      --panel2: #0d2139;
-      --border: #1c3959;
-      --text: #f5f8ff;
-      --muted: #8fa2bf;
-      --blue: #2f7df4;
-      --cyan: #15c8ee;
-      --green: #38dc8b;
-      --red: #ff5c69;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top right, rgba(24, 110, 200, .13), transparent 28%),
-        linear-gradient(180deg, #04111f 0%, #020b14 100%);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font-family: inherit;
-    }
-
-    /* ==========================
-       LOADING SCREEN
-    ========================== */
-
-    #loadingScreen {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #020d18;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .loading-inner {
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .spinner {
-      width: 58px;
-      height: 58px;
-      margin: 0 auto 22px;
-      border: 6px solid #132a48;
-      border-top-color: var(--blue);
-      border-radius: 50%;
-      animation: spin .75s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    #app {
-      display: none;
-    }
-
-    /* ==========================
-       HEADER
-    ========================== */
-
-    .topbar {
-      height: 92px;
-      padding: 0 28px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(3, 15, 27, .96);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .logo {
-      width: 52px;
-      height: 52px;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #19d5ef, #2672f5);
-      color: #02101c;
-      font-size: 27px;
-      font-weight: 900;
-      box-shadow: 0 8px 25px rgba(21, 200, 238, .15);
-    }
-
-    .brand-name {
-      font-size: 21px;
-      font-weight: 900;
-      letter-spacing: .3px;
-    }
-
-    .brand-name span {
-      color: var(--cyan);
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .user-circle {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--blue);
-      display: grid;
-      place-items: center;
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    .menu-button {
-      display: none;
-      border: 0;
-      background: transparent;
-      color: white;
-      font-size: 34px;
-      cursor: pointer;
-    }
-
-    /* ==========================
-       LAYOUT
-    ========================== */
-
-    .layout {
-      display: grid;
-      grid-template-columns: 245px minmax(0, 1fr);
-      min-height: calc(100vh - 92px);
-    }
-
-    .sidebar {
-      padding: 28px 18px;
-      border-right: 1px solid var(--border);
-      background: rgba(5, 18, 32, .86);
-    }
-
-    .nav-label {
-      color: #607794;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.6px;
-      padding: 8px 14px 14px;
-    }
-
-    .nav-link {
-      display: block;
-      padding: 15px 16px;
-      margin-bottom: 8px;
-      border-radius: 11px;
-      color: #a7b7cc;
-      font-weight: 700;
-      transition: .2s;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      background: #102844;
-      color: white;
-    }
-
-    .support-link {
-      color: var(--cyan);
-    }
-
-    .main {
-      width: 100%;
-      max-width: 1180px;
-      padding: 46px 38px 60px;
-      margin: 0 auto;
-    }
-
-    /* ==========================
-       WELCOME
-    ========================== */
-
-    .welcome {
-      margin-bottom: 34px;
-    }
-
-    .eyebrow {
-      color: var(--cyan);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 1.6px;
-      margin-bottom: 12px;
-    }
-
-    .welcome h1 {
-      font-size: 40px;
-      line-height: 1.15;
-      margin-bottom: 12px;
-    }
-
-    .welcome p {
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.7;
-      max-width: 700px;
-    }
-
-    /* ==========================
-       STATUS CARDS
-    ========================== */
-
-    .status-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-bottom: 26px;
-    }
-
-    .card {
-      background:
-        linear-gradient(
-          145deg,
-          rgba(12, 31, 52, .96),
-          rgba(7, 23, 40, .96)
-        );
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 27px;
-      box-shadow: 0 14px 35px rgba(0, 0, 0, .12);
-    }
-
-    .card-label {
-      color: var(--muted);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-      margin-bottom: 16px;
-    }
-
-    .card-value {
-      font-size: 25px;
-      font-weight: 800;
-      word-break: break-word;
-    }
-
-    .active-status {
-      color: var(--green);
-    }
-
-    .active-status::before {
-      content: "";
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      margin-right: 10px;
-      border-radius: 50%;
-      background: var(--green);
-    }
-
-    /* ==========================
-       SECTIONS
-    ========================== */
-
-    .section-card {
-      margin-top: 24px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(12, 31, 52, .96),
-          rgba(7, 23, 40, .96)
-        );
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 30px;
-    }
-
-    .section-card h2 {
-      font-size: 23px;
-      margin-bottom: 25px;
-    }
-
-    /* ==========================
-       PROFILE
-    ========================== */
-
-    .profile-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-    }
-
-    .profile-item {
-      border-bottom: 1px solid rgba(57, 84, 116, .42);
-      padding-bottom: 18px;
-    }
-
-    .profile-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 9px;
-    }
-
-    .profile-item strong {
-      font-size: 16px;
-      line-height: 1.5;
-      word-break: break-word;
-    }
-
-    /* ==========================
-       QUICK ACCESS
-    ========================== */
-
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .quick-btn {
-      min-height: 100px;
-      padding: 20px;
-      border: 1px solid #24496f;
-      border-radius: 16px;
-      background: #102640;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 8px;
-      transition: .2s;
-    }
-
-    .quick-btn:hover {
-      transform: translateY(-2px);
-      border-color: var(--blue);
-      background: #153153;
-    }
-
-    .quick-icon {
-      font-size: 25px;
-    }
-
-    .quick-btn strong {
-      font-size: 16px;
-    }
-
-    .quick-btn small {
-      color: var(--muted);
-    }
-
-    /* ==========================
-       SECURITY
-    ========================== */
-
-    .security-item {
-      padding: 21px 0;
-      border-bottom: 1px solid rgba(57, 84, 116, .42);
-    }
-
-    .security-item:first-of-type {
-      padding-top: 0;
-    }
-
-    .security-item:last-child {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .security-item h3 {
-      font-size: 17px;
-      margin-bottom: 8px;
-    }
-
-    .security-item p {
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .verified {
-      color: var(--green) !important;
-      font-weight: 700;
-    }
-
-    /* ==========================
-       SUPPORT
-    ========================== */
-
-    .support-card p {
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 18px;
-    }
-
-    .support-email {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0 18px;
-      border: 1px solid rgba(21, 200, 238, .35);
-      border-radius: 12px;
-      background: rgba(21, 200, 238, .08);
-      color: var(--cyan);
-      font-weight: 700;
-      word-break: break-all;
-    }
-
-    .support-email:hover {
-      background: rgba(21, 200, 238, .14);
-    }
-
-    /* ==========================
-       LOGOUT
-    ========================== */
-
-    .logout-area {
-      margin-top: 26px;
-    }
-
-    .logout-btn {
-      width: 100%;
-      min-height: 58px;
-      border: 1px solid rgba(255, 92, 105, .7);
-      border-radius: 14px;
-      background: rgba(255, 92, 105, .08);
-      color: #ff707b;
-      font-size: 17px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .logout-btn:hover {
-      background: #e74855;
-      border-color: #e74855;
-      color: white;
-    }
-
-    .logout-btn:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
-    .footer {
-      color: #60748f;
-      font-size: 13px;
-      text-align: center;
-      margin-top: 38px;
-      line-height: 1.7;
-    }
-
-    /* ==========================
-       MOBILE
-    ========================== */
-
-    @media (max-width: 900px) {
-
-      .layout {
-        display: block;
-      }
-
-      .sidebar {
-        display: none;
-        position: fixed;
-        top: 92px;
-        left: 0;
-        right: 0;
-        z-index: 90;
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
-      }
-
-      .sidebar.open {
-        display: block;
-      }
-
-      .menu-button {
-        display: block;
-      }
-
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .quick-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .main {
-        padding: 34px 24px 50px;
-      }
-    }
-
-    @media (max-width: 600px) {
-
-      .topbar {
-        height: 82px;
-        padding: 0 20px;
-      }
-
-      .layout {
-        min-height: calc(100vh - 82px);
-      }
-
-      .sidebar {
-        top: 82px;
-      }
-
-      .logo {
-        width: 47px;
-        height: 47px;
-      }
-
-      .brand-name {
-        font-size: 16px;
-      }
-
-      .user-circle {
-        display: none;
-      }
-
-      .main {
-        padding: 32px 20px 45px;
-      }
-
-      .welcome h1 {
-        font-size: 34px;
-      }
-
-      .welcome p {
-        font-size: 16px;
-      }
-
-      .card,
-      .section-card {
-        padding: 23px;
-        border-radius: 18px;
-      }
-
-      .profile-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .quick-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .quick-btn {
-        min-height: 94px;
-        padding: 16px;
-      }
-    }
-
-    @media (max-width: 390px) {
-
-      .brand-name {
-        font-size: 14px;
-      }
-
-      .quick-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#03101d">
+
+<title>Dashboard | MAXX Digital Markets</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#020d18;
+  --panel:#091a2d;
+  --panel2:#0d2139;
+  --border:#1c3959;
+  --text:#f5f8ff;
+  --muted:#8fa2bf;
+  --blue:#2f7df4;
+  --cyan:#15c8ee;
+  --green:#38dc8b;
+  --red:#ff5c69;
+  --orange:#ffb547;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top right,rgba(24,110,200,.13),transparent 28%),
+    linear-gradient(180deg,#04111f 0%,#020b14 100%);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.hidden{display:none!important}
+
+/* LOADING */
+
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:#020d18;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.loading-inner{text-align:center;color:var(--muted)}
+
+.spinner{
+  width:58px;
+  height:58px;
+  margin:0 auto 22px;
+  border:6px solid #132a48;
+  border-top-color:var(--blue);
+  border-radius:50%;
+  animation:spin .75s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+#app{display:none}
+
+/* HEADER */
+
+.topbar{
+  min-height:92px;
+  padding:15px 28px;
+  border-bottom:1px solid var(--border);
+  background:rgba(3,15,27,.96);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  backdrop-filter:blur(12px);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo{
+  width:52px;
+  height:52px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#19d5ef,#2672f5);
+  color:#02101c;
+  font-size:27px;
+  font-weight:900;
+}
+
+.brand-name{
+  font-size:21px;
+  font-weight:900;
+}
+
+.brand-name span{color:var(--cyan)}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.user-circle{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:var(--blue);
+  display:grid;
+  place-items:center;
+  font-size:20px;
+  font-weight:800;
+}
+
+.menu-button{
+  display:none;
+  border:0;
+  background:transparent;
+  color:white;
+  font-size:34px;
+}
+
+/* LAYOUT */
+
+.layout{
+  display:grid;
+  grid-template-columns:245px minmax(0,1fr);
+  min-height:calc(100vh - 92px);
+}
+
+.sidebar{
+  padding:28px 18px;
+  border-right:1px solid var(--border);
+  background:rgba(5,18,32,.86);
+}
+
+.nav-label{
+  color:#607794;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  padding:8px 14px 14px;
+}
+
+.nav-link{
+  display:block;
+  padding:15px 16px;
+  margin-bottom:8px;
+  border-radius:11px;
+  color:#a7b7cc;
+  font-weight:700;
+}
+
+.nav-link:hover,
+.nav-link.active{
+  background:#102844;
+  color:white;
+}
+
+.support-link{color:var(--cyan)}
+
+.main{
+  width:100%;
+  max-width:1250px;
+  padding:46px 38px 70px;
+  margin:auto;
+}
+
+/* WELCOME */
+
+.welcome{margin-bottom:30px}
+
+.eyebrow{
+  color:var(--cyan);
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  margin-bottom:12px;
+}
+
+.welcome h1{
+  font-size:40px;
+  margin-bottom:12px;
+}
+
+.welcome p{
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.7;
+}
+
+/* CARDS */
+
+.status-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:26px;
+}
+
+.card,.section-card{
+  background:linear-gradient(145deg,rgba(12,31,52,.96),rgba(7,23,40,.96));
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:0 14px 35px rgba(0,0,0,.12);
+}
+
+.card{padding:27px}
+
+.card-label{
+  color:var(--muted);
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  margin-bottom:16px;
+}
+
+.card-value{
+  font-size:25px;
+  font-weight:800;
+}
+
+.active-status{color:var(--green)}
+
+.active-status:before{
+  content:"";
+  display:inline-block;
+  width:12px;
+  height:12px;
+  margin-right:10px;
+  border-radius:50%;
+  background:var(--green);
+}
+
+.section-card{
+  margin-top:24px;
+  padding:30px;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+
+.section-title h2{
+  font-size:23px;
+  margin-bottom:7px;
+}
+
+.section-title p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* BUTTONS */
+
+.btn{
+  border:0;
+  border-radius:11px;
+  min-height:46px;
+  padding:0 18px;
+  color:white;
+  font-weight:800;
+  background:#132a45;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--blue),#1766d8);
+}
+
+.btn-green{
+  background:var(--green);
+  color:#02150c;
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* QUICK */
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.quick-btn{
+  min-height:100px;
+  padding:20px;
+  border:1px solid #24496f;
+  border-radius:16px;
+  background:#102640;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:8px;
+}
+
+.quick-btn:hover{
+  border-color:var(--blue);
+  background:#153153;
+}
+
+.quick-icon{font-size:25px}
+.quick-btn small{color:var(--muted)}
+
+/* TRADINGVIEW */
+
+.chart-shell{
+  width:100%;
+  height:520px;
+  overflow:hidden;
+  border-radius:16px;
+  background:#020b14;
+  border:1px solid #173553;
+}
+
+.tradingview-widget-container,
+.tradingview-widget-container__widget{
+  width:100%!important;
+  height:100%!important;
+}
+
+/* TRANSACTION ACTIONS */
+
+.action-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.action-card{
+  border:1px solid var(--border);
+  background:#071827;
+  border-radius:17px;
+  padding:22px;
+}
+
+.action-icon{
+  width:48px;
+  height:48px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-size:23px;
+  background:#102b48;
+  margin-bottom:15px;
+}
+
+.action-card h3{margin-bottom:8px}
+
+.action-card p{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:14px;
+  margin-bottom:18px;
+}
+
+/* DEPOSIT WALLETS */
+
+.wallet-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.wallet-card{
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#061522;
+  padding:20px;
+}
+
+.wallet-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.wallet-coin{
+  font-size:18px;
+  font-weight:800;
+}
+
+.wallet-network{
+  color:var(--cyan);
+  font-size:12px;
+  font-weight:700;
+}
+
+.wallet-address{
+  padding:13px;
+  border-radius:10px;
+  background:#020b14;
+  border:1px solid #183652;
+  color:#cbd8e8;
+  font-family:monospace;
+  font-size:12px;
+  word-break:break-all;
+  margin-bottom:12px;
+}
+
+.wallet-note{
+  color:var(--orange);
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:12px;
+}
+
+/* FORMS */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.field{margin-bottom:16px}
+
+.field.full{grid-column:1/-1}
+
+.field label{
+  display:block;
+  color:#a8b9cd;
+  font-size:13px;
+  margin-bottom:8px;
+  font-weight:700;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  min-height:49px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#030d18;
+  color:white;
+  padding:12px 14px;
+  outline:none;
+}
+
+.field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--blue);
+}
+
+.form-note{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:18px;
+}
+
+.method-tabs{
+  display:flex;
+  gap:10px;
+  margin-bottom:22px;
+}
+
+.method-tab{
+  flex:1;
+  min-height:48px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:#071827;
+  color:#9eb0c5;
+  font-weight:800;
+}
+
+.method-tab.active{
+  color:white;
+  border-color:var(--blue);
+  background:rgba(47,125,244,.18);
+}
+
+/* HISTORY */
+
+.table-wrap{
+  overflow-x:auto;
+  border:1px solid var(--border);
+  border-radius:14px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th,td{
+  padding:14px;
+  text-align:left;
+  border-bottom:1px solid #17304a;
+  font-size:13px;
+}
+
+th{
+  background:#061522;
+  color:#9fb1c7;
+  font-size:11px;
+  text-transform:uppercase;
+}
+
+.status{
+  display:inline-block;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.status.pending{
+  color:#ffd280;
+  background:rgba(255,181,71,.12);
+}
+
+.status.approved,
+.status.completed{
+  color:#59e4a9;
+  background:rgba(56,220,139,.12);
+}
+
+.status.rejected,
+.status.failed,
+.status.cancelled{
+  color:#ff8d96;
+  background:rgba(255,92,105,.12);
+}
+
+.empty{
+  padding:25px;
+  text-align:center;
+  color:var(--muted);
+}
+
+/* PROFILE */
+
+.profile-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+}
+
+.profile-item{
+  border-bottom:1px solid rgba(57,84,116,.42);
+  padding-bottom:18px;
+}
+
+.profile-item span{
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:9px;
+}
+
+.profile-item strong{
+  font-size:16px;
+  word-break:break-word;
+}
+
+/* SECURITY */
+
+.security-item{
+  padding:21px 0;
+  border-bottom:1px solid rgba(57,84,116,.42);
+}
+
+.security-item p{
+  color:var(--muted);
+  line-height:1.6;
+  margin-top:8px;
+}
+
+.verified{
+  color:var(--green)!important;
+  font-weight:700;
+}
+
+/* SUPPORT */
+
+.support-card p{
+  color:var(--muted);
+  line-height:1.7;
+  margin-bottom:18px;
+}
+
+.support-email{
+  display:inline-flex;
+  min-height:48px;
+  padding:0 18px;
+  align-items:center;
+  border:1px solid rgba(21,200,238,.35);
+  border-radius:12px;
+  background:rgba(21,200,238,.08);
+  color:var(--cyan);
+  font-weight:700;
+  word-break:break-all;
+}
+
+/* LOGOUT */
+
+.logout-area{margin-top:26px}
+
+.logout-btn{
+  width:100%;
+  min-height:58px;
+  border:1px solid rgba(255,92,105,.7);
+  border-radius:14px;
+  background:rgba(255,92,105,.08);
+  color:#ff707b;
+  font-size:17px;
+  font-weight:800;
+}
+
+.footer{
+  color:#60748f;
+  font-size:13px;
+  text-align:center;
+  margin-top:38px;
+  line-height:1.7;
+}
+
+@media(max-width:900px){
+  .layout{display:block}
+
+  .sidebar{
+    display:none;
+    position:fixed;
+    top:92px;
+    left:0;
+    right:0;
+    z-index:90;
+    border-right:0;
+    border-bottom:1px solid var(--border);
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+    max-height:calc(100vh - 92px);
+    overflow:auto;
+  }
+
+  .sidebar.open{display:block}
+  .menu-button{display:block}
+
+  .status-grid{grid-template-columns:1fr}
+  .quick-grid{grid-template-columns:1fr 1fr}
+  .wallet-grid{grid-template-columns:1fr}
+
+  .main{padding:34px 24px 50px}
+}
+
+@media(max-width:650px){
+  .topbar{
+    min-height:82px;
+    padding:12px 18px;
+  }
+
+  .sidebar{top:82px}
+
+  .logo{
+    width:47px;
+    height:47px;
+  }
+
+  .brand-name{font-size:15px}
+  .user-circle{display:none}
+
+  .main{padding:30px 16px 45px}
+
+  .welcome h1{font-size:32px}
+
+  .card,.section-card{
+    padding:21px;
+    border-radius:18px;
+  }
+
+  .profile-grid,
+  .action-grid,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{grid-column:auto}
+
+  .quick-grid{grid-template-columns:1fr 1fr}
+
+  .chart-shell{height:430px}
+}
+
+@media(max-width:390px){
+  .brand-name{font-size:13px}
+  .quick-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
 
-  <!-- ==========================
-       SECURE LOADING SCREEN
-  =========================== -->
+<div id="loadingScreen">
+  <div class="loading-inner">
+    <div class="spinner"></div>
+    <p>Securing your account...</p>
+  </div>
+</div>
 
-  <div id="loadingScreen">
+<div id="app">
 
-    <div class="loading-inner">
+<header class="topbar">
 
-      <div class="spinner"></div>
+  <a class="brand" href="#dashboard">
+    <div class="logo">M</div>
+    <div class="brand-name">
+      MAXX <span>DIGITAL MARKETS</span>
+    </div>
+  </a>
 
+  <div class="header-right">
+    <div class="user-circle" id="userInitial">M</div>
+
+    <button
+      class="menu-button"
+      id="menuButton"
+      type="button"
+      aria-label="Open menu"
+    >☰</button>
+  </div>
+
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="nav-label">ACCOUNT</div>
+
+  <a class="nav-link active" href="#dashboard">Dashboard</a>
+  <a class="nav-link" href="#markets">Live Markets</a>
+  <a class="nav-link" href="#deposit">Deposit</a>
+  <a class="nav-link" href="#withdraw">Withdraw</a>
+  <a class="nav-link" href="#history">History</a>
+  <a class="nav-link" href="#profile">Profile</a>
+  <a class="nav-link" href="#security">Security</a>
+  <a class="nav-link support-link" href="#support">Support</a>
+  <a class="nav-link" href="index.html">Main Website</a>
+
+</aside>
+
+<main class="main" id="dashboard">
+
+<section class="welcome">
+
+  <div class="eyebrow">ACCOUNT DASHBOARD</div>
+
+  <h1>
+    Welcome,
+    <span id="welcomeName">User</span>
+  </h1>
+
+  <p>
+    Manage your MAXX Digital Markets account, access live market
+    charts, submit deposit and withdrawal requests, and contact support.
+  </p>
+
+</section>
+
+<section class="status-grid">
+
+  <div class="card">
+    <div class="card-label">Account Status</div>
+    <div class="card-value active-status">Active</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Email Status</div>
+    <div class="card-value" id="emailStatus">Verified</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Account Security</div>
+    <div class="card-value">Protected</div>
+  </div>
+
+</section>
+
+<!-- QUICK ACCESS -->
+
+<section class="section-card">
+
+  <div class="section-title">
+    <div>
+      <h2>Quick Access</h2>
+      <p>Access the main areas of your account.</p>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+
+    <a class="quick-btn" href="#markets">
+      <span class="quick-icon">📈</span>
+      <strong>Markets</strong>
+      <small>Live TradingView chart</small>
+    </a>
+
+    <a class="quick-btn" href="#deposit">
+      <span class="quick-icon">↓</span>
+      <strong>Deposit</strong>
+      <small>Funding options</small>
+    </a>
+
+    <a class="quick-btn" href="#withdraw">
+      <span class="quick-icon">↑</span>
+      <strong>Withdraw</strong>
+      <small>Submit request</small>
+    </a>
+
+    <a class="quick-btn" href="#support">
+      <span class="quick-icon">💬</span>
+      <strong>Support</strong>
+      <small>Get assistance</small>
+    </a>
+
+  </div>
+
+</section>
+
+<!-- LIVE TRADINGVIEW -->
+
+<section class="section-card" id="markets">
+
+  <div class="section-title">
+    <div>
+      <h2>Live Markets</h2>
       <p>
-        Securing your account...
+        Interactive market chart powered by TradingView.
       </p>
+    </div>
+  </div>
+
+  <div class="chart-shell">
+
+    <div
+      class="tradingview-widget-container"
+      style="height:100%;width:100%"
+    >
+
+      <div
+        class="tradingview-widget-container__widget"
+        style="height:calc(100% - 32px);width:100%"
+      ></div>
+
+      <script
+        type="text/javascript"
+        src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+        async
+      >
+      {
+        "autosize": true,
+        "symbol": "BITSTAMP:BTCUSD",
+        "interval": "60",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "allow_symbol_change": true,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
 
     </div>
 
   </div>
 
+</section>
 
-  <!-- ==========================
-       DASHBOARD
-  =========================== -->
+<!-- DEPOSIT -->
 
-  <div id="app">
+<section class="section-card" id="deposit">
 
+  <div class="section-title">
 
-    <!-- HEADER -->
+    <div>
+      <h2>Deposit Funds</h2>
+      <p>
+        Choose cryptocurrency or contact support for bank-transfer
+        deposit instructions.
+      </p>
+    </div>
 
-    <header class="topbar">
+    <button
+      class="btn"
+      type="button"
+      onclick="loadDepositWallets()"
+    >
+      Refresh Wallets
+    </button>
 
-      <a class="brand" href="dashboard.html">
+  </div>
 
-        <div class="logo">
-          M
-        </div>
+  <div class="action-grid">
 
-        <div class="brand-name">
-          MAXX <span>DIGITAL MARKETS</span>
-        </div>
+    <div class="action-card">
 
+      <div class="action-icon">₿</div>
+
+      <h3>Cryptocurrency Deposit</h3>
+
+      <p>
+        Use one of the active public receiving addresses provided
+        below. Confirm the cryptocurrency and network before sending.
+      </p>
+
+      <a class="btn btn-primary" href="#cryptoWallets">
+        View Wallets
       </a>
 
+    </div>
 
-      <div class="header-right">
+    <div class="action-card">
 
-        <div
-          class="user-circle"
-          id="userInitial"
-        >
-          M
+      <div class="action-icon">🏦</div>
+
+      <h3>Bank Transfer Deposit</h3>
+
+      <p>
+        Bank-transfer deposit instructions are provided through
+        MAXX Digital Markets support.
+      </p>
+
+      <a
+        class="btn btn-primary"
+        href="mailto:support@maxxdigitalmarkets.com?subject=Bank%20Transfer%20Deposit"
+      >
+        Contact Support
+      </a>
+
+    </div>
+
+  </div>
+
+  <div id="cryptoWallets" style="margin-top:24px">
+
+    <div class="section-title">
+      <div>
+        <h2 style="font-size:19px">Crypto Deposit Addresses</h2>
+        <p>Only active public receiving addresses are displayed.</p>
+      </div>
+    </div>
+
+    <div id="walletLoading" class="empty">
+      Loading deposit wallets...
+    </div>
+
+    <div id="walletGrid" class="wallet-grid"></div>
+
+  </div>
+
+</section>
+
+<!-- WITHDRAW -->
+
+<section class="section-card" id="withdraw">
+
+  <div class="section-title">
+
+    <div>
+      <h2>Withdraw Funds</h2>
+      <p>
+        Submit a cryptocurrency or bank-transfer withdrawal request.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="method-tabs">
+
+    <button
+      type="button"
+      class="method-tab active"
+      id="cryptoTabButton"
+      onclick="showWithdrawalMethod('crypto')"
+    >
+      Crypto
+    </button>
+
+    <button
+      type="button"
+      class="method-tab"
+      id="bankTabButton"
+      onclick="showWithdrawalMethod('bank')"
+    >
+      Bank Transfer
+    </button>
+
+  </div>
+
+  <!-- CRYPTO -->
+
+  <div id="cryptoWithdrawal">
+
+    <form id="cryptoWithdrawalForm">
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label>Cryptocurrency</label>
+
+          <select id="cryptoCurrency" required>
+            <option value="BTC">Bitcoin (BTC)</option>
+            <option value="ETH">Ethereum (ETH)</option>
+            <option value="USDT">Tether (USDT)</option>
+            <option value="USDC">USD Coin (USDC)</option>
+          </select>
+
         </div>
 
+        <div class="field">
 
-        <button
-          class="menu-button"
-          id="menuButton"
-          type="button"
-          aria-label="Open menu"
-        >
-          ☰
-        </button>
+          <label>Withdrawal Amount</label>
+
+          <input
+            id="cryptoAmount"
+            type="number"
+            min="0.01"
+            step="0.01"
+            placeholder="0.00"
+            required
+          >
+
+        </div>
+
+        <div class="field">
+
+          <label>Network</label>
+
+          <select id="cryptoNetwork" required>
+            <option value="Bitcoin">Bitcoin</option>
+            <option value="Ethereum">Ethereum / ERC20</option>
+            <option value="TRC20">Tron / TRC20</option>
+            <option value="BEP20">BNB Smart Chain / BEP20</option>
+          </select>
+
+        </div>
+
+        <div class="field">
+
+          <label>Receiving Wallet Address</label>
+
+          <input
+            id="cryptoDestination"
+            type="text"
+            placeholder="Enter your receiving wallet address"
+            required
+          >
+
+        </div>
 
       </div>
 
-    </header>
+      <p class="form-note">
+        Verify the destination address and network carefully before
+        submitting your request. Withdrawal requests remain subject to
+        account review and processing.
+      </p>
 
-
-    <div class="layout">
-
-
-      <!-- ==========================
-           SIDEBAR
-      =========================== -->
-
-      <aside
-        class="sidebar"
-        id="sidebar"
+      <button
+        class="btn btn-primary"
+        id="cryptoWithdrawBtn"
+        type="submit"
       >
+        Submit Crypto Withdrawal
+      </button>
 
-        <div class="nav-label">
-          ACCOUNT
-        </div>
+    </form>
 
+  </div>
 
-        <a
-          class="nav-link active"
-          href="dashboard.html"
-        >
-          Dashboard
-        </a>
+  <!-- BANK -->
 
+  <div id="bankWithdrawal" class="hidden">
 
-        <a
-          class="nav-link"
-          href="#profile"
-        >
-          Profile
-        </a>
+    <form id="bankWithdrawalForm">
 
+      <div class="form-grid">
 
-        <a
-          class="nav-link"
-          href="#security"
-        >
-          Security
-        </a>
+        <div class="field">
 
+          <label>Withdrawal Amount</label>
 
-        <a
-          class="nav-link"
-          href="markets.html"
-        >
-          Markets
-        </a>
-
-
-        <a
-          class="nav-link"
-          href="index.html"
-        >
-          Website
-        </a>
-
-
-        <a
-          class="nav-link support-link"
-          href="#support"
-        >
-          Support
-        </a>
-
-      </aside>
-
-
-      <!-- ==========================
-           MAIN
-      =========================== -->
-
-      <main class="main">
-
-
-        <!-- WELCOME -->
-
-        <section class="welcome">
-
-          <div class="eyebrow">
-            ACCOUNT DASHBOARD
-          </div>
-
-          <h1>
-            Welcome,
-            <span id="welcomeName">
-              User
-            </span>
-          </h1>
-
-          <p>
-            Manage your account, review your profile and access your
-            MAXX Digital Markets tools from one secure dashboard.
-          </p>
-
-        </section>
-
-
-        <!-- ==========================
-             STATUS
-        =========================== -->
-
-        <section class="status-grid">
-
-          <div class="card">
-
-            <div class="card-label">
-              Account Status
-            </div>
-
-            <div class="card-value active-status">
-              Active
-            </div>
-
-          </div>
-
-
-          <div class="card">
-
-            <div class="card-label">
-              Email Status
-            </div>
-
-            <div
-              class="card-value"
-              id="emailStatus"
-            >
-              Verified
-            </div>
-
-          </div>
-
-
-          <div class="card">
-
-            <div class="card-label">
-              Account Security
-            </div>
-
-            <div class="card-value">
-              Protected
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==========================
-             PROFILE
-        =========================== -->
-
-        <section
-          class="section-card"
-          id="profile"
-        >
-
-          <h2>
-            Account Profile
-          </h2>
-
-
-          <div class="profile-grid">
-
-
-            <div class="profile-item">
-
-              <span>
-                Full Name
-              </span>
-
-              <strong id="profileName">
-                —
-              </strong>
-
-            </div>
-
-
-            <div class="profile-item">
-
-              <span>
-                Email Address
-              </span>
-
-              <strong id="profileEmail">
-                —
-              </strong>
-
-            </div>
-
-
-            <div class="profile-item">
-
-              <span>
-                Phone Number
-              </span>
-
-              <strong id="profilePhone">
-                —
-              </strong>
-
-            </div>
-
-
-            <div class="profile-item">
-
-              <span>
-                Country / Region
-              </span>
-
-              <strong id="profileCountry">
-                —
-              </strong>
-
-            </div>
-
-
-          </div>
-
-        </section>
-
-
-        <!-- ==========================
-             QUICK ACCESS
-        =========================== -->
-
-        <section class="section-card">
-
-          <h2>
-            Quick Access
-          </h2>
-
-
-          <div class="quick-grid">
-
-
-            <a
-              class="quick-btn"
-              href="markets.html"
-            >
-
-              <span class="quick-icon">
-                ⌁
-              </span>
-
-              <strong>
-                Markets
-              </strong>
-
-              <small>
-                Market area
-              </small>
-
-            </a>
-
-
-            <a
-              class="quick-btn"
-              href="#profile"
-            >
-
-              <span class="quick-icon">
-                ◉
-              </span>
-
-              <strong>
-                Profile
-              </strong>
-
-              <small>
-                Account information
-              </small>
-
-            </a>
-
-
-            <a
-              class="quick-btn"
-              href="#security"
-            >
-
-              <span class="quick-icon">
-                ◇
-              </span>
-
-              <strong>
-                Security
-              </strong>
-
-              <small>
-                Account protection
-              </small>
-
-            </a>
-
-
-            <a
-              class="quick-btn"
-              href="#support"
-            >
-
-              <span class="quick-icon">
-                ◌
-              </span>
-
-              <strong>
-                Support
-              </strong>
-
-              <small>
-                Get assistance
-              </small>
-
-            </a>
-
-
-          </div>
-
-        </section>
-
-
-        <!-- ==========================
-             SECURITY
-        =========================== -->
-
-        <section
-          class="section-card"
-          id="security"
-        >
-
-          <h2>
-            Account Security
-          </h2>
-
-
-          <div class="security-item">
-
-            <h3>
-              Email Verification
-            </h3>
-
-            <p
-              id="verificationText"
-              class="verified"
-            >
-              ✓ Your email address has been verified.
-            </p>
-
-          </div>
-
-
-          <div class="security-item">
-
-            <h3>
-              Authentication
-            </h3>
-
-            <p>
-              Your dashboard requires an authenticated account session.
-              Visitors who are not signed in are redirected to the
-              login page.
-            </p>
-
-          </div>
-
-
-          <div class="security-item">
-
-            <h3>
-              Password
-            </h3>
-
-            <p>
-              Keep your password private and never share it with anyone.
-              Password recovery is available from the login page.
-            </p>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==========================
-             SUPPORT
-        =========================== -->
-
-        <section
-          class="section-card support-card"
-          id="support"
-        >
-
-          <h2>
-            Customer Support
-          </h2>
-
-          <p>
-            Need assistance with your MAXX Digital Markets account?
-            Contact our support team by email or use the live chat
-            button on this page.
-          </p>
-
-
-          <a
-            class="support-email"
-            href="mailto:support@maxxdigitalmarkets.com"
+          <input
+            id="bankAmount"
+            type="number"
+            min="0.01"
+            step="0.01"
+            placeholder="0.00"
+            required
           >
-            ✉ support@maxxdigitalmarkets.com
-          </a>
-
-        </section>
-
-
-        <!-- ==========================
-             LOGOUT
-        =========================== -->
-
-        <div class="logout-area">
-
-          <button
-            class="logout-btn"
-            id="logoutBtn"
-            type="button"
-          >
-            Log Out
-          </button>
 
         </div>
 
+        <div class="field">
 
-        <!-- FOOTER -->
+          <label>Currency</label>
 
-        <footer class="footer">
+          <select id="bankCurrency" required>
+            <option value="USD">USD</option>
+            <option value="NGN">NGN</option>
+            <option value="GBP">GBP</option>
+            <option value="EUR">EUR</option>
+          </select>
 
-          © <span id="year"></span>
-          MAXX Digital Markets.
+        </div>
 
-          <br>
+        <div class="field">
 
-          Account access is protected by authentication.
+          <label>Bank Name</label>
 
-        </footer>
+          <input
+            id="bankName"
+            type="text"
+            placeholder="Bank name"
+            required
+          >
 
+        </div>
 
-      </main>
+        <div class="field">
 
+          <label>Account Holder Name</label>
+
+          <input
+            id="bankAccountName"
+            type="text"
+            placeholder="Account holder name"
+            required
+          >
+
+        </div>
+
+        <div class="field">
+
+          <label>Account Number</label>
+
+          <input
+            id="bankAccountNumber"
+            type="text"
+            placeholder="Account number"
+            required
+          >
+
+        </div>
+
+        <div class="field">
+
+          <label>Additional Bank Information</label>
+
+          <input
+            id="bankExtra"
+            type="text"
+            placeholder="Optional routing / branch information"
+          >
+
+        </div>
+
+      </div>
+
+      <p class="form-note">
+        Make sure the beneficiary information is accurate. Bank
+        withdrawal requests are reviewed before processing.
+      </p>
+
+      <button
+        class="btn btn-primary"
+        id="bankWithdrawBtn"
+        type="submit"
+      >
+        Submit Bank Withdrawal
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+<!-- HISTORY -->
+
+<section class="section-card" id="history">
+
+  <div class="section-title">
+
+    <div>
+      <h2>Withdrawal History</h2>
+      <p>Your recent withdrawal requests.</p>
+    </div>
+
+    <button
+      class="btn"
+      type="button"
+      onclick="loadWithdrawalHistory()"
+    >
+      Refresh
+    </button>
+
+  </div>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Amount</th>
+          <th>Currency</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody id="withdrawalHistoryBody"></tbody>
+
+    </table>
+
+    <div id="withdrawalHistoryEmpty" class="empty hidden">
+      No withdrawal requests yet.
     </div>
 
   </div>
 
+</section>
 
-  <!-- ==========================
-       SUPABASE / DASHBOARD SCRIPT
-  =========================== -->
+<!-- PROFILE -->
 
-  <script>
+<section class="section-card" id="profile">
 
-    /*
-      IMPORTANT:
-      Browser-safe Supabase publishable key.
+  <div class="section-title">
+    <div>
+      <h2>Account Profile</h2>
+      <p>Your registered account information.</p>
+    </div>
+  </div>
 
-      NEVER place a service_role or secret key
-      inside this HTML file.
-    */
+  <div class="profile-grid">
 
-    const SUPABASE_URL =
-      "https://dwojraxspohahemiarps.supabase.co";
+    <div class="profile-item">
+      <span>Full Name</span>
+      <strong id="profileName">—</strong>
+    </div>
 
+    <div class="profile-item">
+      <span>Email Address</span>
+      <strong id="profileEmail">—</strong>
+    </div>
 
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
+    <div class="profile-item">
+      <span>Phone Number</span>
+      <strong id="profilePhone">—</strong>
+    </div>
 
+    <div class="profile-item">
+      <span>Country / Region</span>
+      <strong id="profileCountry">—</strong>
+    </div>
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
+  </div>
 
+</section>
 
-    /*
-    ==========================
-    ELEMENTS
-    ==========================
-    */
+<!-- SECURITY -->
 
-    const loadingScreen =
-      document.getElementById(
-        "loadingScreen"
-      );
+<section class="section-card" id="security">
 
+  <div class="section-title">
+    <div>
+      <h2>Account Security</h2>
+    </div>
+  </div>
 
-    const app =
-      document.getElementById(
-        "app"
-      );
+  <div class="security-item">
 
+    <h3>Email Verification</h3>
 
-    /*
-    ==========================
-    AUTHENTICATION CHECK
-    ==========================
-    */
+    <p id="verificationText" class="verified">
+      ✓ Your email address has been verified.
+    </p>
 
-    async function secureDashboard() {
+  </div>
 
-      try {
+  <div class="security-item">
 
-        const {
-          data: { session },
-          error
-        } =
-          await supabaseClient.auth.getSession();
+    <h3>Authentication</h3>
 
+    <p>
+      Your dashboard requires an authenticated account session.
+      Visitors who are not signed in are redirected to the login page.
+    </p>
 
-        if (error) {
-          throw error;
-        }
+  </div>
 
+  <div class="security-item">
 
-        /*
-          No session means the visitor
-          is not logged in.
-        */
+    <h3>Password Security</h3>
 
-        if (
-          !session ||
-          !session.user
-        ) {
+    <p>
+      Never share your password, recovery codes, wallet private keys,
+      seed phrases or other authentication credentials with anyone.
+    </p>
 
-          window.location.replace(
-            "login.html"
-          );
+  </div>
 
-          return;
+</section>
 
-        }
+<!-- SUPPORT -->
 
+<section class="section-card support-card" id="support">
 
-        const user =
-          session.user;
+  <div class="section-title">
+    <div>
+      <h2>Customer Support</h2>
+    </div>
+  </div>
 
+  <p>
+    Need assistance with a deposit, withdrawal or account issue?
+    Contact MAXX Digital Markets support by email or use the live-chat
+    button on this page.
+  </p>
 
-        loadUserInformation(
-          user
-        );
+  <a
+    class="support-email"
+    href="mailto:support@maxxdigitalmarkets.com"
+  >
+    ✉ support@maxxdigitalmarkets.com
+  </a>
 
+</section>
 
-        /*
-          Reveal dashboard only after
-          authentication succeeds.
-        */
+<div class="logout-area">
 
-        loadingScreen.style.display =
-          "none";
+  <button
+    class="logout-btn"
+    id="logoutBtn"
+    type="button"
+  >
+    Log Out
+  </button>
 
-        app.style.display =
-          "block";
+</div>
 
+<footer class="footer">
 
-      } catch (error) {
+  © <span id="year"></span> MAXX Digital Markets.
 
-        console.error(
-          "Dashboard authentication error:",
-          error
-        );
+  <br>
 
+  Account access is protected by authentication.
 
-        window.location.replace(
-          "login.html"
-        );
+</footer>
 
-      }
+</main>
+</div>
+</div>
 
+<script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  "https://dwojraxspohahemiarps.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+let currentUser = null;
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+function formatDate(value){
+
+  if(!value){
+    return "—";
+  }
+
+  try{
+    return new Date(value).toLocaleString();
+  }catch{
+    return "—";
+  }
+
+}
+
+function statusBadge(status){
+
+  const clean =
+    String(status || "pending")
+      .toLowerCase();
+
+  return `
+    <span class="status ${escapeHtml(clean)}">
+      ${escapeHtml(clean)}
+    </span>
+  `;
+
+}
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+async function secureDashboard(){
+
+  try{
+
+    const {
+      data:{session},
+      error
+    } =
+      await supabaseClient.auth.getSession();
+
+    if(error){
+      throw error;
     }
 
+    if(!session || !session.user){
 
-    /*
-    ==========================
-    LOAD USER INFORMATION
-    ==========================
-    */
+      window.location.replace(
+        "login.html"
+      );
 
-    function loadUserInformation(user) {
-
-      const metadata =
-        user.user_metadata || {};
-
-
-      const firstName =
-        metadata.first_name || "";
-
-
-      const lastName =
-        metadata.last_name || "";
-
-
-      const fullName =
-        metadata.full_name ||
-        `${firstName} ${lastName}`.trim() ||
-        "User";
-
-
-      const displayName =
-        firstName ||
-        fullName.split(" ")[0] ||
-        "User";
-
-
-      const email =
-        user.email ||
-        "Not available";
-
-
-      const phone =
-        metadata.phone ||
-        user.phone ||
-        "Not provided";
-
-
-      const country =
-        metadata.country ||
-        "Not provided";
-
-
-      /*
-      Welcome name
-      */
-
-      document.getElementById(
-        "welcomeName"
-      ).textContent =
-        displayName;
-
-
-      /*
-      Profile
-      */
-
-      document.getElementById(
-        "profileName"
-      ).textContent =
-        fullName;
-
-
-      document.getElementById(
-        "profileEmail"
-      ).textContent =
-        email;
-
-
-      document.getElementById(
-        "profilePhone"
-      ).textContent =
-        phone;
-
-
-      document.getElementById(
-        "profileCountry"
-      ).textContent =
-        country;
-
-
-      /*
-      User avatar initial
-      */
-
-      document.getElementById(
-        "userInitial"
-      ).textContent =
-        displayName
-          .charAt(0)
-          .toUpperCase();
-
-
-      /*
-      Email verification
-      */
-
-      const emailStatus =
-        document.getElementById(
-          "emailStatus"
-        );
-
-
-      const verificationText =
-        document.getElementById(
-          "verificationText"
-        );
-
-
-      if (user.email_confirmed_at) {
-
-        emailStatus.textContent =
-          "Verified";
-
-
-        verificationText.textContent =
-          "✓ Your email address has been verified.";
-
-
-        verificationText.classList.add(
-          "verified"
-        );
-
-
-      } else {
-
-        emailStatus.textContent =
-          "Not Verified";
-
-
-        verificationText.textContent =
-          "Your email address has not been verified.";
-
-
-        verificationText.classList.remove(
-          "verified"
-        );
-
-      }
-
+      return;
     }
 
+    currentUser =
+      session.user;
 
-    /*
-    ==========================
-    LOGOUT
-    ==========================
-    */
-
-    const logoutBtn =
-      document.getElementById(
-        "logoutBtn"
-      );
-
-
-    logoutBtn.addEventListener(
-      "click",
-      async function () {
-
-        logoutBtn.disabled =
-          true;
-
-
-        logoutBtn.textContent =
-          "Logging out...";
-
-
-        try {
-
-          const { error } =
-            await supabaseClient.auth.signOut();
-
-
-          if (error) {
-            throw error;
-          }
-
-
-          window.location.replace(
-            "login.html"
-          );
-
-
-        } catch (error) {
-
-          console.error(
-            "Logout error:",
-            error
-          );
-
-
-          alert(
-            "Unable to log out. Please try again."
-          );
-
-
-          logoutBtn.disabled =
-            false;
-
-
-          logoutBtn.textContent =
-            "Log Out";
-
-        }
-
-      }
+    loadUserInformation(
+      currentUser
     );
-
-
-    /*
-    ==========================
-    SESSION CHANGES
-    ==========================
-    */
-
-    supabaseClient.auth.onAuthStateChange(
-      (event, session) => {
-
-        if (
-          event === "SIGNED_OUT" ||
-          !session
-        ) {
-
-          window.location.replace(
-            "login.html"
-          );
-
-        }
-
-      }
-    );
-
-
-    /*
-    ==========================
-    MOBILE MENU
-    ==========================
-    */
-
-    const menuButton =
-      document.getElementById(
-        "menuButton"
-      );
-
-
-    const sidebar =
-      document.getElementById(
-        "sidebar"
-      );
-
-
-    menuButton.addEventListener(
-      "click",
-      function () {
-
-        sidebar.classList.toggle(
-          "open"
-        );
-
-      }
-    );
-
-
-    document
-      .querySelectorAll(
-        ".nav-link"
-      )
-      .forEach(
-        function (link) {
-
-          link.addEventListener(
-            "click",
-            function () {
-
-              sidebar.classList.remove(
-                "open"
-              );
-
-            }
-          );
-
-        }
-      );
-
-
-    /*
-    ==========================
-    COPYRIGHT YEAR
-    ==========================
-    */
 
     document.getElementById(
-      "year"
-    ).textContent =
-      new Date().getFullYear();
+      "loadingScreen"
+    ).style.display =
+      "none";
 
+    document.getElementById(
+      "app"
+    ).style.display =
+      "block";
+
+    await Promise.all([
+      loadDepositWallets(),
+      loadWithdrawalHistory()
+    ]);
+
+  }
+  catch(error){
+
+    console.error(
+      "Dashboard authentication error:",
+      error
+    );
+
+    window.location.replace(
+      "login.html"
+    );
+
+  }
+
+}
+
+/* =========================================================
+   USER INFORMATION
+========================================================= */
+
+function loadUserInformation(user){
+
+  const metadata =
+    user.user_metadata || {};
+
+  const firstName =
+    metadata.first_name || "";
+
+  const lastName =
+    metadata.last_name || "";
+
+  const fullName =
+    metadata.full_name ||
+    `${firstName} ${lastName}`.trim() ||
+    "User";
+
+  const displayName =
+    firstName ||
+    fullName.split(" ")[0] ||
+    "User";
+
+  const email =
+    user.email ||
+    "Not available";
+
+  const phone =
+    metadata.phone ||
+    user.phone ||
+    "Not provided";
+
+  const country =
+    metadata.country ||
+    "Not provided";
+
+  document.getElementById(
+    "welcomeName"
+  ).textContent =
+    displayName;
+
+  document.getElementById(
+    "profileName"
+  ).textContent =
+    fullName;
+
+  document.getElementById(
+    "profileEmail"
+  ).textContent =
+    email;
+
+  document.getElementById(
+    "profilePhone"
+  ).textContent =
+    phone;
+
+  document.getElementById(
+    "profileCountry"
+  ).textContent =
+    country;
+
+  document.getElementById(
+    "userInitial"
+  ).textContent =
+    displayName.charAt(0).toUpperCase();
+
+  const emailStatus =
+    document.getElementById(
+      "emailStatus"
+    );
+
+  const verificationText =
+    document.getElementById(
+      "verificationText"
+    );
+
+  if(user.email_confirmed_at){
+
+    emailStatus.textContent =
+      "Verified";
+
+    verificationText.textContent =
+      "✓ Your email address has been verified.";
+
+    verificationText.classList.add(
+      "verified"
+    );
+
+  }else{
+
+    emailStatus.textContent =
+      "Not Verified";
+
+    verificationText.textContent =
+      "Your email address has not been verified.";
+
+    verificationText.classList.remove(
+      "verified"
+    );
+
+  }
+
+}
+
+/* =========================================================
+   DEPOSIT WALLETS
+========================================================= */
+
+async function loadDepositWallets(){
+
+  const loading =
+    document.getElementById(
+      "walletLoading"
+    );
+
+  const grid =
+    document.getElementById(
+      "walletGrid"
+    );
+
+  loading.classList.remove(
+    "hidden"
+  );
+
+  loading.textContent =
+    "Loading deposit wallets...";
+
+  grid.innerHTML = "";
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("deposit_wallets")
+        .select("*");
+
+    if(error){
+      throw error;
+    }
 
     /*
-    ==========================
-    START DASHBOARD
-    ==========================
+      Support several possible column names so the UI
+      remains compatible with the wallet table.
     */
 
-    secureDashboard();
+    const wallets =
+      (data || []).filter(
+        wallet =>
+          wallet.active !== false &&
+          wallet.is_active !== false
+      );
 
-  </script>
+    if(!wallets.length){
 
+      loading.textContent =
+        "No cryptocurrency deposit addresses are currently available. Please contact support.";
 
-  <!-- ==========================
-       TAWK.TO LIVE SUPPORT
-  =========================== -->
+      return;
 
-  <!--Start of Tawk.to Script-->
+    }
 
-  <script type="text/javascript">
+    loading.classList.add(
+      "hidden"
+    );
 
-    var Tawk_API =
-      Tawk_API || {};
+    grid.innerHTML =
+      wallets.map(wallet => {
 
+        const coin =
+          wallet.asset ||
+          wallet.coin ||
+          wallet.currency ||
+          wallet.symbol ||
+          "Crypto";
 
-    var Tawk_LoadStart =
-      new Date();
+        const network =
+          wallet.network ||
+          wallet.chain ||
+          "Network";
 
+        const address =
+          wallet.address ||
+          wallet.wallet_address ||
+          wallet.deposit_address ||
+          "";
 
-    (function(){
+        const minimum =
+          wallet.minimum_deposit ??
+          wallet.min_deposit ??
+          null;
 
-      var s1 =
-        document.createElement(
-          "script"
+        if(!address){
+          return "";
+        }
+
+        return `
+
+          <div class="wallet-card">
+
+            <div class="wallet-top">
+
+              <div class="wallet-coin">
+                ${escapeHtml(coin)}
+              </div>
+
+              <div class="wallet-network">
+                ${escapeHtml(network)}
+              </div>
+
+            </div>
+
+            <div class="wallet-address">
+              ${escapeHtml(address)}
+            </div>
+
+            ${
+              minimum !== null
+              ? `
+                <div class="wallet-note">
+                  Minimum deposit:
+                  ${escapeHtml(minimum)}
+                  ${escapeHtml(coin)}
+                </div>
+              `
+              : ""
+            }
+
+            <div class="wallet-note">
+              Send only ${escapeHtml(coin)} using the
+              ${escapeHtml(network)} network to this address.
+            </div>
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              onclick='copyWallet(${JSON.stringify(address)})'
+            >
+              Copy Address
+            </button>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+    if(!grid.innerHTML.trim()){
+
+      loading.classList.remove(
+        "hidden"
+      );
+
+      loading.textContent =
+        "No valid public deposit addresses are currently available.";
+
+    }
+
+  }
+  catch(error){
+
+    console.error(
+      "Deposit wallet error:",
+      error
+    );
+
+    loading.textContent =
+      "Deposit addresses could not be loaded. Please contact support.";
+
+  }
+
+}
+
+async function copyWallet(address){
+
+  try{
+
+    await navigator.clipboard.writeText(
+      address
+    );
+
+    alert(
+      "Wallet address copied."
+    );
+
+  }
+  catch{
+
+    prompt(
+      "Copy this wallet address:",
+      address
+    );
+
+  }
+
+}
+
+/* =========================================================
+   WITHDRAWAL METHOD
+========================================================= */
+
+function showWithdrawalMethod(method){
+
+  const crypto =
+    document.getElementById(
+      "cryptoWithdrawal"
+    );
+
+  const bank =
+    document.getElementById(
+      "bankWithdrawal"
+    );
+
+  const cryptoButton =
+    document.getElementById(
+      "cryptoTabButton"
+    );
+
+  const bankButton =
+    document.getElementById(
+      "bankTabButton"
+    );
+
+  if(method === "bank"){
+
+    crypto.classList.add(
+      "hidden"
+    );
+
+    bank.classList.remove(
+      "hidden"
+    );
+
+    cryptoButton.classList.remove(
+      "active"
+    );
+
+    bankButton.classList.add(
+      "active"
+    );
+
+  }else{
+
+    bank.classList.add(
+      "hidden"
+    );
+
+    crypto.classList.remove(
+      "hidden"
+    );
+
+    bankButton.classList.remove(
+      "active"
+    );
+
+    cryptoButton.classList.add(
+      "active"
+    );
+
+  }
+
+}
+
+/* =========================================================
+   CRYPTO WITHDRAWAL
+========================================================= */
+
+document.getElementById(
+  "cryptoWithdrawalForm"
+).addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+    if(!currentUser){
+      return;
+    }
+
+    const currency =
+      document.getElementById(
+        "cryptoCurrency"
+      ).value;
+
+    const amount =
+      Number(
+        document.getElementById(
+          "cryptoAmount"
+        ).value
+      );
+
+    const network =
+      document.getElementById(
+        "cryptoNetwork"
+      ).value;
+
+    const destination =
+      document.getElementById(
+        "cryptoDestination"
+      ).value.trim();
+
+    if(
+      !Number.isFinite(amount) ||
+      amount <= 0
+    ){
+
+      alert(
+        "Enter a valid withdrawal amount."
+      );
+
+      return;
+    }
+
+    if(!destination){
+
+      alert(
+        "Enter your receiving wallet address."
+      );
+
+      return;
+    }
+
+    const confirmed =
+      confirm(
+        "Submit this crypto withdrawal request?\n\n" +
+        "Amount: " + amount + " " + currency + "\n" +
+        "Network: " + network + "\n\n" +
+        "Please confirm the receiving address is correct."
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+    const button =
+      document.getElementById(
+        "cryptoWithdrawBtn"
+      );
+
+    button.disabled = true;
+    button.textContent =
+      "Submitting...";
+
+    try{
+
+      /*
+        These are the withdrawal columns already
+        confirmed in your database:
+
+        user_id
+        method
+        amount
+        currency
+
+        We do NOT guess database column names for
+        wallet_address/network.
+
+        Those two values remain client-side until
+        we confirm which of your remaining withdrawal
+        columns store them.
+      */
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("withdrawal_requests")
+          .insert({
+            user_id:currentUser.id,
+            method:"crypto",
+            amount:amount,
+            currency:currency
+          });
+
+      if(error){
+        throw error;
+      }
+
+      alert(
+        "Your withdrawal request has been submitted."
+      );
+
+      document.getElementById(
+        "cryptoWithdrawalForm"
+      ).reset();
+
+      await loadWithdrawalHistory();
+
+    }
+    catch(error){
+
+      console.error(
+        error
+      );
+
+      alert(
+        "Could not submit the withdrawal request.\n\n" +
+        error.message
+      );
+
+    }
+    finally{
+
+      button.disabled = false;
+
+      button.textContent =
+        "Submit Crypto Withdrawal";
+
+    }
+
+  }
+);
+
+/* =========================================================
+   BANK WITHDRAWAL
+========================================================= */
+
+document.getElementById(
+  "bankWithdrawalForm"
+).addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+    if(!currentUser){
+      return;
+    }
+
+    const amount =
+      Number(
+        document.getElementById(
+          "bankAmount"
+        ).value
+      );
+
+    const currency =
+      document.getElementById(
+        "bankCurrency"
+      ).value;
+
+    const bankName =
+      document.getElementById(
+        "bankName"
+      ).value.trim();
+
+    const accountName =
+      document.getElementById(
+        "bankAccountName"
+      ).value.trim();
+
+    const accountNumber =
+      document.getElementById(
+        "bankAccountNumber"
+      ).value.trim();
+
+    if(
+      !Number.isFinite(amount) ||
+      amount <= 0
+    ){
+
+      alert(
+        "Enter a valid withdrawal amount."
+      );
+
+      return;
+    }
+
+    if(
+      !bankName ||
+      !accountName ||
+      !accountNumber
+    ){
+
+      alert(
+        "Complete the required bank information."
+      );
+
+      return;
+    }
+
+    const confirmed =
+      confirm(
+        "Submit this bank withdrawal request?\n\n" +
+        "Amount: " + amount + " " + currency + "\n" +
+        "Bank: " + bankName + "\n" +
+        "Account name: " + accountName
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+    const button =
+      document.getElementById(
+        "bankWithdrawBtn"
+      );
+
+    button.disabled = true;
+    button.textContent =
+      "Submitting...";
+
+    try{
+
+      /*
+        Submit only fields whose database names
+        have already been confirmed.
+
+        We will connect the bank-detail fields
+        after checking the remaining withdrawal
+        column names.
+      */
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("withdrawal_requests")
+          .insert({
+            user_id:currentUser.id,
+            method:"bank_transfer",
+            amount:amount,
+            currency:currency
+          });
+
+      if(error){
+        throw error;
+      }
+
+      alert(
+        "Your bank withdrawal request has been submitted."
+      );
+
+      document.getElementById(
+        "bankWithdrawalForm"
+      ).reset();
+
+      await loadWithdrawalHistory();
+
+    }
+    catch(error){
+
+      console.error(
+        error
+      );
+
+      alert(
+        "Could not submit the withdrawal request.\n\n" +
+        error.message
+      );
+
+    }
+    finally{
+
+      button.disabled = false;
+
+      button.textContent =
+        "Submit Bank Withdrawal";
+
+    }
+
+  }
+);
+
+/* =========================================================
+   WITHDRAWAL HISTORY
+========================================================= */
+
+async function loadWithdrawalHistory(){
+
+  if(!currentUser){
+    return;
+  }
+
+  const body =
+    document.getElementById(
+      "withdrawalHistoryBody"
+    );
+
+  const empty =
+    document.getElementById(
+      "withdrawalHistoryEmpty"
+    );
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("withdrawal_requests")
+        .select("*")
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
         );
 
+    if(error){
+      throw error;
+    }
 
-      var s0 =
-        document.getElementsByTagName(
-          "script"
-        )[0];
+    const rows =
+      data || [];
 
+    if(!rows.length){
 
-      s1.async =
-        true;
+      body.innerHTML = "";
 
-
-      s1.src =
-        'https://embed.tawk.to/6ab51df05abce934461ff239/default';
-
-
-      s1.charset =
-        'UTF-8';
-
-
-      s1.setAttribute(
-        'crossorigin',
-        '*'
+      empty.classList.remove(
+        "hidden"
       );
 
+      return;
+    }
 
-      s0.parentNode.insertBefore(
-        s1,
-        s0
+    empty.classList.add(
+      "hidden"
+    );
+
+    body.innerHTML =
+      rows.map(item => `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(
+              item.method || "—"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.amount ?? "—"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.currency || "—"
+            )}
+          </td>
+
+          <td>
+            ${statusBadge(
+              item.status
+            )}
+          </td>
+
+          <td>
+            ${formatDate(
+              item.created_at
+            )}
+          </td>
+
+        </tr>
+
+      `).join("");
+
+  }
+  catch(error){
+
+    console.error(
+      "Withdrawal history error:",
+      error
+    );
+
+    body.innerHTML = "";
+
+    empty.classList.remove(
+      "hidden"
+    );
+
+    empty.textContent =
+      "Withdrawal history could not be loaded.";
+
+  }
+
+}
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+const logoutBtn =
+  document.getElementById(
+    "logoutBtn"
+  );
+
+logoutBtn.addEventListener(
+  "click",
+  async function(){
+
+    logoutBtn.disabled =
+      true;
+
+    logoutBtn.textContent =
+      "Logging out...";
+
+    try{
+
+      const {
+        error
+      } =
+        await supabaseClient.auth.signOut();
+
+      if(error){
+        throw error;
+      }
+
+      window.location.replace(
+        "login.html"
       );
 
-    })();
+    }
+    catch(error){
 
-  </script>
+      console.error(
+        "Logout error:",
+        error
+      );
 
-  <!--End of Tawk.to Script-->
+      alert(
+        "Unable to log out. Please try again."
+      );
 
+      logoutBtn.disabled =
+        false;
+
+      logoutBtn.textContent =
+        "Log Out";
+
+    }
+
+  }
+);
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+  (event,session) => {
+
+    if(
+      event === "SIGNED_OUT" ||
+      !session
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
+  }
+);
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const menuButton =
+  document.getElementById(
+    "menuButton"
+  );
+
+const sidebar =
+  document.getElementById(
+    "sidebar"
+  );
+
+menuButton.addEventListener(
+  "click",
+  function(){
+
+    sidebar.classList.toggle(
+      "open"
+    );
+
+  }
+);
+
+document
+  .querySelectorAll(
+    ".nav-link"
+  )
+  .forEach(
+    function(link){
+
+      link.addEventListener(
+        "click",
+        function(){
+
+          sidebar.classList.remove(
+            "open"
+          );
+
+        }
+      );
+
+    }
+  );
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById(
+  "year"
+).textContent =
+  new Date().getFullYear();
+
+/* =========================================================
+   START
+========================================================= */
+
+secureDashboard();
+
+</script>
+
+<!-- TAWK.TO LIVE SUPPORT -->
+
+<script type="text/javascript">
+
+var Tawk_API=Tawk_API||{},
+    Tawk_LoadStart=new Date();
+
+(function(){
+
+var s1=document.createElement("script"),
+    s0=document.getElementsByTagName("script")[0];
+
+s1.async=true;
+
+s1.src=
+'https://embed.tawk.to/6ab51df05abce934461ff239/default';
+
+s1.charset='UTF-8';
+
+s1.setAttribute(
+  'crossorigin',
+  '*'
+);
+
+s0.parentNode.insertBefore(
+  s1,
+  s0
+);
+
+})();
+
+</script>
 
 </body>
 </html>
