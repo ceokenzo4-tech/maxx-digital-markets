@@ -1300,11 +1300,6 @@ async function initializeAdmin(){
       "adminApp"
     ).classList.remove("hidden");
 
-    /*
-     * Load clients first so their email
-     * addresses can be matched to withdrawals.
-     */
-
     await loadClients();
 
     await Promise.all([
@@ -2248,36 +2243,125 @@ function renderWithdrawals(){
     }).join("");
 }
 
+/*
+ * SECURE WITHDRAWAL PROCESSING
+ *
+ * Uses:
+ * public.admin_process_withdrawal(
+ *   bigint,
+ *   text,
+ *   text
+ * )
+ */
+
 async function updateWithdrawal(id,status){
 
-  if(!id) return;
+  if(!id){
+    alert("Missing withdrawal request ID.");
+    return;
+  }
+
+  const normalizedStatus =
+    String(status || "")
+      .toLowerCase()
+      .trim();
 
   if(
-    !confirm(
-      "Mark this withdrawal request as " +
-      status +
-      "?"
-    )
+    normalizedStatus !== "approved" &&
+    normalizedStatus !== "rejected"
   ){
+    alert("Invalid withdrawal status.");
+    return;
+  }
+
+  const withdrawalId =
+    Number(id);
+
+  if(
+    !Number.isSafeInteger(withdrawalId) ||
+    withdrawalId <= 0
+  ){
+    alert("Invalid withdrawal request ID.");
+    return;
+  }
+
+  const action =
+    normalizedStatus === "approved"
+      ? "APPROVE"
+      : "REJECT";
+
+  const note =
+    prompt(
+      action +
+      " this withdrawal request?\n\n" +
+      "Enter an administrative note:"
+    );
+
+  /*
+   * Administrator pressed Cancel.
+   */
+
+  if(note === null){
+    return;
+  }
+
+  const cleanNote =
+    note.trim();
+
+  if(!cleanNote){
+
+    alert(
+      "An administrative note is required before processing a withdrawal."
+    );
+
+    return;
+  }
+
+  const confirmed =
+    confirm(
+      "Confirm withdrawal decision\n\n" +
+      "Request ID: " +
+      withdrawalId +
+      "\nDecision: " +
+      normalizedStatus.toUpperCase() +
+      "\nNote: " +
+      cleanNote +
+      "\n\nContinue?"
+    );
+
+  if(!confirmed){
     return;
   }
 
   try{
 
-    const record = {
-      status:status,
-      processed_at:new Date().toISOString()
-    };
+    const {
+      data,
+      error
+    } =
+      await db.rpc(
+        "admin_process_withdrawal",
+        {
+          p_withdrawal_id:withdrawalId,
+          p_status:normalizedStatus,
+          p_note:cleanNote
+        }
+      );
 
-    const {error} =
-      await db
-        .from("withdrawal_requests")
-        .update(record)
-        .eq("id",id);
+    if(error){
+      throw error;
+    }
 
-    if(error) throw error;
+    console.log(
+      "Withdrawal processing result:",
+      data
+    );
 
-    alert("Withdrawal request updated.");
+    alert(
+      normalizedStatus === "approved"
+        ? "Withdrawal approved successfully."
+        : "Withdrawal rejected successfully."
+    );
 
     await Promise.all([
       loadWithdrawals(),
@@ -2288,13 +2372,13 @@ async function updateWithdrawal(id,status){
   catch(error){
 
     console.error(
-      "Withdrawal update error:",
+      "Withdrawal processing error:",
       error
     );
 
     alert(
-      "Could not update withdrawal request.\n\n" +
-      error.message
+      "Could not process withdrawal request.\n\n" +
+      (error.message || "Unknown error")
     );
   }
 }
