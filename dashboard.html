@@ -466,9 +466,7 @@ th{
   margin-bottom:6px;
 }
 
-.deposit-selected strong{
-  color:var(--cyan);
-}
+.deposit-selected strong{color:var(--cyan)}
 
 .field{margin-bottom:16px}
 .field.full{grid-column:1/-1}
@@ -543,6 +541,88 @@ th{
   color:#ff9098;
   border:1px solid rgba(255,92,105,.35);
   background:rgba(255,92,105,.08);
+}
+
+/* PAYMENT PROOF */
+
+.proof-upload{
+  position:relative;
+  width:100%;
+  min-height:145px;
+  border:2px dashed #285278;
+  border-radius:15px;
+  background:#030d18;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  transition:.2s;
+}
+
+.proof-upload:hover{
+  border-color:var(--cyan);
+  background:rgba(21,200,238,.04);
+}
+
+.proof-upload input{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  cursor:pointer;
+}
+
+.proof-upload-content{
+  pointer-events:none;
+}
+
+.proof-icon{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.proof-title{
+  font-size:15px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.proof-subtitle{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.proof-preview{
+  margin-top:15px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px;
+  background:#020b14;
+}
+
+.proof-preview img{
+  display:block;
+  width:100%;
+  max-height:360px;
+  object-fit:contain;
+  border-radius:10px;
+}
+
+.proof-file-name{
+  margin-top:10px;
+  color:#a8b9cd;
+  font-size:12px;
+  word-break:break-all;
+}
+
+.proof-ready{
+  margin-top:10px;
+  color:var(--green);
+  font-size:12px;
+  font-weight:800;
 }
 
 .profile-item span{
@@ -789,7 +869,7 @@ No trades are available yet.
 <div class="page-header">
   <div class="eyebrow">FUND ACCOUNT</div>
   <h1>Deposit</h1>
-  <p>Select an available funding option and submit your deposit for confirmation.</p>
+  <p>Select a cryptocurrency wallet, complete your payment and upload your payment screenshot for review.</p>
 </div>
 
 <div class="section-card">
@@ -797,7 +877,7 @@ No trades are available yet.
 <div class="section-title">
   <div>
     <h2>Cryptocurrency Deposit</h2>
-    <p>Select one of the active deposit wallets below.</p>
+    <p>Select the wallet that you used to make your payment.</p>
   </div>
 
   <button class="btn" onclick="loadDepositWallets()">Refresh</button>
@@ -817,8 +897,8 @@ Loading deposit wallets...
 
 <div class="section-title">
   <div>
-    <h2>Submit Your Deposit</h2>
-    <p>After sending cryptocurrency, submit the transaction information for review.</p>
+    <h2>Confirm Your Deposit</h2>
+    <p>Enter the amount deposited and upload a screenshot showing your completed payment.</p>
   </div>
 </div>
 
@@ -838,19 +918,19 @@ Loading deposit wallets...
 <div class="form-grid">
 
 <div class="field">
-<label>Deposit Amount</label>
+<label id="depositAmountLabel">Deposit Amount</label>
 
 <input
   id="depositAmount"
   type="number"
-  min="0.00000001"
-  step="any"
+  min="0.01"
+  step="0.01"
   placeholder="Enter amount"
   required>
 </div>
 
 <div class="field">
-<label>Currency / Asset</label>
+<label>Cryptocurrency / Network</label>
 
 <input
   id="depositAssetDisplay"
@@ -860,13 +940,42 @@ Loading deposit wallets...
 </div>
 
 <div class="field full">
-<label>Transaction Hash / Reference</label>
+
+<label>Payment Screenshot</label>
+
+<div class="proof-upload">
 
 <input
-  id="depositTransactionReference"
-  type="text"
-  placeholder="Enter blockchain transaction hash"
+  id="depositProof"
+  type="file"
+  accept="image/jpeg,image/png,image/webp"
   required>
+
+<div class="proof-upload-content">
+  <div class="proof-icon">📷</div>
+  <div class="proof-title">Upload Payment Screenshot</div>
+  <div class="proof-subtitle">
+    Tap here to select your payment screenshot.<br>
+    JPG, PNG or WEBP • Maximum 5 MB
+  </div>
+</div>
+
+</div>
+
+<div id="proofPreview" class="proof-preview hidden">
+
+<img
+  id="proofPreviewImage"
+  alt="Payment screenshot preview">
+
+<div id="proofFileName" class="proof-file-name"></div>
+
+<div class="proof-ready">
+✓ Screenshot ready to upload
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -939,7 +1048,7 @@ Contact Support
 <th>Method</th>
 <th>Asset</th>
 <th>Amount</th>
-<th>Reference</th>
+<th>Proof</th>
 <th>Status</th>
 <th>Date</th>
 </tr>
@@ -966,9 +1075,9 @@ No deposit requests yet.
 
 <p style="color:var(--muted);line-height:1.8;">
 Confirm the cryptocurrency and network before sending.
-Only send the displayed asset through the displayed network.
-Blockchain transfers sent to an incompatible address or network may be irreversible.
-A submitted deposit remains pending until it has been reviewed.
+Only send funds through the displayed wallet and network.
+Upload a clear screenshot showing your completed payment.
+Your deposit will remain pending until it has been reviewed and approved.
 </p>
 
 </div>
@@ -1162,7 +1271,7 @@ No trading history is available yet.
 <th>Method</th>
 <th>Asset</th>
 <th>Amount</th>
-<th>Reference</th>
+<th>Proof</th>
 <th>Status</th>
 <th>Date</th>
 </tr>
@@ -1332,6 +1441,7 @@ let currentUser = null;
 let accountCurrency = "USD";
 let activeDepositWallets = [];
 let selectedDepositWallet = null;
+let depositPreviewUrl = null;
 
 /* HELPERS */
 
@@ -1577,6 +1687,9 @@ async function loadAccountData(){
     document.getElementById("accountBalance").textContent=
       formatMoney(balance,accountCurrency);
 
+    document.getElementById("depositAmountLabel").textContent=
+      `Deposit Amount (${accountCurrency})`;
+
     const profitElement=document.getElementById("totalProfit");
 
     profitElement.textContent=formatTradeResult(profit);
@@ -1789,7 +1902,7 @@ async function loadDepositWallets(){
               class="btn btn-primary"
               type="button"
               onclick="selectDepositWallet(${index})">
-              Select Wallet
+              I Have Made This Deposit
             </button>
 
           </div>
@@ -1835,6 +1948,7 @@ function selectDepositWallet(index){
   document.getElementById("depositAsset").value=asset;
   document.getElementById("depositNetwork").value=network;
   document.getElementById("depositMinimum").value=minimum;
+
   document.getElementById("depositAssetDisplay").value=
     `${asset} — ${network}`;
 
@@ -1842,9 +1956,7 @@ function selectDepositWallet(index){
     `${asset} • ${network}`;
 
   document.getElementById("depositMinimumNote").textContent=
-    minimum>0
-      ?`Minimum deposit: ${minimum} ${asset}. Enter the amount you sent and your transaction hash.`
-      :`Enter the amount you sent and your blockchain transaction hash.`;
+    `Enter the amount to be credited in ${accountCurrency} and upload a clear screenshot of your completed ${asset} payment.`;
 
   document.getElementById("submitDepositBtn").disabled=false;
 
@@ -1890,6 +2002,79 @@ async function copyWallet(address,button){
   }
 }
 
+/* PAYMENT SCREENSHOT PREVIEW */
+
+document
+  .getElementById("depositProof")
+  .addEventListener("change",event=>{
+
+    const file=event.target.files?.[0];
+
+    const preview=
+      document.getElementById("proofPreview");
+
+    const image=
+      document.getElementById("proofPreviewImage");
+
+    const fileName=
+      document.getElementById("proofFileName");
+
+    if(depositPreviewUrl){
+      URL.revokeObjectURL(depositPreviewUrl);
+      depositPreviewUrl=null;
+    }
+
+    if(!file){
+
+      preview.classList.add("hidden");
+      image.removeAttribute("src");
+      fileName.textContent="";
+
+      return;
+    }
+
+    const allowedTypes=[
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+    if(!allowedTypes.includes(file.type)){
+
+      event.target.value="";
+
+      preview.classList.add("hidden");
+
+      showDepositMessage(
+        "Please upload a JPG, PNG or WEBP screenshot.",
+        "error"
+      );
+
+      return;
+    }
+
+    if(file.size>5*1024*1024){
+
+      event.target.value="";
+
+      preview.classList.add("hidden");
+
+      showDepositMessage(
+        "The payment screenshot must be 5 MB or smaller.",
+        "error"
+      );
+
+      return;
+    }
+
+    depositPreviewUrl=URL.createObjectURL(file);
+
+    image.src=depositPreviewUrl;
+    fileName.textContent=file.name;
+
+    preview.classList.remove("hidden");
+  });
+
 /* SUBMIT DEPOSIT */
 
 document
@@ -1905,7 +2090,7 @@ document
     if(!selectedDepositWallet){
 
       showDepositMessage(
-        "Select a cryptocurrency wallet before submitting your deposit.",
+        "Select the cryptocurrency wallet that you used before submitting your deposit.",
         "error"
       );
 
@@ -1918,21 +2103,16 @@ document
     const network=
       document.getElementById("depositNetwork").value;
 
-    const minimum=
-      Number(
-        document.getElementById("depositMinimum").value||0
-      );
-
     const amount=
       Number(
         document.getElementById("depositAmount").value
       );
 
-    const transactionReference=
-      document
-        .getElementById("depositTransactionReference")
-        .value
-        .trim();
+    const proofInput=
+      document.getElementById("depositProof");
+
+    const file=
+      proofInput.files?.[0];
 
     if(!Number.isFinite(amount)||amount<=0){
 
@@ -1944,23 +2124,51 @@ document
       return;
     }
 
-    if(minimum>0&&amount<minimum){
+    if(!file){
 
       showDepositMessage(
-        `The minimum deposit for ${asset} on ${network} is ${minimum} ${asset}.`,
+        "Upload your payment screenshot before submitting the deposit.",
         "error"
       );
 
       return;
     }
 
-    if(!transactionReference){
+    const allowedTypes=[
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+    if(!allowedTypes.includes(file.type)){
 
       showDepositMessage(
-        "Enter the blockchain transaction hash or reference.",
+        "Payment proof must be a JPG, PNG or WEBP image.",
         "error"
       );
 
+      return;
+    }
+
+    if(file.size>5*1024*1024){
+
+      showDepositMessage(
+        "Payment screenshot must be 5 MB or smaller.",
+        "error"
+      );
+
+      return;
+    }
+
+    const confirmed=confirm(
+      "Submit Deposit for Review?\n\n"+
+      "Asset: "+asset+"\n"+
+      "Network: "+network+"\n"+
+      "Amount: "+formatMoney(amount,accountCurrency)+"\n\n"+
+      "Your payment screenshot will be uploaded for administrator review."
+    );
+
+    if(!confirmed){
       return;
     }
 
@@ -1968,27 +2176,86 @@ document
       document.getElementById("submitDepositBtn");
 
     button.disabled=true;
-    button.textContent="Submitting Deposit...";
+    button.textContent="Uploading Screenshot...";
+
+    let uploadedPath=null;
 
     try{
 
-      const {error}=
+      let extension="jpg";
+
+      if(file.type==="image/png"){
+        extension="png";
+      }
+      else if(file.type==="image/webp"){
+        extension="webp";
+      }
+
+      let uniqueId;
+
+      if(
+        window.crypto &&
+        typeof window.crypto.randomUUID==="function"
+      ){
+        uniqueId=window.crypto.randomUUID();
+      }
+      else{
+        uniqueId=
+          Date.now()+"-"+Math.random().toString(36).slice(2);
+      }
+
+      const proofPath=
+        currentUser.id+
+        "/"+
+        Date.now()+
+        "-"+
+        uniqueId+
+        "."+
+        extension;
+
+      const {
+        error:uploadError
+      }=
+        await supabaseClient
+          .storage
+          .from("deposit-proofs")
+          .upload(
+            proofPath,
+            file,
+            {
+              cacheControl:"3600",
+              upsert:false,
+              contentType:file.type
+            }
+          );
+
+      if(uploadError){
+        throw uploadError;
+      }
+
+      uploadedPath=proofPath;
+
+      button.textContent="Submitting Deposit...";
+
+      const {
+        error:insertError
+      }=
         await supabaseClient
           .from("deposit_requests")
           .insert({
             user_id:currentUser.id,
             method:"crypto",
             amount:amount,
-            currency:asset,
+            currency:accountCurrency||"USD",
             crypto_asset:asset,
             network:network,
-            transaction_reference:transactionReference,
-            proof_path:null,
+            transaction_reference:null,
+            proof_path:proofPath,
             status:"pending"
           });
 
-      if(error){
-        throw error;
+      if(insertError){
+        throw insertError;
       }
 
       showDepositMessage(
@@ -1997,17 +2264,62 @@ document
       );
 
       document.getElementById("depositAmount").value="";
-      document.getElementById("depositTransactionReference").value="";
+      proofInput.value="";
+
+      if(depositPreviewUrl){
+        URL.revokeObjectURL(depositPreviewUrl);
+        depositPreviewUrl=null;
+      }
+
+      document
+        .getElementById("proofPreview")
+        .classList.add("hidden");
+
+      document
+        .getElementById("proofPreviewImage")
+        .removeAttribute("src");
+
+      document
+        .getElementById("proofFileName")
+        .textContent="";
 
       await loadDepositHistory();
 
     }
     catch(error){
 
-      console.error("Deposit submission error:",error);
+      console.error(
+        "Deposit submission error:",
+        error
+      );
+
+      /*
+       If screenshot uploaded but database request failed,
+       remove the unused screenshot.
+      */
+
+      if(uploadedPath){
+
+        try{
+
+          await supabaseClient
+            .storage
+            .from("deposit-proofs")
+            .remove([uploadedPath]);
+
+        }
+        catch(cleanupError){
+
+          console.error(
+            "Deposit proof cleanup error:",
+            cleanupError
+          );
+        }
+      }
 
       showDepositMessage(
-        "Could not submit deposit request. "+error.message,
+        "Could not submit deposit request. "+
+        (error?.message||"Please try again."),
         "error"
       );
 
@@ -2031,9 +2343,10 @@ function renderDepositRows(rows){
       item.currency||
       "—";
 
-    const reference=
-      item.transaction_reference||
-      "—";
+    const proofText=
+      item.proof_path
+        ?"Screenshot submitted"
+        :"No screenshot";
 
     return `
     <tr>
@@ -2054,11 +2367,22 @@ function renderDepositRows(rows){
       </td>
 
       <td>
-        ${escapeHtml(item.amount??"—")}
+        ${escapeHtml(
+          formatMoney(
+            item.amount||0,
+            item.currency||accountCurrency
+          )
+        )}
       </td>
 
-      <td style="max-width:220px;word-break:break-all;">
-        ${escapeHtml(reference)}
+      <td>
+        <span style="
+          color:${item.proof_path?"#59e4a9":"#8fa2bf"};
+          font-weight:700;
+          font-size:12px;
+        ">
+          ${escapeHtml(proofText)}
+        </span>
       </td>
 
       <td>
@@ -2097,7 +2421,7 @@ async function loadDepositHistory(){
       await supabaseClient
         .from("deposit_requests")
         .select(
-          "id,method,amount,currency,crypto_asset,network,transaction_reference,status,created_at"
+          "id,method,amount,currency,crypto_asset,network,proof_path,status,created_at"
         )
         .eq("user_id",currentUser.id)
         .order("created_at",{ascending:false});
@@ -2516,6 +2840,16 @@ document
       .toggle("open");
 
   });
+
+/* CLEAN PREVIEW */
+
+window.addEventListener("beforeunload",()=>{
+
+  if(depositPreviewUrl){
+    URL.revokeObjectURL(depositPreviewUrl);
+  }
+
+});
 
 /* COPYRIGHT */
 
