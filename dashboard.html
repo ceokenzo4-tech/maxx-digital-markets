@@ -1195,7 +1195,71 @@ th{
   .professional-account-card:last-child{grid-column:auto}
   .professional-chart-shell{height:400px}
 }
-</style>
+  /* ===== MOBILE DASHBOARD FIX ===== */
+@media (max-width: 768px) {
+
+  .sidebar {
+    position: fixed !important;
+    left: -100% !important;
+    top: 0;
+    width: 280px !important;
+    height: 100vh;
+    z-index: 9999;
+  }
+
+  .sidebar.active,
+  .sidebar.open {
+    left: 0 !important;
+  }
+
+  .main {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding: 22px !important;
+    min-width: 0 !important;
+  }
+
+  .pro-dashboard-header {
+    width: 100% !important;
+    min-height: 360px;
+    padding: 28px 20px !important;
+    flex-direction: column;
+    align-items: stretch;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(3,17,29,.96) 0%,
+        rgba(3,17,29,.72) 45%,
+        rgba(3,17,29,.15) 100%
+      ),
+      url("assets/dashboard-trading-bg.png") center right / cover no-repeat;
+  }
+
+  .welcome-content {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .pro-dashboard-header .welcome-title {
+    font-size: 40px !important;
+    line-height: 1.05;
+  }
+
+  .pro-header-actions {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .pro-header-actions .btn {
+    flex: 1;
+  }
+}
+  </style>
 </head>
 
 <body>
