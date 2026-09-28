@@ -276,19 +276,18 @@ button{cursor:pointer}
   border-radius: 18px;
   border: 1px solid rgba(35, 145, 255, 0.18);
 
-  background:
-    radial-gradient(
-      circle at 85% 45%,
-      rgba(0, 153, 255, 0.18),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      #03111d 0%,
-      #061b2d 55%,
-      #03101c 100%
-    );
-}
+ background:
+  linear-gradient(
+    90deg,
+    rgba(3, 17, 29, 0.98) 0%,
+    rgba(3, 17, 29, 0.88) 42%,
+    rgba(3, 17, 29, 0.30) 100%
+  ),
+  url("assets/dashboard-trading-bg.png");
+
+background-size: cover;
+background-position: center right;
+background-repeat: no-repeat;
 
 /* subtle trading glow */
 .pro-dashboard-header::after {
