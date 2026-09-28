@@ -1207,10 +1207,14 @@ th{
     z-index: 9999;
   }
 
-  .sidebar.active,
-  .sidebar.open {
-    left: 0 !important;
-  }
+ .sidebar {
+  position: fixed !important;
+  left: -290px !important;
+  top: 0;
+  width: 280px !important;
+  height: 100vh;
+  z-index: 9999;
+}
 
   .main {
     width: 100% !important;
