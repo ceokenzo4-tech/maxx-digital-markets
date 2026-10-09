@@ -1,1591 +1,1024 @@
-<!DOCTYPE html>
+      localStorage.removeI<!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="theme-color" content="#030712">
   <title>Profile | MAXX Exchange</title>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --bg: #030712;
       --panel: #0d172b;
       --panel2: #121f38;
-
       --gold: #f5bf57;
       --gold-light: #ffe2a0;
-
       --blue: #1884ff;
       --green: #21d59a;
       --red: #ff6578;
-
       --white: #f7f9ff;
       --muted: #8d99b3;
-
-      --border: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,.08);
     }
 
     body {
       min-height: 100vh;
-
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Arial, sans-serif;
       color: var(--white);
-
       background:
-        radial-gradient(
-          circle at 5% 5%,
-          rgba(24,132,255,0.20),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 95% 5%,
-          rgba(245,191,87,0.10),
-          transparent 22%
-        ),
-        linear-gradient(
-          180deg,
-          #030712,
-          #050b17 55%,
-          #030610
-        );
+        radial-gradient(circle at 5% 5%, rgba(24,132,255,.20), transparent 28%),
+        radial-gradient(circle at 95% 5%, rgba(245,191,87,.10), transparent 22%),
+        linear-gradient(180deg, #030712, #050b17 55%, #030610);
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
 
-    button,
-    input,
-    select {
-      font-family: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .container {
-      width: min(1180px, 93%);
-      margin: auto;
-    }
-
-    /* TOP BAR */
+    .container { width: min(1180px, 93%); margin: auto; }
 
     .topbar {
-      padding: 8px 15px;
-
+      padding: 9px 15px;
       text-align: center;
-
       color: #b9c5dc;
-
       font-size: 10px;
-
-      border-bottom:
-        1px solid var(--border);
-
-      background:
-        rgba(255,255,255,0.015);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.015);
     }
-
-    /* NAVIGATION */
 
     nav {
       position: sticky;
       top: 0;
-
       z-index: 1000;
-
-      background:
-        rgba(3,7,18,0.91);
-
+      background: rgba(3,7,18,.94);
       backdrop-filter: blur(18px);
-
-      border-bottom:
-        1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
     .navbar {
-      min-height: 78px;
-
+      min-height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      gap: 25px;
+      gap: 20px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-
-      gap: 12px;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; }
 
     .logo {
-      width: 48px;
-      height: 48px;
-
+      width: 46px;
+      height: 46px;
       display: grid;
       place-items: center;
-
-      border-radius: 15px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #fff0b5,
-          #eeb74c 35%,
-          #187cff 75%,
-          #061126
-        );
-
-      box-shadow:
-        0 12px 35px rgba(20,124,255,0.25);
-    }
-
-    .logo::after {
-      content: "M";
-
-      color: white;
-
+      border-radius: 14px;
+      background: linear-gradient(145deg, #fff0b5, #eeb74c 35%, #187cff 75%, #061126);
+      box-shadow: 0 12px 35px rgba(20,124,255,.25);
       font-size: 20px;
       font-weight: 1000;
     }
 
-    .brand-text strong {
-      display: block;
-
-      font-size: 19px;
-    }
-
+    .brand-text strong { display: block; font-size: 19px; }
     .brand-text span {
       display: block;
-
       margin-top: 3px;
-
       color: var(--gold);
-
       font-size: 8px;
       letter-spacing: 2.4px;
-
       font-weight: 900;
     }
 
-    .nav-links {
+    .nav-links, .nav-actions {
       display: flex;
       align-items: center;
-
-      gap: 25px;
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-      font-weight: 750;
+      gap: 18px;
     }
 
-    .nav-links a:hover {
-      color: white;
-    }
-
-    .nav-actions {
-      display: flex;
-      gap: 10px;
-    }
+    .nav-links { color: var(--muted); font-size: 12px; font-weight: 750; }
+    .nav-links a:hover { color: white; }
 
     .nav-button {
-      min-height: 42px;
-
+      min-height: 41px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
-      padding: 0 16px;
-
+      padding: 0 15px;
       border-radius: 11px;
-
       font-size: 11px;
       font-weight: 900;
     }
 
     .nav-button.dark {
       border: 1px solid var(--border);
-
-      background:
-        rgba(255,255,255,0.025);
+      background: rgba(255,255,255,.025);
     }
 
-    .nav-button.gold {
+    .nav-button.gold, .save-button {
       color: #07101c;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--gold-light),
-          var(--gold)
-        );
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
     }
 
-    /* PAGE */
+    main { padding: 48px 0 80px; }
 
-    main {
-      padding:
-        55px 0 90px;
-    }
-
-    .page-head {
-      margin-bottom: 30px;
-    }
+    .page-head { margin-bottom: 28px; }
 
     .badge {
       width: fit-content;
-
       margin-bottom: 12px;
-
       padding: 7px 12px;
-
       border-radius: 100px;
-
       color: var(--gold-light);
-
-      border:
-        1px solid rgba(245,191,87,0.18);
-
-      background:
-        rgba(245,191,87,0.06);
-
-      font-size: 8px;
-
+      border: 1px solid rgba(245,191,87,.18);
+      background: rgba(245,191,87,.06);
+      font-size: 9px;
       font-weight: 900;
-
       letter-spacing: 1px;
     }
 
     .page-head h1 {
-      margin-bottom: 8px;
-
-      font-size:
-        clamp(
-          36px,
-          5vw,
-          52px
-        );
-
-      letter-spacing: -2px;
+      margin-bottom: 9px;
+      font-size: clamp(32px, 5vw, 49px);
+      letter-spacing: -1.8px;
     }
 
     .page-head p {
       color: var(--muted);
-
-      font-size: 11px;
-
+      font-size: 12px;
       line-height: 1.7;
     }
 
     .profile-grid {
       display: grid;
-
-      grid-template-columns:
-        0.75fr 1.25fr;
-
+      grid-template-columns: .75fr 1.25fr;
       gap: 20px;
-
       align-items: start;
     }
 
-    /* SIDEBAR */
-
     .panel {
-      padding: 24px;
-
+      min-width: 0;
+      padding: 23px;
       border-radius: 20px;
-
-      border:
-        1px solid var(--border);
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(16,29,53,0.97),
-          rgba(8,15,29,0.97)
-        );
-
-      box-shadow:
-        0 25px 55px rgba(0,0,0,0.22);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(16,29,53,.97), rgba(8,15,29,.97));
+      box-shadow: 0 25px 55px rgba(0,0,0,.22);
     }
 
-    .profile-card {
-      text-align: center;
+    .profile-card { text-align: center; }
+
+    .avatar-wrap {
+      position: relative;
+      width: 108px;
+      margin: 0 auto 14px;
     }
 
     .avatar-large {
-      width: 88px;
-      height: 88px;
-
+      width: 100px;
+      height: 100px;
       display: grid;
       place-items: center;
-
-      margin:
-        0 auto 15px;
-
-      border-radius: 24px;
-
+      overflow: hidden;
+      margin: auto;
+      border-radius: 28px;
       color: #07101c;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--gold-light),
-          var(--gold)
-        );
-
-      font-size: 28px;
-
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      font-size: 30px;
       font-weight: 1000;
-
-      box-shadow:
-        0 15px 35px rgba(245,191,87,0.15);
+      box-shadow: 0 15px 35px rgba(245,191,87,.15);
     }
 
-    .profile-card h2 {
-      margin-bottom: 5px;
-
-      font-size: 20px;
+    .avatar-large img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
+    .photo-pick {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 9px 13px;
+      border-radius: 10px;
+      border: 1px solid rgba(24,132,255,.30);
+      color: #b8d9ff;
+      background: rgba(24,132,255,.09);
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .photo-pick:hover { background: rgba(24,132,255,.17); }
+
+    .photo-help {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.6;
+    }
+
+    .profile-card h2 { margin-bottom: 6px; font-size: 20px; }
     .profile-email {
       color: var(--muted);
-
-      font-size: 10px;
-
-      word-break: break-word;
+      font-size: 11px;
+      overflow-wrap: anywhere;
     }
 
-    .demo-badge {
+    .account-badge {
       width: fit-content;
-
-      margin:
-        16px auto 20px;
-
-      padding:
-        7px 11px;
-
+      margin: 16px auto 20px;
+      padding: 7px 11px;
       border-radius: 100px;
-
       color: var(--green);
-
-      background:
-        rgba(33,213,154,0.07);
-
-      border:
-        1px solid rgba(33,213,154,0.15);
-
-      font-size: 8px;
-
+      background: rgba(33,213,154,.07);
+      border: 1px solid rgba(33,213,154,.15);
+      font-size: 9px;
       font-weight: 900;
     }
 
     .profile-meta {
       overflow: hidden;
-
+      text-align: left;
       border-radius: 13px;
-
-      border:
-        1px solid var(--border);
+      border: 1px solid var(--border);
     }
 
     .meta-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-
-      gap: 15px;
-
-      padding:
-        13px 14px;
-
-      border-bottom:
-        1px solid var(--border);
-
-      font-size: 9px;
+      gap: 12px;
+      padding: 13px;
+      border-bottom: 1px solid var(--border);
+      font-size: 10px;
     }
 
-    .meta-row:last-child {
-      border-bottom: none;
-    }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-row span { color: var(--muted); }
+    .meta-row strong { text-align: right; overflow-wrap: anywhere; }
 
-    .meta-row span {
-      color: var(--muted);
-    }
-
-    .meta-row strong {
-      text-align: right;
-    }
-
-    .sidebar-links {
-      display: grid;
-
-      gap: 9px;
-
-      margin-top: 16px;
-    }
+    .sidebar-links { display: grid; gap: 9px; margin-top: 16px; }
 
     .side-link {
-      padding:
-        13px 14px;
-
+      display: block;
+      padding: 13px;
       border-radius: 11px;
-
       color: #c9d3e7;
-
-      background:
-        rgba(255,255,255,0.02);
-
-      border:
-        1px solid var(--border);
-
-      font-size: 10px;
-
+      background: rgba(255,255,255,.02);
+      border: 1px solid var(--border);
+      font-size: 11px;
       font-weight: 850;
     }
 
-    .side-link:hover {
-      border-color:
-        rgba(245,191,87,0.20);
+    .side-link:hover { border-color: rgba(245,191,87,.3); color: var(--gold-light); }
 
-      color: var(--gold-light);
-    }
-
-    /* FORMS */
-
-    .panel-title {
-      margin-bottom: 20px;
-    }
-
-    .panel-title h2 {
-      margin-bottom: 5px;
-
-      font-size: 20px;
-    }
-
-    .panel-title p {
+    .panel-title { margin-bottom: 20px; }
+    .panel-title h2 { margin-bottom: 6px; font-size: 21px; }
+    .panel-title p, .section-box > p {
       color: var(--muted);
-
-      font-size: 10px;
-
-      line-height: 1.6;
+      font-size: 11px;
+      line-height: 1.7;
     }
 
     .section-box {
-      padding: 20px;
-
-      margin-bottom: 16px;
-
+      padding: 19px;
+      margin-bottom: 15px;
       border-radius: 16px;
-
-      border:
-        1px solid var(--border);
-
-      background:
-        rgba(255,255,255,0.018);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.018);
     }
 
-    .section-box h3 {
-      margin-bottom: 5px;
+    .section-box h3 { margin-bottom: 6px; font-size: 15px; }
+    .section-box > p { margin-bottom: 17px; }
 
-      font-size: 14px;
-    }
-
-    .section-box > p {
-      margin-bottom: 18px;
-
-      color: var(--muted);
-
-      font-size: 9px;
-
-      line-height: 1.6;
-    }
-
-    .grid-2 {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 13px;
-    }
-
-    .field {
-      margin-bottom: 14px;
-    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .field { margin-bottom: 14px; }
 
     label {
       display: block;
-
       margin-bottom: 7px;
-
       color: #bcc7da;
-
-      font-size: 9px;
-
+      font-size: 10px;
       font-weight: 800;
     }
 
-    input,
-    select {
+    input, select {
       width: 100%;
-
-      padding:
-        14px 15px;
-
+      min-width: 0;
+      padding: 13px;
       border-radius: 11px;
-
-      border:
-        1px solid var(--border);
-
+      border: 1px solid var(--border);
       outline: none;
-
       color: white;
-
-      background:
-        #101c32;
-
-      font-size: 11px;
-
-      font-weight: 700;
+      background: #101c32;
+      font-size: 12px;
     }
 
-    input:focus,
-    select:focus {
-      border-color:
-        rgba(24,132,255,0.45);
-
-      box-shadow:
-        0 0 0 3px rgba(24,132,255,0.08);
+    input:focus, select:focus {
+      border-color: rgba(24,132,255,.6);
+      box-shadow: 0 0 0 3px rgba(24,132,255,.08);
     }
 
-    .save-button {
-      min-height: 46px;
+    input[readonly] { opacity: .75; cursor: not-allowed; }
 
-      padding:
-        0 18px;
-
+    .save-button, .danger-button {
+      min-height: 44px;
+      padding: 0 17px;
       border: none;
-
       border-radius: 11px;
-
-      color: #07101c;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--gold-light),
-          var(--gold)
-        );
-
-      font-size: 10px;
-
+      font-size: 11px;
       font-weight: 900;
     }
 
-    /* SECURITY */
+    .save-button:disabled { opacity: .6; cursor: wait; }
 
     .security-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      gap: 20px;
-
-      padding:
-        14px 0;
-
-      border-bottom:
-        1px solid var(--border);
+      gap: 15px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .security-item:last-child {
-      border-bottom: none;
-    }
+    .security-item:last-child { border-bottom: none; }
 
-    .security-left {
-      display: flex;
-      align-items: center;
-
-      gap: 12px;
-    }
+    .security-left { display: flex; align-items: center; gap: 12px; }
 
     .security-icon {
-      width: 38px;
-      height: 38px;
-
+      width: 37px;
+      height: 37px;
       display: grid;
       place-items: center;
-
       flex-shrink: 0;
-
       border-radius: 11px;
-
       color: var(--gold-light);
-
-      background:
-        rgba(245,191,87,0.08);
+      background: rgba(245,191,87,.08);
     }
 
-    .security-item strong {
-      display: block;
-
-      margin-bottom: 3px;
-
-      font-size: 10px;
-    }
-
-    .security-item small {
-      color: var(--muted);
-
-      font-size: 8px;
-
-      line-height: 1.5;
-    }
+    .security-item strong { display: block; margin-bottom: 4px; font-size: 11px; }
+    .security-item small { color: var(--muted); font-size: 9px; line-height: 1.6; }
 
     .status {
-      padding:
-        6px 9px;
-
+      flex-shrink: 0;
+      padding: 6px 9px;
       border-radius: 50px;
-
       color: var(--muted);
-
-      background:
-        rgba(255,255,255,0.03);
-
+      background: rgba(255,255,255,.03);
       font-size: 8px;
-
       font-weight: 900;
     }
 
-    .status.green {
-      color: var(--green);
-
-      background:
-        rgba(33,213,154,0.07);
-    }
+    .status.green { color: var(--green); background: rgba(33,213,154,.07); }
 
     .message {
       display: none;
-
       margin-bottom: 15px;
-
-      padding:
-        12px 14px;
-
+      padding: 12px 14px;
       border-radius: 10px;
-
-      font-size: 9px;
-
-      line-height: 1.5;
+      font-size: 11px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
     }
 
     .message.success {
       display: block;
-
       color: #baffea;
-
-      border:
-        1px solid rgba(33,213,154,0.18);
-
-      background:
-        rgba(33,213,154,0.07);
+      border: 1px solid rgba(33,213,154,.18);
+      background: rgba(33,213,154,.07);
     }
 
     .message.error {
       display: block;
-
       color: #ffc1cb;
+      border: 1px solid rgba(255,101,120,.18);
+      background: rgba(255,101,120,.07);
+    }
 
-      border:
-        1px solid rgba(255,101,120,0.18);
-
-      background:
-        rgba(255,101,120,0.07);
+    .message.info {
+      display: block;
+      color: #c6e1ff;
+      border: 1px solid rgba(24,132,255,.2);
+      background: rgba(24,132,255,.07);
     }
 
     .danger-button {
-      min-height: 44px;
-
-      padding:
-        0 16px;
-
-      border-radius: 11px;
-
       color: #ffc4cd;
-
-      border:
-        1px solid rgba(255,101,120,0.20);
-
-      background:
-        rgba(255,101,120,0.06);
-
-      font-size: 9px;
-
-      font-weight: 900;
+      border: 1px solid rgba(255,101,120,.2);
+      background: rgba(255,101,120,.06);
     }
 
     .notice {
-      margin-top: 20px;
-
+      margin-top: 19px;
       padding: 14px;
-
       border-radius: 12px;
-
       color: #7f8ba2;
-
-      border:
-        1px solid var(--border);
-
-      background:
-        rgba(255,255,255,0.015);
-
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.015);
       text-align: center;
-
-      font-size: 8px;
-
-      line-height: 1.7;
+      font-size: 9px;
+      line-height: 1.8;
     }
 
-    footer {
-      padding: 30px;
-
+    .loading {
+      padding: 65px 15px;
       text-align: center;
+      color: var(--muted);
+      line-height: 1.8;
+    }
 
+    .spinner {
+      width: 28px;
+      height: 28px;
+      margin: 0 auto 13px;
+      border: 3px solid rgba(255,255,255,.12);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    footer {
+      padding: 28px 15px;
+      text-align: center;
       color: #66728b;
-
-      font-size: 9px;
-
-      border-top:
-        1px solid var(--border);
+      font-size: 10px;
+      border-top: 1px solid var(--border);
     }
 
     @media (max-width: 900px) {
-
-      .nav-links {
-        display: none;
-      }
-
-      .profile-grid {
-        grid-template-columns: 1fr;
-      }
-
+      .nav-links { display: none; }
+      .profile-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 600px) {
-
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-actions .dark {
-        display: none;
-      }
-
-      .security-item {
-        align-items: flex-start;
-      }
-
+      .grid-2 { grid-template-columns: 1fr; gap: 0; }
+      .navbar { min-height: 68px; }
+      .nav-actions .dark { display: none; }
+      .panel { padding: 16px; }
+      .section-box { padding: 15px; }
+      .security-item { align-items: flex-start; }
+      .page-head h1 { letter-spacing: -1px; }
     }
-
   </style>
 </head>
 
-
 <body>
-
-  <div class="topbar">
-    MAXX Exchange — Account profile and settings.
-  </div>
-
+  <div class="topbar">MAXX Exchange — Secure account profile and settings</div>
 
   <nav>
-
     <div class="container navbar">
-
-      <a
-        href="index.html"
-        class="brand"
-      >
-
-        <div class="logo"></div>
-
+      <a href="index.html" class="brand">
+        <div class="logo">M</div>
         <div class="brand-text">
           <strong>MAXX</strong>
           <span>EXCHANGE</span>
         </div>
-
       </a>
 
-
       <div class="nav-links">
-
-        <a href="dashboard.html">
-          Dashboard
-        </a>
-
-        <a href="index.html#markets">
-          Markets
-        </a>
-
-        <a href="buy.html">
-          Buy Crypto
-        </a>
-
-        <a href="sell.html">
-          Sell Crypto
-        </a>
-
-        <a href="profile.html">
-          Profile
-        </a>
-
+        <a href="dashboard.html">Dashboard</a>
+        <a href="index.html#markets">Markets</a>
+        <a href="buy.html">Buy Crypto</a>
+        <a href="sell.html">Sell Crypto</a>
+        <a href="profile.html">Profile</a>
       </div>
-
 
       <div class="nav-actions">
-
-        <a
-          href="dashboard.html"
-          class="nav-button dark"
-        >
-          ← Dashboard
-        </a>
-
-        <a
-          href="index.html"
-          class="nav-button gold"
-        >
-          Home
-        </a>
-
+        <a href="dashboard.html" class="nav-button dark">← Dashboard</a>
+        <button type="button" id="logoutTop" class="nav-button gold">Log Out</button>
       </div>
-
     </div>
-
   </nav>
 
-
   <main>
-
     <div class="container">
-
-
       <div class="page-head">
-
-        <div class="badge">
-          MAXX ACCOUNT
-        </div>
-
-        <h1>
-          Profile & Settings
-        </h1>
-
-        <p>
-          Manage your demonstration MAXX profile,
-          preferences and account settings.
-        </p>
-
+        <div class="badge">MAXX ACCOUNT</div>
+        <h1>Profile &amp; Settings</h1>
+        <p>Manage your account information, profile photo and preferences.</p>
       </div>
 
+      <div id="loading" class="panel loading">
+        <div class="spinner"></div>
+        Checking your secure account session...
+      </div>
 
-      <div class="profile-grid">
-
-
-        <!-- LEFT -->
-
+      <div id="profileApp" class="profile-grid" hidden>
         <aside>
-
           <section class="panel profile-card">
-
-            <div
-              id="avatar"
-              class="avatar-large"
-            >
-              MX
+            <div class="avatar-wrap">
+              <div id="avatar" class="avatar-large">MX</div>
             </div>
 
-            <h2 id="displayName">
-              MAXX User
-            </h2>
+            <h2 id="displayName">Account Holder</h2>
+            <div id="displayEmail" class="profile-email"></div>
 
-            <div
-              id="displayEmail"
-              class="profile-email"
-            >
-              demo@example.com
+            <label for="photoInput" class="photo-pick">Choose Profile Photo</label>
+            <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+            <p class="photo-help">JPG, PNG, WebP or GIF. Maximum file size: 5 MB.</p>
+
+            <div id="photoActions" style="display:none;margin-top:12px">
+              <button id="uploadPhoto" type="button" class="save-button">Upload Photo</button>
+              <button id="cancelPhoto" type="button" class="danger-button">Cancel</button>
             </div>
 
-            <div class="demo-badge">
-              DEMO ACCOUNT
+            <div id="photoPreviewWrap" hidden style="margin-top:12px">
+              <img id="photoPreview" alt="Selected profile photo preview"
+                style="width:100%;max-height:220px;object-fit:contain;border-radius:12px">
             </div>
 
+            <div class="account-badge">SUPABASE ACCOUNT</div>
 
             <div class="profile-meta">
-
-              <div class="meta-row">
-
-                <span>
-                  Account Type
-                </span>
-
-                <strong>
-                  Demo
-                </strong>
-
-              </div>
-
-
-              <div class="meta-row">
-
-                <span>
-                  Verification
-                </span>
-
-                <strong style="color:var(--gold-light);">
-                  Not Connected
-                </strong>
-
-              </div>
-
-
-              <div class="meta-row">
-
-                <span>
-                  Security
-                </span>
-
-                <strong>
-                  Prototype
-                </strong>
-
-              </div>
-
-
-              <div class="meta-row">
-
-                <span>
-                  Currency
-                </span>
-
-                <strong id="metaCurrency">
-                  USD
-                </strong>
-
-              </div>
-
+              <div class="meta-row"><span>Account</span><strong>Authenticated</strong></div>
+              <div class="meta-row"><span>Email status</span><strong id="emailStatus">Checking</strong></div>
+              <div class="meta-row"><span>Authentication</span><strong>Supabase Auth</strong></div>
+              <div class="meta-row"><span>Currency</span><strong id="metaCurrency">USD</strong></div>
             </div>
-
 
             <div class="sidebar-links">
-
-              <a
-                href="dashboard.html"
-                class="side-link"
-              >
-                Dashboard
-              </a>
-
-              <a
-                href="buy.html"
-                class="side-link"
-              >
-                Buy Crypto
-              </a>
-
-              <a
-                href="sell.html"
-                class="side-link"
-              >
-                Sell Crypto
-              </a>
-
-              <a
-                href="index.html"
-                class="side-link"
-              >
-                Back to Home
-              </a>
-
+              <a href="dashboard.html" class="side-link">Dashboard</a>
+              <a href="buy.html" class="side-link">Buy Crypto</a>
+              <a href="sell.html" class="side-link">Sell Crypto</a>
+              <a href="index.html" class="side-link">Back to Home</a>
             </div>
-
           </section>
-
         </aside>
 
-
-        <!-- RIGHT -->
-
         <section class="panel">
-
           <div class="panel-title">
-
-            <h2>
-              Account Settings
-            </h2>
-
-            <p>
-              These settings are stored locally
-              for your current MAXX prototype.
-            </p>
-
+            <h2>Account Settings</h2>
+            <p>Your profile information is saved to your authenticated Supabase account.</p>
           </div>
 
+          <div id="message" class="message" role="status" aria-live="polite"></div>
 
-          <div
-            id="message"
-            class="message"
-          ></div>
-
-
-          <!-- PERSONAL DETAILS -->
-
-          <div class="section-box">
-
-            <h3>
-              Personal Information
-            </h3>
-
-            <p>
-              Update the name shown on your MAXX dashboard.
-            </p>
-
+          <form id="profileForm" class="section-box">
+            <h3>Personal Information</h3>
+            <p>Update the name and profile information associated with your account.</p>
 
             <div class="grid-2">
-
               <div class="field">
-
-                <label for="fullName">
-                  Display Name
-                </label>
-
-                <input
-                  id="fullName"
-                  type="text"
-                  placeholder="Enter your name"
-                >
-
+                <label for="fullName">Display Name</label>
+                <input id="fullName" type="text" maxlength="80"
+                  placeholder="Enter your name" autocomplete="name" required>
               </div>
 
-
               <div class="field">
-
-                <label for="email">
-                  Email Address
-                </label>
-
-                <input
-                  id="email"
-                  type="email"
-                  readonly
-                >
-
+                <label for="email">Email Address</label>
+                <input id="email" type="email" readonly autocomplete="email">
               </div>
-
             </div>
 
+            <button id="saveProfile" class="save-button" type="submit">Save Profile</button>
+          </form>
 
-            <button
-              class="save-button"
-              onclick="saveProfile()"
-            >
-              Save Profile
-            </button>
-
-          </div>
-
-
-          <!-- PREFERENCES -->
-
-          <div class="section-box">
-
-            <h3>
-              Preferences
-            </h3>
-
-            <p>
-              Choose how this prototype displays
-              your preferred currency.
-            </p>
-
+          <form id="preferencesForm" class="section-box">
+            <h3>Preferences</h3>
+            <p>Choose your preferred display currency. This preference does not convert account balances.</p>
 
             <div class="grid-2">
-
               <div class="field">
-
-                <label for="currency">
-                  Preferred Currency
-                </label>
-
+                <label for="currency">Preferred Currency</label>
                 <select id="currency">
-
-                  <option value="USD">
-                    USD — US Dollar
-                  </option>
-
-                  <option value="NGN">
-                    NGN — Nigerian Naira
-                  </option>
-
+                  <option value="USD">USD — US Dollar</option>
+                  <option value="NGN">NGN — Nigerian Naira</option>
                 </select>
-
               </div>
-
 
               <div class="field">
-
-                <label for="language">
-                  Language
-                </label>
-
+                <label for="language">Language</label>
                 <select id="language">
-
-                  <option value="English">
-                    English
-                  </option>
-
+                  <option value="English">English</option>
                 </select>
-
               </div>
-
             </div>
 
-
-            <button
-              class="save-button"
-              onclick="savePreferences()"
-            >
-              Save Preferences
-            </button>
-
-          </div>
-
-
-          <!-- SECURITY -->
+            <button id="savePreferences" class="save-button" type="submit">Save Preferences</button>
+          </form>
 
           <div class="section-box">
-
-            <h3>
-              Security
-            </h3>
-
-            <p>
-              Real account security will require
-              secure server-side authentication.
-            </p>
-
+            <h3>Security</h3>
+            <p>Authentication information reported by Supabase.</p>
 
             <div class="security-item">
-
               <div class="security-left">
-
-                <div class="security-icon">
-                  ✓
-                </div>
-
+                <div class="security-icon">✓</div>
                 <div>
-
-                  <strong>
-                    Login Session
-                  </strong>
-
-                  <small>
-                    Your current prototype session is active.
-                  </small>
-
+                  <strong>Login Session</strong>
+                  <small>Your current Supabase session.</small>
                 </div>
-
               </div>
-
-              <span class="status green">
-                ACTIVE
-              </span>
-
+              <span class="status green">ACTIVE</span>
             </div>
-
 
             <div class="security-item">
-
               <div class="security-left">
-
-                <div class="security-icon">
-                  2
-                </div>
-
+                <div class="security-icon">✉</div>
                 <div>
-
-                  <strong>
-                    Two-Factor Authentication
-                  </strong>
-
-                  <small>
-                    Not yet connected to a real authentication system.
-                  </small>
-
+                  <strong>Email Verification</strong>
+                  <small>Verification status reported by Supabase Auth.</small>
                 </div>
-
               </div>
-
-              <span class="status">
-                NOT CONNECTED
-              </span>
-
+              <span id="verificationStatus" class="status">CHECKING</span>
             </div>
-
 
             <div class="security-item">
-
               <div class="security-left">
-
-                <div class="security-icon">
-                  K
-                </div>
-
+                <div class="security-icon">2</div>
                 <div>
-
-                  <strong>
-                    Identity Verification
-                  </strong>
-
-                  <small>
-                    KYC verification is not enabled in this prototype.
-                  </small>
-
+                  <strong>Two-Factor Authentication</strong>
+                  <small>This page does not enable or configure MFA.</small>
                 </div>
-
               </div>
-
-              <span class="status">
-                DEMO
-              </span>
-
+              <span class="status">NOT CONFIGURED</span>
             </div>
-
           </div>
-
-
-          <!-- SESSION -->
 
           <div class="section-box">
-
-            <h3>
-              Session
-            </h3>
-
-            <p>
-              Sign out of this local demonstration account.
-            </p>
-
-            <button
-              class="danger-button"
-              onclick="logoutUser()"
-            >
-              Log Out of MAXX
-            </button>
-
+            <h3>Session</h3>
+            <p>Securely sign out of your Supabase account on this browser.</p>
+            <button id="logoutButton" type="button" class="danger-button">Log Out of MAXX</button>
           </div>
-
 
           <div class="notice">
-
-            This is a front-end prototype.
-            Real profile data, password changes,
-            account verification, two-factor authentication
-            and security controls must be handled by
-            a secure backend before production use.
-
+            Profile details and avatar URL are saved in Supabase Auth user metadata.
+            Uploaded images are stored in the public profile-photos bucket.
+            A public image URL can be viewed by anyone who obtains that URL.
           </div>
-
         </section>
-
       </div>
-
     </div>
-
   </main>
 
+  <footer>©️ 2026 MAXX Exchange — Account settings.</footer>
 
-  <footer>
-
-    ©️ 2026 MAXX Exchange — Account settings prototype.
-
-  </footer>
-
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    /*
+      MAXX Exchange Supabase configuration.
+      The publishable key is intended for browser use.
+      Never put a secret/service_role key in this file.
+    */
+    const SUPABASE_URL = "https://dwojraxspohahemiarps.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_DIn6DkfBeeIGSSxgTDnHeA_bDh-eu9X";
+    const PHOTO_BUCKET = "profile-photos";
+    const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
 
-    const loggedIn =
-      localStorage.getItem(
-        "maxxDemoLoggedIn"
-      );
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
+    const $ = (id) => document.getElementById(id);
 
-    if (
-      loggedIn !== "true"
-    ) {
+    let currentUser = null;
+    let selectedPhoto = null;
+    let previewObjectUrl = null;
+    let isSigningOut = false;
 
-      window.location.href =
-        "login.html";
-
+    function showMessage(text, type = "info") {
+      const el = $("message");
+      el.textContent = text;
+      el.className = "message " + type;
+      el.style.display = "block";
     }
 
-
-    const email =
-      localStorage.getItem(
-        "maxxDemoEmail"
-      ) ||
-      "demo@example.com";
-
-
-    const savedName =
-      localStorage.getItem(
-        "maxxDemoName"
-      );
-
-
-    const savedCurrency =
-      localStorage.getItem(
-        "maxxPreferredCurrency"
-      ) ||
-      "USD";
-
-
-    function nameFromEmail(
-      emailAddress
-    ) {
-
-      const raw =
-        emailAddress
-        .split("@")[0]
-        .replace(/[._-]/g, " ");
-
-
-      return raw
-        .split(" ")
-        .filter(Boolean)
-        .map(function(word) {
-
-          return (
-            word.charAt(0).toUpperCase() +
-            word.slice(1)
-          );
-
-        })
-        .join(" ");
-
+    function clearMessage() {
+      $("message").textContent = "";
+      $("message").className = "message";
+      $("message").style.display = "none";
     }
 
-
-    const displayName =
-      savedName ||
-      nameFromEmail(email) ||
-      "MAXX User";
-
-
-    document.getElementById(
-      "displayName"
-    ).innerText =
-      displayName;
-
-
-    document.getElementById(
-      "displayEmail"
-    ).innerText =
-      email;
-
-
-    document.getElementById(
-      "fullName"
-    ).value =
-      displayName;
-
-
-    document.getElementById(
-      "email"
-    ).value =
-      email;
-
-
-    document.getElementById(
-      "currency"
-    ).value =
-      savedCurrency;
-
-
-    document.getElementById(
-      "metaCurrency"
-    ).innerText =
-      savedCurrency;
-
-
-    const initials =
-      displayName
-      .split(" ")
-      .filter(Boolean)
-      .slice(0,2)
-      .map(function(word) {
-
-        return word.charAt(0).toUpperCase();
-
-      })
-      .join("");
-
-
-    document.getElementById(
-      "avatar"
-    ).innerText =
-      initials ||
-      "MX";
-
-
-    function showMessage(
-      text,
-      type
-    ) {
-
-      const message =
-        document.getElementById(
-          "message"
-        );
-
-
-      message.className =
-        "message " +
-        type;
-
-
-      message.innerText =
-        text;
-
+    function initialsFor(name, email) {
+      const cleanName = (name || "").trim();
+      if (cleanName) {
+        return cleanName.split(/\s+/).slice(0, 2)
+          .map(part => part.charAt(0).toUpperCase()).join("");
+      }
+      return (email || "MX").split("@")[0].slice(0, 2).toUpperCase();
     }
 
+    function safeImageElement(url) {
+      const img = document.createElement("img");
+      img.alt = "Profile photo";
+      img.referrerPolicy = "no-referrer";
+      img.src = url;
+      return img;
+    }
 
-    function saveProfile() {
+    function renderAvatar(name, email, avatarUrl) {
+      const avatar = $("avatar");
+      avatar.replaceChildren();
 
-      const name =
-        document.getElementById(
-          "fullName"
-        ).value.trim();
+      if (avatarUrl) {
+        const img = safeImageElement(avatarUrl);
+        img.onerror = () => {
+          avatar.replaceChildren();
+          avatar.textContent = initialsFor(name, email);
+        };
+        avatar.appendChild(img);
+      } else {
+        avatar.textContent = initialsFor(name, email);
+      }
+    }
 
+    function renderUser(user) {
+      const metadata = user.user_metadata || {};
+      const name = metadata.full_name || metadata.name || "";
+      const avatarUrl = metadata.avatar_url || "";
 
-      if (
-        name.length < 2
-      ) {
+      $("displayName").textContent = name || "Account Holder";
+      $("displayEmail").textContent = user.email || "No email available";
+      $("email").value = user.email || "";
+      $("fullName").value = name;
+      $("currency").value =
+        metadata.preferred_currency === "NGN" ? "NGN" : "USD";
+      $("metaCurrency").textContent = $("currency").value;
 
-        showMessage(
-          "Please enter a valid display name.",
-          "error"
-        );
+      const verified = Boolean(user.email_confirmed_at);
+      $("emailStatus").textContent = verified ? "Verified" : "Unverified";
+      $("verificationStatus").textContent = verified ? "VERIFIED" : "UNVERIFIED";
+      $("verificationStatus").className =
+        verified ? "status green" : "status";
 
+      renderAvatar(name, user.email, avatarUrl);
+    }
+
+    async function initializeProfile() {
+      if (!window.supabase) {
+        $("loading").textContent =
+          "Supabase could not load. Check your internet connection and reload.";
         return;
-
       }
 
+      try {
+        const { data, error } = await supabaseClient.auth.getUser();
 
-      localStorage.setItem(
-        "maxxDemoName",
-        name
-      );
+        if (error || !data.user) {
+          $("loading").innerHTML =
+            'You are not signed in with Supabase.<br>' +
+            '<a href="login.html" style="color:#ffe2a0;text-decoration:underline">' +
+            'Go to login</a>';
+          return;
+        }
 
-
-      document.getElementById(
-        "displayName"
-      ).innerText =
-        name;
-
-
-      const newInitials =
-        name
-        .split(" ")
-        .filter(Boolean)
-        .slice(0,2)
-        .map(function(word) {
-
-          return word.charAt(0).toUpperCase();
-
-        })
-        .join("");
-
-
-      document.getElementById(
-        "avatar"
-      ).innerText =
-        newInitials ||
-        "MX";
-
-
-      showMessage(
-        "Profile updated for this demo account.",
-        "success"
-      );
-
+        currentUser = data.user;
+        renderUser(currentUser);
+        $("loading").hidden = true;
+        $("profileApp").hidden = false;
+      } catch (error) {
+        $("loading").textContent =
+          "Unable to verify your account. Please reload and try again.";
+      }
     }
 
+    $("profileForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage();
 
-    function savePreferences() {
+      if (!currentUser) {
+        showMessage("Please sign in before updating your profile.", "error");
+        return;
+      }
 
-      const currency =
-        document.getElementById(
-          "currency"
-        ).value;
+      const name = $("fullName").value.trim();
+      if (name.length < 2) {
+        showMessage("Enter a display name with at least 2 characters.", "error");
+        return;
+      }
 
+      const button = $("saveProfile");
+      button.disabled = true;
+      button.textContent = "Saving...";
 
-      localStorage.setItem(
-        "maxxPreferredCurrency",
-        currency
-      );
+      try {
+        const { data, error } = await supabaseClient.auth.updateUser({
+          data: { full_name: name }
+        });
 
+        if (error) throw error;
 
-      document.getElementById(
-        "metaCurrency"
-      ).innerText =
-        currency;
+        currentUser = data.user || currentUser;
+        renderUser(currentUser);
+        showMessage("Your profile name was saved successfully.", "success");
+      } catch (error) {
+        showMessage(error.message || "Unable to save your profile.", "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Save Profile";
+      }
+    });
 
+    $("preferencesForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage();
 
-      showMessage(
-        "Preferences saved for this prototype.",
-        "success"
-      );
+      if (!currentUser) {
+        showMessage("Please sign in before saving preferences.", "error");
+        return;
+      }
 
+      const button = $("savePreferences");
+      button.disabled = true;
+      button.textContent = "Saving...";
+
+      try {
+        const { data, error } = await supabaseClient.auth.updateUser({
+          data: {
+            preferred_currency: $("currency").value,
+            preferred_language: $("language").value
+          }
+        });
+
+        if (error) throw error;
+
+        currentUser = data.user || currentUser;
+        renderUser(currentUser);
+        showMessage("Your preferences were saved to Supabase.", "success");
+      } catch (error) {
+        showMessage(error.message || "Unable to save your preferences.", "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Save Preferences";
+      }
+    });
+
+    $("photoInput").addEventListener("change", () => {
+      clearMessage();
+
+      const file = $("photoInput").files[0];
+      if (!file) return;
+
+      const allowedTypes = [
+        "image/jpeg", "image/png", "image/webp", "image/gif"
+      ];
+
+      if (!allowedTypes.includes(file.type)) {
+        $("photoInput").value = "";
+        showMessage("Choose a JPG, PNG, WebP or GIF image.", "error");
+        return;
+      }
+
+      if (file.size > MAX_PHOTO_SIZE) {
+        $("photoInput").value = "";
+        showMessage("The image must be 5 MB or smaller.", "error");
+        return;
+      }
+
+      selectedPhoto = file;
+
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+      previewObjectUrl = URL.createObjectURL(file);
+
+      $("photoPreview").src = previewObjectUrl;
+      $("photoPreviewWrap").hidden = false;
+      $("photoActions").style.display = "flex";
+      $("photoActions").style.gap = "8px";
+      $("uploadPhoto").disabled = false;
+      showMessage("Preview ready. Select Upload Photo to save it.", "info");
+    });
+
+    $("cancelPhoto").addEventListener("click", () => {
+      selectedPhoto = null;
+      $("photoInput").value = "";
+      $("photoPreviewWrap").hidden = true;
+      $("photoActions").style.display = "none";
+
+      if (previewObjectUrl) {
+        URL.revokeObjectURL(previewObjectUrl);
+        previewObjectUrl = null;
+      }
+
+      clearMessage();
+    });
+
+    $("uploadPhoto").addEventListener("click", async () => {
+      clearMessage();
+
+      if (!currentUser || !selectedPhoto) {
+        showMessage("Sign in and select a photo before uploading.", "error");
+        return;
+      }
+
+      const button = $("uploadPhoto");
+      button.disabled = true;
+      button.textContent = "Uploading...";
+
+      try {
+        /*
+          The first folder MUST be the authenticated user's UUID
+          to match the Storage policies you created.
+        */
+        const safeExtension = ({
+          "image/jpeg": "jpg",
+          "image/png": "png",
+          "image/webp": "webp",
+          "image/gif": "gif"
+        })[selectedPhoto.type];
+
+        const filePath =
+          currentUser.id + "/" + crypto.randomUUID() + "." + safeExtension;
+
+        const { error: uploadError } = await supabaseClient.storage
+          .from(PHOTO_BUCKET)
+          .upload(filePath, selectedPhoto, {
+            contentType: selectedPhoto.type,
+            cacheControl: "3600",
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: publicData } = supabaseClient.storage
+          .from(PHOTO_BUCKET)
+          .getPublicUrl(filePath);
+
+        if (!publicData || !publicData.publicUrl) {
+          throw new Error("The photo uploaded, but its public URL could not be generated.");
+        }
+
+        const { data, error: updateError } =
+          await supabaseClient.auth.updateUser({
+            data: {
+              avatar_url: publicData.publicUrl,
+              avatar_path: filePath
+            }
+          });
+
+        if (updateError) {
+          showMessage(
+            "The photo uploaded, but saving it to your profile failed. " +
+            "You can retry after checking your Auth settings. " +
+            updateError.message,
+            "error"
+          );
+          return;
+        }
+
+        currentUser = data.user || currentUser;
+        renderUser(currentUser);
+
+        selectedPhoto = null;
+        $("photoInput").value = "";
+        $("photoPreviewWrap").hidden = true;
+        $("photoActions").style.display = "none";
+
+        if (previewObjectUrl) {
+          URL.revokeObjectURL(previewObjectUrl);
+          previewObjectUrl = null;
+        }
+
+        showMessage("Your profile photo was uploaded and saved successfully.", "success");
+      } catch (error) {
+        showMessage(
+          error.message || "Upload failed. Check your bucket and Storage policies.",
+          "error"
+        );
+      } finally {
+        button.disabled = false;
+        button.textContent = "Upload Photo";
+      }
+    });
+
+    async function logoutUser() {
+      if (isSigningOut) return;
+      isSigningOut = true;
+
+      $("logoutButton").disabled = true;
+      $("logoutTop").disabled = true;
+
+      try {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) throw error;
+        window.location.replace("login.html");
+      } catch (error) {
+        isSigningOut = false;
+        $("logoutButton").disabled = false;
+        $("logoutTop").disabled = false;
+        showMessage(error.message || "Unable to sign out. Please try again.", "error");
+      }
     }
 
+    $("logoutButton").addEventListener("click", logoutUser);
+    $("logoutTop").addEventListener("click", logoutUser);
 
-    function logoutUser() {
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT" && !isSigningOut) {
+        window.location.replace("login.html");
+      }
+    });
 
-      localStorage.removeItem(
-        "maxxDemoLoggedIn"
-      );
+    initializeProfile();
 
-
-      window.location.href =
-        "login.html";
-
-    }
-
+    window.addEventListener("beforeunload", () => {
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+    });
   </script>
 
-<script src="support.js?v=20260913-final"></script>
+  <script src="support.js?v=20260913-final"></script>
 </body>
-
 </html>
