@@ -291,7 +291,77 @@ th{background:#04121f;color:#8195ad;text-transform:uppercase;font-size:9px}
 </div>
 </section>
 
-<section id="page-deposit" class="dashboard-page">
+<section id="page-bots" class="dashboard-page">
+  <div class="page-header">
+    <div class="eyebrow">AUTOMATED TRADING</div>
+    <h1>Trading Bots</h1>
+    <p>Choose a bot and activate it using your available USD account balance.</p>
+  </div>
+
+  <div id="botMessage" class="message-box hidden"></div>
+
+  <div class="wallet-grid">
+    <div class="wallet-card">
+      <div class="wallet-top">
+        <div class="wallet-coin">Starter Bot</div>
+        <div class="wallet-network">ONE-TIME FEE</div>
+      </div>
+      <h2 style="font-size:30px;margin-bottom:12px">$500.00</h2>
+      <p style="color:var(--muted);line-height:1.6;margin-bottom:18px">
+        Starter Bot activation.
+      </p>
+      <button class="btn btn-primary" id="activateStarterBtn"
+        onclick="activateTradingBot('starter')">
+        Activate Starter Bot
+      </button>
+      <p id="starterBotStatus" style="margin-top:12px;color:var(--muted)">
+        Checking activation status...
+      </p>
+    </div>
+
+    <div class="wallet-card">
+      <div class="wallet-top">
+        <div class="wallet-coin">Advanced Bot</div>
+        <div class="wallet-network">ONE-TIME FEE</div>
+      </div>
+      <h2 style="font-size:30px;margin-bottom:12px">$50,000.00</h2>
+      <p style="color:var(--muted);line-height:1.6;margin-bottom:18px">
+        Advanced Bot activation.
+      </p>
+      <button class="btn btn-primary" id="activateAdvancedBtn"
+        onclick="activateTradingBot('advanced')">
+        Activate Advanced Bot
+      </button>
+      <p id="advancedBotStatus" style="margin-top:12px;color:var(--muted)">
+        Checking activation status...
+      </p>
+    </div>
+  </div>
+
+  <div class="section-card" style="margin-top:18px">
+    <div class="section-title">
+      <div>
+        <h2>Activation History</h2>
+        <p>Your successful bot activations and fees.</p>
+      </div>
+      <button class="btn" onclick="loadBotActivations()">Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table style="min-width:500px">
+        <thead>
+          <tr><th>Bot</th><th>Fee</th><th>Currency</th><th>Activated</th></tr>
+        </thead>
+        <tbody id="botActivationHistory"></tbody>
+      </table>
+      <div id="botHistoryEmpty" class="empty">No bot activations yet.</div>
+    </div>
+  </div>
+
+  <p class="form-note" style="margin-top:15px">
+    Activation fees are one-time and non-refundable unless otherwise required by applicable law.
+    Activation does not guarantee profits or mean that automated trading is running.
+  </p>
+</section>  <section id="page-deposit" class="dashboard-page">
 <div class="page-header"><div class="eyebrow">FUND ACCOUNT</div><h1>Deposit</h1><p>Select a cryptocurrency wallet, complete your payment and upload your payment screenshot for review.</p></div>
 <div class="section-card">
 <div class="section-title"><div><h2>Cryptocurrency Deposit</h2><p>Select the wallet that you used to make your payment.</p></div><button class="btn" onclick="loadDepositWallets()">Refresh</button></div>
@@ -494,7 +564,7 @@ function showPage(pageName){
  document.getElementById("sidebar").classList.remove("open");
  if(pageName==="deposit"){loadDepositWallets();loadDepositHistory()}
  if(pageName==="history"){loadTrades();loadDepositHistory();loadWithdrawalHistory()}
- window.scrollTo({top:0,behavior:"smooth"});
+  if(pageName==="bots"){loadBotActivations()} window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll("[data-page]").forEach(button=>button.addEventListener("click",()=>showPage(button.dataset.page)));
 
@@ -546,7 +616,130 @@ async function loadAccountData(){
   terminalProfit.classList.add(profit<0?"profit-negative":"profit-positive");
  }catch(error){console.error("Account data error:",error)}
 }
-function getTradeDate(trade){return trade.closed_at||trade.created_at||trade.opened_at||null}
+
+function showBotMessage(message, type = "error") {
+  const box = document.getElementById("botMessage");
+  box.textContent = message;
+  box.className = "message-box " + type;
+}
+
+async function loadBotActivations() {
+  if (!currentUser) return;
+
+  const history = document.getElementById("botActivationHistory");
+  const empty = document.getElementById("botHistoryEmpty");
+
+  history.innerHTML = "";
+  empty.textContent = "Loading activation history...";
+  empty.classList.remove("hidden");
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("bot_activations")
+      .select("bot_type, fee, currency, activated_at")
+      .eq("user_id", currentUser.id)
+      .order("activated_at", { ascending: false });
+
+    if (error) throw error;
+
+    empty.classList.toggle("hidden", data.length > 0);
+
+    if (data.length === 0) {
+      empty.textContent = "No bot activations yet.";
+    }
+
+    data.forEach(item => {
+      const row = document.createElement("tr");
+
+      [item.bot_type === "starter" ? "Starter Bot" : "Advanced Bot",
+       formatMoney(item.fee, item.currency),
+       item.currency,
+       formatDate(item.activated_at)].forEach(value => {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        row.appendChild(cell);
+      });
+
+      history.appendChild(row);
+    });
+
+    const activated = new Set(data.map(item => item.bot_type));
+
+    document.getElementById("starterBotStatus").textContent =
+      activated.has("starter") ? "✓ Activated" : "Not activated";
+
+    document.getElementById("advancedBotStatus").textContent =
+      activated.has("advanced") ? "✓ Activated" : "Not activated";
+
+    document.getElementById("activateStarterBtn").disabled =
+      activated.has("starter");
+
+    document.getElementById("activateAdvancedBtn").disabled =
+      activated.has("advanced");
+
+  } catch (error) {
+    console.error("Bot history error:", error);
+    empty.textContent = "Could not load activation history.";
+    showBotMessage("Could not load bot history. Please try again.");
+  }
+}
+
+async function activateTradingBot(botType) {
+  if (!currentUser) {
+    showBotMessage("Please sign in again before activating a bot.");
+    return;
+  }
+
+  const isStarter = botType === "starter";
+  const button = document.getElementById(
+    isStarter ? "activateStarterBtn" : "activateAdvancedBtn"
+  );
+
+  const fee = isStarter ? 500 : 50000;
+
+  if (!["starter", "advanced"].includes(botType)) {
+    showBotMessage("Invalid bot selection.");
+    return;
+  }
+
+  if (!confirm(
+    "Activate the " + (isStarter ? "Starter Bot" : "Advanced Bot") +
+    " for a one-time fee of $" + fee.toLocaleString("en-US") +
+    " USD? This will deduct the fee from your account balance."
+  )) return;
+
+  button.disabled = true;
+  button.textContent = "Processing...";
+
+  try {
+    const { data, error } = await supabaseClient.rpc(
+      "activate_trading_bot",
+      { p_bot_type: botType }
+    );
+
+    if (error) throw error;
+
+    showBotMessage(
+      "Bot activation completed successfully.",
+      "success"
+    );
+
+    await loadAccountData();
+    await loadBotActivations();
+
+  } catch (error) {
+    console.error("Bot activation error:", error);
+    showBotMessage(
+      error.message || "Activation failed. Please try again."
+    );
+  } finally {
+    button.textContent = isStarter
+      ? "Activate Starter Bot"
+      : "Activate Advanced Bot";
+    await loadBotActivations();
+  }
+}
+  function getTradeDate(trade){return trade.closed_at||trade.created_at||trade.opened_at||null}
 function tradeRow(trade){
  const market=trade.symbol||trade.asset||"—";
  const type=String(trade.trade_type||"—").toLowerCase();
