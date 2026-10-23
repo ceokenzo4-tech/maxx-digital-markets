@@ -681,8 +681,8 @@ function getWithdrawalErrorMessage(error) {
 
   return "Could not submit withdrawal request. Please try again later.";
 }
-
- const crypto=document.getElementById("cryptoWithdrawal"),bank=document.getElementById("bankWithdrawal"),cryptoButton=document.getElementById("cryptoTabButton"),bankButton=document.getElementById("bankTabButton");
+function showWithdrawalMethod(method){
+  const crypto=document.getElementById("cryptoWithdrawal"),bank=document.getElementById("bankWithdrawal"),cryptoButton=document.getElementById("cryptoTabButton"),bankButton=document.getElementById("bankTabButton");
  if(method==="bank"){crypto.classList.add("hidden");bank.classList.remove("hidden");cryptoButton.classList.remove("active");bankButton.classList.add("active")}
  else{bank.classList.add("hidden");crypto.classList.remove("hidden");bankButton.classList.remove("active");cryptoButton.classList.add("active")}
 }
