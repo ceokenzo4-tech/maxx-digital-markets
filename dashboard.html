@@ -667,7 +667,21 @@ async function loadDepositHistory(){
   depositEmpty.classList.remove("hidden");historyEmpty.classList.remove("hidden");
  }
 }
-function showWithdrawalMethod(method){
+
+function getWithdrawalErrorMessage(error) {
+  console.error("Withdrawal submission failed:", error);
+  const message = String(error?.message || "").toLowerCase();
+
+  if (
+    message.includes("row-level security") ||
+    message.includes("client_withdrawals_allowed")
+  ) {
+    return "Withdrawals are currently disabled for your account. Please contact support.";
+  }
+
+  return "Could not submit withdrawal request. Please try again later.";
+}
+
  const crypto=document.getElementById("cryptoWithdrawal"),bank=document.getElementById("bankWithdrawal"),cryptoButton=document.getElementById("cryptoTabButton"),bankButton=document.getElementById("bankTabButton");
  if(method==="bank"){crypto.classList.add("hidden");bank.classList.remove("hidden");cryptoButton.classList.remove("active");bankButton.classList.add("active")}
  else{bank.classList.add("hidden");crypto.classList.remove("hidden");bankButton.classList.remove("active");cryptoButton.classList.add("active")}
@@ -682,7 +696,7 @@ document.getElementById("cryptoWithdrawalForm").addEventListener("submit",async 
   const {error}=await supabaseClient.from("withdrawal_requests").insert({user_id:currentUser.id,method:"crypto",withdrawal_type:"crypto",amount:amount,currency:currency,asset:currency,crypto_asset:currency,network:network,wallet_address:destination,status:"pending"});
   if(error)throw error;
   alert("Your withdrawal request has been submitted.");document.getElementById("cryptoWithdrawalForm").reset();await loadWithdrawalHistory();
- }catch(error){console.error(error);alert("Could not submit withdrawal request.\n\n"+error.message)}
+ }catch(error){alert(getWithdrawalErrorMessage(error))}
  finally{button.disabled=false;button.textContent="Submit Crypto Withdrawal"}
 });
 document.getElementById("bankWithdrawalForm").addEventListener("submit",async event=>{
@@ -694,7 +708,9 @@ document.getElementById("bankWithdrawalForm").addEventListener("submit",async ev
   const {error}=await supabaseClient.from("withdrawal_requests").insert({user_id:currentUser.id,method:"bank",withdrawal_type:"bank_transfer",amount:amount,currency:currency,account_holder:document.getElementById("bankAccountName").value.trim(),bank_name:document.getElementById("bankName").value.trim(),account_number:document.getElementById("bankAccountNumber").value.trim(),bank_country:document.getElementById("bankCountry").value.trim(),routing_or_swift:document.getElementById("bankRouting").value.trim()||null,status:"pending"});
   if(error)throw error;
   alert("Your bank withdrawal request has been submitted.");document.getElementById("bankWithdrawalForm").reset();await loadWithdrawalHistory();
- }catch(error){console.error(error);alert("Could not submit bank withdrawal request.\n\n"+error.message)}
+ }
+catch(error){alert(getWithdrawalErrorMessage(error))}
+
  finally{button.disabled=false;button.textContent="Submit Bank Withdrawal"}
 });
 async function loadWithdrawalHistory(){
