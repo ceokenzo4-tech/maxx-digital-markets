@@ -1396,6 +1396,7 @@ const db = window.supabase.createClient(
 
 let currentUser = null;
 let clients = [];
+let withdrawalSettings = {};
 let deposits = [];
 let withdrawals = [];
 let wallets = [];
@@ -1546,6 +1547,20 @@ async function loadClients(){
 
     clients = data || [];
 
+    // Load per-client withdrawal settings separately so a settings
+    // lookup error never hides the existing client account list.
+    try {
+      const settingsResult = await db.rpc("admin_get_client_withdrawal_settings");
+      if (settingsResult.error) throw settingsResult.error;
+      withdrawalSettings = {};
+      (settingsResult.data || []).forEach(item => {
+        withdrawalSettings[String(item.user_id)] = item;
+      });
+    } catch (settingsError) {
+      console.error("Could not load withdrawal settings:", settingsError);
+      alert("Client accounts loaded, but withdrawal-block statuses could not be loaded. Do not change a block status until this is resolved.");
+    }
+
     document.getElementById("clientCount").textContent =
       clients.length;
 
@@ -1603,19 +1618,83 @@ function renderClients(list){
         <td>${escapeHtml(currency)}</td>
 
         <td>
-          <button
-            class="btn btnPrimary btnSmall"
-            type="button"
-            data-user-id="${escapeHtml(client.user_id)}"
-            onclick="openClient(this.dataset.userId)">
-            Manage
-          </button>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center;min-width:175px;">
+            <button
+              class="btn btnPrimary btnSmall"
+              type="button"
+              data-user-id="${escapeHtml(client.user_id)}"
+              onclick="openClient(this.dataset.userId)">
+              Manage
+            </button>
+            <button
+              class="btn ${withdrawalSettings[String(client.user_id)]?.withdrawals_blocked ? 'btnGreen' : 'btnRed'} btnSmall"
+              type="button"
+              data-user-id="${escapeHtml(client.user_id)}"
+              data-blocked="${withdrawalSettings[String(client.user_id)]?.withdrawals_blocked ? 'true' : 'false'}"
+              onclick="toggleClientWithdrawals(this.dataset.userId, this.dataset.blocked === 'true')">
+              ${withdrawalSettings[String(client.user_id)]?.withdrawals_blocked ? 'Unblock withdrawals' : 'Block withdrawals'}
+            </button>
+          </div>
+          <div style="font-size:10px;color:${withdrawalSettings[String(client.user_id)]?.withdrawals_blocked ? '#ff8c96' : '#8fa5bc'};margin-top:6px;">
+            Withdrawals: ${withdrawalSettings[String(client.user_id)]?.withdrawals_blocked ? 'BLOCKED' : 'Allowed'}
+          </div>
         </td>
 
       </tr>
     `;
 
   }).join("");
+}
+
+async function toggleClientWithdrawals(userId, currentlyBlocked){
+
+  if (!userId) {
+    alert("Missing client ID.");
+    return;
+  }
+
+  const nextBlocked = !currentlyBlocked;
+  const action = nextBlocked ? "BLOCK" : "UNBLOCK";
+  const reason = prompt(
+    "Enter the administrative reason to " + action.toLowerCase() + " this client's withdrawals:"
+  );
+
+  if (reason === null) return;
+  if (!reason.trim()) {
+    alert("A reason is required. No changes were made.");
+    return;
+  }
+
+  if (!confirm(
+    action + " WITHDRAWALS FOR THIS CLIENT?\n\n" +
+    "Client: " + userId + "\n" +
+    "Action: " + action + "\n" +
+    "Reason: " + reason.trim()
+  )) return;
+
+  try {
+    const { error } = await db.rpc("admin_set_client_withdrawal_block", {
+      p_user_id: userId,
+      p_blocked: nextBlocked,
+      p_reason: reason.trim()
+    });
+    if (error) throw error;
+
+    // Reload settings and repaint the client list after the server confirms success.
+    const settingsResult = await db.rpc("admin_get_client_withdrawal_settings");
+    if (settingsResult.error) throw settingsResult.error;
+    withdrawalSettings = {};
+    (settingsResult.data || []).forEach(item => {
+      withdrawalSettings[String(item.user_id)] = item;
+    });
+    renderClients(clients);
+    alert(nextBlocked
+      ? "Withdrawals are now blocked for this client."
+      : "Withdrawals are now allowed for this client.");
+  } catch (error) {
+    console.error("Withdrawal block update failed:", error);
+    alert("Could not change withdrawal access.\n\n" + (error?.message || "Unknown database error."));
+  }
 }
 
 function filterClients(){
