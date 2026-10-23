@@ -718,7 +718,24 @@ async function activateTradingBot(botType) {
     );
 
     if (error) throw error;
+    try {
+  const { error: emailError } =
+    await supabaseClient.functions.invoke(
+      "bot-activation-email",
+      { body: { bot_type: botType } }
+    );
 
+  if (emailError) {
+    console.error("Activation email failed:", emailError);
+    showBotMessage(
+      "Bot activated, but the confirmation email could not be sent. Please contact support.",
+      "error"
+    );
+    return;
+  }
+} catch (emailError) {
+  console.error("Activation email failed:", emailError);
+}
     showBotMessage(
       "Bot activation completed successfully.",
       "success"
